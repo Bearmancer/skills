@@ -426,4 +426,11 @@ async function main(): Promise<void> {
 // Exit by draining the event loop rather than process.exit(): on Windows,
 // forcing exit while a telemetry fetch's socket teardown is still in flight
 // aborts the process with a libuv UV_HANDLE_CLOSING assertion.
-main().finally(() => flushTelemetry());
+main()
+  .catch((error) => {
+    if (error && !(error instanceof Error && error.message === '')) {
+      console.error(error.message || error);
+    }
+    process.exitCode = process.exitCode || 1;
+  })
+  .finally(() => flushTelemetry());
