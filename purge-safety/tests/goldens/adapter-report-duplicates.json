@@ -1,0 +1,99 @@
+{
+  "code": 0,
+  "json": null,
+  "lock_left": false,
+  "outputs": [
+    {
+      "doc": {
+        "entries": [
+          {
+            "category": "work-audit-15-empty-dir",
+            "index": 15,
+            "path": "<B>\\work\\proj\\empty-dir",
+            "reason": "empty directory (files 0)",
+            "verdict": "PURGE"
+          },
+          {
+            "category": "work-audit-15-empty-dir",
+            "index": 15,
+            "path": "<B>\\work\\proj\\nested\\empty",
+            "reason": "empty directory",
+            "verdict": "PURGE"
+          },
+          {
+            "category": "work-audit-16-duplicate",
+            "index": 16,
+            "path": "<B>\\work\\proj\\dup1.txt",
+            "reason": "duplicate of proj/dup2.txt; keeper is the second path",
+            "verdict": "OWNER"
+          },
+          {
+            "category": "work-audit-4-ignored-old",
+            "index": 4,
+            "path": "<B>\\work\\proj\\old-ignored",
+            "reason": "ignored untracked older than 24h",
+            "verdict": "PURGE"
+          },
+          {
+            "category": "work-audit-4-junk",
+            "index": 4,
+            "path": "<B>\\work\\proj\\a.tmp",
+            "reason": "tmp/bak/orig file (files 1, newest 2026-01-01 00:00)",
+            "verdict": "PURGE"
+          },
+          {
+            "category": "work-audit-4-junk",
+            "index": 4,
+            "path": "<B>\\work\\proj\\src\\b.bak",
+            "reason": "tmp/bak/orig file",
+            "verdict": "PURGE"
+          },
+          {
+            "category": "work-audit-4-pycache",
+            "index": 4,
+            "path": "<B>\\work\\proj\\src\\__pycache__",
+            "reason": "python bytecode cache (files 1, newest , branch main uncommitted 0 unpushed 2)",
+            "verdict": "PURGE"
+          },
+          {
+            "category": "work-audit-4-zero-byte",
+            "index": 4,
+            "path": "<B>\\work\\proj\\zero.txt",
+            "reason": "zero-byte file",
+            "verdict": "PURGE"
+          }
+        ],
+        "root": "<B>\\work\\proj"
+      },
+      "name": "Purge Manifest - work-audit - <STAMP>.json"
+    }
+  ],
+  "stderr": "",
+  "stdout": [
+    "TOTAL                            8  <B>\\records\\Purge Manifest - work-audit - <STAMP>.json",
+    "order: 4 -> 15 -> 16 (index asc, then path asc)",
+    "work-audit-15-empty-dir          2  <B>\\work\\proj",
+    "work-audit-16-duplicate          1  <B>\\work\\proj",
+    "work-audit-4-ignored-old         1  <B>\\work\\proj",
+    "work-audit-4-junk                2  <B>\\work\\proj",
+    "work-audit-4-pycache             1  <B>\\work\\proj",
+    "work-audit-4-zero-byte           1  <B>\\work\\proj"
+  ],
+  "tree": [
+    "d work",
+    "d work\\proj",
+    "d work\\proj\\empty-dir",
+    "d work\\proj\\nested",
+    "d work\\proj\\nested\\empty",
+    "d work\\proj\\old-ignored",
+    "d work\\proj\\src",
+    "d work\\proj\\src\\__pycache__",
+    "f work\\proj\\a.tmp",
+    "f work\\proj\\dup1.txt",
+    "f work\\proj\\dup2.txt",
+    "f work\\proj\\old-ignored\\x.log",
+    "f work\\proj\\src\\__pycache__\\m.pyc",
+    "f work\\proj\\src\\b.bak",
+    "f work\\proj\\zero.txt"
+  ]
+}

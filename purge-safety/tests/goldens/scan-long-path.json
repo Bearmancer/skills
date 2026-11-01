@@ -1,0 +1,39 @@
+{
+  "code": 0,
+  "json": null,
+  "lock_left": false,
+  "outputs": [
+    {
+      "doc": {
+        "entries": [],
+        "refused": [],
+        "root": "<B>\\home",
+        "totals": {
+          "Bytes": 0,
+          "Dirs": 0,
+          "EmptyDirs": 0,
+          "Files": 0,
+          "Paths": 0,
+          "ZeroFiles": 0
+        }
+      },
+      "name": "Purge Manifest - <STAMP>.json"
+    }
+  ],
+  "stderr": "",
+  "stdout": [
+    "",
+    "SCAN   root=<B>\\home  paths=0  files=0  dirs=0  bytes=0 B  emptyDirs=0  zeroFiles=0  refused=0",
+    "manifest: <B>\\out\\Purge Manifest - <STAMP>.json"
+  ],
+  "tree": [
+    "d home",
+    "d home\\AppData",
+    "d home\\AppData\\Local",
+    "d home\\Dev",
+    "d home\\Dev\\long",
+    "d home\\Dev\\long\\aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "d home\\Dev\\long\\aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "f home\\Dev\\long\\aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\\deep.bak"
+  ]
+}

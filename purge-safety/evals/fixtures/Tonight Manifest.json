@@ -1,0 +1,30 @@
+{
+	"root": "C:\\Users\\Lance",
+	"generated": "2026-10-21T18:00:00Z",
+	"entries": [
+		{
+			"path": "C:\\Users\\Lance\\.cache\\opencode",
+			"verdict": "PURGE",
+			"category": "cache-opencode",
+			"reason": "opencode package cache"
+		},
+		{
+			"path": "C:\\Users\\Lance\\.local\\backups\\depollute-2026-10-20",
+			"verdict": "PURGE",
+			"category": "backup-snapshot",
+			"reason": "served its purpose"
+		},
+		{
+			"path": "C:\\Users\\Lance\\.omo\\memory",
+			"verdict": "KEEP",
+			"category": "memory",
+			"reason": "agent memory"
+		},
+		{
+			"path": "C:\\Users\\Lance\\.senpi\\agent\\runtime",
+			"verdict": "OWNER",
+			"category": "duplicate-runtime",
+			"reason": "same tree as .omo runtime"
+		}
+	]
+}

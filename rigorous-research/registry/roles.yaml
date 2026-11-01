@@ -1,0 +1,10 @@
+# AI roles (ADR 0033, #340). The agent that loaded the skill answers every step itself; the scripts never call a model.
+# A checking role's steps are grouped into batch files; one fresh subagent runs one batch, reads each source itself and writes each ask's reply file (references/design.md 0033). Role prompts live in references/roles.md.
+schema: 2
+roles:
+  author: { note: "writes lessons from verified claims; sees no raw page text" }
+  extractor: { note: "tool-less; splits source text and final prose into claims" }
+  verifier: { note: "re-checks every claim, all statuses; sees ledger rows and quotes only" }
+  discovery: { note: "search and fetch tools; runs one discovery round or one fetch step; never judges" }
+  media: { note: "tool-less; reads attached files (page images, recordings)" }
+checking_roles: [extractor, verifier, media]

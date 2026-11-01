@@ -1,0 +1,23 @@
+{
+  "code": 0,
+  "json": null,
+  "lock_left": false,
+  "outputs": [
+    {
+      "doc": {
+        "entries": [],
+        "root": "<B>\\work\\proj"
+      },
+      "name": "Purge Manifest - work-audit - <STAMP>.json"
+    }
+  ],
+  "stderr": "",
+  "stdout": [
+    "TOTAL                            0  <B>\\records\\Purge Manifest - work-audit - <STAMP>.json",
+    "order:  (index asc, then path asc)"
+  ],
+  "tree": [
+    "d work",
+    "d work\\proj"
+  ]
+}
