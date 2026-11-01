@@ -1,0 +1,574 @@
+# Routing registry: source of truth for surfaces. references/routing.md is generated from this file
+# (scripts/gen_routing_table.py). Surface id = <server>.<capability>.
+# Route order inside one capability: mcp, then cli, then post, then local/http. Fallback inside a server is never a new surface.
+# Note 2026-10-19: the Brightdata and Brave MCP servers are disabled and their
+# external skill packs were removed, so their routes were stripped from this
+# registry. The key pools below cover only enabled providers and free surfaces.
+schema: 1
+
+# Rotation paradigms for discovery rounds. Round N must use a paradigm not used in earlier rounds.
+paradigms: [
+  keyword,
+  semantic,
+  answer-agent,
+  scholarly-archive,
+  crawl-map,
+  browser-unlocker,
+  structured-extraction,
+]
+round_order:
+  - [keyword]
+  - [semantic]
+  - [answer-agent]
+  - [scholarly-archive]
+  - [crawl-map, browser-unlocker]
+max_rounds: 5
+
+# Fetch ladder: escalate per URL on block, cheap to expensive.
+fetch_ladder:
+  - direct.fetch
+  - tavily.extract
+  - firecrawl.scrape
+  - exa.fetch
+  - wayback.fetch
+  - scrapegraph.scrape
+  - apify.rag-web-browser
+  - agentql.extract
+  - browserbase.session
+
+# Source tiers by type. Per-domain overrides go in tier_overrides.
+tiers:
+  T1: [
+    rulebook,
+    official-data,
+    original-document,
+    peer-reviewed,
+    designer-post,
+    publisher-post,
+    direct-record,
+  ]
+  T2: [established-outlet, reference-work, quality-journalism]
+  T3: [forum, blog, social, unknown]
+tier_overrides: {}
+
+servers:
+  direct:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      fetch: {
+        paradigm: crawl-map,
+        ladder: fetch,
+        cost: low,
+        routes: { http: ["GET <url>"] },
+      }
+
+  tavily:
+    pool: tavily
+    wired: true
+    keyed: true
+    key: {
+      env: TAVILY_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_TAVILY_API_KEY$",
+      header: "Authorization",
+      prefix: "Bearer ",
+      base_url: "https://api.tavily.com",
+    }
+    reset: monthly # https://help.tavily.com/articles/6846808029-understanding-api-credits-reset (first day of each month)
+    capabilities:
+      search: {
+        paradigm: keyword,
+        ladder: discovery,
+        cost: low,
+        routes: { mcp: [tavily_search], cli: ["tvly search"] },
+      }
+      extract: {
+        paradigm: crawl-map,
+        ladder: fetch,
+        cost: low,
+        routes: { mcp: [tavily_extract], cli: ["tvly extract"] },
+      }
+      crawl: {
+        paradigm: crawl-map,
+        ladder: discovery,
+        cost: med,
+        routes: {
+          mcp: [tavily_crawl, tavily_map],
+          cli: ["tvly crawl", "tvly map"],
+        },
+      }
+      research: {
+        paradigm: answer-agent,
+        ladder: discovery,
+        cost: high,
+        routes: { mcp: [tavily_research], cli: ["tvly research"] },
+      }
+    errors:
+      blocked: ["failed to fetch url"]
+    unverified: [bad_key, out_of_credit, rate_limit]
+
+  exa:
+    pool: exa
+    wired: true
+    keyed: true
+    key: {
+      env: EXA_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_EXA_API_KEY$",
+      header: "x-api-key",
+      prefix: "",
+      base_url: "https://api.exa.ai",
+    }
+    reset: monthly # https://exa.ai/docs/reference/billing (monthly credits expire at month end)
+    capabilities:
+      search: {
+        paradigm: semantic,
+        ladder: discovery,
+        cost: low,
+        routes: { mcp: [web_search_exa, web_search_advanced_exa] },
+      }
+      fetch: {
+        paradigm: crawl-map,
+        ladder: fetch,
+        cost: low,
+        routes: { mcp: [web_fetch_exa] },
+      }
+      answer: {
+        paradigm: answer-agent,
+        ladder: discovery,
+        cost: med,
+        routes: {
+          post: [
+            "uv run <skill dir>/scripts/post/vendor_request.py exa POST /answer --body <json|@file>",
+          ],
+        },
+      }
+      agent: {
+        paradigm: answer-agent,
+        ladder: discovery,
+        cost: high,
+        routes: {
+          mcp: [agent_run],
+          post: [
+            "uv run <skill dir>/scripts/post/exa_agent_run.py stop|cancel <run_id>",
+            "uv run <skill dir>/scripts/post/exa_batches.py start|status|cancel",
+          ],
+        },
+      }
+    errors:
+      bad_key: ["401"]
+      out_of_credit: ["402"]
+      blocked: ["source_not_available"]
+      rate_limit: ["429"]
+
+  firecrawl:
+    pool: firecrawl
+    wired: true
+    keyed: true
+    key: {
+      env: FIRECRAWL_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_(FIRECRAWL|FIRECRAWLER)_API_KEY$",
+      header: "Authorization",
+      prefix: "Bearer ",
+      base_url: "https://api.firecrawl.dev/v2",
+    }
+    reset: monthly # https://docs.firecrawl.dev/billing (plan credits do not roll over)
+    capabilities:
+      search: {
+        paradigm: keyword,
+        ladder: discovery,
+        cost: low,
+        routes: { mcp: [firecrawl_search], cli: ["firecrawl search"] },
+      }
+      scrape: {
+        paradigm: crawl-map,
+        ladder: fetch,
+        cost: low,
+        routes: { mcp: [firecrawl_scrape], cli: ["firecrawl scrape"] },
+      }
+      crawl: {
+        paradigm: crawl-map,
+        ladder: discovery,
+        cost: med,
+        routes: {
+          mcp: [firecrawl_crawl, firecrawl_map],
+          cli: ["firecrawl crawl", "firecrawl map"],
+        },
+      }
+      batch-scrape: {
+        paradigm: crawl-map,
+        ladder: fetch,
+        cost: med,
+        routes: {
+          post: [
+            "uv run <skill dir>/scripts/post/firecrawl_batch_scrape.py start|status|cancel|errors",
+          ],
+        },
+      }
+      agent: {
+        paradigm: answer-agent,
+        ladder: discovery,
+        cost: high,
+        routes: { mcp: [firecrawl_agent], cli: ["firecrawl agent"] },
+      }
+      research: {
+        paradigm: scholarly-archive,
+        ladder: discovery,
+        cost: low,
+        routes: {
+          mcp: [
+            firecrawl_research_search_papers,
+            firecrawl_research_read_paper,
+          ],
+          cli: ["firecrawl research"],
+        },
+      }
+    errors:
+      bad_key: ["401"]
+      out_of_credit: ["402"]
+      blocked: ["403"]
+      rate_limit: ["429"]
+
+  scrapegraph:
+    pool: scrapegraph
+    wired: true
+    keyed: true
+    key: {
+      env: SCRAPEGRAPH_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_(SCRAPEGRAPH|SCRAPEGRAPHAI)_API_KEY$",
+      header: "SGAI-APIKEY",
+      prefix: "",
+      base_url: "https://v2-api.scrapegraphai.com/api",
+    }
+    reset: unknown # no vendor doc found stating the free-credit reset (docs.scrapegraphai.com pricing page unclear)
+    capabilities:
+      search: {
+        paradigm: keyword,
+        ladder: discovery,
+        cost: med,
+        routes: { mcp: [search], cli: ["just-scrape search"] },
+      }
+      scrape: {
+        paradigm: structured-extraction,
+        ladder: fetch,
+        cost: med,
+        routes: { mcp: [scrape, extract], cli: ["just-scrape scrape"] },
+      }
+      crawl: {
+        paradigm: crawl-map,
+        ladder: discovery,
+        cost: high,
+        routes: {
+          mcp: [crawl_start, crawl_get, crawl_pages],
+          cli: ["just-scrape crawl"],
+          post: [
+            "uv run <skill dir>/scripts/post/scrapegraph_crawl.py start|status|stop|resume|delete|pages",
+          ],
+        },
+      }
+    errors:
+      bad_key: ["401", "auth_missing_key", "403", "auth_invalid_key"]
+      out_of_credit: ["402", "insufficient_credits"]
+      rate_limit: ["429", "rate_limited"]
+    unverified: [blocked]
+
+  apify:
+    pool: apify
+    wired: true
+    keyed: true
+    key: {
+      env: APIFY_TOKEN,
+      pattern: "^(?P<acct>[A-Z0-9]+)_APIFY_TOKEN$",
+      header: "Authorization",
+      prefix: "Bearer ",
+      base_url: "https://api.apify.com/v2",
+    }
+    reset: monthly # https://docs.apify.com/account/subscriptions (prepaid usage resets every billing cycle)
+    capabilities:
+      rag-web-browser: {
+        paradigm: browser-unlocker,
+        ladder: fetch,
+        cost: med,
+        routes: { mcp: [apify--rag-web-browser], cli: ["apify actors call"] },
+      }
+      actor: {
+        paradigm: structured-extraction,
+        ladder: fetch,
+        cost: high,
+        routes: {
+          mcp: [search-actors, call-actor],
+          cli: ["apify actors search", "apify actors call"],
+        },
+      }
+    errors:
+      bad_key: ["401", "invalid-token", "token-not-provided"]
+      out_of_credit: [
+        "402",
+        "not-enough-usage-to-run-paid-actor",
+        "monthly-usage-limit-too-low",
+      ]
+      rate_limit: ["429", "rate-limit-exceeded"]
+    unverified: [blocked]
+
+  agentql:
+    pool: agentql
+    wired: true
+    keyed: true
+    key: {
+      env: AGENTQL_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_AGENTQL_API_KEY$",
+      header: "X-API-Key",
+      prefix: "",
+      base_url: "https://api.agentql.com/v1",
+    }
+    reset: unknown # agentql.com/pricing lists monthly calls but no reset rule
+    capabilities:
+      extract: {
+        paradigm: structured-extraction,
+        ladder: fetch,
+        cost: med,
+        routes: { mcp: [extract-web-data] },
+      }
+    errors:
+      bad_key: ["401", "api key required"]
+    unverified: [out_of_credit, blocked, rate_limit]
+
+  browserbase:
+    pool: browserbase
+    wired: true
+    keyed: true
+    key: {
+      env: BROWSERBASE_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_BROWSERBASE_API_KEY$",
+      header: "X-BB-API-Key",
+      prefix: "",
+      base_url: "https://api.browserbase.com/v1",
+    }
+    reset: monthly # https://docs.browserbase.com/account/billing/plans (browser hours renew monthly)
+    capabilities:
+      session: {
+        paradigm: browser-unlocker,
+        ladder: fetch,
+        cost: high,
+        routes: {
+          mcp: [start, navigate, act, observe, extract, end],
+          cli: ["browse open"],
+        },
+      }
+      agent-run: {
+        paradigm: browser-unlocker,
+        ladder: fetch,
+        cost: high,
+        routes: {
+          post: [
+            "uv run <skill dir>/scripts/post/browserbase_agent_run.py start|status",
+          ],
+        },
+      }
+    unverified: [bad_key, out_of_credit, blocked, rate_limit]
+
+  microsoft-learn:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      docs: {
+        paradigm: keyword,
+        ladder: discovery,
+        cost: low,
+        routes: { mcp: [microsoft_docs_search, microsoft_docs_fetch] },
+      }
+
+  dappier:
+    pool: dappier
+    wired: true
+    keyed: true
+    key: {
+      env: DAPPIER_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_DAPPIER_API_KEY$",
+      header: null,
+      prefix: "",
+      base_url: null,
+    }
+    reset: unknown # no vendor doc found
+    capabilities:
+      search: {
+        paradigm: semantic,
+        ladder: discovery,
+        cost: low,
+        routes: { mcp: [dappier_real_time_search] },
+      }
+
+  # Free lawful surfaces (no key).
+  openalex:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      search: {
+        paradigm: scholarly-archive,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET api.openalex.org/works"] },
+      }
+  crossref:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      search: {
+        paradigm: scholarly-archive,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET api.crossref.org/works"] },
+      }
+  semantic-scholar:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      search: {
+        paradigm: scholarly-archive,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET api.semanticscholar.org/graph/v1/paper/search"] },
+      }
+  arxiv:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      search: {
+        paradigm: scholarly-archive,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET export.arxiv.org/api/query"] },
+      }
+  unpaywall:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      lookup: {
+        paradigm: scholarly-archive,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET api.unpaywall.org/v2/<doi>"] },
+      }
+  wayback:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      fetch: {
+        paradigm: scholarly-archive,
+        ladder: fetch,
+        cost: low,
+        routes: {
+          http: [
+            "GET archive.org/wayback/available",
+            "GET web.archive.org/cdx/search/cdx",
+          ],
+        },
+      }
+  internet-archive:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      fulltext: {
+        paradigm: scholarly-archive,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET archive.org/advancedsearch.php"] },
+      }
+  wikisource:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      search: {
+        paradigm: scholarly-archive,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET wikisource.org/w/api.php"] },
+      }
+  wikipedia:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      search: {
+        paradigm: keyword,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET wikipedia.org/w/api.php"] },
+      }
+  wikidata:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      query: {
+        paradigm: semantic,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET wikidata.org/w/api.php"] },
+      }
+  bgg:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      xmlapi: {
+        paradigm: scholarly-archive,
+        ladder: discovery,
+        cost: low,
+        routes: { http: ["GET boardgamegeek.com/xmlapi2/thing"] },
+      }
+
+  # Local FOSS tools.
+  ytdlp:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      transcript: {
+        paradigm: structured-extraction,
+        ladder: fetch,
+        cost: low,
+        routes: { local: ["yt-dlp --write-subs"] },
+      }
+  pdftotext:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      extract: {
+        paradigm: structured-extraction,
+        ladder: fetch,
+        cost: low,
+        routes: { local: ["pdftotext"] },
+      }
+  ocr:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      read: {
+        paradigm: structured-extraction,
+        ladder: fetch,
+        cost: low,
+        routes: { cli: ["toolbox azure docintel"] },
+      } # F0 2-page windows; S0 on >4 MB or F0 403 (~$0.0015/page)
+  playwright:
+    pool: null
+    wired: true
+    keyed: false
+    capabilities:
+      render: {
+        paradigm: browser-unlocker,
+        ladder: fetch,
+        cost: med,
+        routes: { local: ["playwright"] },
+      }

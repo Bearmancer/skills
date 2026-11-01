@@ -1,0 +1,42 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "sources.yaml",
+	"type": "object",
+	"required": ["schema", "sources"],
+	"additionalProperties": false,
+	"properties": {
+		"schema": { "const": 1 },
+		"sources": { "type": "array", "items": { "$ref": "#/$defs/source" } }
+	},
+	"$defs": {
+		"source": {
+			"type": "object",
+			"required": ["id", "url", "tier", "publisher", "status"],
+			"additionalProperties": false,
+			"properties": {
+				"id": { "type": "string", "pattern": "^s[0-9]+$" },
+				"url": { "type": "string", "minLength": 1 },
+				"kind": { "type": "string" },
+				"tier": { "enum": ["T1", "T2", "T3"] },
+				"authority": { "enum": ["designer", "publisher"] },
+				"publisher": { "type": "string", "minLength": 1 },
+				"cites": { "type": "array", "items": { "type": "string" } },
+				"language": { "type": "string" },
+				"retrieved_at": { "type": "string" },
+				"content_hash": { "type": "string" },
+				"raw_path": { "type": "string" },
+				"status": { "enum": ["read", "failed"] },
+				"fail_reason": { "type": "string" },
+				"media": {
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"duration": { "type": "number" },
+						"chapters": { "type": "array", "items": { "type": "object" } },
+						"description": { "type": "string" }
+					}
+				}
+			}
+		}
+	}
+}

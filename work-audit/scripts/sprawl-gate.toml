@@ -1,0 +1,14 @@
+# Sprawl-gate user exceptions: paths the owner allowed, one [[exception]] table each.
+# Only the owner adds an entry. Omo's own runtime needs live in sprawl-gate.py
+# (OMO_RUNTIME_NEEDS), never here. An entry missing path, reason or granted is
+# reported by `check` and not applied. A path starting with ~/ is under the home
+# folder; an exception covers the path and everything beneath it.
+# Override this file with env SPRAWL_GATE_EXCEPTIONS_FILE (used by tests).
+#
+# Entry shape:
+# [[exception]]
+# path = "~/some/dir"
+# reason = "why the owner allows it"
+# granted = "YYYY-MM-DD"
+#
+# No exception is granted today (2026-10-25).

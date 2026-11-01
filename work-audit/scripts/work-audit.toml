@@ -1,0 +1,6 @@
+# Work-audit home-config scan settings (lesson L3).
+# config_roots: directory names under the user's home whose top-level
+# entries index 4 reports. allow: entry names skipped by that scan.
+# Override path with env WORK_AUDIT_CONFIG_FILE (used by tests).
+config_roots = [".claude", ".omo"]
+allow = ["cache", "backups"]
