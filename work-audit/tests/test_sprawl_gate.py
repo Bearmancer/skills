@@ -62,7 +62,7 @@ def test_empty_plan_home_is_clean(tmp_path):
     assert (clean.returncode, clean.stdout.strip()) == (0, "sprawl-gate: clean")
 
 
-TRACKED = "# loom: plan\n\nTracker: https://github.com/Bearmancer/loom/issues/7\n"
+TRACKED = "# AI-Config: plan\n\nTracker: https://github.com/Bearmancer/AI-Config/issues/7\n"
 
 # Stand-in for `gh issue view N -R repo --json number`: issue 7 exists, every other number does not.
 FAKE_GH = """import json, sys
@@ -80,12 +80,12 @@ def drain(home: Path):
     return gate(home, "drain", extra_env={"SPRAWL_GATE_GH": str(fake)})
 
 
-@pytest.mark.parametrize("rel", ["loom.md", "notes.txt", "drafts/note.md", ".omo/waves/boulder.json"])
+@pytest.mark.parametrize("rel", ["ai-config.md", "notes.txt", "drafts/note.md", ".omo/waves/boulder.json"])
 def test_check_fails_on_a_plan_home_file_that_is_not_live(tmp_path, rel):
     # `.omo` included: the executor-state allowance is gone since #174.
     f = tmp_path / "plans" / rel
     f.parent.mkdir(parents=True)
-    f.write_text("# loom: plan\n", encoding="utf-8")
+    f.write_text("# AI-Config: plan\n", encoding="utf-8")
     dirty = gate(tmp_path, "check")
     assert (dirty.returncode, dirty.stdout.strip()) == (
         1,
@@ -94,13 +94,13 @@ def test_check_fails_on_a_plan_home_file_that_is_not_live(tmp_path, rel):
 
 
 def test_check_fails_on_a_live_plan_copy_until_drained(tmp_path):
-    f = tmp_path / "plans" / "loom.md"
+    f = tmp_path / "plans" / "ai-config.md"
     f.parent.mkdir()
     f.write_text(TRACKED, encoding="utf-8")
     dirty = gate(tmp_path, "check")
     assert (dirty.returncode, dirty.stdout.strip()) == (
         1,
-        f"[plan-live-undrained] Bearmancer/loom#7 is the record; run drain to delete this copy: {f}",
+        f"[plan-live-undrained] Bearmancer/AI-Config#7 is the record; run drain to delete this copy: {f}",
     )
 
 
@@ -110,7 +110,7 @@ def test_empty_folders_in_the_plan_home_are_clean(tmp_path):
     assert (clean.returncode, clean.stdout.strip()) == (0, "sprawl-gate: clean")
 
 
-@pytest.mark.parametrize("rel", ["loom.md", "drafts/note.md", ".omo/waves/boulder.json"])
+@pytest.mark.parametrize("rel", ["ai-config.md", "drafts/note.md", ".omo/waves/boulder.json"])
 def test_hook_allows_writes_into_the_plan_home(tmp_path, rel):
     # Plan mode saves its file here; check and drain keep the tracker the one source of truth.
     target = tmp_path / "plans" / rel
@@ -126,14 +126,14 @@ def test_drain_deletes_only_plans_whose_issue_exists(tmp_path):
     untracked = plans / "draft.md"
     untracked.write_text("# draft\n", encoding="utf-8")
     missing = plans / "gone.md"
-    missing.write_text("Tracker: https://github.com/Bearmancer/loom/issues/9\n", encoding="utf-8")
+    missing.write_text("Tracker: https://github.com/Bearmancer/AI-Config/issues/9\n", encoding="utf-8")
 
     result = drain(tmp_path)
     assert result.returncode == 1
     assert result.stdout.splitlines() == [
         f"kept, not live (no Tracker line): {untracked}",
-        f"kept, Bearmancer/loom#9 not found: {missing}",
-        f"deleted, live as Bearmancer/loom#7: {live}",
+        f"kept, Bearmancer/AI-Config#9 not found: {missing}",
+        f"deleted, live as Bearmancer/AI-Config#7: {live}",
     ]
     assert not live.exists() and untracked.exists() and missing.exists()
 

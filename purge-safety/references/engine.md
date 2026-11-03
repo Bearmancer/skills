@@ -69,4 +69,4 @@ uv run purge.py --apply --manifest "<manifest>.json"
 
 ## Installs
 
-`loom install` links the skill folder into each core harness's skills folder (for example `~\.omo\agent\skills\purge-safety` and `~\.claude\skills\purge-safety`), so `loom/skills/purge-safety` is the only copy.
+`npx skills add Bearmancer/skills -s purge-safety -a <agents> -y` installs the skill folder into `~\.agents\skills\purge-safety` and links it into each named agent's skills folder (for example `~\.claude\skills\purge-safety`), so the `purge-safety` folder in Bearmancer/skills is the only source.

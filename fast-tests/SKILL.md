@@ -21,7 +21,7 @@ The unit is a **spawn**: each launch costs 0.1-0.25 s on this Windows box (`git 
 
 ## Cuts, by measured payoff
 
-- **Template once, copy per test.** Build the seeded repo and bare remote in a session fixture (`tmp_path_factory`), copy per test, and repoint remotes in one call. loom: 8 git calls per test gone, 25 s to 12 s serial; work-audit `make_repo`: ~130 spawns gone.
+- **Template once, copy per test.** Build the seeded repo and bare remote in a session fixture (`tmp_path_factory`), copy per test, and repoint remotes in one call. AI-Config: 8 git calls per test gone, 25 s to 12 s serial; work-audit `make_repo`: ~130 spawns gone.
 - **Fail the cheap way.** Simulate "no git" with a PATH that lacks git (instant `OSError`). A zero timeout makes every call start, time out and run `taskkill` (work-audit d1 tests, 15 s to 2 s). Keep the real timeout in one test with one hung fake.
 - **Switch off external probes** (`gh`, `dotnet`, network) with an env var in unit tests; one test keeps the real path.
 - **Run scripts via `sys.executable`** instead of `uv run` per test; keep one real-uv test per entry point.

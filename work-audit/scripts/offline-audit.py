@@ -12,7 +12,7 @@ first) and each names its owning ticket from --owners, or UNOWNED. Nothing is wr
 
   uv run offline-audit.py [--home DIR] [--roots NAME ...] [--depth N] [--owners FILE] [--json]
 
---owners is a JSON object mapping a home-relative path prefix to a ticket ("Dev/loom": "#95");
+--owners is a JSON object mapping a home-relative path prefix to a ticket ("Dev/AI-Config": "#95");
 the longest matching prefix wins. An item with no local state needs no owner and shows "-".
 Exit 1 when any item with state is UNOWNED, else 0. Output is sorted, so
 two runs on an unchanged machine print the same inventory.
