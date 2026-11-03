@@ -131,7 +131,7 @@ When the engine scans the omo root after apply, it can report residue that its o
 
 ## 7. Reference engine
 
-`<skill>\scripts\purge.py` implements every invariant above and is the fixture partner for the harness; `references/engine.md` lists its flags and exit codes. `loom install` links this skill folder into each core harness's skills folder (for example `~\.omo\agent\skills\purge-safety`, `~\.claude\skills\purge-safety`), so one source survives. Do not treat it as pre-approved: run the harness against it, and if a line contradicts an invariant, the line is wrong.
+`<skill>\scripts\purge.py` implements every invariant above and is the fixture partner for the harness; `references/engine.md` lists its flags and exit codes. `npx skills add Bearmancer/skills -s purge-safety -a <agents> -y` installs this skill from the public Bearmancer/skills repo into `~\.agents\skills\purge-safety` and links it into each named agent's skills folder (for example `~\.claude\skills\purge-safety`), so one source survives. Do not treat it as pre-approved: run the harness against it, and if a line contradicts an invariant, the line is wrong.
 
 | Invariant          | Where it lives                                                                                                   |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------- |
