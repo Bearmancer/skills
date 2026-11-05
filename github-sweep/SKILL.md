@@ -54,7 +54,9 @@ All mechanical discovery, branch auditing, and rebasing operations are encapsula
 6. **Isolated Branch per Work Item:**
    - Every fix, rebase, or asset update runs in an isolated task branch and temporary scratch workspace.
 7. **Clean Teardown:**
+   <!-- CODEGRAPH-TEARDOWN v1 -->
    - Workspaces and merged/closed branches are deleted upon completion; final status table printed post-updates.
+   - A scratch datedir that outlives its run is a leak: delete the whole datedir when the run completes. Exception: conflict-retained workspaces (unpushed commits or a dirty working tree) are quarantined and escalated to the owner — never auto-deleted.
 
 ---
 
@@ -118,9 +120,11 @@ For each target repository requiring triage or code modification:
    ```bash
    gh repo clone <target-owner>/<target-repo> "$d/repo" -- --filter=blob:none
    ```
-3. **Initialize CodeGraph Immediately:**
+3. **Initialize CodeGraph Immediately (size-gated, worker-capped):**
+   <!-- CODEGRAPH-TEARDOWN v1 -->
    ```bash
-   cd "$d/repo" && codegraph init -y
+   cd "$d/repo"
+   if [ "$(git ls-files | wc -l)" -gt 150000 ]; then echo "codegraph: skipped (size)"; else CODEGRAPH_PARSE_WORKERS=2 codegraph init -y; fi
    ```
    Confirm with `codegraph status`. All mechanism investigations, symbol lookups, and blast-radius tracing run against this indexed default-branch HEAD.
 4. **Ensure Latest Base:**

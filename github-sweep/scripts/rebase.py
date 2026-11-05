@@ -7,15 +7,16 @@ and reports conflicts or pushes with lease protection.
 
 import argparse
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
 import sys
 import tempfile
 
-def run_cmd(cmd, cwd=None):
+def run_cmd(cmd, cwd=None, env=None, timeout=None):
     try:
-        res = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8")
+        res = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", env=env, timeout=timeout)
         return res
     except Exception as e:
         print(f"Error running {cmd}: {e}")
@@ -46,6 +47,8 @@ def main():
     # 2. Setup isolated scratch directory
     tmp_dir = Path(tempfile.mkdtemp(prefix=f"gh-rebase-{args.pr}-"))
     repo_dir = tmp_dir / "repo"
+    rebase_res = None
+    conflict_retained = False
     print(f"Workspace: {tmp_dir}")
 
     try:
@@ -55,7 +58,9 @@ def main():
 
         # 4. Initialize CodeGraph
         print("Initializing CodeGraph index on base...")
-        run_cmd(["codegraph", "init", "-y"], cwd=repo_dir)
+        codegraph_bin = shutil.which("codegraph") or "codegraph"
+        run_cmd([codegraph_bin, "init", "-y"], cwd=repo_dir,
+                env={**os.environ, "CODEGRAPH_PARSE_WORKERS": "2"}, timeout=900)  # CODEGRAPH-TEARDOWN v1
 
         # 5. Add user fork remote & fetch branch
         print(f"Fetching fork branch {head_branch}...")
@@ -84,11 +89,12 @@ def main():
             print(status_res.stdout)
             print("\nRun CodeGraph symbol exploration in workspace to resolve conflicts.")
             if not args.keep_workspace:
+                conflict_retained = True
                 print(f"Workspace retained at: {tmp_dir}")
                 return
 
     finally:
-        if not args.keep_workspace and rebase_res and rebase_res.returncode == 0:
+        if not args.keep_workspace and not conflict_retained:
             shutil.rmtree(tmp_dir, ignore_errors=True)
 
 if __name__ == "__main__":

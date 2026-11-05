@@ -29,9 +29,11 @@ When a PR or issue requires code investigation, rebase, or fixes:
    ```bash
    gh repo clone <upstream-owner>/<upstream-repo> "$d/repo" -- --filter=blob:none
    ```
-2. Initialize CodeGraph index:
+2. Initialize CodeGraph index (size-gated, worker-capped — the 8-worker WASM parse pool peaks at ~4.6 GB on monorepos):
+   <!-- CODEGRAPH-TEARDOWN v1 -->
    ```bash
-   cd "$d/repo" && codegraph init -y
+   cd "$d/repo"
+   if [ "$(git ls-files | wc -l)" -gt 150000 ]; then echo "codegraph: skipped (size)"; else CODEGRAPH_PARSE_WORKERS=2 codegraph init -y; fi
    ```
 3. Exclude the index from git diffs:
    ```bash
