@@ -140,6 +140,19 @@
         "Does not treat 'go straight to tasks' as design approval",
         "No task rows exist before G3 in the ledger"
       ]
+    },
+    {
+      "id": 12,
+      "prompt": "Plan a config cleanup where every harness should read one instruction file and each discrepancy is closed by a task. Use the ideal-state shape.",
+      "expected_output": "The plan opens with a TL;DR naming the user, what changes, why now, what it will not do, effort/risk and the next move. The ideal state is recorded as `is-*` decisions and each difference as a `gap-*` decision whose answer starts with its IS label. Every task names the IS or gap it delivers with `--closes is-<n>` or `--closes gap-<n>`. `plan.md` renders Parallel waves and a Dependency matrix from task deps, a Success criteria table from the IS/GAP rows, the Final verification wave (F1-F4) and a Commit strategy. G4 rejects a gap with no delivering task, a task with no closure, an IS with no delivering task, and a wave or matrix row that disagrees with deps.",
+      "files": [],
+      "assertions": [
+        "Records IS and GAP decisions before writing tasks",
+        "Every task names the IS or gap it delivers",
+        "Renders waves and a dependency matrix that match task deps",
+        "Renders a success criteria table from the IS/GAP rows",
+        "Keeps the final verification wave and commit strategy as execution method, not a planning gate"
+      ]
     }
   ]
 }

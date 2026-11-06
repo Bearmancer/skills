@@ -22,7 +22,7 @@ Planning only. This skill never edits product code, never commits, never pushes,
 
 | Flag at `init` | Turns off | Effect on gates |
 | --- | --- | --- |
-| `--lean` | plan-review, doubt, review section, handoff, ADR, constraints | Same as `--no-plan-review --no-doubt --no-review-section --no-handoff --no-adr --no-constraints`; tdd, interview and branch keep their own flags. |
+| `--lean` | plan-review, doubt, review section, handoff, ADR, constraints | Alias for those six `--no-*` flags; tdd, interview and branch keep their own. |
 | `--no-tdd` | test-first tasks | Tasks carry no `test_seam`, `test_file`, `red` or `green`; G4 rejects any of them. |
 | `--no-interview` | all questions to the user | Assumption mode (P3): intent filled from request + research, marked assumed, backed by facts/decisions. |
 | `--no-branch` | auto `plan/<slug>` branch | `branch_reason` recorded as `no-branch`. |
@@ -36,7 +36,7 @@ Planning only. This skill never edits product code, never commits, never pushes,
 | `--type <issue-type>` | (default `feature`) | Picks `docs/plans/<issue-type>/<slug>/` and the task-kind rules. |
 | `--issue owner/repo#n` | (default none; repeatable or comma list) | Links source issues read-only; renders `## Issues`. |
 | `--multi` | (default off) | Declares multi-capability scope; G3 requires the map. |
-| `--deliberate` | (default off) | Forces the RALPLAN-DR record even at small size (size L or an irreversible decision already triggers it). |
+| `--deliberate` | (default off) | Forces the RALPLAN-DR record even at small size. |
 | `--wayfinder` | (default off) | Creates `docs/maps/<slug>/` at phase W0: a decision map, never a task plan. |
 
 `--tdd` is accepted as the explicit spelling of the default. Prose such as "don't ask me anything" does not waive a gate: only the flag does, and it swaps in a different evidence check, never deletes the gate.
@@ -99,7 +99,7 @@ finding  --review plan-review:<cycle>|doubt:<decision>:<cycle> --class CLASS [--
 plan-review --cycle n [--clean --scope file:line,...]
 size     --class S|M|L
 task     --label L --files a,b --interfaces text --acceptance text --verify cmd [--deps T1,T2]
-         [--kind feature|fix|refactor|docs|chore] [--issue owner/repo#n] [--est-lines n]
+         [--kind feature|fix|refactor|docs|chore] [--issue owner/repo#n] [--est-lines n] [--closes gap-n]
          [--test-seam "<interface> | catches: ... | misses: ..." --test-file path --red "..." --green "..."]
 batch    --file rows.json     (one process for many rows; row types mirror the commands)
 intent   --outcome .. --user .. --why-now .. --success .. --constraint .. --out-of-scope .. [--confirm --by user] [--assume]
@@ -123,7 +123,7 @@ One CLI call is one process start: batch a research wave or a review's findings 
 | `G1` | research | every axis has an active fact; saturation (S: one closed wave; M/L: last two waves derived 0 new facts); no fact after the last wave; every external fact has a 64-hex `snapshot_sha256` and a matching `sources/S<n>/` file; every `file:line` locator resolves; a refactor plan needs a resolvable `survey-*` fact and a `top-recommendation` naming it. |
 | `G2` | clarify | no active Q; every open Q is in a recorded round; no Q asked before a `blocked_by` is settled; six intent fields; interview mode needs an explicit user yes; `--no-interview` needs `assumed`, an assumed fact and a decision, and `confirmed` stays false; an active `early-exit` blocks publish; a recorded fog needs a `destination`. |
 | `G3` | design | no open questions; `approve-design` by user with a non-empty quote; >1 capability needs `approve-capability-map` (same evidence); each plan-review header needs persisted finding rows (or `clean` + scope); each irreversible decision needs a doubt header + finding rows (or `clean` + scope); max 3 cycles unless escalated; size L, an irreversible decision, or `--deliberate` needs `principles`, `drivers`, `option-a`+`option-b` (or `options`+`invalidation`), `pre-mortem` (>=3), `expanded-test-plan` (unit/integration/e2e/observability). |
-| `G4` | plan | tasks have files/interfaces/acceptance/verify; TDD on: seam is `"<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external"`, `test_file`, `red`, `green` (distinct; `fix` names a repro in red); TDD off: none of those fields; each task's `deps` are rendered in `plan.md`; kinds; no fake-done marker; `fix`/`refactor` rules; lockfile edits are chore + changelog; quality bar at M/L; `--adr` needs an `adr-convention` fact and an `adr_file`; a closed domain term has a `term-<term>` fact citing `GLOSSARY.md`; feature size L has `user-stories`; `plan.md` has every required heading in order and no TBD/placeholder. |
+| `G4` | plan | tasks have files/interfaces/acceptance/verify; TDD on: seam is `"<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external"`, `test_file`, `red`, `green` (distinct; `fix` names a repro in red); TDD off: none of those fields; each task's `deps` are rendered in `plan.md`; kinds; no fake-done marker; `fix`/`refactor` rules; lockfile edits are chore + changelog; quality bar at M/L; `--adr` needs an `adr-convention` fact and an `adr_file`; a closed domain term has a `term-<term>` fact citing `GLOSSARY.md`; feature size L has `user-stories`; execution waves and dependency matrix match task `deps`; IS/GAP rows are closed by tasks when present; `plan.md` has every required heading in order and no TBD/placeholder. |
 | `G5` | publish | G0-G4 together; evidence re-check; derived size not larger than claimed; a `plan.md` claim that tests ran needs a `test_run` row; `plan_sha256` equals the hash of `plan.md`. |
 | `G_WF` | wayfinder | wayfinder ledger; destination decision in <=2 lines; fog cleared; no open `wayfinder` ticket; >=1 resolved ticket; an owner `wayfinder-destination` approval with a quote; `map.md` has Destination, Notes, Decisions so far, Not yet specified, Out of scope. |
 
@@ -164,3 +164,4 @@ Read the file named by the branch you are in; the pointer says what it is and wh
 | The repo has no written quality bar | `methods/quality-bar.md` — floor, questions, thresholds, weakened-bar signals. |
 | Writing ticket drafts or a tracker handoff | `methods/ticket-drafts.md` — body shape, blocking edges, triage vocabulary. |
 | Writing a plan, handoff or agent brief | `methods/writing.md` — context pointers, two loads, information hierarchy, completion criteria. |
+| Shaping the plan as an execution handoff (TL;DR, waves, matrix, IS/GAP, final wave) | `methods/ulw-plan.md` — the ULW plan shape and what is derived versus written. |

@@ -383,6 +383,45 @@ const deliberateRequired = (l) =>
   (l.rows || []).some((r) => r.type === "decision" && r.status === "active" && r.irreversible);
 const TEST_CLAIM_RE = /\b(?:ran (?:the )?tests?|test run|tests? passed|verified by running)\b/i;
 
+// Execution waves and the dependency matrix are derived from task.deps; the gate checks the render.
+function executionErrors(l, planText) {
+  const e = [];
+  const tasks = (l.rows || []).filter((r) => r.type === "task" && r.status === "active");
+  if (!tasks.length) return e;
+  const lines = String(planText || "").split("\n").map((x) => x.trimEnd());
+  const waves = [];
+  for (const line of lines) {
+    const m = /^- Wave (\d+): (.*)$/.exec(line);
+    if (m) waves[+m[1] - 1] = m[2].split(",").map((s) => s.trim()).filter(Boolean);
+  }
+  const waveIds = waves.flat();
+  for (const t of tasks) {
+    if (waveIds.filter((id) => id === t.id).length !== 1) {
+      e.push(`plan: execution waves must list ${t.id} exactly once`);
+    }
+  }
+  for (const t of tasks) {
+    for (const d of t.deps || []) {
+      const tw = waveIds.indexOf(t.id), dw = waveIds.indexOf(d);
+      if (tw >= 0 && dw >= 0 && tw <= dw) e.push(`plan: ${t.id} is not after its dependency ${d} in the wave plan`);
+    }
+  }
+  const rowFor = (id) => lines.find((x) => new RegExp(`^\\|\\s*${id}\\s*\\|`).test(x));
+  for (const t of tasks) {
+    const row = rowFor(t.id);
+    if (!row) {
+      e.push(`plan: dependency matrix missing ${t.id}`);
+      continue;
+    }
+    const cols = row.split("|").slice(1, -1).map((s) => s.trim());
+    const deps = (cols[1] || "").replace(/—/g, "").split(",").map((s) => s.trim()).filter(Boolean);
+    if (deps.slice().sort().join(",") !== (t.deps || []).slice().sort().join(",")) {
+      e.push(`plan: dependency matrix row ${t.id} does not match deps`);
+    }
+  }
+  return e;
+}
+
 // Rigor scales by arithmetic, not by feeling: the size is derived from the task graph.
 export function scopeSize(l) {
   const tasks = (l.rows || []).filter((t) => t.type === "task" && t.status === "active");
@@ -682,6 +721,34 @@ export const GATES = {
         e.push(`plan: ${t.id} fake completion marker (skip/only/TODO/not implemented) — these are blockers, not evidence`);
       }
     }
+    // ULW-style ideal state: IS rows are differences named by GAP rows, and every GAP has a delivering task.
+    const isRows = activeDecisions(l, /^is-/), gapRows = activeDecisions(l, /^gap-/);
+    if (isRows.length || gapRows.length) {
+      const targets = [...isRows, ...gapRows].map((r) => r.label);
+      for (const t of tasks) {
+        if (!(t.closes || []).length) e.push(`plan: ${t.id} must name the IS or GAP it delivers (--closes is-<n>|gap-<n>)`);
+        for (const c of t.closes || []) {
+          if (!targets.includes(c)) e.push(`plan: ${t.id} closes '${c}' but no active is-* or gap-* decision exists`);
+        }
+      }
+      for (const is of isRows) {
+        const delivered = tasks.some(
+          (t) =>
+            (t.closes || []).includes(is.label) ||
+            (t.closes || []).some((c) =>
+              gapRows.some((g) => g.label === c && String(g.answer || "").toLowerCase().includes(is.label.toLowerCase())),
+            ),
+        );
+        if (!delivered) e.push(`plan: ${is.label.toUpperCase()} has no delivering task (--closes ${is.label} or a gap naming it)`);
+      }
+      for (const g of gapRows) {
+        if (!tasks.some((t) => (t.closes || []).includes(g.label))) {
+          e.push(`plan: ${g.label} has no delivering task (task --closes ${g.label})`);
+        }
+      }
+      if (!String(planText).includes("| IS |")) e.push("plan: success criteria table is missing");
+    }
+    if (planText) e.push(...executionErrors(l, planText));
     if (l.issue_type === "bug" && tasks.length && !tasks.some((t) => t.kind === "fix")) {
       e.push("plan: issue type bug requires at least one --kind fix task");
     }
@@ -815,7 +882,92 @@ export const advancePhase = (l, gate) => {
   return l.phase;
 };
 
+const activeDecisions = (l, re) =>
+  (l.rows || []).filter((r) => r.type === "decision" && r.status === "active" && re.test(r.label || ""));
+const cell = (x) => String(x ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
+function taskWaves(tasks) {
+  const byId = new Map(tasks.map((t) => [t.id, t]));
+  const levels = new Map(), visiting = new Set();
+  const level = (t) => {
+    if (levels.has(t.id)) return levels.get(t.id);
+    if (visiting.has(t.id)) return 0;
+    visiting.add(t.id);
+    let n = 0;
+    for (const d of t.deps || []) {
+      const dep = byId.get(d);
+      if (dep) n = Math.max(n, level(dep) + 1);
+    }
+    visiting.delete(t.id);
+    levels.set(t.id, n);
+    return n;
+  };
+  for (const t of tasks) level(t);
+  const max = tasks.reduce((m, t) => Math.max(m, levels.get(t.id) || 0), 0);
+  return Array.from({ length: max + 1 }, (_, n) => tasks.filter((t) => levels.get(t.id) === n).map((t) => t.id));
+}
+function executionSection(l) {
+  const tasks = (l.rows || []).filter((r) => r.type === "task" && r.status === "active");
+  if (!tasks.length) {
+    return "## Execution strategy\n\n### Parallel waves\n\nNone yet.\n\n### Dependency matrix\n\nNone yet.\n";
+  }
+  const waves = taskWaves(tasks);
+  const waveOf = new Map(waves.flatMap((ids, n) => ids.map((id) => [id, n])));
+  const blocks = new Map(tasks.map((t) => [t.id, []]));
+  for (const t of tasks) for (const d of t.deps || []) if (blocks.has(d)) blocks.get(d).push(t.id);
+  const rows = tasks.map((t) => {
+    const same = waves[waveOf.get(t.id)].filter((id) => id !== t.id && !(t.deps || []).includes(id));
+    return `| ${t.id} | ${(t.deps || []).join(", ") || "—"} | ${blocks.get(t.id).join(", ") || "—"} | ${same.join(", ") || "—"} |`;
+  });
+  return [
+    "## Execution strategy",
+    "",
+    "### Parallel waves",
+    "",
+    ...waves.map((ids, n) => `- Wave ${n + 1}: ${ids.join(", ")}`),
+    "",
+    "### Dependency matrix",
+    "",
+    "| Task | Depends on | Blocks | Parallel with |",
+    "|---|---|---|---|",
+    ...rows,
+    "",
+  ].join("\n");
+}
+function successCriteriaSection(l) {
+  const isRows = activeDecisions(l, /^is-/), gaps = activeDecisions(l, /^gap-/);
+  if (!isRows.length && !gaps.length) return l.intent?.success || "Not recorded.";
+  if (!isRows.length) return `GAP rows: ${gaps.map((g) => g.label).join(", ")}. No IS rows recorded.`;
+  const tasks = (l.rows || []).filter((r) => r.type === "task" && r.status === "active");
+  const rows = isRows.map((is) => {
+    const gs = gaps.filter((g) => String(g.answer || "").toLowerCase().includes(is.label.toLowerCase()));
+    const ts = tasks.filter(
+      (t) => (t.closes || []).includes(is.label) || (t.closes || []).some((c) => gs.some((g) => g.label === c)),
+    );
+    return `| ${is.label.toUpperCase()} | ${cell(is.answer)} | ${gs.map((g) => g.label).join(", ") || "—"} | ${
+      ts.map((t) => t.id).join(", ") || "unmapped"
+    } | ${ts.map((t) => t.verify || "").filter(Boolean).join(" / ") || "unmapped"} |`;
+  });
+  return ["| IS | Statement | Gaps | Delivering tasks | Proving verify |", "|---|---|---|---|---|", ...rows].join("\n");
+}
+function tldrSection(l) {
+  const risks = activeDecisions(l, /^risk-/).map((r) => r.label).join(", ") || "not recorded";
+  const top = activeDecision(l, "top-recommendation")?.answer || decisionText(l, "further-notes") || "none";
+  return [
+    "## TL;DR (For humans)",
+    "",
+    `**Who this is for:** ${l.intent?.user || "Not recorded."}`,
+    `**What changes:** ${l.intent?.outcome || "Not recorded."}`,
+    `**Why now:** ${l.intent?.why_now || "Not recorded."}`,
+    `**What it will NOT do:** ${l.intent?.out_of_scope || "Not recorded."}`,
+    `**Effort:** ${l.size}. **Risk:** ${risks}.`,
+    `**Decisions to sanity-check:** ${top}`,
+    "**Next move:** approve the design with a quote, then publish and hand off.",
+    "",
+  ].join("\n");
+}
+
 const PLAN_SECTIONS = [
+  "## TL;DR (For humans)",
   "## Intent",
   "## Research",
   "## Decisions",
@@ -830,6 +982,9 @@ const PLAN_SECTIONS = [
   "### Success criteria",
   "### Open questions",
   "### Further notes",
+  "## Execution strategy",
+  "### Parallel waves",
+  "### Dependency matrix",
   "## Tasks",
   "## Verification and review plan",
   "## Risks",
@@ -868,7 +1023,9 @@ export function planSkeleton(l) {
           (r.deps || []).join(",") || "none"
         }; interfaces: ${r.interfaces || ""}; acceptance: ${r.acceptance || ""}; verify: ${r.verify || ""}${
           r.test_seam ? `; test-seam: ${r.test_seam}` : ""
-        }${r.test_file ? `; test-file: ${r.test_file}` : ""}${r.red ? `; red: ${r.red}` : ""}${r.green ? `; green: ${r.green}` : ""}`,
+        }${r.test_file ? `; test-file: ${r.test_file}` : ""}${r.red ? `; red: ${r.red}` : ""}${r.green ? `; green: ${r.green}` : ""}${
+          (r.closes || []).length ? `; closes: ${(r.closes || []).join(",")}` : ""
+        }`,
       );
     } else if (r.type === "decision") {
       decisionLines.push(`- ${r.id} ${r.label}${r.adr ? ` [ADR${r.adr_file ? `: ${r.adr_file}` : ""}]` : ""}: ${r.answer || r.quote || ""}`);
@@ -905,6 +1062,10 @@ export function planSkeleton(l) {
     "ADRs to write: " + (adrs.length ? adrs.map((d) => d.id).join(", ") : "none (no decision passed the hard-to-reverse + surprising + real-trade-off test)"),
     "Per-task verification is the verify field of each task; a fresh run in the executing session is the only evidence.",
     "",
+    "### Final verification wave",
+    "",
+    "When executing, F1 plan compliance audit, F2 code quality review, F3 real manual QA and F4 ideal-state fidelity run in parallel after all tasks; all must approve; surface the results and wait for the owner's explicit okay before declaring complete. Planning never runs this wave.",
+    "",
   ].join("\n");
   const handoffSection = [
     "",
@@ -918,11 +1079,17 @@ export function planSkeleton(l) {
     "4. Do not pause between tasks. Stop only for: an irreversible or destructive action; a security-sensitive action; a side effect outside the work area that norms say to ask first (merge, push to a shared branch, publish); a plan so broken every path forward is a guess. Everything else is a ruling, logged as `Ruling: <what> - <why> - <cost if wrong>`.",
     "5. Worker report: status DONE, DONE_WITH_CONCERNS, BLOCKED or NEEDS_CONTEXT; commits; a one-line test summary; the report file. Ledger lines: `Task N: complete (commits a..b, review clean)`, `Task N: parked - <finding> - Ruling: <why>`. After compaction trust the ledger and `git log` over memory.",
     "6. Restart block: scope and decisions (Intent, Decisions); task status and next task; changed files and working-tree state; exact verification commands and outcomes; unresolved questions and approvals. A fresh session reads this plan and a real `git status`, re-runs verification if the baseline is missing or the code moved, and never infers approval from earlier conversation.",
+    "",
+    "### Commit strategy",
+    "",
+    "One concern per commit; stage explicit paths; use `type(scope): imperative summary`; never commit a failing suite, a skipped test or a weakened threshold. Planning makes no commits; the executor does.",
+    "",
     "Next action: run `frontier` and start the first ready task.",
     "",
   ].join("\n");
   const sections = { review: skipped(l, "review-section") ? "" : reviewSection, handoff: skipped(l, "handoff") ? "" : handoffSection };
-  return `# Plan: ${l.slug} (${l.issue_type}, size ${l.size})\n${assumed}\n## Intent\n\nOutcome: ${l.intent?.outcome || ""}\nUser: ${
+  const tldr = tldrSection(l), execution = executionSection(l), success = successCriteriaSection(l);
+  return `# Plan: ${l.slug} (${l.issue_type}, size ${l.size})\n${assumed}\n${tldr}\n## Intent\n\nOutcome: ${l.intent?.outcome || ""}\nUser: ${
     l.intent?.user || ""
   }\nWhy now: ${l.intent?.why_now || ""}\nConstraint: ${l.intent?.constraint || ""}\n\n## Research\n\nAxes: ${
     (l.axes || []).map((a) => a.label).join(", ")
@@ -934,9 +1101,9 @@ export function planSkeleton(l) {
     l.flags?.tdd
       ? "TDD on (default): every task has a test_seam; steps are red -> green per seam."
       : "TDD off (--no-tdd): no test-first steps; each task verifies with its stated command."
-  }\n\n### Boundaries\n\n${decisionText(l, "boundaries") ? `${decisionText(l, "boundaries")}\n\n` : ""}Planning rules:\n- Always: work from this plan and the ledger; keep the ledger append-only.\n- Ask first: anything that changes scope, the capability map, or a settled decision.\n- Never: open a PR, commit, or implement from within the planning skill.\n\n### Success criteria\n\n${
-    l.intent?.success || ""
-  }\n\n### Open questions\n\n${openQLines.join("\n") || "None."}\n\n### Further notes\n\n${decisionText(l, "further-notes") || "None."}\n\n## Tasks\n\n${
+  }\n\n### Boundaries\n\n${decisionText(l, "boundaries") ? `${decisionText(l, "boundaries")}\n\n` : ""}Planning rules:\n- Always: work from this plan and the ledger; keep the ledger append-only.\n- Ask first: anything that changes scope, the capability map, or a settled decision.\n- Never: open a PR, commit, or implement from within the planning skill.\n\n### Success criteria\n\n${success}\n\n### Open questions\n\n${openQLines.join("\n") || "None."}\n\n### Further notes\n\n${
+    decisionText(l, "further-notes") || "None."
+  }\n\n${execution}\n## Tasks\n\n${
     taskLines.join("\n")
   }\n${sections.review}\n## Risks\n\n${
     riskLines.join("\n") || "- No assumed facts recorded; risks are carried in the decisions and open questions above."
@@ -1001,8 +1168,8 @@ export function renderIssues(l) {
     }\n## What to build\n\nInterfaces: ${t.interfaces}\n\n## Blocked by\n\nBlocked by: ${
       (t.deps || []).map((d) => file.get(d)?.replace(/\.md$/, "")).filter(Boolean).join(", ") || "none"
     }\n\n## Acceptance\n\n${t.acceptance}\n\n## Verify\n\n${t.verify}\n${
-      t.test_seam ? `\nTest seam: ${t.test_seam}\nSteps: ${t.steps || ""}\n` : ""
-    }`,
+      (t.closes || []).length ? `\nCloses: ${(t.closes || []).join(", ")}\n` : ""
+    }${t.test_seam ? `\nTest seam: ${t.test_seam}\nSteps: ${t.steps || ""}\n` : ""}`,
   }));
 }
 
@@ -1042,7 +1209,7 @@ const BOOLEAN_ARGS = new Set([
 ]);
 const KNOWN_FLAGS = new Set([
   ...BOOLEAN_ARGS, "slug", "type", "issue", "size", "label", "ref", "title", "id", "responsibility", "deps", "kind",
-  "locator", "axis", "source", "sha", "quote", "question", "answer", "decision", "claim", "cycle", "findings", "total",
+  "locator", "axis", "source", "sha", "quote", "question", "answer", "decision", "claim", "cycle", "findings", "total", "closes",
   "class", "files", "interfaces", "acceptance", "verify", "test-seam", "steps", "est-lines", "file", "outcome", "user",
   "why-now", "success", "constraint", "out-of-scope", "by", "gate", "token", "reason", "replacement", "done", "ledger",
   "blocked-by", "domain-term", "test-file", "red", "green", "adr-file", "scope", "asks", "review", "note", "artifact", "exit", "add",
@@ -1482,6 +1649,7 @@ export function main(argv = process.argv.slice(2)) {
         kind: a.kind || "feature",
         issue: a.issue || null,
         est_lines: a["est-lines"] === undefined ? null : +a["est-lines"],
+        closes: splitList(a.closes),
       });
       save();
       console.log(r.id);
@@ -1548,6 +1716,7 @@ export function main(argv = process.argv.slice(2)) {
               kind: en.kind || "feature",
               issue: en.issue || null,
               est_lines: en.est_lines ?? null,
+              closes: en.closes || [],
             }).id,
           );
         } else if (en.type === "finding") {

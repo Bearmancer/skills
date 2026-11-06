@@ -326,7 +326,9 @@ test("CLI: docs/plans layout, --type, issues, render-issues, frontier, ambiguous
     assert.equal(run("issue", "--slug", "demo", "--ref", "Bearmancer/Toolbox#286").status, 0);
     assert.notEqual(run("issue", "--slug", "demo", "--ref", "junk").status, 0);
     assert.equal(run(...taskArgs("first", ["--issue", "Bearmancer/Toolbox#289"])).status, 0);
-    assert.equal(run(...taskArgs("second", ["--deps", "T1"])).status, 0);
+    assert.equal(run(...taskArgs("second", ["--deps", "T1", "--closes", "is-1"])).status, 0);
+    const led = JSON.parse(readFileSync(join(dir, "docs", "plans", "bug", "demo", "ledger.json"), "utf8"));
+    assert.deepEqual(led.rows.find((r) => r.id === "T2").closes, ["is-1"]);
     assert.equal(run("frontier", "--slug", "demo").stdout.trim(), "T1");
     assert.equal(run("frontier", "--slug", "demo", "--done", "T1").stdout.trim(), "T2");
     assert.equal(run("render-issues", "--slug", "demo").status, 0);
@@ -1054,4 +1056,33 @@ test("G5: a claim that tests ran needs a test_run row", () => {
   });
   assert.doesNotMatch(GATES.G5(l, "we ran the tests").join("\n"), /test_run/);
   assert.doesNotMatch(GATES.G5(l, "no claim here").join("\n"), /test_run/);
+});
+
+test("ULW plan: TL;DR, waves, dependency matrix and IS/GAP closure", () => {
+  const l = withBar(base());
+  addRow(l, { type: "decision", label: "is-1", answer: "one command syncs every tracked file" });
+  addRow(l, { type: "decision", label: "gap-1", answer: "IS-1: today the paths differ per harness" });
+  const t1 = goodTask({ label: "one", closes: ["gap-1"] });
+  const t2 = goodTask({ label: "two", deps: ["T1"], closes: ["gap-1"] });
+  addRow(l, t1);
+  addRow(l, t2);
+  const p = planSkeleton(l);
+  assert.match(p, /## TL;DR \(For humans\)/);
+  assert.match(p, /### Parallel waves/);
+  assert.match(p, /- Wave 1: T1/);
+  assert.match(p, /- Wave 2: T2/);
+  assert.match(p, /\| T1 \| — \| T2 \|/);
+  assert.match(p, /\| IS-1 \|/);
+  assert.match(p, /closes: gap-1/);
+  assert.deepEqual(GATES.G4(l, p), []);
+  assert.match(GATES.G4(l, p.replace("| T2 | T1 |", "| T2 | — |")).join("\n"), /does not match deps/);
+  const missing = withBar(base());
+  addRow(missing, { type: "decision", label: "is-1", answer: "x" });
+  addRow(missing, { type: "decision", label: "gap-1", answer: "IS-1: y" });
+  addRow(missing, goodTask());
+  assert.match(GATES.G4(missing, planSkeleton(missing)).join("\n"), /must name the IS or GAP/);
+  const direct = withBar(base());
+  addRow(direct, { type: "decision", label: "is-1", answer: "one path" });
+  addRow(direct, goodTask({ closes: ["is-1"] }));
+  assert.deepEqual(GATES.G4(direct, planSkeleton(direct)), []);
 });
