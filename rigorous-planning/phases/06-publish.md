@@ -4,7 +4,7 @@ Contract: gates, CLI and the state machine are in ../SKILL.md. This playbook is 
 
 ## P6: validate and publish (fail-closed)
 
-`publish` is allowed only after G4 has advanced the ledger to P5. It re-runs G0-G5, the evidence check and the size audit, stamps `plan_sha256`, sets phase P6 and only then marks the plan published. Any error exits 1, the `ERROR` lines are the report, and no plan is published; there is no partial credit. Hand off with one line: plan path, `plan_sha256`, gates passed, flags in force, branch. Feedback on a published plan: read all of it, clarify every unclear item before changing any, verify each against the code, push back with evidence, record each outcome as a decision or a supersede with a reason, then re-run `publish`. A `gate --id G5` run is the only accepted publish evidence.
+`publish` is allowed only after G4 has advanced the ledger to P5. It re-runs G0-G5, the evidence check and the size audit, stamps `plan_sha256`, sets phase P6 and only then marks the plan published. If `plan.md` claims a test ran (`ran the tests`, `test run`, `tests passed`, `verified by running`), G5 requires a matching `test_run` row; a plan that makes no such claim publishes without one. Any error exits 1, the `ERROR` lines are the report, and no plan is published; there is no partial credit. Hand off with one line: plan path, `plan_sha256`, gates passed, flags in force, branch. Feedback on a published plan: read all of it, clarify every unclear item before changing any, verify each against the code, push back with evidence, record each outcome as a decision or a supersede with a reason, then re-run `publish`. A `gate --id G5` run is the only accepted publish evidence.
 
 ## Audit plans (type `audit`)
 

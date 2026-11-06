@@ -54,13 +54,16 @@ Record each item you cannot phrase sharply with `fog --add "item"`. A fog item e
 
 ## Exit: G_WF
 
+Before the gate, record the captain's sign-off: `approve --gate G_WF --token wayfinder-destination --by user --quote "<the user's words naming the destination>"`. `approve` accepts `G_WF` at W0; every other approval waits for P3.
+
 `gate --id G_WF` passes only when:
 
 - the map is a wayfinder map and `map.md` has Destination, Notes, Decisions so far, Not yet specified and Out of scope;
 - an active `destination` decision exists and fits in one or two lines;
 - `fog` is cleared;
 - no `wayfinder` ticket is still open;
-- at least one `wayfinder` ticket has been resolved.
+- at least one `wayfinder` ticket has been resolved;
+- a `wayfinder-destination` approval exists with `by=user` and a non-empty quote.
 
 ## Handoff
 
@@ -68,4 +71,4 @@ Record each item you cannot phrase sharply with `fog --add "item"`. A fog item e
 
 ## What is a method here
 
-Naming the destination well, writing a readable map, choosing ticket types, and deciding when a ticket is sharp enough are judgement. The hard checks are the map headings, the destination, fog, open tickets, and at least one resolved ticket. No tracker writes happen in this branch; filing is a separate owner-approved step.
+Naming the destination well, writing a readable map, choosing ticket types, and deciding when a ticket is sharp enough are judgement. The hard checks are the map headings, the destination, fog, open tickets, at least one resolved ticket, and the owner's signed destination. No tracker writes happen in this branch; filing is a separate owner-approved step.

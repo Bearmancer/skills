@@ -36,6 +36,7 @@ Planning only. This skill never edits product code, never commits, never pushes,
 | `--type <issue-type>` | (default `feature`) | Picks `docs/plans/<issue-type>/<slug>/` and the task-kind rules. |
 | `--issue owner/repo#n` | (default none; repeatable or comma list) | Links source issues read-only; renders `## Issues`. |
 | `--multi` | (default off) | Declares multi-capability scope; G3 requires the map. |
+| `--deliberate` | (default off) | Forces the RALPLAN-DR record even at small size (size L or an irreversible decision already triggers it). |
 | `--wayfinder` | (default off) | Creates `docs/maps/<slug>/` at phase W0: a decision map, never a task plan. |
 
 `--tdd` is accepted as the explicit spelling of the default. Prose such as "don't ask me anything" does not waive a gate: only the flag does, and it swaps in a different evidence check, never deletes the gate.
@@ -63,7 +64,7 @@ W0 wayfinder (fog only)
 
 | Phase | Entry (hard) | Work | Artifact | Exit gate | Failure route |
 | --- | --- | --- | --- | --- | --- |
-| W0 wayfinder | fog test fails: destination not one or two lines, or the first three decisions are not statable | name the destination, chart the map, resolve decision tickets one at a time | `docs/maps/<slug>/map.md` + wayfinder ledger | `G_WF`: destination, map headings, fog cleared, no open ticket, >=1 resolved ticket | stay in the map; `task` is refused |
+| W0 wayfinder | fog test fails: destination not one or two lines, or the first three decisions are not statable | name the destination, chart the map, resolve decision tickets one at a time | `docs/maps/<slug>/map.md` + wayfinder ledger | `G_WF`: destination, map headings, fog cleared, no open ticket, >=1 resolved ticket, owner `wayfinder-destination` approval with quote | stay in the map; `task` is refused |
 | P0 intake | request received | destination, type, size, capability triage, branch | initialized ledger, branch `plan/<slug>` | `G0`: slug/type/refs/flags/branch + full validation + phase P0 | re-init or stop/ask |
 | P1 axes | G0 PASS | split the topic into axes | `axes[]` | G1 entry: every axis has a lane | add an axis |
 | P2 research | axes exist | parallel read-only lanes, facts + snapshots, waves | F rows, `sources/S<n>/`, `waves[]` | `G1`: per-axis active fact, saturation (S: 1 closed wave; M/L: 2x `new_facts=0`), locator resolves, external hash matches | another wave; re-snapshot |
@@ -79,7 +80,7 @@ Wayfinder rejoins at P1, never at P5: the map hands off to a spec, and collapsin
 All commands: `node scripts/planning.mjs <cmd> --slug <slug> [--type <issue-type>]`.
 
 ```text
-init     --slug S [--type T] [--issue owner/repo#n,...] [--size S|M|L] [--multi] [--wayfinder]
+init     --slug S [--type T] [--issue owner/repo#n,...] [--size S|M|L] [--multi] [--deliberate] [--wayfinder]
          [--no-tdd] [--no-interview] [--no-branch] [--no-plan-review] [--no-doubt]
          [--no-review-section] [--no-handoff] [--no-adr] [--no-constraints] [--lean]
 axis     --label L
@@ -102,7 +103,7 @@ task     --label L --files a,b --interfaces text --acceptance text --verify cmd 
          [--test-seam "<interface> | catches: ... | misses: ..." --test-file path --red "..." --green "..."]
 batch    --file rows.json     (one process for many rows; row types mirror the commands)
 intent   --outcome .. --user .. --why-now .. --success .. --constraint .. --out-of-scope .. [--confirm --by user] [--assume]
-approve  --gate G3|G4 --token approve-design|approve-capability-map|approve-seams|doubt-escalated|plan-review-escalated
+approve  --gate G_WF|G3|G4 --token wayfinder-destination|approve-design|approve-capability-map|doubt-escalated|plan-review-escalated
          --by user --quote "<the user's exact words>"
 supersede --id X --reason text --replacement Y   |   retract --id X --reason text
 fog      --add "item[,item]" | --clear
@@ -119,12 +120,12 @@ One CLI call is one process start: batch a research wave or a review's findings 
 | Gate | Phase | Checks |
 | --- | --- | --- |
 | `G0` | intake | an active `destination` decision in one or two lines; slug regex; issue type in the closed set; issue refs; skip flags in the closed set; size; branch recorded (`plan/<slug>`, or null with `--no-branch`/size S/non-git); full ledger validation (ids, unique labels, append-only events, acyclic provenance/task/capability graphs). |
-| `G1` | research | every axis has an active fact; saturation (S: one closed wave; M/L: last two waves derived 0 new facts); no fact after the last wave; every external fact has a 64-hex `snapshot_sha256` and a matching `sources/S<n>/` file; every `file:line` locator resolves. |
+| `G1` | research | every axis has an active fact; saturation (S: one closed wave; M/L: last two waves derived 0 new facts); no fact after the last wave; every external fact has a 64-hex `snapshot_sha256` and a matching `sources/S<n>/` file; every `file:line` locator resolves; a refactor plan needs a resolvable `survey-*` fact and a `top-recommendation` naming it. |
 | `G2` | clarify | no active Q; every open Q is in a recorded round; no Q asked before a `blocked_by` is settled; six intent fields; interview mode needs an explicit user yes; `--no-interview` needs `assumed`, an assumed fact and a decision, and `confirmed` stays false; an active `early-exit` blocks publish; a recorded fog needs a `destination`. |
-| `G3` | design | no open questions; `approve-design` by user with a non-empty quote; >1 capability needs `approve-capability-map` (same evidence); each plan-review header needs persisted finding rows (or `clean` + scope); each irreversible decision needs a doubt header + finding rows (or `clean` + scope); max 3 cycles unless escalated. |
-| `G4` | plan | tasks have files/interfaces/acceptance/verify; TDD on: seam is `"<interface> | catches: ... | misses: ..."`, `test_file`, `red`, `green` (distinct; `fix` names a repro in red); TDD off: none of those fields; each task's `deps` are rendered in `plan.md`; kinds; no fake-done marker; `fix`/`refactor` rules; lockfile edits are chore + changelog; quality bar at M/L; `--adr` needs an `adr-convention` fact and an `adr_file`; a closed domain term has a `term-<term>` fact citing `GLOSSARY.md`; feature size L has `user-stories`; `plan.md` has every required heading in order and no TBD/placeholder. |
-| `G5` | publish | G0-G4 together; evidence re-check; derived size not larger than claimed; `plan_sha256` equals the hash of `plan.md`. |
-| `G_WF` | wayfinder | wayfinder ledger; destination decision in <=2 lines; fog cleared; no open `wayfinder` ticket; >=1 resolved ticket; `map.md` has Destination, Notes, Decisions so far, Not yet specified, Out of scope. |
+| `G3` | design | no open questions; `approve-design` by user with a non-empty quote; >1 capability needs `approve-capability-map` (same evidence); each plan-review header needs persisted finding rows (or `clean` + scope); each irreversible decision needs a doubt header + finding rows (or `clean` + scope); max 3 cycles unless escalated; size L, an irreversible decision, or `--deliberate` needs `principles`, `drivers`, `option-a`+`option-b` (or `options`+`invalidation`), `pre-mortem` (>=3), `expanded-test-plan` (unit/integration/e2e/observability). |
+| `G4` | plan | tasks have files/interfaces/acceptance/verify; TDD on: seam is `"<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external"`, `test_file`, `red`, `green` (distinct; `fix` names a repro in red); TDD off: none of those fields; each task's `deps` are rendered in `plan.md`; kinds; no fake-done marker; `fix`/`refactor` rules; lockfile edits are chore + changelog; quality bar at M/L; `--adr` needs an `adr-convention` fact and an `adr_file`; a closed domain term has a `term-<term>` fact citing `GLOSSARY.md`; feature size L has `user-stories`; `plan.md` has every required heading in order and no TBD/placeholder. |
+| `G5` | publish | G0-G4 together; evidence re-check; derived size not larger than claimed; a `plan.md` claim that tests ran needs a `test_run` row; `plan_sha256` equals the hash of `plan.md`. |
+| `G_WF` | wayfinder | wayfinder ledger; destination decision in <=2 lines; fog cleared; no open `wayfinder` ticket; >=1 resolved ticket; an owner `wayfinder-destination` approval with a quote; `map.md` has Destination, Notes, Decisions so far, Not yet specified, Out of scope. |
 
 A gate may never be: a score the agent assigns, a confidence percentage, a reviewer verdict on its own, a test "run earlier", or the user's silence. Approval tokens are recorded only from what the user said in chat, with the quote; the CLI cannot mint a yes.
 

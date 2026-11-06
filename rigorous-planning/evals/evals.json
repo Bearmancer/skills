@@ -4,13 +4,13 @@
     {
       "id": 1,
       "prompt": "Plan adding OAuth login to our Node app. We need it soon, don't ask me lots of questions, just give me the plan.",
-      "expected_output": "Pipeline P0-P6 in order, starting with a clear destination and a deterministic route (not a CLEAR/UNCLEAR feeling). The plan lives in docs/plans/feature/oauth-login/, the auto branch is plan/oauth-login, and the ledger is written only through scripts/planning.mjs. Research axes and saturation, then exactly one frontier round recorded with `round --asks`, with recommended answers. Intent is restated for an explicit yes. Tasks are written only after G3 and carry a structured test contract: test_seam '<interface> | catches: ... | misses: ...', test_file, red, green. No PR, no implementation. Publish is fail-closed and G5 is run in this session.",
+      "expected_output": "Pipeline P0-P6 in order, starting with a clear destination and a deterministic route (not a CLEAR/UNCLEAR feeling). The plan lives in docs/plans/feature/oauth-login/, the auto branch is plan/oauth-login, and the ledger is written only through scripts/planning.mjs. Research axes and saturation, then exactly one frontier round recorded with `round --asks`, with recommended answers. Intent is restated for an explicit yes. Tasks are written only after G3 and carry a structured test contract: test_seam '<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external', test_file, red, green. If the auth decision is marked irreversible (or the plan is size L), the deliberate record is also required. No PR, no implementation. Publish is fail-closed and G5 is run in this session.",
       "files": [],
       "assertions": [
         "States the linear pipeline and does not skip a phase by judgement",
         "Creates the branch and docs/plans/<type>/<slug>/ledger.json via planning.mjs",
         "Does not waive clarification when the user says 'don't ask': one recorded frontier round with recommended answers instead",
-        "Every task carries test_seam, test_file, red and green because --no-tdd was not passed",
+        "Every task carries test_seam with a closed boundary class, test_file, red and green because --no-tdd was not passed",
         "Never implements code and never opens a PR",
         "Ends with plan path + plan_sha256 + a fresh G5/publish run, not a completion claim without evidence"
       ]
@@ -18,7 +18,7 @@
     {
       "id": 2,
       "prompt": "Plan migrating our Postgres database to a new schema --no-tdd. It's for the billing service, success is zero-downtime cutover, constraint is the freeze next month.",
-      "expected_output": "TDD off because --no-tdd passed: no task carries test_seam, test_file, red or green; each task verifies with its stated command. Intent fields are already present, so the deterministic route goes to the frontier; grilling covers the remaining design decisions. Ledger, saturation research, G3 approve-design with a user quote, and G4 rejects any task carrying TDD fields in this mode.",
+      "expected_output": "TDD off because --no-tdd passed: no task carries test_seam, test_file, red or green; each task verifies with its stated command. Intent fields are already present, so the deterministic route goes to the frontier; grilling covers the remaining design decisions. Ledger, saturation research, G3 approve-design with a user quote, and G4 rejects any task carrying TDD fields in this mode. If the migration is marked irreversible (or the plan is size L), the deliberate record is required.",
       "files": [],
       "assertions": [
         "Honours --no-tdd: no task has test_seam, test_file, red or green",
@@ -30,12 +30,13 @@
     {
       "id": 3,
       "prompt": "I want to build a dashboard for our metrics.",
-      "expected_output": "The outcome is not statable as one line, so the effort is fog and does not enter a planning ledger. init --wayfinder creates docs/maps/<slug>/, the destination is named, fog items are recorded with `fog --add`, and decision tickets are worked one at a time. Exit is G_WF, then wayfinder-handoff seeds a planning ledger at P0 and the effort rejoins at P1. No tasks are minted in W0.",
+      "expected_output": "The outcome is not statable as one line, so the effort is fog and does not enter a planning ledger. init --wayfinder creates docs/maps/<slug>/, the destination is named, fog items are recorded with `fog --add`, and decision tickets are worked one at a time. The captain signs the destination with approve --gate G_WF --token wayfinder-destination --by user --quote '<the user's words>'; G_WF passes only with that approval, then wayfinder-handoff seeds a planning ledger at P0 and the effort rejoins at P1. No tasks are minted in W0.",
       "files": [],
       "assertions": [
         "Routes to the wayfinder branch rather than guessing a plan",
         "Creates docs/maps/<slug>/ with map.md and a wayfinder ledger",
         "Records fog and decision tickets; task commands are refused in W0",
+        "Records the wayfinder-destination approval with a quote before G_WF passes",
         "Passes G_WF before wayfinder-handoff and rejoins at P1"
       ]
     },
@@ -66,13 +67,14 @@
     {
       "id": 6,
       "prompt": "Plan rebuilding our platform: identity, billing, notifications and reporting all need work. I keep saying we need the full platform rewrite, fastest possible, best-practice architecture.",
-      "expected_output": "A multi-capability request creates the capability map (identity/billing/notifications/reporting, stable ids, build order, acyclic), approved by the user before tasks. Best-practice-speak is probed; Contrarian and Simplifier challenges run once each on their triggers; approaches are laid out in their own message with trade-offs and one recommendation before any write-up; 'fastest possible' is reframed as measurable success criteria.",
+      "expected_output": "A multi-capability request creates the capability map (identity/billing/notifications/reporting, stable ids, build order, acyclic), approved by the user before tasks. Best-practice-speak is probed; Contrarian and Simplifier challenges run once each on their triggers; approaches are laid out in their own message with trade-offs and one recommendation before any write-up; 'fastest possible' is reframed as measurable success criteria. Because this is a multi-capability/L-size plan, the deliberate record is present: principles (>=3), drivers (>=3), option-a+option-b or options+invalidation, pre-mortem (>=3 scenarios), and expanded-test-plan naming unit/integration/e2e/observability.",
       "files": [],
       "assertions": [
         "Capability map is created and approval-gated before tasks",
         "Contrarian and Simplifier challenges each run once",
         "Approaches are presented with trade-offs and a recommendation",
-        "No tasks exist before the map and design approvals"
+        "No tasks exist before the map and design approvals",
+        "Records the deliberate decisions before G3"
       ]
     },
     {
@@ -91,7 +93,7 @@
     {
       "id": 8,
       "prompt": "Plan a fix for Bearmancer/Toolbox#286: audio tag --mbid should not require DISCOGS_TOKEN.",
-      "expected_output": "Type bug, plan at docs/plans/bug/<slug>/, issue declared as Bearmancer/Toolbox#286. The first task is kind fix, its red field names a failing repro test, its test_seam is the structured contract, and it links #286. No task contains skip/only/TODO markers. The review plan and Handoff sections are present; no implementation, no PR.",
+      "expected_output": "Type bug, plan at docs/plans/bug/<slug>/, issue declared as Bearmancer/Toolbox#286. The first task is kind fix, its red field names a failing repro test, its test_seam is the structured contract with a closed boundary class, and it links #286. No task contains skip/only/TODO markers. The review plan and Handoff sections are present; no implementation, no PR.",
       "files": [],
       "assertions": [
         "Plan lives under docs/plans/bug/",
@@ -117,13 +119,14 @@
     {
       "id": 10,
       "prompt": "Plan a schema migration for the billing database. It is irreversible once deployed.",
-      "expected_output": "The irreversible decision is recorded with --irreversible and doubt --id/--cycle/--claim; each finding is persisted with `finding --review doubt:<Dn>:<cycle> --class ... --locator ...` and G3 derives the counts, so no --findings/--total is accepted. Approval is recorded with by=user and a quote. An ADR is recorded with --adr-file and the adr-convention fact. No implementation.",
+      "expected_output": "The irreversible decision is recorded with --irreversible and doubt --id/--cycle/--claim; each finding is persisted with `finding --review doubt:<Dn>:<cycle> --class ... --locator ...` and G3 derives the counts, so no --findings/--total is accepted. Because the decision is irreversible, the deliberate record is also present: principles (>=3), drivers (>=3), option-a+option-b or options+invalidation, pre-mortem (>=3 scenarios), expanded-test-plan naming unit/integration/e2e/observability. Approval is recorded with by=user and a quote. An ADR is recorded with --adr-file and the adr-convention fact. No implementation.",
       "files": [],
       "assertions": [
         "Records the irreversible decision and runs the doubt cycle",
         "Persists findings as rows and rejects self-reported totals",
         "Records approve-design with a user quote",
-        "Names an ADR file and the repo convention before G3"
+        "Names an ADR file and the repo convention before G3",
+        "Records the deliberate decisions because the decision is irreversible"
       ]
     },
     {

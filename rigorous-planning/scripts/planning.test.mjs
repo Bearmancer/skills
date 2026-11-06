@@ -184,7 +184,7 @@ const goodTask = (over = {}) => ({
   interfaces: "x",
   acceptance: "y",
   verify: "node --test",
-  test_seam: "api | catches: behaviour | misses: internals",
+  test_seam: "api | catches: behaviour | misses: internals | class: in-process",
   test_file: "a.test.js",
   red: "red: failing test fails for the expected reason",
   green: "green: minimal pass",
@@ -304,7 +304,7 @@ test("CLI: docs/plans layout, --type, issues, render-issues, frontier, ambiguous
   const run = (...a) => spawnSync("node", [cli, ...a], { cwd: dir, encoding: "utf8" });
   const taskArgs = (label, extra = []) => [
     "task", "--slug", "demo", "--label", label, "--files", "a.js", "--interfaces", "i", "--acceptance", "a",
-    "--verify", "node --test", "--test-seam", "api | catches: behaviour | misses: internals",
+    "--verify", "node --test", "--test-seam", "api | catches: behaviour | misses: internals | class: in-process",
     "--test-file", "a.test.js", "--red", "red: repro test fails", "--green", "green: minimal pass", ...extra,
   ];
   const setPhase = (phase) => {
@@ -405,13 +405,53 @@ test("doubt: irreversible decision needs persisted findings, max 3 cycles then e
   l.doubts[0].clean = false;
   l.doubts[0].scope = ["artifact"];
   addRow(l, { type: "finding", label: "doubt-noise", review: "doubt:D1:1", class: "noise", note: "none" });
-  assert.deepEqual(GATES.G3(withReview(withApprovals(l))), []);
+  assert.deepEqual(GATES.G3(withDeliberate(withReview(withApprovals(l)))), []);
   l.doubts.push({ decision: "D1", cycle: 4, claim: "c", clean: true, scope: ["artifact"] });
-  assert.match(GATES.G3(withReview(withApprovals(l))).join("\n"), /cycle/);
+  assert.match(GATES.G3(withDeliberate(withReview(withApprovals(l)))).join("\n"), /cycle/);
   const skipped = emptyLedger({ slug: "demo", branch: "plan/demo", skip: ["doubt"] });
   addRow(skipped, { type: "decision", label: "drop-table", answer: "x", irreversible: true });
-  assert.deepEqual(GATES.G3(withReview(withApprovals(skipped))), []);
+  assert.deepEqual(GATES.G3(withDeliberate(withReview(withApprovals(skipped)))), []);
 });
+
+test("deliberate: L, irreversible, or --deliberate requires the RALPLAN-DR rows", () => {
+  const l = emptyLedger({ slug: "demo", branch: "plan/demo", size: "L" });
+  withApprovals(l);
+  withReview(l);
+  assert.match(GATES.G3(l).join("\n"), /principles/);
+  withDeliberate(l);
+  assert.deepEqual(GATES.G3(l), []);
+
+  const bad = emptyLedger({ slug: "demo", branch: "plan/demo", size: "L" });
+  withApprovals(bad);
+  withReview(bad);
+  addRow(bad, { type: "decision", label: "principles", answer: "a; b" });
+  addRow(bad, { type: "decision", label: "drivers", answer: "a; b; c" });
+  addRow(bad, { type: "decision", label: "option-a", answer: "a" });
+  addRow(bad, { type: "decision", label: "option-b", answer: "b" });
+  addRow(bad, { type: "decision", label: "pre-mortem", answer: "a; b; c" });
+  addRow(bad, { type: "decision", label: "expanded-test-plan", answer: "unit integration e2e observability" });
+  assert.match(GATES.G3(bad).join("\n"), /principles/);
+
+  const forced = emptyLedger({ slug: "demo", branch: "plan/demo", size: "S", deliberate: true });
+  withApprovals(forced);
+  withReview(forced);
+  assert.match(GATES.G3(forced).join("\n"), /principles/);
+
+  const plain = emptyLedger({ slug: "demo", branch: "plan/demo", size: "S" });
+  withApprovals(plain);
+  withReview(plain);
+  assert.deepEqual(GATES.G3(plain), []);
+});
+
+function withDeliberate(l) {
+  addRow(l, { type: "decision", label: "principles", answer: "fast; reversible; observable" });
+  addRow(l, { type: "decision", label: "drivers", answer: "risk; cost; speed" });
+  addRow(l, { type: "decision", label: "option-a", answer: "do the small change" });
+  addRow(l, { type: "decision", label: "option-b", answer: "do the larger change" });
+  addRow(l, { type: "decision", label: "pre-mortem", answer: "data loss; auth bypass; rollout stall" });
+  addRow(l, { type: "decision", label: "expanded-test-plan", answer: "unit, integration, e2e, observability" });
+  return l;
+}
 
 function withReview(l) {
   l.plan_reviews = [{ cycle: 1, clean: false, scope: ["spec"] }];
@@ -500,6 +540,9 @@ test("CLI: --no-<feature> flags, size, doubt, irreversible decisions", async () 
     const l2 = JSON.parse(readFileSync(join(p, "ledger.json"), "utf8"));
     assert.equal(l2.doubts[0].clean, false);
     assert.equal(l2.rows.filter((x) => x.type === "finding").length, 1);
+    assert.equal(run("init", "--slug", "delib", "--no-branch", "--deliberate").status, 0);
+    const dl = JSON.parse(readFileSync(join(dir, "docs", "plans", "feature", "delib", "ledger.json"), "utf8"));
+    assert.equal(dl.flags.deliberate, true);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
@@ -549,7 +592,7 @@ test("CLI: one batch call records issue, size, intent, decision, doubt and tasks
       { type: "doubt", id: "D1", claim: "c", cycle: 1 },
       { type: "finding", review: "doubt:D1:1", class: "noise", note: "none" },
       { type: "task", label: "t1", files: ["a.js"], interfaces: "i", acceptance: "a", verify: "node --test",
-        test_seam: "api | catches: behaviour | misses: internals", test_file: "a.test.js",
+        test_seam: "api | catches: behaviour | misses: internals | class: in-process", test_file: "a.test.js",
         red: "red: repro test fails", green: "green: minimal pass", issue: "Bearmancer/Toolbox#289" },
     ];
     writeFileSync(join(dir, "rows.json"), JSON.stringify(rows));
@@ -627,7 +670,7 @@ test("review: dangling and unknown flags are errors, --issue repeats accumulate,
     assert.match(trav.stderr, /label/);
     assert.equal(
       run("task", "--slug", "demo", "--label", "t1", "--files", "a.js, b.js", "--interfaces", "i", "--acceptance", "a",
-        "--verify", "v", "--test-seam", "api | catches: behaviour | misses: internals",
+        "--verify", "v", "--test-seam", "api | catches: behaviour | misses: internals | class: in-process",
         "--test-file", "a.test.js", "--red", "red: repro test fails", "--green", "green: minimal pass").status,
       0,
     );
@@ -870,6 +913,14 @@ test("wayfinder: fog branch, map, G_WF, handoff", async () => {
     assert.equal(run("answer", "--slug", "fog", "--id", "Q1", "--answer", "OIDC").status, 0);
     assert.notEqual(run("gate", "--slug", "fog", "--id", "G_WF").status, 0, "fog is still recorded");
     assert.equal(run("fog", "--slug", "fog", "--clear").status, 0);
+    const unsigned = run("gate", "--slug", "fog", "--id", "G_WF");
+    assert.notEqual(unsigned.status, 0, "the captain must sign the destination");
+    assert.match(unsigned.stderr, /wayfinder-destination/);
+    assert.equal(
+      run("approve", "--slug", "fog", "--gate", "G_WF", "--token", "wayfinder-destination", "--by", "user", "--quote", "A tested auth spec").status,
+      0,
+      "approve is allowed at W0 for G_WF",
+    );
     assert.equal(run("gate", "--slug", "fog", "--id", "G_WF").status, 0);
     assert.equal(run("wayfinder-handoff", "--slug", "fog", "--type", "feature").status, 0);
     assert.ok(existsSync(join(dir, "docs", "plans", "feature", "fog", "ledger.json")), "handoff seeds a planning ledger at P0");
@@ -974,4 +1025,33 @@ test("frontier rejects an unknown done id", async () => {
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
+});
+
+test("refactor survey: G1 needs survey-* facts and a top-recommendation", () => {
+  const l = emptyLedger({ slug: "demo", branch: "plan/demo", issueType: "refactor", size: "S" });
+  l.axes.push({ id: "A1", label: "surface" });
+  addRow(l, { type: "fact", kind: "quote", label: "base", locator: "a.js:1", axis: "A1" });
+  l.waves.push({ n: 1, new_facts: 1 });
+  assert.match(GATES.G1(l).join("\n"), /survey-/);
+  const survey = addRow(l, { type: "fact", kind: "quote", label: "survey-api", locator: "a.js:2", axis: "A1" });
+  assert.match(GATES.G1(l).join("\n"), /top-recommendation/);
+  addRow(l, { type: "decision", label: "top-recommendation", answer: `deepen ${survey.id}` });
+  assert.deepEqual(GATES.G1(l), []);
+});
+
+test("G5: a claim that tests ran needs a test_run row", () => {
+  const l = base();
+  addRow(l, goodTask());
+  assert.match(GATES.G5(l, "we ran the tests").join("\n"), /test_run/);
+  addRow(l, {
+    type: "test_run",
+    label: "run-green",
+    task: "T1",
+    phase: "green",
+    cmd: "node --test",
+    exit: 0,
+    artifact: "sources/T1-green.log",
+  });
+  assert.doesNotMatch(GATES.G5(l, "we ran the tests").join("\n"), /test_run/);
+  assert.doesNotMatch(GATES.G5(l, "no claim here").join("\n"), /test_run/);
 });

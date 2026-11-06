@@ -47,6 +47,7 @@ export function emptyLedger(
     noBranch = false,
     skip = [],
     size = "M",
+    deliberate = false,
     now = new Date().toISOString(),
   } = {},
 ) {
@@ -58,7 +59,13 @@ export function emptyLedger(
     branch,
     branch_reason: branchReason,
     scope_multi: false,
-    flags: { tdd: Boolean(tdd), no_interview: Boolean(noInterview), no_branch: Boolean(noBranch), skip: [...skip] },
+    flags: {
+      tdd: Boolean(tdd),
+      no_interview: Boolean(noInterview),
+      no_branch: Boolean(noBranch),
+      deliberate: Boolean(deliberate),
+      skip: [...skip],
+    },
     size,
     doubts: [],
     plan_reviews: [],
@@ -224,6 +231,9 @@ export function validateLedger(ledger) {
   if (typeof ledger.flags?.no_interview !== "boolean") {
     errors.push("flags.no_interview: must be boolean (default false)");
   }
+  if (ledger.flags?.deliberate !== undefined && typeof ledger.flags.deliberate !== "boolean") {
+    errors.push("flags.deliberate: must be boolean (default false; --deliberate forces the record)");
+  }
   const rows = ledger.rows || [];
   const seenIds = new Set(), seenLabels = new Set();
   const byId = new Map();
@@ -360,6 +370,18 @@ export function validateLedger(ledger) {
 }
 
 const skipped = (l, k) => (l.flags?.skip || []).includes(k);
+const activeDecision = (l, label) =>
+  (l.rows || []).find((r) => r.type === "decision" && r.status === "active" && r.label === label);
+const itemCount = (text) =>
+  String(text || "")
+    .split(/\r?\n|[;|•]/)
+    .map((x) => x.trim())
+    .filter(Boolean).length;
+const deliberateRequired = (l) =>
+  Boolean(l.flags?.deliberate) ||
+  l.size === "L" ||
+  (l.rows || []).some((r) => r.type === "decision" && r.status === "active" && r.irreversible);
+const TEST_CLAIM_RE = /\b(?:ran (?:the )?tests?|test run|tests? passed|verified by running)\b/i;
 
 // Rigor scales by arithmetic, not by feeling: the size is derived from the task graph.
 export function scopeSize(l) {
@@ -417,6 +439,24 @@ export const GATES = {
       e.push("research: saturation not reached (need 2 consecutive waves with new_facts=0 at size M/L)");
     }
     for (const id of extBad) e.push(`research: ${id} external fact missing snapshot_sha256`);
+    // Refactor surveys must leave an evidence trail, not a prose opinion.
+    if (l.issue_type === "refactor") {
+      const surveys = (l.rows || []).filter(
+        (r) => r.type === "fact" && r.status === "active" && /^survey-/.test(r.label || "") && /^.+:\d+/.test(String(r.locator || "")),
+      );
+      if (!surveys.length) {
+        e.push("research: refactor requires at least one active 'survey-*' fact with a file:line locator");
+      }
+      const top = activeDecision(l, "top-recommendation");
+      if (!top) {
+        e.push("research: refactor requires an active 'top-recommendation' decision");
+      } else {
+        const ids = String(top.answer || "").match(/F\d+/g) || [];
+        if (!ids.some((id) => surveys.some((s) => s.id === id))) {
+          e.push("research: 'top-recommendation' must name a survey-* fact id");
+        }
+      }
+    }
     return e;
   },
   G2: (l) => {
@@ -531,6 +571,33 @@ export const GATES = {
         }
       }
     }
+    // Deliberate records: large or irreversible work must leave the RALPLAN-DR artifacts.
+    if (!skipped(l, "plan-review") && deliberateRequired(l)) {
+      const principles = activeDecision(l, "principles");
+      if (!principles || itemCount(principles.answer) < 3) {
+        e.push("deliberate: need an active 'principles' decision with >=3 items (decision --label principles)");
+      }
+      const drivers = activeDecision(l, "drivers");
+      if (!drivers || itemCount(drivers.answer) < 3) {
+        e.push("deliberate: need an active 'drivers' decision with >=3 items (decision --label drivers)");
+      }
+      const options = activeDecision(l, "options"), invalidation = activeDecision(l, "invalidation");
+      const optionA = activeDecision(l, "option-a"), optionB = activeDecision(l, "option-b");
+      if (!((optionA && optionB) || (options && invalidation))) {
+        e.push("deliberate: record option-a and option-b, or options and invalidation");
+      }
+      const premortem = activeDecision(l, "pre-mortem");
+      if (!premortem || itemCount(premortem.answer) < 3) {
+        e.push("deliberate: need an active 'pre-mortem' decision with >=3 scenarios");
+      }
+      const testPlan = activeDecision(l, "expanded-test-plan");
+      const planText = String(testPlan?.answer || "").toLowerCase();
+      for (const token of ["unit", "integration", "e2e", "observability"]) {
+        if (!planText.includes(token)) {
+          e.push(`deliberate: 'expanded-test-plan' must name ${token}`);
+        }
+      }
+    }
     // SDD Phase 0: a multi-capability map is gated like any other phase.
     if (l.scope_multi && (l.capabilities || []).length < 2) {
       e.push(
@@ -567,8 +634,14 @@ export const GATES = {
         // Hard evidence at planning time is the test contract, not a claim that red/green happened.
         if (!t.test_seam) {
           e.push(`plan: ${t.id} TDD is on (default) but no test_seam recorded — record one, or re-init with --no-tdd`);
-        } else if (!/^.+\| catches: .+\| misses: .+$/i.test(String(t.test_seam).replace(/\s+/g, " ").trim())) {
-          e.push(`plan: ${t.id} test_seam must read "<interface> | catches: ... | misses: ..."`);
+        } else if (
+          !/^.+\| catches: .+\| misses: .+\| class: (in-process|local-substitutable|remote-owned|true-external)$/i.test(
+            String(t.test_seam).replace(/\s+/g, " ").trim(),
+          )
+        ) {
+          e.push(
+            `plan: ${t.id} test_seam must read "<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external"`,
+          );
         }
         if (!t.test_file) e.push(`plan: ${t.id} TDD is on but no test_file recorded`);
         if (!t.red) e.push(`plan: ${t.id} TDD is on but no red step recorded (the failing test and its expected failure)`);
@@ -682,6 +755,14 @@ export const GATES = {
     if (SIZES.indexOf(scopeSize(l)) > SIZES.indexOf(l.size)) {
       e.push(`size: claimed ${l.size} but the task graph derives ${scopeSize(l)} (understated size relaxed the earlier gates)`);
     }
+    if (TEST_CLAIM_RE.test(String(planText || ""))) {
+      const runs = (l.rows || []).filter((r) => r.type === "test_run");
+      if (!runs.length) {
+        e.push(
+          "publish: plan.md claims a test run but no test_run row exists (record task, phase, cmd, exit and artifact)",
+        );
+      }
+    }
     if (l.plan_sha256 !== sha256(planText)) {
       e.push("publish: plan_sha256 does not match plan.md (re-run publish after final edit)");
     }
@@ -699,6 +780,18 @@ export const GATES = {
       e.push("wayfinder: no destination decision (one or two lines naming the end state)");
     } else if (String(dest.answer).split("\n").filter((x) => x.trim()).length > 2) {
       e.push("wayfinder: destination must fit in one or two lines");
+    }
+    const signed = (l.approvals || []).some(
+      (x) =>
+        x.gate === "G_WF" &&
+        x.token === "wayfinder-destination" &&
+        x.by === "user" &&
+        String(x.quote || "").trim().length > 0,
+    );
+    if (!signed) {
+      e.push(
+        "wayfinder: no 'wayfinder-destination' approval with by=user and a quote (approve --gate G_WF --token wayfinder-destination --by user --quote \"<the user's words>\")",
+      );
     }
     if (l.fog !== false) e.push("wayfinder: fog is still recorded (list it, resolve it, then clear it)");
     const open = (l.rows || []).filter((r) => r.type === "question" && r.status === "active" && r.wayfinder);
@@ -942,6 +1035,7 @@ const BOOLEAN_ARGS = new Set([
   "no-constraints",
   "lean",
   "wayfinder",
+  "deliberate",
   "clean",
   "fact-lane",
   "clear",
@@ -1091,6 +1185,7 @@ export function main(argv = process.argv.slice(2)) {
       tdd: a.tdd === false ? false : !a["no-tdd"],
       no_interview: Boolean(a["no-interview"]),
       no_branch: Boolean(a["no-branch"]),
+      deliberate: Boolean(a.deliberate),
     };
     const skip = a.lean ? [...SKIPPABLE] : SKIPPABLE.filter((k) => a[`no-${k}`]);
     const size = a.size === undefined ? "M" : a.size;
@@ -1133,6 +1228,7 @@ export function main(argv = process.argv.slice(2)) {
       tdd: want.tdd,
       noInterview: want.no_interview,
       noBranch: want.no_branch,
+      deliberate: want.deliberate,
       skip,
       size,
     });
@@ -1535,7 +1631,8 @@ export function main(argv = process.argv.slice(2)) {
       return;
     }
     case "approve": {
-      if (phaseIndex(l.phase) < phaseIndex("P3")) {
+      const gate = need("gate");
+      if (gate !== "G_WF" && phaseIndex(l.phase) < phaseIndex("P3")) {
         fail([`approve before G2: phase=${l.phase} (clarification must close before design approval)`]);
       }
       if (a.by !== "user") {
@@ -1544,7 +1641,7 @@ export function main(argv = process.argv.slice(2)) {
       if (!a.quote || !String(a.quote).trim()) {
         fail([`approve requires --quote "<the user's exact words>" (an unquoted token is not evidence)`]);
       }
-      l.approvals.push({ gate: need("gate"), token: need("token"), by: "user", quote: String(a.quote), at: new Date().toISOString() });
+      l.approvals.push({ gate, token: need("token"), by: "user", quote: String(a.quote), at: new Date().toISOString() });
       save();
       console.log("approval recorded");
       return;
