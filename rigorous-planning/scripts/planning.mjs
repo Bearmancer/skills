@@ -9,12 +9,12 @@ import { dirname, join, resolve } from "node:path";
 
 export const SLUG_RE = /^[a-z0-9][a-z0-9-]{0,79}$/;
 // Plans live at docs/plans/<issue-type>/<slug>/{plan.md,ledger.json,sources/,issues/}.
-export const ISSUE_TYPES = ["feature", "bug", "refactor", "audit", "research", "chore", "docs"];
+export const ISSUE_TYPES = ["feature", "bug", "refactor", "audit", "evidence", "chore", "docs"];
 export const TASK_KINDS = ["feature", "fix", "refactor", "docs", "chore"];
 export const ISSUE_REF_RE = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+#\d+$/;
 // Features that are ON by default; each can be switched off at init with --no-<feature>.
-// (tdd, interview and branch keep their own top-level flags.)
-export const SKIPPABLE = ["doubt", "plan-review", "review-section", "handoff", "adr", "constraints"];
+// (test_first, interview and branch keep their own top-level flags.)
+export const SKIPPABLE = ["doubt", "plan-review", "review-section", "handoff", "adr", "constraints", "task-approval"];
 export const SIZES = ["S", "M", "L"];
 export const DOUBT_CLASSES = ["valid_actionable", "valid_tradeoff", "contract_misread", "noise"];
 const LOCKFILE_RE = /(^|[\\/])(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb?|Cargo\.lock|go\.sum|uv\.lock|poetry\.lock|Gemfile\.lock)$/;
@@ -42,12 +42,13 @@ export function emptyLedger(
     issueType = "feature",
     branch = null,
     branchReason = "non-git",
-    tdd = true,
+    test_first = true,
     noInterview = false,
     noBranch = false,
     skip = [],
     size = "M",
     deliberate = false,
+    testRuns = false,
     now = new Date().toISOString(),
   } = {},
 ) {
@@ -60,19 +61,20 @@ export function emptyLedger(
     branch_reason: branchReason,
     scope_multi: false,
     flags: {
-      tdd: Boolean(tdd),
+      test_first: Boolean(test_first),
       no_interview: Boolean(noInterview),
       no_branch: Boolean(noBranch),
       deliberate: Boolean(deliberate),
+      test_runs: Boolean(testRuns),
       skip: [...skip],
     },
     size,
     doubts: [],
     plan_reviews: [],
     phase: "P0",
-    fog: false,
-    fog_items: [],
-    wayfinder: null,
+    unknowns_open: false,
+    unknown_items: [],
+    map: null,
     created_at: now,
     intent: {
       outcome: null,
@@ -195,6 +197,21 @@ export function addRow(ledger, row, now = new Date().toISOString()) {
   return full;
 }
 
+export function addCapability(ledger, { id, responsibility, deps } = {}) {
+  if (!SLUG_RE.test(id || "")) throw new Error(`capability id must match ${SLUG_RE}`);
+  if (!(ledger.capabilities ||= [])) ledger.capabilities = [];
+  if (ledger.capabilities.some((c) => c.id === id)) {
+    throw new Error(`capability '${id}' already exists (ids are stable, never reused)`);
+  }
+  const normalized = Array.isArray(deps)
+    ? deps
+    : String(deps === undefined || deps === null ? "" : deps).split(",");
+  const depList = normalized.map((x) => String(x).trim()).filter(Boolean);
+  const cap = { id, responsibility, depends_on: depList };
+  ledger.capabilities.push(cap);
+  return cap;
+}
+
 export function changeStatus(ledger, id, to, { replacement = null, reason = null } = {}) {
   const row = ledger.rows.find((r) => r.id === id);
   if (!row) throw new Error(`no such row: ${id}`);
@@ -225,8 +242,8 @@ export function validateLedger(ledger) {
     if (!ISSUE_REF_RE.test(i?.ref || "")) errors.push(`issues: issue ref '${i?.ref}' must be owner/repo#number`);
     else declared.add(i.ref);
   }
-  if (typeof ledger.flags?.tdd !== "boolean") {
-    errors.push("flags.tdd: must be boolean (default true; --no-tdd turns it off)");
+  if (typeof ledger.flags?.test_first !== "boolean") {
+    errors.push("flags.test_first: must be boolean (default true; --no-test-first turns it off)");
   }
   if (typeof ledger.flags?.no_interview !== "boolean") {
     errors.push("flags.no_interview: must be boolean (default false)");
@@ -441,9 +458,9 @@ export const GATES = {
       (r) => r.type === "decision" && r.status === "active" && r.label === "destination",
     );
     if (!dest || !String(dest.answer || "").trim()) {
-      e.push("intake: no active 'destination' decision (one or two lines naming the end state; if this is fog, use init --wayfinder)");
+      e.push("intake: no active 'destination' decision (one or two lines naming the end state; if this is unclear, use init --map)");
     } else if (String(dest.answer).split("\n").filter((x) => x.trim()).length > 2) {
-      e.push("intake: destination must fit in one or two lines (a longer statement is fog or a spec)");
+      e.push("intake: destination must fit in one or two lines (a longer statement is unclear or a spec)");
     }
     if (!l.branch && l.branch !== null) e.push("branch: must be recorded (string, or null when not a git repo)");
     if (l.branch !== null && !/^plan\/[a-z0-9][a-z0-9-]{0,79}$/.test(l.branch || "")) {
@@ -455,9 +472,30 @@ export const GATES = {
     }
     return e;
   },
+  G_AX: (l) => {
+    const e = [];
+    if (phaseIndex(l.phase) < phaseIndex("P1")) {
+      e.push("axis: G_AX before G0 (intake must pass first)");
+    }
+    if (!l.axes?.length) {
+      e.push("axis: axes[] is empty (record at least one `axis --label`)");
+    }
+    const ids = new Set();
+    for (const a of l.axes || []) {
+      if (!a?.id || !String(a.label || "").trim()) e.push("axis: every axis needs an id and a non-empty label");
+      if (a?.id && ids.has(a.id)) e.push(`axis: duplicate axis id ${a.id}`);
+      if (a?.id) ids.add(a.id);
+    }
+    for (const r of l.rows || []) {
+      if (r.type === "fact" && r.status === "active" && r.axis && !ids.has(r.axis)) {
+        e.push(`axis: fact ${r.id} names unknown axis ${r.axis}`);
+      }
+    }
+    return e;
+  },
   G1: (l) => {
     const e = [];
-    if (!l.axes?.length) e.push("research: axes[] is empty");
+    if (!l.axes?.length) e.push("evidence: axes[] is empty");
     const perAxis = new Map(), extBad = [];
     for (const r of l.rows || []) {
       if (r.type !== "fact") continue;
@@ -465,34 +503,34 @@ export const GATES = {
       if (r.external && !SHA256_RE.test(r.snapshot_sha256 || "")) extBad.push(r.id);
     }
     for (const a of l.axes || []) {
-      if (!perAxis.get(a.id)) e.push(`research: axis ${a.id} (${a.label}) has 0 active facts`);
+      if (!perAxis.get(a.id)) e.push(`evidence: axis ${a.id} (${a.label}) has 0 active facts`);
     }
     const w = l.waves || [];
     if ((l.rows || []).some((r) => r.type === "fact" && r.wave > w.length)) {
-      e.push("research: facts recorded after the last wave — close the wave with the wave command before the gate");
+      e.push("evidence: facts recorded after the last wave — close the wave with the wave command before the gate");
     }
     if (l.size === "S") {
       // small scope: one closed wave, any count (the size claim is audited again at publish)
-      if (w.length < 1) e.push("research: saturation not reached (size S needs one closed wave)");
+      if (w.length < 1) e.push("evidence: saturation not reached (size S needs one closed wave)");
     } else if (w.length < 2 || w[w.length - 1].new_facts !== 0 || w[w.length - 2].new_facts !== 0) {
-      e.push("research: saturation not reached (need 2 consecutive waves with new_facts=0 at size M/L)");
+      e.push("evidence: saturation not reached (need 2 consecutive waves with new_facts=0 at size M/L)");
     }
-    for (const id of extBad) e.push(`research: ${id} external fact missing snapshot_sha256`);
+    for (const id of extBad) e.push(`evidence: ${id} external fact missing snapshot_sha256`);
     // Refactor surveys must leave an evidence trail, not a prose opinion.
     if (l.issue_type === "refactor") {
       const surveys = (l.rows || []).filter(
         (r) => r.type === "fact" && r.status === "active" && /^survey-/.test(r.label || "") && /^.+:\d+/.test(String(r.locator || "")),
       );
       if (!surveys.length) {
-        e.push("research: refactor requires at least one active 'survey-*' fact with a file:line locator");
+        e.push("evidence: refactor requires at least one active 'survey-*' fact with a file:line locator");
       }
       const top = activeDecision(l, "top-recommendation");
       if (!top) {
-        e.push("research: refactor requires an active 'top-recommendation' decision");
+        e.push("evidence: refactor requires an active 'top-recommendation' decision");
       } else {
         const ids = String(top.answer || "").match(/F\d+/g) || [];
         if (!ids.some((id) => surveys.some((s) => s.id === id))) {
-          e.push("research: 'top-recommendation' must name a survey-* fact id");
+          e.push("evidence: 'top-recommendation' must name a survey-* fact id");
         }
       }
     }
@@ -500,12 +538,14 @@ export const GATES = {
   },
   G2: (l) => {
     const e = [], open = [];
-    if (l.wayfinder) {
-      e.push("clarify: wayfinder mode is gated by G_WF, not G2 (handoff creates the planning ledger)");
+    if (l.map) {
+      e.push("clarify: map mode is gated by G_MAP, not G2 (handoff creates the planning ledger)");
       return e;
     }
     for (const r of l.rows || []) if (r.type === "question" && r.status === "active") open.push(r.id);
     if (open.length) e.push(`clarify: frontier not empty, open questions: ${open.join(",")}`);
+    const readyQ = designFrontier(l).map((q) => q.id);
+    if (readyQ.length) e.push(`clarify: design frontier not empty, ready questions: ${readyQ.join(",")}`);
     // The frontier is computed from recorded rounds and prerequisites, never from the model's prose.
     const rounds = (l.rows || []).filter((r) => r.type === "round");
     const asked = new Set(rounds.flatMap((r) => r.asks || []));
@@ -517,8 +557,8 @@ export const GATES = {
         else if (d.status === "active") e.push(`clarify: ${q.id} asked before prerequisite ${dep} was settled`);
       }
     }
-    if (l.fog && !l.rows.some((r) => r.type === "decision" && r.status === "active" && r.label === "destination")) {
-      e.push("clarify: fog is recorded but no active 'destination' decision exists (route to wayfinder)");
+    if (l.unknowns_open && !l.rows.some((r) => r.type === "decision" && r.status === "active" && r.label === "destination")) {
+      e.push("clarify: unknowns are recorded but no active 'destination' decision exists (route to map)");
     }
     for (const k of INTENT_KEYS) if (!l.intent?.[k]) e.push(`clarify: intent.${k} missing`);
     if (l.rows.some((r) => r.type === "decision" && r.label === "early-exit" && r.status === "active")) {
@@ -530,7 +570,7 @@ export const GATES = {
       // --no-interview does not delete the gate; it changes its evidence.
       if (l.intent?.assumed !== true) {
         e.push(
-          "clarify (--no-interview): intent.assumed must be true (fill intent from request+research, mark it assumed)",
+          "clarify (--no-interview): intent.assumed must be true (fill intent from request+evidence, mark it assumed)",
         );
       }
       const assumed = l.rows.filter((r) => r.type === "fact" && r.kind === "assumed" && r.status === "active");
@@ -610,8 +650,8 @@ export const GATES = {
         }
       }
     }
-    // Deliberate records: large or irreversible work must leave the RALPLAN-DR artifacts.
-    if (!skipped(l, "plan-review") && deliberateRequired(l)) {
+    // Deliberate records: large or irreversible work must leave the deliberation record artifacts.
+    if (deliberateRequired(l) && !skipped(l, "deliberate")) {
       const principles = activeDecision(l, "principles");
       if (!principles || itemCount(principles.answer) < 3) {
         e.push("deliberate: need an active 'principles' decision with >=3 items (decision --label principles)");
@@ -669,10 +709,10 @@ export const GATES = {
       for (const k of ["files", "interfaces", "acceptance", "verify"]) {
         if (!t[k] || (Array.isArray(t[k]) && !t[k].length)) e.push(`plan: ${t.id} missing ${k}`);
       }
-      if (l.flags.tdd) {
+      if (l.flags.test_first) {
         // Hard evidence at planning time is the test contract, not a claim that red/green happened.
         if (!t.test_seam) {
-          e.push(`plan: ${t.id} TDD is on (default) but no test_seam recorded — record one, or re-init with --no-tdd`);
+          e.push(`plan: ${t.id} test-first is on (default) but no test_seam recorded — record one, or re-init with --no-test-first`);
         } else if (
           !/^.+\| catches: .+\| misses: .+\| class: (in-process|local-substitutable|remote-owned|true-external)$/i.test(
             String(t.test_seam).replace(/\s+/g, " ").trim(),
@@ -682,9 +722,14 @@ export const GATES = {
             `plan: ${t.id} test_seam must read "<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external"`,
           );
         }
-        if (!t.test_file) e.push(`plan: ${t.id} TDD is on but no test_file recorded`);
-        if (!t.red) e.push(`plan: ${t.id} TDD is on but no red step recorded (the failing test and its expected failure)`);
-        if (!t.green) e.push(`plan: ${t.id} TDD is on but no green step recorded (the minimal pass condition)`);
+        if (!t.test_file) e.push(`plan: ${t.id} test-first is on but no test_file recorded`);
+        if (!t.red) e.push(`plan: ${t.id} test-first is on but no red step recorded (the failing test and its expected failure)`);
+        if (!t.green) e.push(`plan: ${t.id} test-first is on but no green step recorded (the minimal pass condition)`);
+        if (l.flags?.test_runs) {
+          const runs = (l.rows || []).filter((r) => r.type === "test_run" && r.task === t.id);
+          if (!runs.some((r) => r.phase === "red")) e.push(`plan: ${t.id} requires a test_run row with phase "red" (--test-runs)`);
+          if (!runs.some((r) => r.phase === "green")) e.push(`plan: ${t.id} requires a test_run row with phase "green" (--test-runs)`);
+        }
         if (t.red && t.green && String(t.red).trim() === String(t.green).trim()) {
           e.push(`plan: ${t.id} red and green steps are identical (no observable change)`);
         }
@@ -692,18 +737,24 @@ export const GATES = {
           e.push(`plan: ${t.id} is a fix: the red step must name the failing repro test`);
         }
       } else {
-        if (t.test_seam) e.push(`plan: ${t.id} has test_seam but --no-tdd was passed (TDD is off)`);
-        if (t.test_file || t.red || t.green) e.push(`plan: ${t.id} has TDD fields but --no-tdd was passed (TDD is off)`);
+        if (t.test_seam) e.push(`plan: ${t.id} has test_seam but --no-test-first was passed (test-first is off)`);
+        if (t.test_file || t.red || t.green) e.push(`plan: ${t.id} has test-first fields but --no-test-first was passed (test-first is off)`);
       }
       if (planText && !planText.includes(t.id)) {
         e.push(`plan: plan.md does not mention task ${t.id} (render from the ledger)`);
       }
       // Kind rules (Prove-It for fixes, preserved behaviour for refactors, one concern per task).
-      if (t.kind === "fix" && l.flags.tdd && !/repro/i.test(String(t.red || ""))) {
+      if (t.kind === "fix" && l.flags.test_first && !/repro/i.test(String(t.red || ""))) {
         e.push(`plan: ${t.id} is a fix: the red step must name a failing repro test (Prove-It)`);
       }
-      if ((t.deps || []).length && planText && !planText.includes(`deps: ${t.deps.join(",")}`)) {
-        e.push(`plan: plan.md does not render ${t.id}'s blocking edges (deps: ${t.deps.join(",")})`);
+      if ((t.deps || []).length && planText) {
+        const taskLine = String(planText)
+          .split("\n")
+          .map((x) => x.trimEnd())
+          .find((line) => line.trim().startsWith("- [ ] " + t.id + "."));
+        if (!taskLine || !taskLine.includes(`deps: ${t.deps.join(",")}`)) {
+          e.push(`plan: plan.md does not render ${t.id}'s blocking edges (deps: ${t.deps.join(",")})`);
+        }
       }
       if (t.kind === "refactor" && !/behaviou?r|unchanged|preserv|characteri[sz]/i.test(`${t.acceptance} ${t.steps || ""}`)) {
         e.push(`plan: ${t.id} is a refactor: acceptance/steps must state the preserved behaviour (characterization tests)`);
@@ -721,32 +772,32 @@ export const GATES = {
         e.push(`plan: ${t.id} fake completion marker (skip/only/TODO/not implemented) — these are blockers, not evidence`);
       }
     }
-    // ULW-style ideal state: IS rows are differences named by GAP rows, and every GAP has a delivering task.
-    const isRows = activeDecisions(l, /^is-/), gapRows = activeDecisions(l, /^gap-/);
-    if (isRows.length || gapRows.length) {
-      const targets = [...isRows, ...gapRows].map((r) => r.label);
+    // Ideal state: IDEAL rows are differences named by GAP rows, and every GAP has a delivering task.
+    const idealRows = activeDecisions(l, /^ideal-/), gapRows = activeDecisions(l, /^gap-/);
+    if (idealRows.length || gapRows.length) {
+      const targets = [...idealRows, ...gapRows].map((r) => r.label);
       for (const t of tasks) {
-        if (!(t.closes || []).length) e.push(`plan: ${t.id} must name the IS or GAP it delivers (--closes is-<n>|gap-<n>)`);
+        if (!(t.closes || []).length) e.push(`plan: ${t.id} must name the IDEAL or GAP it delivers (--closes ideal-<n>|gap-<n>)`);
         for (const c of t.closes || []) {
-          if (!targets.includes(c)) e.push(`plan: ${t.id} closes '${c}' but no active is-* or gap-* decision exists`);
+          if (!targets.includes(c)) e.push(`plan: ${t.id} closes '${c}' but no active ideal-* or gap-* decision exists`);
         }
       }
-      for (const is of isRows) {
+      for (const ideal of idealRows) {
         const delivered = tasks.some(
           (t) =>
-            (t.closes || []).includes(is.label) ||
+            (t.closes || []).includes(ideal.label) ||
             (t.closes || []).some((c) =>
-              gapRows.some((g) => g.label === c && String(g.answer || "").toLowerCase().includes(is.label.toLowerCase())),
+              gapRows.some((g) => g.label === c && String(g.answer || "").toLowerCase().includes(ideal.label.toLowerCase())),
             ),
         );
-        if (!delivered) e.push(`plan: ${is.label.toUpperCase()} has no delivering task (--closes ${is.label} or a gap naming it)`);
+        if (!delivered) e.push(`plan: ${ideal.label.toUpperCase()} has no delivering task (--closes ${ideal.label} or a gap naming it)`);
       }
       for (const g of gapRows) {
         if (!tasks.some((t) => (t.closes || []).includes(g.label))) {
           e.push(`plan: ${g.label} has no delivering task (task --closes ${g.label})`);
         }
       }
-      if (!String(planText).includes("| IS |")) e.push("plan: success criteria table is missing");
+      if (!String(planText).includes("| Ideal |")) e.push("plan: success criteria table is missing");
     }
     if (planText) e.push(...executionErrors(l, planText));
     if (l.issue_type === "bug" && tasks.length && !tasks.some((t) => t.kind === "fix")) {
@@ -770,7 +821,7 @@ export const GATES = {
         else if (!/\.md$/i.test(String(d.adr_file))) e.push(`plan: ${d.id} adr_file must be a Markdown path`);
       }
     }
-    // to-spec's User Stories and Further Notes survive as required spec subsections.
+    // Spec's User Stories and Further Notes survive as required spec subsections.
     if (l.issue_type === "feature" && (l.size === "L" || l.scope_multi)) {
       const stories = l.rows.find((r) => r.type === "decision" && r.status === "active" && r.label === "user-stories");
       if (!stories || !/\bAs an?\b/i.test(String(stories.answer || ""))) {
@@ -792,7 +843,7 @@ export const GATES = {
     }
     const facts = l.rows.filter((r) => r.type === "fact" && r.status === "active");
     if (planText && facts.length && !facts.some((f) => planText.includes(f.id))) {
-      e.push("plan: plan.md cites no ledger fact id (render from the ledger; research must be visible in the plan)");
+      e.push("plan: plan.md cites no ledger fact id (render from the ledger; evidence must be visible in the plan)");
     }
     if (/\b(TBD|to be determined|fill in later|placeholder|lorem ipsum)\b|\?\?\?|<fill/i.test(planText)) {
       e.push("plan: plan.md contains TBD/placeholder text");
@@ -813,12 +864,24 @@ export const GATES = {
     if ((l.capabilities || []).length > 1 && !lines.includes("## Capability map")) {
       e.push("plan: >1 capability requires a '## Capability map' heading in plan.md");
     }
+    const approvedG4 = (token) =>
+      (l.approvals || []).some(
+        (a) => a.gate === "G4" && a.token === token && a.by === "user" && String(a.quote || "").trim().length > 0,
+      );
+    const needsTaskApproval =
+      (Boolean(l.scope_multi) || (l.capabilities || []).length > 1 || l.size === "L") &&
+      !skipped(l, "task-approval");
+    if (needsTaskApproval && !approvedG4("approve-task-graph")) {
+      e.push(
+        "plan: multi-capability or size L requires 'approve-task-graph' approval (by=user) before publish (approve --gate G4 --token approve-task-graph --by user --quote \"<what the user said>\")",
+      );
+    }
     return e;
   },
   G5: (l, planText = "") => {
     // G0 already runs validateLedger; do not pay for it twice.
     const e = [];
-    for (const g of ["G0", "G1", "G2", "G3", "G4"]) e.push(...GATES[g](l, planText).map((x) => `${g}: ${x}`));
+    for (const g of ["G0", "G_AX", "G1", "G2", "G3", "G4"]) e.push(...GATES[g](l, planText).map((x) => `${g}: ${x}`));
     if (SIZES.indexOf(scopeSize(l)) > SIZES.indexOf(l.size)) {
       e.push(`size: claimed ${l.size} but the task graph derives ${scopeSize(l)} (understated size relaxed the earlier gates)`);
     }
@@ -835,40 +898,40 @@ export const GATES = {
     }
     return [...new Set(e)];
   },
-  // Wayfinder is a separate branch, not a planning phase: decisions only, no tasks.
-  G_WF: (l, mapText = "") => {
+  // Map is a separate branch, not a planning phase: decisions only, no tasks.
+  G_MAP: (l, mapText = "") => {
     const e = [];
-    if (!l.wayfinder) {
-      e.push("wayfinder: ledger is not in wayfinder mode (use init --wayfinder)");
+    if (!l.map) {
+      e.push("map: ledger is not in map mode (use init --map)");
       return e;
     }
     const dest = (l.rows || []).find((r) => r.type === "decision" && r.status === "active" && r.label === "destination");
     if (!dest || !String(dest.answer || "").trim()) {
-      e.push("wayfinder: no destination decision (one or two lines naming the end state)");
+      e.push("map: no destination decision (one or two lines naming the end state)");
     } else if (String(dest.answer).split("\n").filter((x) => x.trim()).length > 2) {
-      e.push("wayfinder: destination must fit in one or two lines");
+      e.push("map: destination must fit in one or two lines");
     }
     const signed = (l.approvals || []).some(
       (x) =>
-        x.gate === "G_WF" &&
-        x.token === "wayfinder-destination" &&
+        x.gate === "G_MAP" &&
+        x.token === "map-destination" &&
         x.by === "user" &&
         String(x.quote || "").trim().length > 0,
     );
     if (!signed) {
       e.push(
-        "wayfinder: no 'wayfinder-destination' approval with by=user and a quote (approve --gate G_WF --token wayfinder-destination --by user --quote \"<the user's words>\")",
+        "map: no 'map-destination' approval with by=user and a quote (approve --gate G_MAP --token map-destination --by user --quote \"<the user's words>\")",
       );
     }
-    if (l.fog !== false) e.push("wayfinder: fog is still recorded (list it, resolve it, then clear it)");
-    const open = (l.rows || []).filter((r) => r.type === "question" && r.status === "active" && r.wayfinder);
-    if (open.length) e.push(`wayfinder: open decision tickets: ${open.map((q) => q.id).join(",")}`);
-    if (!l.rows.some((r) => r.type === "question" && r.wayfinder && r.status === "answered")) {
-      e.push("wayfinder: no decision ticket has been resolved yet");
+    if (l.unknowns_open !== false) e.push("map: unknowns are still recorded (list them, resolve them, then clear them)");
+    const open = (l.rows || []).filter((r) => r.type === "question" && r.status === "active" && r.map);
+    if (open.length) e.push(`map: open decision tickets: ${open.map((q) => q.id).join(",")}`);
+    if (!l.rows.some((r) => r.type === "question" && r.map && r.status === "answered")) {
+      e.push("map: no decision ticket has been resolved yet");
     }
     const headings = ["## Destination", "## Notes", "## Decisions so far", "## Not yet specified", "## Out of scope"];
     const lines = String(mapText || "").split("\n").map((x) => x.trim());
-    for (const h of headings) if (!lines.includes(h)) e.push(`wayfinder: map.md missing heading '${h}'`);
+    for (const h of headings) if (!lines.includes(h)) e.push(`map: map.md missing heading '${h}'`);
     return e;
   },
 };
@@ -876,7 +939,7 @@ export const GATES = {
 export const PHASES = ["W0", "P0", "P1", "P2", "P3", "P4", "P5", "P6"];
 export const phaseIndex = (p) => Math.max(0, PHASES.indexOf(p));
 export const advancePhase = (l, gate) => {
-  const next = { G0: "P1", G1: "P2", G2: "P3", G3: "P4", G4: "P5", G_WF: "P0" }[gate];
+  const next = { G0: "P1", G_AX: "P1", G1: "P2", G2: "P3", G3: "P4", G4: "P5", G_MAP: "P0" }[gate];
   if (next && phaseIndex(l.phase) < phaseIndex(next)) l.phase = next;
   if (gate === "publish") l.phase = "P6";
   return l.phase;
@@ -934,20 +997,20 @@ function executionSection(l) {
   ].join("\n");
 }
 function successCriteriaSection(l) {
-  const isRows = activeDecisions(l, /^is-/), gaps = activeDecisions(l, /^gap-/);
-  if (!isRows.length && !gaps.length) return l.intent?.success || "Not recorded.";
-  if (!isRows.length) return `GAP rows: ${gaps.map((g) => g.label).join(", ")}. No IS rows recorded.`;
+  const idealRows = activeDecisions(l, /^ideal-/), gaps = activeDecisions(l, /^gap-/);
+  if (!idealRows.length && !gaps.length) return l.intent?.success || "Not recorded.";
+  if (!idealRows.length) return `GAP rows: ${gaps.map((g) => g.label).join(", ")}. No IDEAL rows recorded.`;
   const tasks = (l.rows || []).filter((r) => r.type === "task" && r.status === "active");
-  const rows = isRows.map((is) => {
-    const gs = gaps.filter((g) => String(g.answer || "").toLowerCase().includes(is.label.toLowerCase()));
+  const rows = idealRows.map((ideal) => {
+    const gs = gaps.filter((g) => String(g.answer || "").toLowerCase().includes(ideal.label.toLowerCase()));
     const ts = tasks.filter(
-      (t) => (t.closes || []).includes(is.label) || (t.closes || []).some((c) => gs.some((g) => g.label === c)),
+      (t) => (t.closes || []).includes(ideal.label) || (t.closes || []).some((c) => gs.some((g) => g.label === c)),
     );
-    return `| ${is.label.toUpperCase()} | ${cell(is.answer)} | ${gs.map((g) => g.label).join(", ") || "—"} | ${
+    return `| ${ideal.label.toUpperCase()} | ${cell(ideal.answer)} | ${gs.map((g) => g.label).join(", ") || "—"} | ${
       ts.map((t) => t.id).join(", ") || "unmapped"
     } | ${ts.map((t) => t.verify || "").filter(Boolean).join(" / ") || "unmapped"} |`;
   });
-  return ["| IS | Statement | Gaps | Delivering tasks | Proving verify |", "|---|---|---|---|---|", ...rows].join("\n");
+  return ["| Ideal | Statement | Gaps | Delivering tasks | Proving verify |", "|---|---|---|---|---|", ...rows].join("\n");
 }
 function tldrSection(l) {
   const risks = activeDecisions(l, /^risk-/).map((r) => r.label).join(", ") || "not recorded";
@@ -969,7 +1032,7 @@ function tldrSection(l) {
 const PLAN_SECTIONS = [
   "## TL;DR (For humans)",
   "## Intent",
-  "## Research",
+  "## Evidence",
   "## Decisions",
   "## Spec",
   "### Objective",
@@ -1044,7 +1107,7 @@ export function planSkeleton(l) {
     }\n\nBuild order: ${buildOrder(l.capabilities)}\n`
     : "";
   const assumed = l.flags?.no_interview
-    ? "\nMode: --no-interview (intent assumed from request + research; see assumed facts/decisions)\n"
+    ? "\nMode: --no-interview (intent assumed from request + evidence; see assumed facts/decisions)\n"
     : "";
   const issueSection = (l.issues || []).length
     ? `\n## Issues\n\n${l.issues.map((i) => `- ${i.ref}${i.title ? ` — ${i.title}` : ""}`).join("\n")}\n`
@@ -1091,16 +1154,16 @@ export function planSkeleton(l) {
   const tldr = tldrSection(l), execution = executionSection(l), success = successCriteriaSection(l);
   return `# Plan: ${l.slug} (${l.issue_type}, size ${l.size})\n${assumed}\n${tldr}\n## Intent\n\nOutcome: ${l.intent?.outcome || ""}\nUser: ${
     l.intent?.user || ""
-  }\nWhy now: ${l.intent?.why_now || ""}\nConstraint: ${l.intent?.constraint || ""}\n\n## Research\n\nAxes: ${
+  }\nWhy now: ${l.intent?.why_now || ""}\nConstraint: ${l.intent?.constraint || ""}\n\n## Evidence\n\nAxes: ${
     (l.axes || []).map((a) => a.label).join(", ")
   }\nSaturation waves: ${(l.waves || []).map((w) => w.new_facts).join(",")}\n\n${
     factLines.join("\n")
   }\n${issueSection}\n## Decisions\n\n${decisionLines.join("\n")}\n${capSection}\n## Spec\n\n### Objective\n\n${
     l.intent?.outcome || ""
   }\n\n### User stories\n\n${decisionText(l, "user-stories") || "None recorded."}\n\n### Commands\n\n${decisionText(l, "commands") || "Verify per task (see Tasks). Build/test commands are recorded on each task's verify field."}\n\n### Project structure\n\nSee each task's files list.\n\n### Code style\n\nFollow the repo's existing conventions in the files each task touches.\n\n### Testing strategy\n\n${
-    l.flags?.tdd
-      ? "TDD on (default): every task has a test_seam; steps are red -> green per seam."
-      : "TDD off (--no-tdd): no test-first steps; each task verifies with its stated command."
+    l.flags?.test_first
+      ? "test-first on (default): every task has a test_seam; steps are red -> green per seam."
+      : "test-first off (--no-test-first): no test-first steps; each task verifies with its stated command."
   }\n\n### Boundaries\n\n${decisionText(l, "boundaries") ? `${decisionText(l, "boundaries")}\n\n` : ""}Planning rules:\n- Always: work from this plan and the ledger; keep the ledger append-only.\n- Ask first: anything that changes scope, the capability map, or a settled decision.\n- Never: open a PR, commit, or implement from within the planning skill.\n\n### Success criteria\n\n${success}\n\n### Open questions\n\n${openQLines.join("\n") || "None."}\n\n### Further notes\n\n${
     decisionText(l, "further-notes") || "None."
   }\n\n${execution}\n## Tasks\n\n${
@@ -1110,7 +1173,7 @@ export function planSkeleton(l) {
   }\n\n## Out of scope\n\n${l.intent?.out_of_scope || ""}\n${sections.handoff}`;
 }
 
-// The wayfinder map is an index of decisions, never a task plan.
+// The map is an index of decisions, never a task plan.
 export function mapSkeleton(l) {
   const dest = decisionText(l, "destination") || "_Not yet named._";
   const notes = decisionText(l, "notes") || "None.";
@@ -1119,17 +1182,17 @@ export function mapSkeleton(l) {
     .map((r) => `- ${r.label}: ${r.answer || ""}`)
     .join("\n");
   const open = (l.rows || [])
-    .filter((r) => r.type === "question" && r.status === "active" && r.wayfinder)
-    .map((r) => `- ${r.label} (${r.wayfinder}): ${r.quote || ""}`)
+    .filter((r) => r.type === "question" && r.status === "active" && r.map)
+    .map((r) => `- ${r.label} (${r.map}): ${r.quote || ""}`)
     .join("\n");
-  const fog = (l.fog_items || []).length
-    ? l.fog_items.map((x) => `- ${x}`).join("\n")
-    : l.fog
-      ? "- (fog recorded, not yet itemized)"
-      : "None — the way is clear.";
+  const unknownItems = (l.unknown_items || []).length
+    ? l.unknown_items.map((x) => `- ${x}`).join("\n")
+    : l.unknowns_open
+      ? "- (unknowns recorded, not yet itemized)"
+      : "None - the way is clear.";
   return `# Map: ${l.slug}\n\n## Destination\n\n${dest}\n\n## Notes\n\n${notes}\n\n## Decisions so far\n\n${
     decided || "None."
-  }\n\n## Not yet specified\n\n${fog}\n\n## Open decision tickets\n\n${open || "None."}\n\n## Out of scope\n\n${
+  }\n\n## Not yet specified\n\n${unknownItems}\n\n## Open decision tickets\n\n${open || "None."}\n\n## Out of scope\n\n${
     l.intent?.out_of_scope || "None."
   }\n`;
 }
@@ -1145,6 +1208,19 @@ export function taskWarnings(l) {
     if (bullets > 3) w.push(`${t.id}: ${bullets} acceptance bullets (>3) — consider splitting`);
   }
   return w;
+}
+
+// Active questions whose blockers are all settled (answered/superseded/retracted) or absent.
+export function designFrontier(l) {
+  return (l.rows || []).filter(
+    (r) =>
+      r.type === "question" &&
+      r.status === "active" &&
+      (r.blocked_by || []).every((dep) => {
+        const d = (l.rows || []).find((x) => x.id === dep);
+        return !d || d.status !== "active";
+      }),
+  );
 }
 
 // Tasks ready to start: active, not done, every dep done.
@@ -1183,8 +1259,8 @@ function writeJsonAtomic(p, obj) {
   renameSync(tmp, p);
 }
 const BOOLEAN_ARGS = new Set([
-  "tdd",
-  "no-tdd",
+  "test-first",
+  "no-test-first",
   "no-interview",
   "no-branch",
   "multi",
@@ -1201,11 +1277,13 @@ const BOOLEAN_ARGS = new Set([
   "no-adr",
   "no-constraints",
   "lean",
-  "wayfinder",
+  "map",
   "deliberate",
   "clean",
   "fact-lane",
   "clear",
+  "test-runs",
+  "no-task-approval",
 ]);
 const KNOWN_FLAGS = new Set([
   ...BOOLEAN_ARGS, "slug", "type", "issue", "size", "label", "ref", "title", "id", "responsibility", "deps", "kind",
@@ -1213,7 +1291,7 @@ const KNOWN_FLAGS = new Set([
   "class", "files", "interfaces", "acceptance", "verify", "test-seam", "steps", "est-lines", "file", "outcome", "user",
   "why-now", "success", "constraint", "out-of-scope", "by", "gate", "token", "reason", "replacement", "done", "ledger",
   "blocked-by", "domain-term", "test-file", "red", "green", "adr-file", "scope", "asks", "review", "note", "artifact", "exit", "add",
-  "phase", "task", "cmd",
+  "phase", "task", "cmd", "recommend", "recommendation",
 ]);
 function args(argv) {
   const out = { _: [] };
@@ -1242,7 +1320,16 @@ function args(argv) {
 }
 // External-evidence check (CLI only; the pure GATES stay importable without a filesystem):
 // a code locator must resolve to a real file and line, an external fact to a real snapshot whose hash matches.
-function evidenceErrors(l, ledgerDir) {
+function repoRootFromLedgerDir(ledgerDir) {
+  const s = String(ledgerDir || "");
+  if (/[\\/]maps[\\/]/.test(s) || /[\\/]maps$/.test(s)) {
+    return resolve(ledgerDir, "..", "..", "..");
+  }
+  return resolve(ledgerDir, "..", "..", "..", "..");
+}
+
+export function evidenceErrors(l, ledgerDir, root = null) {
+  const baseRoot = root ? resolve(root) : repoRootFromLedgerDir(ledgerDir);
   const e = [];
   for (const r of l.rows || []) {
     if (r.type !== "fact" || r.status !== "active" || !r.locator) continue;
@@ -1253,8 +1340,8 @@ function evidenceErrors(l, ledgerDir) {
       }
       const dir = join(ledgerDir, "sources", r.source_id || "");
       const files = existsSync(dir) ? readdirSync(dir).filter((f) => statSync(join(dir, f)).isFile()) : [];
-      if (!files.length) {
-        e.push(`evidence: ${r.id} external fact has no snapshot file under sources/${r.source_id}/`);
+      if (files.length !== 1) {
+        e.push(`evidence: ${r.id} external fact requires exactly one regular file under sources/${r.source_id || ""}/ (found ${files.length})`);
         continue;
       }
       const h = createHash("sha256").update(readFileSync(join(dir, files[0]))).digest("hex");
@@ -1267,13 +1354,23 @@ function evidenceErrors(l, ledgerDir) {
       if (m[1].includes("://")) continue; // scheme-like, not a local path
       // A path has a separator or a file extension; bare references like request:1 are not paths.
       if (!/[\\/]/.test(m[1]) && !/\.[A-Za-z0-9]+$/.test(m[1])) continue;
-      const p = resolve(m[1]);
+      const p = resolve(baseRoot, m[1]);
       if (!existsSync(p)) {
         e.push(`evidence: ${r.id} locator file not found: ${m[1]}`);
         continue;
       }
       const lines = readFileSync(p, "utf8").split("\n").length;
       if (Number(m[3] || m[2]) > lines) e.push(`evidence: ${r.id} locator ${r.locator} is past end of file (${lines} lines)`);
+    }
+  }
+  // ADR files referenced by active decisions must resolve against the repo root.
+  for (const r of l.rows || []) {
+    if (r.type !== "decision" || r.status !== "active") continue;
+    if (r.adr && r.adr_file) {
+      const p = resolve(baseRoot, r.adr_file);
+      if (!existsSync(p)) {
+        e.push(`evidence: ${r.id} adr_file not found: ${r.adr_file}`);
+      }
     }
   }
   return e;
@@ -1286,14 +1383,23 @@ function fail(errors) {
 function resolveLedgerPath(a) {
   if (a.ledger) return a.ledger;
   if (!a.slug) return null;
-  const mapHit = join("docs", "maps", a.slug, "ledger.json");
-  if (existsSync(mapHit)) return mapHit;
-  if (a.type) return join(planDir(a.type, a.slug), "ledger.json");
-  const hits = ISSUE_TYPES.map((t) => join(planDir(t, a.slug), "ledger.json")).filter((p) => existsSync(p));
-  if (hits.length > 1) {
-    fail([`slug '${a.slug}' exists under several issue types (${hits.join(", ")}); pass --type <issue-type>`]);
+  if (a.type) {
+    const p = join(planDir(a.type, a.slug), "ledger.json");
+    if (!existsSync(p)) fail([`ledger not found: ${p}`]);
+    return p;
   }
-  return hits[0] || join(planDir("feature", a.slug), "ledger.json");
+  const mapHit = join("docs", "maps", a.slug, "ledger.json");
+  const mapExists = existsSync(mapHit);
+  const planHits = ISSUE_TYPES.map((t) => join(planDir(t, a.slug), "ledger.json")).filter((p) => existsSync(p));
+  if (mapExists && planHits.length > 0) {
+    fail([`slug '${a.slug}' exists under several issue types (${[mapHit, ...planHits].join(", ")}); pass --type <issue-type>`]);
+  }
+  if (mapExists) return mapHit;
+  if (planHits.length > 1) {
+    fail([`slug '${a.slug}' exists under several issue types (${planHits.join(", ")}); pass --type <issue-type>`]);
+  }
+  if (planHits.length === 1) return planHits[0];
+  return join(planDir("feature", a.slug), "ledger.json");
 }
 
 // A review header is only a pointer to persisted finding rows; counts are derived by G3.
@@ -1318,38 +1424,41 @@ const splitList = (v) => String(v === true || v === undefined ? "" : v).split(",
 export function main(argv = process.argv.slice(2)) {
   const [cmd, ...rest] = argv;
   const a = args(rest);
-  const ledgerPath = cmd === "init" ? null : resolveLedgerPath(a);
+  const ledgerPath =
+    cmd === "init" ? null : cmd === "map-handoff" ? join("docs", "maps", a.slug || "", "ledger.json") : resolveLedgerPath(a);
   if (cmd === "init") {
     if (!SLUG_RE.test(a.slug || "")) fail([`slug must match ${SLUG_RE}`]);
-    if (a.tdd && a["no-tdd"]) fail(["--tdd and --no-tdd together: pick one (TDD defaults on)"]);
+    if (a["test-first"] && a["no-test-first"]) fail(["--test-first and --no-test-first together: pick one (test-first defaults on)"]);
     const issueType = a.type === undefined ? "feature" : a.type;
     if (!ISSUE_TYPES.includes(issueType)) fail([`--type must be one of ${ISSUE_TYPES.join("|")}`]);
-    if (a.wayfinder) {
-      // Fog branch: a map of decision tickets, never a task plan.
+    const mapSize = a.size === undefined ? "M" : a.size;
+    if (!SIZES.includes(mapSize)) fail([`--size must be one of ${SIZES.join("|")}`]);
+    if (a.map) {
+      // Unknowns branch: a map of decision tickets, never a task plan.
       const dir = join("docs", "maps", a.slug), lp = join(dir, "ledger.json");
       if (existsSync(lp)) {
-        console.log(`exists: ${lp} (wayfinder no-op)`);
+        console.log(`exists: ${lp} (map no-op)`);
         return;
       }
       const wf = emptyLedger({
-        slug: a.slug, issueType: "research", branch: null, branchReason: "non-git",
-        tdd: false, noInterview: false, noBranch: true, skip: [...SKIPPABLE], size: "L",
+        slug: a.slug, issueType: "evidence", branch: null, branchReason: "non-git",
+        test_first: false, noInterview: false, noBranch: true, skip: [...SKIPPABLE], size: mapSize,
       });
-      wf.wayfinder = { map: true };
-      wf.fog = true;
+      wf.map = { map: true };
+      wf.unknowns_open = true;
       wf.phase = "W0";
-      wf.flags.tdd = false;
+      wf.flags.test_first = false;
       wf.intent.out_of_scope = "";
       writeJsonAtomic(lp, wf);
       writeFileSync(join(dir, "map.md"), mapSkeleton(wf));
-      console.log(`wayfinder: ${lp} map=${join(dir, "map.md")} (decisions only; handoff when G_WF passes)`);
+      console.log(`map: ${lp} map=${join(dir, "map.md")} (decisions only; handoff when G_MAP passes)`);
       return;
     }
     const issueRefs = splitList(a.issue);
     for (const ref of issueRefs) if (!ISSUE_REF_RE.test(ref)) fail([`--issue '${ref}' must be owner/repo#number`]);
     const dir = planDir(issueType, a.slug), lp = join(dir, "ledger.json");
     const want = {
-      tdd: a.tdd === false ? false : !a["no-tdd"],
+      test_first: a["test-first"] === false ? false : !a["no-test-first"],
       no_interview: Boolean(a["no-interview"]),
       no_branch: Boolean(a["no-branch"]),
       deliberate: Boolean(a.deliberate),
@@ -1392,10 +1501,11 @@ export function main(argv = process.argv.slice(2)) {
       issueType,
       branch,
       branchReason,
-      tdd: want.tdd,
+      test_first: want.test_first,
       noInterview: want.no_interview,
       noBranch: want.no_branch,
       deliberate: want.deliberate,
+      testRuns: Boolean(a["test-runs"]),
       skip,
       size,
     });
@@ -1406,7 +1516,7 @@ export function main(argv = process.argv.slice(2)) {
     writeJsonAtomic(lp, l);
     writeFileSync(join(dir, "plan.md"), skeleton);
     console.log(
-      `init: ${lp} type=${issueType} branch=${l.branch} (${branchReason}) tdd=${l.flags.tdd} no_interview=${l.flags.no_interview}`,
+      `init: ${lp} type=${issueType} branch=${l.branch} (${branchReason}) test_first=${l.flags.test_first} no_interview=${l.flags.no_interview}`,
     );
     return;
   }
@@ -1514,18 +1624,18 @@ export function main(argv = process.argv.slice(2)) {
       console.log(r.id);
       return;
     }
-    case "fog": {
+    case "unknowns": {
       if (a.clear) {
-        l.fog = false;
-        l.fog_items = [];
+        l.unknowns_open = false;
+        l.unknown_items = [];
       } else {
         const items = splitList(a.add);
-        if (!items.length) fail(["--add <fog item>[,<item>...] or --clear required"]);
-        l.fog_items.push(...items);
-        l.fog = true;
+        if (!items.length) fail(["--add <unknown item>[,<item>...] or --clear required"]);
+        l.unknown_items.push(...items);
+        l.unknowns_open = true;
       }
       save();
-      console.log(`fog=${l.fog} items=${l.fog_items.length}`);
+      console.log(`unknowns=${l.unknowns_open} items=${l.unknown_items.length}`);
       return;
     }
     case "issue": {
@@ -1537,16 +1647,11 @@ export function main(argv = process.argv.slice(2)) {
       return;
     }
     case "capability": {
-      const cap = {
+      const cap = addCapability(l, {
         id: need("id"),
         responsibility: need("responsibility"),
-        depends_on: String(a.deps || "").split(",").filter(Boolean),
-      };
-      if (!SLUG_RE.test(cap.id)) fail([`capability id must match ${SLUG_RE}`]);
-      if ((l.capabilities ||= []).some((c) => c.id === cap.id)) {
-        fail([`capability '${cap.id}' already exists (ids are stable, never reused)`]);
-      }
-      l.capabilities.push(cap);
+        deps: a.deps,
+      });
       save();
       console.log(cap.id);
       return;
@@ -1578,17 +1683,18 @@ export function main(argv = process.argv.slice(2)) {
       return;
     }
     case "question": {
-      const kind = a.wayfinder ? (a.kind || "grilling") : null;
-      if (kind && !["research", "prototype", "grilling", "task"].includes(kind)) {
-        fail(["--wayfinder --kind must be research|prototype|grilling|task"]);
+      const kind = a.map ? (a.kind || "user") : null;
+      if (kind && !["evidence", "prototype", "user", "task"].includes(kind)) {
+        fail(["--map --kind must be evidence|prototype|user|task"]);
       }
       const r = addRow(l, {
         type: "question",
         label: need("label"),
         quote: need("question"),
         blocked_by: splitList(a["blocked-by"]),
-        wayfinder: kind,
+        map: kind,
         domain_term: a["domain-term"] || null,
+        recommendation: String(a.recommend || a.recommendation || "").trim() || null,
       });
       save();
       console.log(r.id);
@@ -1604,14 +1710,7 @@ export function main(argv = process.argv.slice(2)) {
         ]);
       }
       r.answer = need("answer");
-      r.status = "answered";
-      l.events.push({
-        fact_id: r.id,
-        from: "active",
-        to: "answered",
-        replacement: null,
-        reason: "user answer recorded",
-      });
+      changeStatus(l, r.id, "answered", { reason: "user answer recorded" });
       save();
       console.log(`${r.id} answered`);
       return;
@@ -1686,11 +1785,12 @@ export function main(argv = process.argv.slice(2)) {
           l.waves.push({ n: open, new_facts: n });
           out.push(`wave${open}:${n}`);
         } else if (en.type === "question") {
-          const kind = en.wayfinder ? (en.kind || "grilling") : null;
-          if (kind && !["research", "prototype", "grilling", "task"].includes(kind)) fail([`batch: wayfinder kind must be research|prototype|grilling|task`]);
+          const kind = en.map ? (en.kind || "user") : null;
+          if (kind && !["evidence", "prototype", "user", "task"].includes(kind)) fail([`batch: map kind must be evidence|prototype|user|task`]);
           out.push(addRow(l, {
             type: "question", label: en.label, quote: en.question,
-            blocked_by: en.blocked_by || [], wayfinder: kind, domain_term: en.domain_term || null,
+            blocked_by: en.blocked_by || [], map: kind, domain_term: en.domain_term || null,
+            recommendation: String(en.recommendation || en.recommend || "").trim() || null,
           }).id);
         } else if (en.type === "decision") {
           out.push(addRow(l, {
@@ -1764,8 +1864,8 @@ export function main(argv = process.argv.slice(2)) {
           if (en.findings || en.total) fail(["batch: doubt no longer accepts findings/total; persist finding rows"]);
           out.push(`${d.id}:${recordDoubt(l, d, en)}`);
         } else if (en.type === "capability") {
-          (l.capabilities ||= []).push({ id: en.id, responsibility: en.responsibility, depends_on: en.deps || [] });
-          out.push(en.id);
+          const cap = addCapability(l, { id: en.id, responsibility: en.responsibility, deps: en.deps || [] });
+          out.push(cap.id);
         } else fail([`batch: unknown entry type ${en.type}`]);
       }
       save();
@@ -1801,7 +1901,15 @@ export function main(argv = process.argv.slice(2)) {
     }
     case "approve": {
       const gate = need("gate");
-      if (gate !== "G_WF" && phaseIndex(l.phase) < phaseIndex("P3")) {
+      const allowedTokens = {
+        "G_MAP": ["map-destination"],
+        "G3": ["approve-design", "approve-capability-map", "doubt-escalated", "plan-review-escalated"],
+        "G4": ["approve-task-graph"],
+      };
+      if (!Object.prototype.hasOwnProperty.call(allowedTokens, gate)) {
+        fail([`approve: unknown gate '${gate}' (allowed: ${Object.keys(allowedTokens).join("|")})`]);
+      }
+      if (gate !== "G_MAP" && phaseIndex(l.phase) < phaseIndex("P3")) {
         fail([`approve before G2: phase=${l.phase} (clarification must close before design approval)`]);
       }
       if (a.by !== "user") {
@@ -1810,7 +1918,11 @@ export function main(argv = process.argv.slice(2)) {
       if (!a.quote || !String(a.quote).trim()) {
         fail([`approve requires --quote "<the user's exact words>" (an unquoted token is not evidence)`]);
       }
-      l.approvals.push({ gate, token: need("token"), by: "user", quote: String(a.quote), at: new Date().toISOString() });
+      const token = need("token");
+      if (!allowedTokens[gate].includes(token)) {
+        fail([`approve: token '${token}' is not allowed for ${gate} (allowed: ${allowedTokens[gate].join("|")})`]);
+      }
+      l.approvals.push({ gate, token, by: "user", quote: String(a.quote), at: new Date().toISOString() });
       save();
       console.log("approval recorded");
       return;
@@ -1826,8 +1938,8 @@ export function main(argv = process.argv.slice(2)) {
       const dir = dirname(ledgerPath);
       const planText = existsSync(join(dir, "plan.md")) ? readFileSync(join(dir, "plan.md"), "utf8") : "";
       const mapText = existsSync(join(dir, "map.md")) ? readFileSync(join(dir, "map.md"), "utf8") : "";
-      let e = g === "G_WF" ? GATES.G_WF(l, mapText) : GATES[g](l, planText);
-      if (g === "G1" || g === "G5") e = [...e, ...evidenceErrors(l, dir)];
+      let e = g === "G_MAP" ? GATES.G_MAP(l, mapText) : GATES[g](l, planText);
+      if (g === "G1" || g === "G4" || g === "G5") e = [...e, ...evidenceErrors(l, dir)];
       if (g === "G4" || g === "G5") for (const w of taskWarnings(l)) console.log(`WARN ${w}`);
       if (e.length) fail(e.map((x) => `${g} ${x}`));
       advancePhase(l, g);
@@ -1862,7 +1974,7 @@ export function main(argv = process.argv.slice(2)) {
     }
     case "render": {
       const dir = dirname(ledgerPath);
-      const target = l.wayfinder ? join(dir, "map.md") : join(dir, "plan.md");
+      const target = l.map ? join(dir, "map.md") : join(dir, "plan.md");
       if (
         existsSync(target) && l.render_sha256 && sha256(readFileSync(target, "utf8")) !== l.render_sha256
         && !a.force
@@ -1871,7 +1983,7 @@ export function main(argv = process.argv.slice(2)) {
           `${target} differs from the last render/publish (hand-edited); refusing to overwrite — re-render with --force if the edits are disposable`,
         ]);
       }
-      const skeleton = l.wayfinder ? mapSkeleton(l) : planSkeleton(l);
+      const skeleton = l.map ? mapSkeleton(l) : planSkeleton(l);
       writeFileSync(target, skeleton);
       l.render_sha256 = sha256(skeleton);
       save();
@@ -1887,6 +1999,86 @@ export function main(argv = process.argv.slice(2)) {
       console.log(frontier(l, done).join("\n"));
       return;
     }
+    case "design-frontier": {
+      console.log(designFrontier(l).map((q) => q.id).join("\n"));
+      return;
+    }
+    case "next": {
+      const say = (cmd, why) =>
+        console.log(`${cmd} --slug ${l.slug}\n# ${why}\n# Keep going: run this, then next again. Do not stop until DONE published.`);
+      if (l.map) {
+        say("gate --id G_MAP", `map ${l.phase}: finish the map and sign the destination`);
+        return;
+      }
+      if (l.phase === "P6" && l.plan_sha256) {
+        console.log(`DONE published plan_sha256=${l.plan_sha256}`);
+        return;
+      }
+      const activeQs = (l.rows || []).filter((r) => r.type === "question" && r.status === "active" && !r.map);
+      if (l.phase === "P0") return say("gate --id G0", "intake: destination, type, size, branch");
+      if (l.phase === "P1") {
+        if (!l.axes?.length) return say("gate --id G_AX", "P1 axes: record at least one axis");
+        return say("gate --id G1", "P2 evidence: facts, waves, saturation");
+      }
+      if (l.phase === "P2") return say("gate --id G2", "P3 clarify: intent, rounds, questions");
+      if (l.phase === "P3") {
+        if (activeQs.length) {
+          const rounds = (l.rows || []).filter((r) => r.type === "round");
+          const unrounded = activeQs.filter((q) => !rounds.some((r) => (r.asks || []).includes(q.id)));
+          if (unrounded.length) return say(`round --asks ${unrounded.map((q) => q.id).join(",")}`, "record the ready frontier");
+          const ready = designFrontier(l);
+          if (ready.length) return say("ask", "call the question tool with the exact JSON from ask, record every answer, then next again");
+          return say("design-frontier", "all remaining questions are blocked; resolve a blocker or retract one");
+        }
+        return say("gate --id G3", "P4 design: approvals, review, doubt, deliberate record");
+      }
+      if (l.phase === "P4") return say("gate --id G4", "P5 tasks: task graph, test-first, waves, ideal/gap, headings");
+      if (l.phase === "P5") {
+        if (!existsSync(join(dirname(ledgerPath), "plan.md"))) return say("render", "P5 tasks: render plan.md from the ledger");
+        return say("publish", "P6 publish: G5, evidence, size, hash");
+      }
+      return say("publish", "P6 publish: G5, evidence, size, hash");
+    }
+    case "ask": {
+      const activeQs = (l.rows || []).filter((r) => r.type === "question" && r.status === "active" && !r.map);
+      if (!activeQs.length) fail(["ask: no active questions"]);
+      const byId = new Map((l.rows || []).map((r) => [r.id, r]));
+      const ready = [];
+      for (const q of activeQs) {
+        const blockers = q.blocked_by || [];
+        let isReady = true;
+        for (const dep of blockers) {
+          const d = byId.get(dep);
+          if (!d) {
+            fail([`ask: ${q.id}: blocked_by '${dep}' does not exist`]);
+            return;
+          }
+          if (d.type !== "question") {
+            fail([`ask: ${q.id}: blocked_by '${dep}' is not a question`]);
+            return;
+          }
+          if (!["answered", "superseded", "retracted"].includes(d.status)) {
+            isReady = false;
+          }
+        }
+        if (isReady) ready.push(q);
+      }
+      const asked = new Set((l.rows || []).filter((r) => r.type === "round").flatMap((r) => r.asks || []));
+      const unrecorded = ready.filter((q) => !asked.has(q.id));
+      if (unrecorded.length) {
+        fail(["ask: record a round first (round --asks ...)"]);
+        return;
+      }
+      const questions = ready.map((q) => {
+        const rec = String(q.recommendation || "").trim();
+        const header = `${q.id} ${q.label || ""}`.trim().slice(0, 30);
+        const entry = { header, question: q.quote || "" };
+        if (rec) entry.options = [{ label: rec, description: "Recommended" }];
+        return entry;
+      });
+      console.log(JSON.stringify({ questions }));
+      return;
+    }
     case "render-issues": {
       // Ticket drafts only; nothing is sent to a tracker.
       if (phaseIndex(l.phase) < phaseIndex("P4")) {
@@ -1899,18 +2091,18 @@ export function main(argv = process.argv.slice(2)) {
       console.log(`rendered ${drafts.length} issue drafts in ${outDir}`);
       return;
     }
-    case "wayfinder-handoff": {
+    case "map-handoff": {
       const dir = dirname(ledgerPath);
       const mapText = existsSync(join(dir, "map.md")) ? readFileSync(join(dir, "map.md"), "utf8") : "";
-      const e = GATES.G_WF(l, mapText);
-      if (e.length) fail(e.map((x) => `G_WF ${x}`));
+      const e = GATES.G_MAP(l, mapText);
+      if (e.length) fail(e.map((x) => `G_MAP ${x}`));
       const type = a.type || "feature";
       if (!ISSUE_TYPES.includes(type)) fail([`--type must be one of ${ISSUE_TYPES.join("|")}`]);
       const target = join(planDir(type, l.slug), "ledger.json");
       if (existsSync(target)) fail([`plan already exists: ${target} (use a new slug)`]);
       const n = emptyLedger({
         slug: l.slug, issueType: type, branch: null, branchReason: "non-git",
-        tdd: true, noInterview: false, noBranch: true, skip: [], size: "M",
+        test_first: true, noInterview: false, noBranch: true, skip: [], size: "M",
       });
       n.rows = (l.rows || []).filter((r) => (r.type === "decision" || r.type === "fact") && r.status === "active");
       n.intent.out_of_scope = l.intent?.out_of_scope || "";
@@ -1924,7 +2116,7 @@ export function main(argv = process.argv.slice(2)) {
     }
     default:
       fail([
-        `unknown command: ${cmd}. Use init|axis|issue|capability|wave|fact|question|answer|decision|task|batch|retract|supersede|intent|approve|validate|gate|publish|render|render-issues|frontier|size|doubt|plan-review|finding|round|test-run|fog|wayfinder-handoff`,
+        `unknown command: ${cmd}. Use init|axis|issue|capability|wave|fact|question|answer|decision|task|batch|retract|supersede|intent|approve|validate|gate|publish|render|render-issues|frontier|size|doubt|plan-review|finding|round|test-run|unknowns|next|ask|map-handoff`,
       ]);
   }
 }

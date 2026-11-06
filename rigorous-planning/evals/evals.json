@@ -4,40 +4,40 @@
     {
       "id": 1,
       "prompt": "Plan adding OAuth login to our Node app. We need it soon, don't ask me lots of questions, just give me the plan.",
-      "expected_output": "Pipeline P0-P6 in order, starting with a clear destination and a deterministic route (not a CLEAR/UNCLEAR feeling). The plan lives in docs/plans/feature/oauth-login/, the auto branch is plan/oauth-login, and the ledger is written only through scripts/planning.mjs. Research axes and saturation, then exactly one frontier round recorded with `round --asks`, with recommended answers. Intent is restated for an explicit yes. Tasks are written only after G3 and carry a structured test contract: test_seam '<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external', test_file, red, green. If the auth decision is marked irreversible (or the plan is size L), the deliberate record is also required. No PR, no implementation. Publish is fail-closed and G5 is run in this session.",
+      "expected_output": "Pipeline P0-P6 in order, starting with a clear destination and a deterministic route (not a CLEAR/UNCLEAR feeling). The plan lives in docs/plans/feature/oauth-login/, the auto branch is plan/oauth-login, and the ledger is written only through scripts/planning.mjs. Evidence axes and saturation, then exactly one frontier round recorded with `round --asks`, with recommended answers. Intent is restated for an explicit yes. Tasks are written only after G3 and carry a structured test contract: test_seam '<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external', test_file, red, green. If the auth decision is marked irreversible (or the plan is size L), the deliberate record is also required. No PR, no implementation. Publish is fail-closed and G5 is run in this session.",
       "files": [],
       "assertions": [
         "States the linear pipeline and does not skip a phase by judgement",
         "Creates the branch and docs/plans/<type>/<slug>/ledger.json via planning.mjs",
         "Does not waive clarification when the user says 'don't ask': one recorded frontier round with recommended answers instead",
-        "Every task carries test_seam with a closed boundary class, test_file, red and green because --no-tdd was not passed",
+        "Every task carries test_seam with a closed boundary class, test_file, red and green because --no-test-first was not passed",
         "Never implements code and never opens a PR",
         "Ends with plan path + plan_sha256 + a fresh G5/publish run, not a completion claim without evidence"
       ]
     },
     {
       "id": 2,
-      "prompt": "Plan migrating our Postgres database to a new schema --no-tdd. It's for the billing service, success is zero-downtime cutover, constraint is the freeze next month.",
-      "expected_output": "TDD off because --no-tdd passed: no task carries test_seam, test_file, red or green; each task verifies with its stated command. Intent fields are already present, so the deterministic route goes to the frontier; grilling covers the remaining design decisions. Ledger, saturation research, G3 approve-design with a user quote, and G4 rejects any task carrying TDD fields in this mode. If the migration is marked irreversible (or the plan is size L), the deliberate record is required.",
+      "prompt": "Plan migrating our Postgres database to a new schema --no-test-first. It's for the billing service, success is zero-downtime cutover, constraint is the freeze next month.",
+      "expected_output": "test-first off because --no-test-first passed: no task carries test_seam, test_file, red or green; each task verifies with its stated command. Intent fields are already present, so the deterministic route goes to the frontier; frontier covers the remaining design decisions. Ledger, saturation evidence, G3 approve-design with a user quote, and G4 rejects any task carrying test-first fields in this mode. If the migration is marked irreversible (or the plan is size L), the deliberate record is required.",
       "files": [],
       "assertions": [
-        "Honours --no-tdd: no task has test_seam, test_file, red or green",
+        "Honours --no-test-first: no task has test_seam, test_file, red or green",
         "Routes to the frontier because the intent fields are present",
-        "Auto branch and ledger init still happen with --no-tdd",
-        "G4 is stated to fail for a task carrying TDD fields under --no-tdd"
+        "Auto branch and ledger init still happen with --no-test-first",
+        "G4 is stated to fail for a task carrying test-first fields under --no-test-first"
       ]
     },
     {
       "id": 3,
       "prompt": "I want to build a dashboard for our metrics.",
-      "expected_output": "The outcome is not statable as one line, so the effort is fog and does not enter a planning ledger. init --wayfinder creates docs/maps/<slug>/, the destination is named, fog items are recorded with `fog --add`, and decision tickets are worked one at a time. The captain signs the destination with approve --gate G_WF --token wayfinder-destination --by user --quote '<the user's words>'; G_WF passes only with that approval, then wayfinder-handoff seeds a planning ledger at P0 and the effort rejoins at P1. No tasks are minted in W0.",
+      "expected_output": "The outcome is not statable as one line, so the effort is unknowns and does not enter a planning ledger. init --map creates docs/maps/<slug>/, the destination is named, unknowns items are recorded with `unknowns --add`, and decision tickets are worked one at a time. The captain signs the destination with approve --gate G_MAP --token map-destination --by user --quote '<the user's words>'; G_MAP passes only with that approval, then map-handoff seeds a planning ledger at P0 and the effort rejoins at P1. No tasks are minted in W0.",
       "files": [],
       "assertions": [
-        "Routes to the wayfinder branch rather than guessing a plan",
-        "Creates docs/maps/<slug>/ with map.md and a wayfinder ledger",
-        "Records fog and decision tickets; task commands are refused in W0",
-        "Records the wayfinder-destination approval with a quote before G_WF passes",
-        "Passes G_WF before wayfinder-handoff and rejoins at P1"
+        "Routes to the map branch rather than guessing a plan",
+        "Creates docs/maps/<slug>/ with map.md and a map ledger",
+        "Records unknowns and decision tickets; task commands are refused in W0",
+        "Records the map-destination approval with a quote before G_MAP passes",
+        "Passes G_MAP before map-handoff and rejoins at P1"
       ]
     },
     {
@@ -48,14 +48,14 @@
       "assertions": [
         "Records approve-design with by=user and a quote",
         "Refuses the PR and implementation parts",
-        "Still runs the ledger, research, tasks and publish gates",
+        "Still runs the ledger, evidence, tasks and publish gates",
         "Hands off with plan path, plan_sha256 and gate results"
       ]
     },
     {
       "id": 5,
       "prompt": "Plan adding rate limiting to our API --no-interview. Just produce the plan, I will review the assumptions afterwards.",
-      "expected_output": "No questions asked. Intent is filled from the request plus research, marked assumed, backed by at least one assumed fact and one decision; confirmed stays false. Design proceeds on logged decisions (G3 flag mode). The published plan visibly lists its assumptions. Branch, ledger, saturation research, tasks and publish still run.",
+      "expected_output": "No questions asked. Intent is filled from the request plus evidence, marked assumed, backed by at least one assumed fact and one decision; confirmed stays false. Design proceeds on logged decisions (G3 flag mode). The published plan visibly lists its assumptions. Branch, ledger, saturation evidence, tasks and publish still run.",
       "files": [],
       "assertions": [
         "Asks zero questions despite the vague request",
@@ -106,11 +106,11 @@
     {
       "id": 9,
       "prompt": "Plan a one-line rename of the config key `retryCount` to `retries` in src/config.ts, keep it light, I don't want the full process.",
-      "expected_output": "Fast path: init with --lean and --size S (or the plan states it is small enough to skip planning entirely); one research lane and one closed wave; a single restate-and-yes because intent is complete; at most two tasks; no capability map, no quality-bar decision, no doubt cycle; rows recorded with one batch call; publish passes and G5 confirms the derived size is S. If the change is truly a single-line edit, says a plan is not needed instead of running the pipeline.",
+      "expected_output": "Fast path: init with --lean and --size S (or the plan states it is small enough to skip planning entirely); one evidence lane and one closed wave; a single restate-and-yes because intent is complete; at most two tasks; no capability map, no quality-bar decision, no doubt cycle; rows recorded with one batch call; publish passes and G5 confirms the derived size is S. If the change is truly a single-line edit, says a plan is not needed instead of running the pipeline.",
       "files": [],
       "assertions": [
         "Uses --lean and/or --size S rather than the full machinery",
-        "Records research and task rows with one batch call, not one CLI call per row",
+        "Records evidence and task rows with one batch call, not one CLI call per row",
         "Does not run a topology round, challenge modes or a doubt cycle",
         "Does not claim size S if the task graph derives a larger size",
         "Stays within docs/plans/<issue-type>/<slug>/ and never implements"
@@ -144,13 +144,13 @@
     {
       "id": 12,
       "prompt": "Plan a config cleanup where every harness should read one instruction file and each discrepancy is closed by a task. Use the ideal-state shape.",
-      "expected_output": "The plan opens with a TL;DR naming the user, what changes, why now, what it will not do, effort/risk and the next move. The ideal state is recorded as `is-*` decisions and each difference as a `gap-*` decision whose answer starts with its IS label. Every task names the IS or gap it delivers with `--closes is-<n>` or `--closes gap-<n>`. `plan.md` renders Parallel waves and a Dependency matrix from task deps, a Success criteria table from the IS/GAP rows, the Final verification wave (F1-F4) and a Commit strategy. G4 rejects a gap with no delivering task, a task with no closure, an IS with no delivering task, and a wave or matrix row that disagrees with deps.",
+      "expected_output": "The plan opens with a TL;DR naming the user, what changes, why now, what it will not do, effort/risk and the next move. The ideal state is recorded as `ideal-*` decisions and each difference as a `gap-*` decision whose answer starts with its IS label. Every task names the IS or gap it delivers with `--closes ideal-<n>` or `--closes gap-<n>`. `plan.md` renders Parallel waves and a Dependency matrix from task deps, a Success criteria table from the ideal/gap rows, the Final verification wave (F1-F4) and a Commit strategy. G4 rejects a gap with no delivering task, a task with no closure, an IS with no delivering task, and a wave or matrix row that disagrees with deps.",
       "files": [],
       "assertions": [
         "Records IS and GAP decisions before writing tasks",
         "Every task names the IS or gap it delivers",
         "Renders waves and a dependency matrix that match task deps",
-        "Renders a success criteria table from the IS/GAP rows",
+        "Renders a success criteria table from the ideal/gap rows",
         "Keeps the final verification wave and commit strategy as execution method, not a planning gate"
       ]
     }

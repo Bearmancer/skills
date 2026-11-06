@@ -1,4 +1,4 @@
-# Research: primary sources, lanes, snapshots
+# Evidence: primary sources, lanes, snapshots
 
 Read this when external docs or APIs are in play, when a claim needs a source, or when two sources disagree. P2 is the phase; this is the method.
 
@@ -14,7 +14,7 @@ Split the topic into axes and launch one read-only lane per axis in parallel, in
 
 ## Synthesis
 
-Before the gate, write one `sources/S0-synthesis.md` that maps each contested or load-bearing claim to its `F<n>` row and locator. Per-fact rows preserve provenance; the synthesis preserves the reasoning chain. This file is a method, not a gate: the hard evidence is the fact rows and their hashes, and the plan's `## Research` section must cite at least one `F<n>`.
+Before the gate, write one `sources/S0-synthesis.md` that maps each contested or load-bearing claim to its `F<n>` row and locator. Per-fact rows preserve provenance; the synthesis preserves the reasoning chain. This file is a method, not a gate: the hard evidence is the fact rows and their hashes, and the plan's `## Evidence` section must cite at least one `F<n>`.
 
 ## Conflicts and uncertainty
 

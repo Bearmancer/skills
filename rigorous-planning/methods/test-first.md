@@ -1,12 +1,12 @@
-﻿# TDD: seams, tests, mocks
+﻿# test-first: seams, tests, mocks
 
 Contract: gates, CLI and the state machine are in ../SKILL.md. This playbook is the detail for this phase.
 
-TDD is the red-green loop. The plan records the contract; execution records the runs.
+test-first is the red-green loop. The plan records the contract; execution records the runs.
 
-**Seams.** A seam is the public boundary where you observe behaviour without reaching inside. Test only at pre-agreed seams, confirmed with the user: give each proposed seam one line on what it catches and what it misses. No test is written at an unconfirmed seam, and the ideal number of new seams is one. When the interface's shape is itself in question (how deep the module is, where the seam belongs, what it exposes), read `codebase-design.md` for the module/interface/depth/seam vocabulary.
+**Seams.** A seam is the public boundary where you observe behaviour without reaching inside. Test only at pre-agreed seams, confirmed with the user: give each proposed seam one line on what it catches and what it misses. No test is written at an unconfirmed seam, and the ideal number of new seams is one. When the interface's shape is itself in question (how deep the module is, where the seam belongs, what it exposes), read `seams.md` for the module/interface/depth/seam vocabulary.
 
-**The plan's fields.** `test_seam` is `"<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external"`; the class is the dependency category from `codebase-design.md`, and G4 rejects a seam without one. `test_file` is the test path; `red` names the failing test and the expected failure (a `fix` names its repro); `green` names the minimal pass condition. Red and green must be observably different. G4 rejects a missing or prose-only seam, a missing test file, or identical red/green.
+**The plan's fields.** `test_seam` is `"<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external"`; the class is the dependency category from `seams.md`, and G4 rejects a seam without one. `test_file` is the test path; `red` names the failing test and the expected failure (a `fix` names its repro); `green` names the minimal pass condition. Red and green must be observably different. G4 rejects a missing or prose-only seam, a missing test file, or identical red/green.
 
 **The loop.** Write one failing test at the seam, watch it fail for the expected reason, write the minimal code to pass, repeat. No tests for imagined behaviour. Refactoring is a separate step after green, not part of the red-green cycle. Executed evidence is recorded with `test-run --task T1 --phase red|green --cmd ... --exit ... --artifact ...`; the plan can publish without runs, but a handoff claiming a test ran cites the run row.
 

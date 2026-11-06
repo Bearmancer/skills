@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
+  addCapability,
   addRow,
   changeStatus,
+  designFrontier,
   emptyLedger,
+  evidenceErrors,
   frontier,
   GATES,
   ISSUE_TYPES,
@@ -19,16 +22,28 @@ import {
 
 const base = () => emptyLedger({ slug: "demo", branch: "plan/demo" });
 
-test("defaults: TDD on (flipped; --no-tdd turns it off), interview on, branch is plan/<slug>", () => {
+test("defaults: test-first on (flipped; --no-test-first turns it off), interview on, branch is plan/<slug>", () => {
   const l = base();
-  assert.equal(l.flags.tdd, true);
+  assert.equal(l.flags.test_first, true);
   assert.equal(l.flags.no_interview, false);
   addRow(l, { type: "decision", label: "destination", answer: "ship the demo" });
   assert.deepEqual(GATES.G0(l), []);
-  const foggy = base();
-  assert.match(GATES.G0(foggy).join("\n"), /destination/);
-  const off = emptyLedger({ slug: "demo", branch: "plan/demo", tdd: false });
-  assert.equal(off.flags.tdd, false);
+  const unclear = base();
+  assert.match(GATES.G0(unclear).join("\n"), /destination/);
+  const off = emptyLedger({ slug: "demo", branch: "plan/demo", test_first: false });
+  assert.equal(off.flags.test_first, false);
+});
+
+test("G_AX: P1 axes gate needs an axis, unique ids, and known fact axes", () => {
+  const l = base();
+  l.phase = "P1";
+  assert.match(GATES.G_AX(l).join("\n"), /axes\[\] is empty/);
+  l.axes.push({ id: "A1", label: "flow" });
+  assert.deepEqual(GATES.G_AX(l), []);
+  addRow(l, { type: "fact", kind: "quote", label: "doc", locator: "x:1", axis: "A9" });
+  assert.match(GATES.G_AX(l).join("\n"), /unknown axis A9/);
+  l.axes.push({ id: "A1", label: "duplicate" });
+  assert.match(GATES.G_AX(l).join("\n"), /duplicate axis id A1/);
 });
 
 test("G1 fails until axis covered and 2 empty waves", () => {
@@ -59,11 +74,11 @@ test("duplicate labels and cycles are validator errors, not vibes", () => {
   assert.match(errs, /cycle/);
 });
 
-test("G4: structured TDD contract required by default; forbidden with --no-tdd", () => {
-  const off = emptyLedger({ slug: "demo", branch: "plan/demo", tdd: false });
+test("G4: structured test-first contract required by default; forbidden with --no-test-first", () => {
+  const off = emptyLedger({ slug: "demo", branch: "plan/demo", test_first: false });
   addRow(off, goodTask());
-  assert.match(GATES.G4(off, planSkeleton(off)).join("\n"), /--no-tdd was passed/);
-  const on = base(); // default ledger: TDD on
+  assert.match(GATES.G4(off, planSkeleton(off)).join("\n"), /--no-test-first was passed/);
+  const on = base(); // default ledger: test-first on
   addRow(on, { type: "task", label: "t", files: ["a.js"], interfaces: "x", acceptance: "y", verify: "node --test" });
   assert.match(GATES.G4(on, planSkeleton(on)).join("\n"), /no test_seam/);
   const badSeam = base();
@@ -72,7 +87,7 @@ test("G4: structured TDD contract required by default; forbidden with --no-tdd",
   const same = base();
   addRow(same, goodTask({ green: "red: failing test fails for the expected reason" }));
   assert.match(GATES.G4(same, planSkeleton(same)).join("\n"), /identical/);
-  const cleanOff = emptyLedger({ slug: "demo", branch: "plan/demo", tdd: false });
+  const cleanOff = emptyLedger({ slug: "demo", branch: "plan/demo", test_first: false });
   addRow(cleanOff, goodTask({ test_seam: null, test_file: null, red: null, green: null }));
   assert.deepEqual(GATES.G4(cleanOff, planSkeleton(cleanOff)), []);
   const cleanOn = base();
@@ -151,14 +166,14 @@ test("CLI: init flags are sticky, answer is guarded, out-of-scope maps", async (
   try {
     assert.equal(run("init", "--slug", "demo", "--no-branch").status, 0);
     assert.equal(
-      run("init", "--slug", "demo", "--no-branch", "--tdd").status,
+      run("init", "--slug", "demo", "--no-branch", "--test-first").status,
       0,
-      "re-init with --tdd matches the default (on)",
+      "re-init with --test-first matches the default (on)",
     );
     assert.notEqual(
-      run("init", "--slug", "demo", "--no-branch", "--no-tdd").status,
+      run("init", "--slug", "demo", "--no-branch", "--no-test-first").status,
       0,
-      "re-init with --no-tdd flips the stored flag and must fail",
+      "re-init with --no-test-first flips the stored flag and must fail",
     );
     assert.equal(run("question", "--slug", "demo", "--label", "q1", "--question", "which?").status, 0);
     assert.equal(run("answer", "--slug", "demo", "--id", "Q1", "--answer", "this").status, 0);
@@ -193,7 +208,7 @@ const goodTask = (over = {}) => ({
 
 test("planDir: docs/plans/<issue-type>/<slug>; issue types are a closed set", () => {
   assert.deepEqual(planDir("bug", "demo").split(/[\\/]/), ["docs", "plans", "bug", "demo"]);
-  for (const t of ["feature", "bug", "refactor", "audit", "research", "chore", "docs"]) {
+  for (const t of ["feature", "bug", "refactor", "audit", "evidence", "chore", "docs"]) {
     assert.ok(ISSUE_TYPES.includes(t), t);
   }
   const l = emptyLedger({ slug: "demo", branch: "plan/demo" });
@@ -326,9 +341,9 @@ test("CLI: docs/plans layout, --type, issues, render-issues, frontier, ambiguous
     assert.equal(run("issue", "--slug", "demo", "--ref", "Bearmancer/Toolbox#286").status, 0);
     assert.notEqual(run("issue", "--slug", "demo", "--ref", "junk").status, 0);
     assert.equal(run(...taskArgs("first", ["--issue", "Bearmancer/Toolbox#289"])).status, 0);
-    assert.equal(run(...taskArgs("second", ["--deps", "T1", "--closes", "is-1"])).status, 0);
+    assert.equal(run(...taskArgs("second", ["--deps", "T1", "--closes", "ideal-1"])).status, 0);
     const led = JSON.parse(readFileSync(join(dir, "docs", "plans", "bug", "demo", "ledger.json"), "utf8"));
-    assert.deepEqual(led.rows.find((r) => r.id === "T2").closes, ["is-1"]);
+    assert.deepEqual(led.rows.find((r) => r.id === "T2").closes, ["ideal-1"]);
     assert.equal(run("frontier", "--slug", "demo").stdout.trim(), "T1");
     assert.equal(run("frontier", "--slug", "demo", "--done", "T1").stdout.trim(), "T2");
     assert.equal(run("render-issues", "--slug", "demo").status, 0);
@@ -361,7 +376,7 @@ const withBar = (l) => {
 test("features: closed skip set, every feature on by default", () => {
   const l = emptyLedger({ slug: "demo", branch: "plan/demo" });
   assert.deepEqual(l.flags.skip, []);
-  assert.deepEqual(SKIPPABLE.slice().sort(), ["adr", "constraints", "doubt", "handoff", "plan-review", "review-section"]);
+  assert.deepEqual(SKIPPABLE.slice().sort(), ["adr", "constraints", "doubt", "handoff", "plan-review", "review-section", "task-approval"]);
   const off = emptyLedger({ slug: "demo", branch: "plan/demo", skip: ["doubt"] });
   assert.deepEqual(validateLedger(off), []);
   off.flags.skip = ["nonsense"];
@@ -415,7 +430,7 @@ test("doubt: irreversible decision needs persisted findings, max 3 cycles then e
   assert.deepEqual(GATES.G3(withDeliberate(withReview(withApprovals(skipped)))), []);
 });
 
-test("deliberate: L, irreversible, or --deliberate requires the RALPLAN-DR rows", () => {
+test("deliberate: L, irreversible, or --deliberate requires the deliberation record rows", () => {
   const l = emptyLedger({ slug: "demo", branch: "plan/demo", size: "L" });
   withApprovals(l);
   withReview(l);
@@ -482,7 +497,7 @@ test("ADR decisions need a detected adr-convention fact (unless --no-adr)", () =
   addRow(l, { type: "decision", label: "pick-db", answer: "pg", adr: true, adr_file: "docs/adr/0007-pick-db.md" });
   assert.match(GATES.G4(l, planSkeleton(l)).join("\n"), /adr-convention/);
   addRow(l, { type: "fact", kind: "quote", label: "adr-convention", locator: "docs/adr/0001-x.md:1" });
-  assert.deepEqual(GATES.G4(l, planSkeleton(l)).filter((e) => !/Research|cites/.test(e)), []);
+  assert.deepEqual(GATES.G4(l, planSkeleton(l)).filter((e) => !/Evidence|cites/.test(e)), []);
 });
 
 test("issue type couples to task kinds: bug needs a fix task, refactor needs a refactor task", () => {
@@ -563,7 +578,7 @@ test("CLI: --lean switches off every skippable feature at once and is sticky", a
     assert.equal(run("init", "--slug", "demo", "--no-branch", "--lean").status, 0);
     const l = JSON.parse(readFileSync(join(dir, "docs", "plans", "feature", "demo", "ledger.json"), "utf8"));
     assert.deepEqual(l.flags.skip.slice().sort(), SKIPPABLE.slice().sort());
-    assert.equal(l.flags.tdd, true, "--lean never touches tdd/interview/branch");
+    assert.equal(l.flags.test_first, true, "--lean never touches test_first/interview/branch");
     assert.equal(l.flags.no_interview, false);
     assert.equal(run("init", "--slug", "demo", "--no-branch").status !== 0, true, "dropping --lean on re-init flips the stored flags");
     assert.equal(run("init", "--slug", "demo", "--no-branch", "--lean").status, 0);
@@ -620,7 +635,7 @@ test("skill structure guard: contract is small, fast path first, pointers point 
   const fm = /^---\r?\n([\s\S]*?)\r?\n---/.exec(skill)[1];
   const desc = JSON.parse(/^description: (".*")$/m.exec(fm)[1]);
   assert.ok(desc.length <= 300, `description ${desc.length} chars; keep it brief`);
-  assert.doesNotMatch(desc, /trigger|make sure to use|even if|whenever the user|ralplan|ulw-plan|grill me/i);
+  assert.doesNotMatch(desc, /trigger|make sure to use|even if|whenever the user/i);
   assert.ok(skill.indexOf("## Fast path") > 0 && skill.indexOf("## Fast path") < 9000, "fast path must appear in the first 9 KB");
   assert.doesNotMatch(skill, /references\//i, "no references/ directory: the playbooks live in phases/ and methods/");
   assert.ok(Buffer.byteLength(skill) < 18000, "always-loaded contract budget: 18 KB");
@@ -629,7 +644,7 @@ test("skill structure guard: contract is small, fast path first, pointers point 
   for (const p of new Set(pointers)) {
     assert.ok(existsSync(join(root, p)), `pointer target missing: ${p}`);
   }
-  for (const g of ["G0", "G1", "G2", "G3", "G4", "G5", "G_WF"]) {
+  for (const g of ["G0", "G_AX", "G1", "G2", "G3", "G4", "G5", "G_MAP"]) {
     assert.ok(skill.includes(`\`${g}\``), `contract must name gate ${g}`);
   }
   let content = Buffer.byteLength(skill);
@@ -641,7 +656,7 @@ test("skill structure guard: contract is small, fast path first, pointers point 
   assert.ok(content < 120000, `playbook total budget: 120 KB (got ${content})`);
 });
 
-// ---- review fixes: evidence bypass, traversal, dangling flags, status filter, G1 waves, word-bounded TDD, topo order ----
+// ---- review fixes: evidence bypass, traversal, dangling flags, status filter, G1 waves, word-bounded test-first, topo order ----
 test("review: dangling and unknown flags are errors, --issue repeats accumulate, files are trimmed", async () => {
   const { spawnSync } = await import("node:child_process");
   const { mkdtempSync, rmSync, readFileSync, writeFileSync } = await import("node:fs");
@@ -703,7 +718,7 @@ test("review: superseded rows never render; quality-bar must be the exact label;
   assert.match(planSkeleton(caps), /Build order: identity -> billing/);
 });
 
-test("review: G1 rejects facts recorded after the last wave and zero-wave saturation; TDD requires a red step", () => {
+test("review: G1 rejects facts recorded after the last wave and zero-wave saturation; test-first requires a red step", () => {
   const l = base();
   l.axes.push({ id: "A1", label: "flow" });
   l.waves.push({ n: 1, new_facts: 0 }, { n: 2, new_facts: 0 }, { n: 3, new_facts: 0 });
@@ -819,14 +834,14 @@ test("plan-review: G3 needs persisted findings unless --no-plan-review; cycles c
 });
 
 test("skip set is plan-review, review-section, doubt, handoff, adr, constraints", () => {
-  assert.deepEqual(SKIPPABLE.slice().sort(), ["adr", "constraints", "doubt", "handoff", "plan-review", "review-section"]);
+  assert.deepEqual(SKIPPABLE.slice().sort(), ["adr", "constraints", "doubt", "handoff", "plan-review", "review-section", "task-approval"]);
   const hid = emptyLedger({ slug: "demo", branch: "plan/demo", skip: ["review-section"] });
   addRow(hid, goodTask());
   assert.doesNotMatch(planSkeleton(hid), /## Verification and review plan/);
   assert.deepEqual(GATES.G4(hid, planSkeleton(hid)), []);
 });
 
-test("size S: one closed research wave is enough (any count), M/L still need two empty waves", () => {
+test("size S: one closed evidence wave is enough (any count), M/L still need two empty waves", () => {
   const mk = (size, waves) => {
     const l = emptyLedger({ slug: "demo", branch: "plan/demo", size });
     l.axes.push({ id: "A1", label: "flow" });
@@ -889,8 +904,8 @@ test("CLI: size S implies no branch in a git repo; plan-review command records a
   }
 });
 
-// ---- hard-gate additions: wayfinder branch, phase machine, rounds, test runs, glossary, user stories, deps ----
-test("wayfinder: fog branch, map, G_WF, handoff", async () => {
+// ---- hard-gate additions: map branch, phase machine, rounds, test runs, glossary, user stories, deps ----
+test("map: unknowns branch, map, G_MAP, handoff", async () => {
   const { spawnSync } = await import("node:child_process");
   const { mkdtempSync, rmSync, readFileSync, existsSync } = await import("node:fs");
   const { tmpdir } = await import("node:os");
@@ -899,33 +914,59 @@ test("wayfinder: fog branch, map, G_WF, handoff", async () => {
   const dir = mkdtempSync(join(tmpdir(), "planning-wf-"));
   const run = (...a) => spawnSync("node", [cli, ...a], { cwd: dir, encoding: "utf8" });
   try {
-    assert.equal(run("init", "--slug", "fog", "--wayfinder").status, 0);
-    const mapPath = join(dir, "docs", "maps", "fog", "map.md");
-    assert.ok(existsSync(mapPath), "wayfinder creates a map, not a plan");
-    const l = JSON.parse(readFileSync(join(dir, "docs", "maps", "fog", "ledger.json"), "utf8"));
+    assert.equal(run("init", "--slug", "mapdemo", "--map").status, 0);
+    const mapPath = join(dir, "docs", "maps", "mapdemo", "map.md");
+    assert.ok(existsSync(mapPath), "map creates a map, not a plan");
+    const l = JSON.parse(readFileSync(join(dir, "docs", "maps", "mapdemo", "ledger.json"), "utf8"));
     assert.equal(l.phase, "W0");
-    assert.equal(l.wayfinder.map, true);
+    assert.equal(l.map.map, true);
     assert.notEqual(
-      run("task", "--slug", "fog", "--label", "t", "--files", "a.js", "--interfaces", "i", "--acceptance", "a", "--verify", "v").status,
+      run("task", "--slug", "mapdemo", "--label", "t", "--files", "a.js", "--interfaces", "i", "--acceptance", "a", "--verify", "v").status,
       0,
-      "no task rows in the fog branch",
+      "no task rows in the unknowns branch",
     );
-    assert.equal(run("decision", "--slug", "fog", "--label", "destination", "--decision", "A tested auth spec").status, 0);
-    assert.equal(run("question", "--slug", "fog", "--label", "which-idp", "--question", "Which IdP?", "--wayfinder", "--kind", "research").status, 0);
-    assert.equal(run("answer", "--slug", "fog", "--id", "Q1", "--answer", "OIDC").status, 0);
-    assert.notEqual(run("gate", "--slug", "fog", "--id", "G_WF").status, 0, "fog is still recorded");
-    assert.equal(run("fog", "--slug", "fog", "--clear").status, 0);
-    const unsigned = run("gate", "--slug", "fog", "--id", "G_WF");
+    assert.equal(run("decision", "--slug", "mapdemo", "--label", "destination", "--decision", "A tested auth spec").status, 0);
+    assert.equal(run("question", "--slug", "mapdemo", "--label", "which-idp", "--question", "Which IdP?", "--map", "--kind", "evidence").status, 0);
+    assert.equal(run("answer", "--slug", "mapdemo", "--id", "Q1", "--answer", "OIDC").status, 0);
+    assert.notEqual(run("gate", "--slug", "mapdemo", "--id", "G_MAP").status, 0, "unknowns are still recorded");
+    assert.equal(run("unknowns", "--slug", "mapdemo", "--clear").status, 0);
+    const unsigned = run("gate", "--slug", "mapdemo", "--id", "G_MAP");
     assert.notEqual(unsigned.status, 0, "the captain must sign the destination");
-    assert.match(unsigned.stderr, /wayfinder-destination/);
+    assert.match(unsigned.stderr, /map-destination/);
     assert.equal(
-      run("approve", "--slug", "fog", "--gate", "G_WF", "--token", "wayfinder-destination", "--by", "user", "--quote", "A tested auth spec").status,
+      run("approve", "--slug", "mapdemo", "--gate", "G_MAP", "--token", "map-destination", "--by", "user", "--quote", "A tested auth spec").status,
       0,
-      "approve is allowed at W0 for G_WF",
+      "approve is allowed at W0 for G_MAP",
     );
-    assert.equal(run("gate", "--slug", "fog", "--id", "G_WF").status, 0);
-    assert.equal(run("wayfinder-handoff", "--slug", "fog", "--type", "feature").status, 0);
-    assert.ok(existsSync(join(dir, "docs", "plans", "feature", "fog", "ledger.json")), "handoff seeds a planning ledger at P0");
+    assert.equal(run("gate", "--slug", "mapdemo", "--id", "G_MAP").status, 0);
+    assert.equal(run("map-handoff", "--slug", "mapdemo", "--type", "feature").status, 0);
+    assert.ok(existsSync(join(dir, "docs", "plans", "feature", "mapdemo", "ledger.json")), "handoff seeds a planning ledger at P0");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("next: prints the next gate and keeps going until publish", async () => {
+  const { spawnSync } = await import("node:child_process");
+  const { mkdtempSync, rmSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const cli = new URL("./planning.mjs", import.meta.url).pathname.replace(/^\//, "");
+  const dir = mkdtempSync(join(tmpdir(), "planning-next-"));
+  const run = (...a) => spawnSync("node", [cli, ...a], { cwd: dir, encoding: "utf8" });
+  try {
+    assert.equal(run("init", "--slug", "demo", "--no-branch", "--size", "S").status, 0);
+    let n = run("next", "--slug", "demo");
+    assert.equal(n.status, 0);
+    assert.match(n.stdout, /gate --id G0/);
+    assert.match(n.stdout, /Do not stop until DONE published/);
+    assert.equal(run("decision", "--slug", "demo", "--label", "destination", "--decision", "ship").status, 0);
+    assert.equal(run("gate", "--slug", "demo", "--id", "G0").status, 0);
+    n = run("next", "--slug", "demo");
+    assert.match(n.stdout, /gate --id G_AX/);
+    assert.equal(run("axis", "--slug", "demo", "--label", "flow").status, 0);
+    n = run("next", "--slug", "demo");
+    assert.match(n.stdout, /gate --id G1/);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
@@ -1058,10 +1099,10 @@ test("G5: a claim that tests ran needs a test_run row", () => {
   assert.doesNotMatch(GATES.G5(l, "no claim here").join("\n"), /test_run/);
 });
 
-test("ULW plan: TL;DR, waves, dependency matrix and IS/GAP closure", () => {
+test("Handoff plan: TL;DR, waves, dependency matrix and ideal/gap closure", () => {
   const l = withBar(base());
-  addRow(l, { type: "decision", label: "is-1", answer: "one command syncs every tracked file" });
-  addRow(l, { type: "decision", label: "gap-1", answer: "IS-1: today the paths differ per harness" });
+  addRow(l, { type: "decision", label: "ideal-1", answer: "one command syncs every tracked file" });
+  addRow(l, { type: "decision", label: "gap-1", answer: "IDEAL-1: today the paths differ per harness" });
   const t1 = goodTask({ label: "one", closes: ["gap-1"] });
   const t2 = goodTask({ label: "two", deps: ["T1"], closes: ["gap-1"] });
   addRow(l, t1);
@@ -1072,17 +1113,61 @@ test("ULW plan: TL;DR, waves, dependency matrix and IS/GAP closure", () => {
   assert.match(p, /- Wave 1: T1/);
   assert.match(p, /- Wave 2: T2/);
   assert.match(p, /\| T1 \| — \| T2 \|/);
-  assert.match(p, /\| IS-1 \|/);
+  assert.match(p, /\| IDEAL-1 \|/);
   assert.match(p, /closes: gap-1/);
   assert.deepEqual(GATES.G4(l, p), []);
   assert.match(GATES.G4(l, p.replace("| T2 | T1 |", "| T2 | — |")).join("\n"), /does not match deps/);
   const missing = withBar(base());
-  addRow(missing, { type: "decision", label: "is-1", answer: "x" });
-  addRow(missing, { type: "decision", label: "gap-1", answer: "IS-1: y" });
+  addRow(missing, { type: "decision", label: "ideal-1", answer: "x" });
+  addRow(missing, { type: "decision", label: "gap-1", answer: "IDEAL-1: y" });
   addRow(missing, goodTask());
-  assert.match(GATES.G4(missing, planSkeleton(missing)).join("\n"), /must name the IS or GAP/);
+  assert.match(GATES.G4(missing, planSkeleton(missing)).join("\n"), /must name the IDEAL or GAP/);
   const direct = withBar(base());
-  addRow(direct, { type: "decision", label: "is-1", answer: "one path" });
-  addRow(direct, goodTask({ closes: ["is-1"] }));
+  addRow(direct, { type: "decision", label: "ideal-1", answer: "one path" });
+  addRow(direct, goodTask({ closes: ["ideal-1"] }));
   assert.deepEqual(GATES.G4(direct, planSkeleton(direct)), []);
+});
+
+// ---- review-cycle additions ----
+
+test("review2: changeStatus illegal transition fails and event recorded", () => {
+  const l = emptyLedger({ slug: "demo", branch: "plan/demo" });
+  const q = addRow(l, { type: "question", label: "q", quote: "?" });
+  changeStatus(l, q.id, "answered", { reason: "first" });
+  assert.throws(() => changeStatus(l, q.id, "answered", { reason: "again" }), /illegal transition/);
+  assert.equal(l.events.length, 1);
+});
+
+test("review2: designFrontier returns ready questions", () => {
+  const l = emptyLedger({ slug: "demo", branch: "plan/demo" });
+  const q1 = addRow(l, { type: "question", label: "q1", quote: "?" });
+  const q2 = addRow(l, { type: "question", label: "q2", quote: "?", blocked_by: [q1.id] });
+  assert.deepEqual(designFrontier(l).map((q) => q.id), [q1.id]);
+  changeStatus(l, q1.id, "answered", { reason: "done" });
+  assert.deepEqual(designFrontier(l).map((q) => q.id), [q2.id]);
+});
+
+test("review2: addCapability validates and normalizes", () => {
+  const l = emptyLedger({ slug: "demo", branch: "plan/demo" });
+  const c = addCapability(l, { id: "core", responsibility: "x", deps: "a,b" });
+  assert.deepEqual(c.depends_on, ["a", "b"]);
+  assert.throws(() => addCapability(l, { id: "Bad", responsibility: "x", deps: [] }), /must match/);
+  assert.throws(() => addCapability(l, { id: "core", responsibility: "x", deps: [] }), /already exists/);
+});
+
+test("review2: task-graph approval required for multi or size L", () => {
+  const l = emptyLedger({ slug: "demo", branch: "plan/demo", size: "L" });
+  addRow(l, goodTask());
+  assert.match(GATES.G4(l, planSkeleton(l)).join("\n"), /approve-task-graph/);
+  l.approvals.push({ gate: "G4", token: "approve-task-graph", by: "user", quote: "approved", at: "2026-01-01T00:00:00Z" });
+  assert.doesNotMatch(GATES.G4(l, planSkeleton(l)).join("\n"), /approve-task-graph/);
+});
+
+test("review2: --test-runs flag requires test_run rows", () => {
+  const l = emptyLedger({ slug: "demo", branch: "plan/demo", testRuns: true });
+  addRow(l, goodTask());
+  assert.match(GATES.G4(l, planSkeleton(l)).join("\n"), /test_run row with phase "red"/);
+  addRow(l, { type: "test_run", label: "r", task: "T1", phase: "red", cmd: "node --test", exit: 1, artifact: "sources/T1-red.log" });
+  addRow(l, { type: "test_run", label: "g", task: "T1", phase: "green", cmd: "node --test", exit: 0, artifact: "sources/T1-green.log" });
+  assert.doesNotMatch(GATES.G4(l, planSkeleton(l)).join("\n"), /test_run row/);
 });
