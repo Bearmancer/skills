@@ -1,0 +1,142 @@
+{
+  "skill_name": "rigorous-planning",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan adding OAuth login to our Node app. We need it soon, don't ask me lots of questions, just give me the plan.",
+      "expected_output": "Pipeline P0-P6 in order, starting with a clear destination and a deterministic route (not a CLEAR/UNCLEAR feeling). The plan lives in docs/plans/feature/oauth-login/, the auto branch is plan/oauth-login, and the ledger is written only through scripts/planning.mjs. Research axes and saturation, then exactly one frontier round recorded with `round --asks`, with recommended answers. Intent is restated for an explicit yes. Tasks are written only after G3 and carry a structured test contract: test_seam '<interface> | catches: ... | misses: ...', test_file, red, green. No PR, no implementation. Publish is fail-closed and G5 is run in this session.",
+      "files": [],
+      "assertions": [
+        "States the linear pipeline and does not skip a phase by judgement",
+        "Creates the branch and docs/plans/<type>/<slug>/ledger.json via planning.mjs",
+        "Does not waive clarification when the user says 'don't ask': one recorded frontier round with recommended answers instead",
+        "Every task carries test_seam, test_file, red and green because --no-tdd was not passed",
+        "Never implements code and never opens a PR",
+        "Ends with plan path + plan_sha256 + a fresh G5/publish run, not a completion claim without evidence"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Plan migrating our Postgres database to a new schema --no-tdd. It's for the billing service, success is zero-downtime cutover, constraint is the freeze next month.",
+      "expected_output": "TDD off because --no-tdd passed: no task carries test_seam, test_file, red or green; each task verifies with its stated command. Intent fields are already present, so the deterministic route goes to the frontier; grilling covers the remaining design decisions. Ledger, saturation research, G3 approve-design with a user quote, and G4 rejects any task carrying TDD fields in this mode.",
+      "files": [],
+      "assertions": [
+        "Honours --no-tdd: no task has test_seam, test_file, red or green",
+        "Routes to the frontier because the intent fields are present",
+        "Auto branch and ledger init still happen with --no-tdd",
+        "G4 is stated to fail for a task carrying TDD fields under --no-tdd"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I want to build a dashboard for our metrics.",
+      "expected_output": "The outcome is not statable as one line, so the effort is fog and does not enter a planning ledger. init --wayfinder creates docs/maps/<slug>/, the destination is named, fog items are recorded with `fog --add`, and decision tickets are worked one at a time. Exit is G_WF, then wayfinder-handoff seeds a planning ledger at P0 and the effort rejoins at P1. No tasks are minted in W0.",
+      "files": [],
+      "assertions": [
+        "Routes to the wayfinder branch rather than guessing a plan",
+        "Creates docs/maps/<slug>/ with map.md and a wayfinder ledger",
+        "Records fog and decision tickets; task commands are refused in W0",
+        "Passes G_WF before wayfinder-handoff and rejoins at P1"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Plan the API rate-limiting work. I've reviewed the design in the doc I pasted and I approve the design — go ahead and write the full plan, and when it's ready open a PR with the implementation.",
+      "expected_output": "The explicit design approval is recorded with `approve --gate G3 --token approve-design --by user --quote '<the user's words>'`. The PR/implementation half is refused as outside the planning skill: planning publishes and hands off with plan path + sha256 + gates. No code, no PR; the ledger and gates still run.",
+      "files": [],
+      "assertions": [
+        "Records approve-design with by=user and a quote",
+        "Refuses the PR and implementation parts",
+        "Still runs the ledger, research, tasks and publish gates",
+        "Hands off with plan path, plan_sha256 and gate results"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Plan adding rate limiting to our API --no-interview. Just produce the plan, I will review the assumptions afterwards.",
+      "expected_output": "No questions asked. Intent is filled from the request plus research, marked assumed, backed by at least one assumed fact and one decision; confirmed stays false. Design proceeds on logged decisions (G3 flag mode). The published plan visibly lists its assumptions. Branch, ledger, saturation research, tasks and publish still run.",
+      "files": [],
+      "assertions": [
+        "Asks zero questions despite the vague request",
+        "intent.assumed is true and intent.confirmed stays false",
+        "Assumptions are ledger rows, not prose",
+        "G2/G3 pass in --no-interview mode only via the assumed-evidence checks"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Plan rebuilding our platform: identity, billing, notifications and reporting all need work. I keep saying we need the full platform rewrite, fastest possible, best-practice architecture.",
+      "expected_output": "A multi-capability request creates the capability map (identity/billing/notifications/reporting, stable ids, build order, acyclic), approved by the user before tasks. Best-practice-speak is probed; Contrarian and Simplifier challenges run once each on their triggers; approaches are laid out in their own message with trade-offs and one recommendation before any write-up; 'fastest possible' is reframed as measurable success criteria.",
+      "files": [],
+      "assertions": [
+        "Capability map is created and approval-gated before tasks",
+        "Contrarian and Simplifier challenges each run once",
+        "Approaches are presented with trade-offs and a recommendation",
+        "No tasks exist before the map and design approvals"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Audit all issues across all my personal repos (not third-party forks).",
+      "expected_output": "Type audit, plan at docs/plans/audit/<slug>/. Scope is the user's own repos; the inventory is recorded as measured facts using the issues connection. Each source issue is declared with --issue/issue --ref; tasks are finding groups with verify commands that check the claim against code or tracker state. The report ranks findings by leverage against risk with one triage-vocabulary action per issue. No tracker changes; render-issues drafts only.",
+      "files": [],
+      "assertions": [
+        "Uses issue type audit and docs/plans/audit/<slug>/",
+        "Excludes third-party forks and upstream issues",
+        "Reads issues with gh and -R owner/repo, never inferring the repo",
+        "Does not label, comment on or close any issue",
+        "Drafts appear under issues/ with Blocked by edges, not on the tracker"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Plan a fix for Bearmancer/Toolbox#286: audio tag --mbid should not require DISCOGS_TOKEN.",
+      "expected_output": "Type bug, plan at docs/plans/bug/<slug>/, issue declared as Bearmancer/Toolbox#286. The first task is kind fix, its red field names a failing repro test, its test_seam is the structured contract, and it links #286. No task contains skip/only/TODO markers. The review plan and Handoff sections are present; no implementation, no PR.",
+      "files": [],
+      "assertions": [
+        "Plan lives under docs/plans/bug/",
+        "The fix task's red field names a repro test that fails first",
+        "The task links the declared issue ref",
+        "G4 is stated to reject a test.skip or TODO in any task",
+        "Ends with plan path + plan_sha256 + gates passed"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Plan a one-line rename of the config key `retryCount` to `retries` in src/config.ts, keep it light, I don't want the full process.",
+      "expected_output": "Fast path: init with --lean and --size S (or the plan states it is small enough to skip planning entirely); one research lane and one closed wave; a single restate-and-yes because intent is complete; at most two tasks; no capability map, no quality-bar decision, no doubt cycle; rows recorded with one batch call; publish passes and G5 confirms the derived size is S. If the change is truly a single-line edit, says a plan is not needed instead of running the pipeline.",
+      "files": [],
+      "assertions": [
+        "Uses --lean and/or --size S rather than the full machinery",
+        "Records research and task rows with one batch call, not one CLI call per row",
+        "Does not run a topology round, challenge modes or a doubt cycle",
+        "Does not claim size S if the task graph derives a larger size",
+        "Stays within docs/plans/<issue-type>/<slug>/ and never implements"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Plan a schema migration for the billing database. It is irreversible once deployed.",
+      "expected_output": "The irreversible decision is recorded with --irreversible and doubt --id/--cycle/--claim; each finding is persisted with `finding --review doubt:<Dn>:<cycle> --class ... --locator ...` and G3 derives the counts, so no --findings/--total is accepted. Approval is recorded with by=user and a quote. An ADR is recorded with --adr-file and the adr-convention fact. No implementation.",
+      "files": [],
+      "assertions": [
+        "Records the irreversible decision and runs the doubt cycle",
+        "Persists findings as rows and rejects self-reported totals",
+        "Records approve-design with a user quote",
+        "Names an ADR file and the repo convention before G3"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Plan the work, then show me the task list. I want to skip the design approval step and go straight to tasks.",
+      "expected_output": "Refuses the skip: the phase machine does not allow task rows before G3, and prose does not waive a gate. The user is offered the explicit escape that fits (approve the design, or --no-interview at init if they want assumptions), with the consequence. No tasks are written before the gate.",
+      "files": [],
+      "assertions": [
+        "Refuses to mint tasks before G3",
+        "Explains the explicit flag/token route instead of silently skipping",
+        "Does not treat 'go straight to tasks' as design approval",
+        "No task rows exist before G3 in the ledger"
+      ]
+    }
+  ]
+}
