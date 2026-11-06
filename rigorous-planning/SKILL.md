@@ -5,7 +5,7 @@ description: "Plan non-trivial work before code: a ledger-backed pipeline from u
 
 # Rigorous planning
 
-One linear pipeline absorbs this project's planning, design, issue-shaping, review-planning and agent-writing. This file is the always-loaded contract: principles, flags, state machine, CLI, gates and playbook pointers. Read a phase playbook on entry; a method when its branch fires. Methods live in `methods/`; phases in `phases/`.
+One linear pipeline absorbs this project's planning, design, issue-shaping, review-planning and plan writing. This file is the always-loaded contract: principles, flags, state machine, CLI, gates and playbook pointers. Read a phase playbook on entry; a method when its branch fires. Methods live in `methods/`; phases in `phases/`.
 
 The model thinks; `scripts/planning.mjs` enforces. A regex, count, hash or exit-code rule is a **gate** in the script. An unscriptable rule is a **method** and never blocks or passes on its own.
 
