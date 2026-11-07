@@ -1,0 +1,3 @@
+# Content is LF in the index and on checkout on every OS; byte budgets in the
+# skill guards are measured against these bytes (a CRLF checkout inflates them).
+* text=auto eol=lf
