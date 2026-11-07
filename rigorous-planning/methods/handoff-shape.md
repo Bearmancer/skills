@@ -34,6 +34,32 @@ Everything still comes from `ledger.json`; `plan.md` is rendered.
   `type(scope): summary`; never commit a red suite or a weakened test. The
   executor commits; planning does not.
 
+## Decoupled from execution
+
+`plan.md` ends at the published `plan_sha256` and carries no executor rules (no fix-round caps, worker statuses or restart blocks); how a plan is executed belongs to the executing session (`/ulw-execute`, mass-ulw). The plan keeps only plan content: the review bar, the commit strategy, the final verification wave, the Dispatch and Todo mirror sections, and read-only exports (`cpm`, `dag`, `todos`, `frontier`). A published plan changes only through a ledgered amendment: any mutating command needs `--reason`, is recorded in `changes`, unpublishes the plan, and requires G4 and `publish` again.
+
+## Chat handoff summary
+
+When the plan is published, the closing message to the user has this shape, in the user's language, counted from the rendered plan (never estimated):
+
+1. **What this plan drives**: the work it performs, in 1-2 sentences.
+2. **Affected user and ideal state**: who the result touches and, from the `ideal-n` rows, what will exist or behave differently for them.
+3. **Shape**: waves and tasks (N `T` rows plus the four F rows), the critical path from `cpm`, and the executor-category mix (for example 6x `quick`, 2x `unspecified-high`).
+4. **Added beyond the request**: what exploration surfaced and was folded in (edge cases, migrations, tests, rollback, docs), each with a one-line reason; "none" if nothing.
+5. **Decisions I made for you**: every `default-*` and assumed decision, each with its reversibility, led by the routing call (intent verdict and autonomy).
+6. **Verification**: the final verification wave plus the key `verify` commands.
+7. **Execution handoff**: execution is a separate session the user starts, for example `/ulw-execute <plan>` in this session or a new one, with `--worktree <absolute-path>` (task-owned worktree; required for PR or branch work), `--make-pr` (deliver as a PR), `--ship` (implies `--make-pr`, keep working until merged); or mass-ulw with the `dag` definition (`methods/cpm-dispatch.md`). This skill starts none of them.
+
+## Effort and executor lines
+
+The TL;DR states effort as exactly one band: Quick (a single edit), Short (one focused change, a few files), Medium (a multi-file feature in one session), Large (several waves, one long session) or XL (multi-session or architectural). Never hours or days: the counted task rows are the size signal, and the CPM `effort` units are relative, not durations.
+
+Each task carries `--category` (its `Recommended task executor category:`, with a one-line reason in `acceptance` or `steps`) from `quick`, `unspecified-low`, `unspecified-high`, `deep-low`, `deep-high`, `ultrabrain`, `visual-engineering`, `writing`, `architect`, `artistry`. The rendered row shows it, and `dag` routes the node by it.
+
+## Per-task QA scenarios
+
+Every task's `verify` is a runnable command with its expected result. Write the happy case in `verify` and the failure case in `acceptance` ("fails with <exit/message> when <input>"), each naming the exact tool, invocation and evidence path. A scenario a human must perform is not a scenario; the Success criteria table maps each `ideal-n` row to the task and `verify` that proves it.
+
 ## Hard versus method
 
 Hard: waves and matrix fidelity, ideal/gap closure, task `closes`, success table
