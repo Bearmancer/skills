@@ -1,241 +1,241 @@
 {
-	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "claims.yaml",
-	"type": "object",
-	"required": [
-		"schema",
-		"claims"
-	],
-	"additionalProperties": false,
-	"properties": {
-		"schema": {
-			"const": 1
-		},
-		"claims": {
-			"type": "array",
-			"items": {
-				"$ref": "#/$defs/claim"
-			}
-		}
-	},
-	"$defs": {
-		"evidence": {
-			"type": "object",
-			"required": [
-				"source",
-				"locator",
-				"quote",
-				"stance"
-			],
-			"additionalProperties": false,
-			"properties": {
-				"source": {
-					"type": "string",
-					"pattern": "^s[0-9]+$"
-				},
-				"locator": {
-					"type": "string",
-					"minLength": 1
-				},
-				"quote": {
-					"type": "string",
-					"minLength": 1
-				},
-				"stance": {
-					"enum": [
-						"supports",
-						"contradicts"
-					]
-				},
-				"read_by": {
-					"type": "string"
-				},
-				"text_corroboration": {
-					"type": "boolean"
-				},
-				"independence_rationale": {
-					"type": "string",
-					"minLength": 1
-				},
-				"note": {
-					"type": "string"
-				}
-			}
-		},
-		"position": {
-			"type": "object",
-			"required": [
-				"text",
-				"sources"
-			],
-			"additionalProperties": false,
-			"properties": {
-				"text": {
-					"type": "string",
-					"minLength": 1
-				},
-				"holders": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"sources": {
-					"type": "array",
-					"items": {
-						"type": "string",
-						"pattern": "^s[0-9]+$"
-					},
-					"minItems": 1
-				}
-			}
-		},
-		"claim": {
-			"type": "object",
-			"required": [
-				"id",
-				"text",
-				"hash",
-				"status",
-				"origin",
-				"rounds",
-				"paradigms_tried",
-				"evidence"
-			],
-			"additionalProperties": false,
-			"properties": {
-				"id": {
-					"type": "string",
-					"pattern": "^c[0-9]+$"
-				},
-				"text": {
-					"type": "string",
-					"minLength": 1
-				},
-				"hash": {
-					"type": "string",
-					"pattern": "^[0-9a-f]{16}$"
-				},
-				"status": {
-					"enum": [
-						"true",
-						"untrue",
-						"interpretive",
-						"not-found",
-						"open"
-					]
-				},
-				"origin": {
-					"enum": [
-						"discovered",
-						"misconception",
-						"extracted-from-input",
-						"extracted-from-prose"
-					]
-				},
-				"rounds": {
-					"type": "integer",
-					"minimum": 0,
-					"maximum": 5
-				},
-				"paradigms_tried": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"evidence": {
-					"type": "array",
-					"items": {
-						"$ref": "#/$defs/evidence"
-					}
-				},
-				"positions": {
-					"type": "array",
-					"items": {
-						"$ref": "#/$defs/position"
-					}
-				},
-				"tags": {
-					"type": "array",
-					"items": {
-						"enum": [
-							"visual-read"
-						]
-					}
-				},
-				"anchors": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"cluster": {
-					"type": "string",
-					"minLength": 1
-				},
-				"parent": {
-					"type": "string",
-					"pattern": "^c[0-9]+$"
-				},
-				"round_log": {
-					"type": "array",
-					"items": {
-						"$ref": "#/$defs/round_entry"
-					}
-				},
-				"not_found_reason": {
-					"type": "string"
-				},
-				"suspect_empty": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"reply_flags": {
-					"type": "array",
-					"items": {
-						"$ref": "#/$defs/reply_flag"
-					}
-				}
-			}
-		},
-		"round_entry": {
-			"type": "object",
-			"additionalProperties": false,
-			"properties": {
-				"round": {
-					"type": "integer"
-				},
-				"sources": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"new_read_sources": {
-					"type": "integer"
-				},
-				"print": {
-					"type": "string"
-				}
-			}
-		},
-		"reply_flag": {
-			"type": "object",
-			"additionalProperties": false,
-			"properties": {
-				"source": {
-					"type": "string"
-				},
-				"piece": {
-					"type": "integer"
-				},
-				"reason": {
-					"type": "string"
-				}
-			}
-		}
-	}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "claims.yaml",
+  "type": "object",
+  "required": [
+    "schema",
+    "claims"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": 1
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/claim"
+      }
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": [
+        "source",
+        "locator",
+        "quote",
+        "stance"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "pattern": "^s[0-9]+$"
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quote": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stance": {
+          "enum": [
+            "supports",
+            "contradicts"
+          ]
+        },
+        "read_by": {
+          "type": "string"
+        },
+        "text_corroboration": {
+          "type": "boolean"
+        },
+        "independence_rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "position": {
+      "type": "object",
+      "required": [
+        "text",
+        "sources"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "holders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^s[0-9]+$"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "required": [
+        "id",
+        "text",
+        "hash",
+        "status",
+        "origin",
+        "rounds",
+        "paradigms_tried",
+        "evidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^c[0-9]+$"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{16}$"
+        },
+        "status": {
+          "enum": [
+            "true",
+            "untrue",
+            "interpretive",
+            "not-found",
+            "open"
+          ]
+        },
+        "origin": {
+          "enum": [
+            "discovered",
+            "misconception",
+            "extracted-from-input",
+            "extracted-from-prose"
+          ]
+        },
+        "rounds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "paradigms_tried": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "positions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/position"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "visual-read"
+            ]
+          }
+        },
+        "anchors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cluster": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parent": {
+          "type": "string",
+          "pattern": "^c[0-9]+$"
+        },
+        "round_log": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/round_entry"
+          }
+        },
+        "not_found_reason": {
+          "type": "string"
+        },
+        "suspect_empty": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reply_flags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reply_flag"
+          }
+        }
+      }
+    },
+    "round_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "round": {
+          "type": "integer"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "new_read_sources": {
+          "type": "integer"
+        },
+        "print": {
+          "type": "string"
+        }
+      }
+    },
+    "reply_flag": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "piece": {
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    }
+  }
 }

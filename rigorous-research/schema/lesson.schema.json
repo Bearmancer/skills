@@ -1,329 +1,329 @@
 {
-	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "lesson source",
-	"type": "object",
-	"required": ["schema", "title", "topic", "mode", "layout", "answer", "body"],
-	"additionalProperties": false,
-	"properties": {
-		"schema": { "const": 1 },
-		"title": { "type": "string", "minLength": 1 },
-		"topic": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
-		"mode": { "enum": ["learn", "rules", "answer", "recommend"] },
-		"subject": { "type": "string", "minLength": 1 },
-		"chapter": { "type": "integer", "minimum": 1 },
-		"layout": {
-			"enum": [
-				"concept",
-				"glossary",
-				"qa",
-				"table",
-				"decision-tree",
-				"steps",
-				"timeline",
-				"cause-effect",
-				"cheat-sheet",
-				"diagram"
-			]
-		},
-		"answer": { "$ref": "#/$defs/sentence" },
-		"body": { "type": "object" },
-		"extra": {
-			"type": "array",
-			"items": {
-				"type": "object",
-				"required": ["heading", "sentences"],
-				"additionalProperties": false,
-				"properties": {
-					"heading": { "type": "string", "minLength": 1 },
-					"sentences": { "type": "array", "items": { "$ref": "#/$defs/sentence" }, "minItems": 1 }
-				}
-			}
-		},
-		"errata": { "type": "array", "items": { "$ref": "#/$defs/sentence" } }
-	},
-	"$defs": {
-		"sentence": {
-			"type": "object",
-			"required": ["id", "text", "claims"],
-			"additionalProperties": false,
-			"properties": {
-				"id": { "type": "string", "pattern": "^s[0-9]+$" },
-				"text": { "type": "string", "minLength": 1 },
-				"claims": { "type": "array", "items": { "type": "string", "pattern": "^c[0-9]+$" }, "minItems": 1 },
-				"block": { "enum": ["plain", "debate", "errata"] }
-			}
-		},
-		"cell": { "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/sentence" }] },
-		"node": {
-			"oneOf": [
-				{
-					"type": "object",
-					"required": ["question", "branches"],
-					"additionalProperties": false,
-					"properties": {
-						"question": { "type": "string", "minLength": 1 },
-						"branches": {
-							"type": "array",
-							"minItems": 1,
-							"items": {
-								"type": "object",
-								"required": ["label", "node"],
-								"additionalProperties": false,
-								"properties": { "label": { "type": "string" }, "node": { "$ref": "#/$defs/node" } }
-							}
-						}
-					}
-				},
-				{
-					"type": "object",
-					"required": ["outcome"],
-					"additionalProperties": false,
-					"properties": { "outcome": { "$ref": "#/$defs/sentence" } }
-				}
-			]
-		}
-	},
-	"allOf": [
-		{
-			"if": { "properties": { "layout": { "const": "concept" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["sections"],
-						"additionalProperties": false,
-						"properties": {
-							"sections": {
-								"type": "array",
-								"minItems": 1,
-								"items": {
-									"type": "object",
-									"required": ["heading", "sentences"],
-									"additionalProperties": false,
-									"properties": {
-										"heading": { "type": "string", "minLength": 1 },
-										"sentences": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sentence" } }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		{
-			"if": { "properties": { "layout": { "const": "glossary" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["entries"],
-						"additionalProperties": false,
-						"properties": {
-							"entries": {
-								"type": "array",
-								"minItems": 1,
-								"items": {
-									"type": "object",
-									"required": ["term", "sentences"],
-									"additionalProperties": false,
-									"properties": {
-										"term": { "type": "string", "minLength": 1 },
-										"sentences": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sentence" } }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		{
-			"if": { "properties": { "layout": { "const": "qa" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["items"],
-						"additionalProperties": false,
-						"properties": {
-							"items": {
-								"type": "array",
-								"minItems": 1,
-								"items": {
-									"type": "object",
-									"required": ["question", "answer"],
-									"additionalProperties": false,
-									"properties": {
-										"question": { "type": "string", "minLength": 1 },
-										"answer": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sentence" } }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		{
-			"if": { "properties": { "layout": { "const": "table" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["columns", "rows"],
-						"additionalProperties": false,
-						"properties": {
-							"columns": { "type": "array", "minItems": 2, "items": { "type": "string" } },
-							"rows": {
-								"type": "array",
-								"minItems": 1,
-								"items": {
-									"type": "object",
-									"required": ["cells"],
-									"additionalProperties": false,
-									"properties": { "cells": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/cell" } } }
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		{
-			"if": { "properties": { "layout": { "const": "decision-tree" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["root"],
-						"additionalProperties": false,
-						"properties": { "root": { "$ref": "#/$defs/node" } }
-					}
-				}
-			}
-		},
-		{
-			"if": { "properties": { "layout": { "const": "steps" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["steps"],
-						"additionalProperties": false,
-						"properties": { "steps": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sentence" } } }
-					}
-				}
-			}
-		},
-		{
-			"if": { "properties": { "layout": { "const": "timeline" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["events"],
-						"additionalProperties": false,
-						"properties": {
-							"events": {
-								"type": "array",
-								"minItems": 1,
-								"items": {
-									"type": "object",
-									"required": ["when", "sentence"],
-									"additionalProperties": false,
-									"properties": {
-										"when": { "type": "string", "minLength": 1 },
-										"sentence": { "$ref": "#/$defs/sentence" }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		{
-			"if": { "properties": { "layout": { "const": "cause-effect" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["chain"],
-						"additionalProperties": false,
-						"properties": { "chain": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/sentence" } } }
-					}
-				}
-			}
-		},
-		{
-			"if": { "properties": { "layout": { "const": "cheat-sheet" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["cells"],
-						"additionalProperties": false,
-						"properties": {
-							"cells": {
-								"type": "array",
-								"minItems": 1,
-								"items": {
-									"type": "object",
-									"required": ["label", "sentence"],
-									"additionalProperties": false,
-									"properties": {
-										"label": { "type": "string", "minLength": 1 },
-										"sentence": { "$ref": "#/$defs/sentence" }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		{
-			"if": { "properties": { "layout": { "const": "diagram" } } },
-			"then": {
-				"properties": {
-					"body": {
-						"type": "object",
-						"required": ["nodes", "edges", "caption"],
-						"additionalProperties": false,
-						"properties": {
-							"nodes": {
-								"type": "array",
-								"minItems": 2,
-								"items": {
-									"type": "object",
-									"required": ["id", "label"],
-									"additionalProperties": false,
-									"properties": {
-										"id": { "type": "string", "minLength": 1 },
-										"label": { "type": "string", "minLength": 1 }
-									}
-								}
-							},
-							"edges": {
-								"type": "array",
-								"minItems": 1,
-								"items": {
-									"type": "object",
-									"required": ["from", "to"],
-									"additionalProperties": false,
-									"properties": {
-										"from": { "type": "string" },
-										"to": { "type": "string" },
-										"label": { "type": "string" }
-									}
-								}
-							},
-							"caption": { "$ref": "#/$defs/sentence" }
-						}
-					}
-				}
-			}
-		}
-	]
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "lesson source",
+  "type": "object",
+  "required": ["schema", "title", "topic", "mode", "layout", "answer", "body"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "topic": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "mode": { "enum": ["learn", "rules", "answer", "recommend"] },
+    "subject": { "type": "string", "minLength": 1 },
+    "chapter": { "type": "integer", "minimum": 1 },
+    "layout": {
+      "enum": [
+        "concept",
+        "glossary",
+        "qa",
+        "table",
+        "decision-tree",
+        "steps",
+        "timeline",
+        "cause-effect",
+        "cheat-sheet",
+        "diagram"
+      ]
+    },
+    "answer": { "$ref": "#/$defs/sentence" },
+    "body": { "type": "object" },
+    "extra": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["heading", "sentences"],
+        "additionalProperties": false,
+        "properties": {
+          "heading": { "type": "string", "minLength": 1 },
+          "sentences": { "type": "array", "items": { "$ref": "#/$defs/sentence" }, "minItems": 1 }
+        }
+      }
+    },
+    "errata": { "type": "array", "items": { "$ref": "#/$defs/sentence" } }
+  },
+  "$defs": {
+    "sentence": {
+      "type": "object",
+      "required": ["id", "text", "claims"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^s[0-9]+$" },
+        "text": { "type": "string", "minLength": 1 },
+        "claims": { "type": "array", "items": { "type": "string", "pattern": "^c[0-9]+$" }, "minItems": 1 },
+        "block": { "enum": ["plain", "debate", "errata"] }
+      }
+    },
+    "cell": { "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/sentence" }] },
+    "node": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["question", "branches"],
+          "additionalProperties": false,
+          "properties": {
+            "question": { "type": "string", "minLength": 1 },
+            "branches": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["label", "node"],
+                "additionalProperties": false,
+                "properties": { "label": { "type": "string" }, "node": { "$ref": "#/$defs/node" } }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["outcome"],
+          "additionalProperties": false,
+          "properties": { "outcome": { "$ref": "#/$defs/sentence" } }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "layout": { "const": "concept" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["sections"],
+            "additionalProperties": false,
+            "properties": {
+              "sections": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["heading", "sentences"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "heading": { "type": "string", "minLength": 1 },
+                    "sentences": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sentence" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "layout": { "const": "glossary" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["entries"],
+            "additionalProperties": false,
+            "properties": {
+              "entries": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["term", "sentences"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "term": { "type": "string", "minLength": 1 },
+                    "sentences": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sentence" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "layout": { "const": "qa" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["items"],
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["question", "answer"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "question": { "type": "string", "minLength": 1 },
+                    "answer": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sentence" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "layout": { "const": "table" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["columns", "rows"],
+            "additionalProperties": false,
+            "properties": {
+              "columns": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+              "rows": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["cells"],
+                  "additionalProperties": false,
+                  "properties": { "cells": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/cell" } } }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "layout": { "const": "decision-tree" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["root"],
+            "additionalProperties": false,
+            "properties": { "root": { "$ref": "#/$defs/node" } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "layout": { "const": "steps" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["steps"],
+            "additionalProperties": false,
+            "properties": { "steps": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sentence" } } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "layout": { "const": "timeline" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["events"],
+            "additionalProperties": false,
+            "properties": {
+              "events": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["when", "sentence"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "when": { "type": "string", "minLength": 1 },
+                    "sentence": { "$ref": "#/$defs/sentence" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "layout": { "const": "cause-effect" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["chain"],
+            "additionalProperties": false,
+            "properties": { "chain": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/sentence" } } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "layout": { "const": "cheat-sheet" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["cells"],
+            "additionalProperties": false,
+            "properties": {
+              "cells": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["label", "sentence"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "label": { "type": "string", "minLength": 1 },
+                    "sentence": { "$ref": "#/$defs/sentence" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "layout": { "const": "diagram" } } },
+      "then": {
+        "properties": {
+          "body": {
+            "type": "object",
+            "required": ["nodes", "edges", "caption"],
+            "additionalProperties": false,
+            "properties": {
+              "nodes": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "required": ["id", "label"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string", "minLength": 1 },
+                    "label": { "type": "string", "minLength": 1 }
+                  }
+                }
+              },
+              "edges": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["from", "to"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "from": { "type": "string" },
+                    "to": { "type": "string" },
+                    "label": { "type": "string" }
+                  }
+                }
+              },
+              "caption": { "$ref": "#/$defs/sentence" }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

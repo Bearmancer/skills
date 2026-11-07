@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-purge.py: Autonomous maximal branch purge for user forks.
+purge_branches.py: Autonomous maximal branch purge for user forks.
 Deletes remote fork branches whose PRs are merged or closed, or which have 0 unique commits vs upstream.
 Never deletes branches of open PRs, default branches, or branches with unmerged work.
 """
