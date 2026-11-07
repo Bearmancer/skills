@@ -11,6 +11,7 @@ import subprocess
 import sys
 from collections import defaultdict
 
+
 def run_cmd(cmd):
     try:
         res = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
@@ -19,6 +20,7 @@ def run_cmd(cmd):
         return res.stdout.strip()
     except Exception:
         return None
+
 
 def get_current_user():
     user = run_cmd(["gh", "api", "user", "--jq", ".login"])
@@ -31,14 +33,28 @@ def get_current_user():
                     return parts[1].split()[0]
     return user or "Bearmancer"
 
+
 def is_personal_repo(name_with_owner, current_user, forks_set):
     owner = name_with_owner.split("/")[0]
     if owner.lower() == current_user.lower():
         return name_with_owner.lower() not in forks_set
     return False
 
+
 def sweep_prs(current_user, forks_set, fetch_details=True):
-    raw = run_cmd(["gh", "search", "prs", "--author", "@me", "--limit", "100", "--json", "repository,number,title,state,url,createdAt,updatedAt,closedAt"])
+    raw = run_cmd(
+        [
+            "gh",
+            "search",
+            "prs",
+            "--author",
+            "@me",
+            "--limit",
+            "100",
+            "--json",
+            "repository,number,title,state,url,createdAt,updatedAt,closedAt",
+        ]
+    )
     if not raw:
         return []
     try:
@@ -61,17 +77,35 @@ def sweep_prs(current_user, forks_set, fetch_details=True):
             continue
         repo = item["repository"]["nameWithOwner"]
         num = item["number"]
-        detail_raw = run_cmd(["gh", "pr", "view", str(num), "--repo", repo, "--json", "mergeable,reviewDecision,statusCheckRollup,headRefName"])
+        detail_raw = run_cmd(
+            [
+                "gh",
+                "pr",
+                "view",
+                str(num),
+                "--repo",
+                repo,
+                "--json",
+                "mergeable,reviewDecision,statusCheckRollup,headRefName",
+            ]
+        )
         if detail_raw:
             try:
                 d = json.loads(detail_raw)
                 item["mergeable"] = d.get("mergeable")
                 item["reviewDecision"] = d.get("reviewDecision")
                 item["headRefName"] = d.get("headRefName")
-                
+
                 rollup = d.get("statusCheckRollup") or []
-                failures = [c.get("name") or c.get("context") for c in rollup if c.get("conclusion") in ["FAILURE", "TIMED_OUT", "ACTION_REQUIRED"]]
-                in_prog = [c for c in rollup if c.get("status") in ["IN_PROGRESS", "QUEUED"]]
+                failures = [
+                    c.get("name") or c.get("context")
+                    for c in rollup
+                    if c.get("conclusion")
+                    in ["FAILURE", "TIMED_OUT", "ACTION_REQUIRED"]
+                ]
+                in_prog = [
+                    c for c in rollup if c.get("status") in ["IN_PROGRESS", "QUEUED"]
+                ]
                 item["ci_total"] = len(rollup)
                 item["ci_failures"] = len(failures)
                 item["ci_in_progress"] = len(in_prog)
@@ -80,8 +114,21 @@ def sweep_prs(current_user, forks_set, fetch_details=True):
                 pass
     return third_party
 
+
 def sweep_issues(current_user, forks_set):
-    raw = run_cmd(["gh", "search", "issues", "--author", "@me", "--limit", "200", "--json", "repository,number,title,state,url,createdAt,updatedAt,closedAt"])
+    raw = run_cmd(
+        [
+            "gh",
+            "search",
+            "issues",
+            "--author",
+            "@me",
+            "--limit",
+            "200",
+            "--json",
+            "repository,number,title,state,url,createdAt,updatedAt,closedAt",
+        ]
+    )
     if not raw:
         return []
     try:
@@ -97,8 +144,20 @@ def sweep_issues(current_user, forks_set):
         third_party.append(item)
     return third_party
 
+
 def sweep_forks(current_user):
-    raw = run_cmd(["gh", "repo", "list", "--fork", "--json", "nameWithOwner,name,parent,defaultBranchRef", "--limit", "100"])
+    raw = run_cmd(
+        [
+            "gh",
+            "repo",
+            "list",
+            "--fork",
+            "--json",
+            "nameWithOwner,name,parent,defaultBranchRef",
+            "--limit",
+            "100",
+        ]
+    )
     if not raw:
         return []
     try:
@@ -106,10 +165,15 @@ def sweep_forks(current_user):
     except Exception:
         return []
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Account-wide GitHub sweep for third-party PRs, issues, and fork branches.")
+    parser = argparse.ArgumentParser(
+        description="Account-wide GitHub sweep for third-party PRs, issues, and fork branches."
+    )
     parser.add_argument("--json", action="store_true", help="Output raw JSON")
-    parser.add_argument("--open-only", action="store_true", help="Only include open items")
+    parser.add_argument(
+        "--open-only", action="store_true", help="Only include open items"
+    )
     parser.add_argument("--prs-only", action="store_true", help="Sweep PRs only")
     parser.add_argument("--issues-only", action="store_true", help="Sweep issues only")
     parser.add_argument("--forks-only", action="store_true", help="Sweep forks only")
@@ -137,16 +201,18 @@ def main():
             "total": len(all_prs),
             "open": len(open_prs),
             "merged": len(merged_prs),
-            "closed": len(closed_prs)
+            "closed": len(closed_prs),
         }
     if "issues" in report:
         all_issues = report["issues"]
         open_issues = [i for i in all_issues if i.get("state", "").lower() == "open"]
-        closed_issues = [i for i in all_issues if i.get("state", "").lower() == "closed"]
+        closed_issues = [
+            i for i in all_issues if i.get("state", "").lower() == "closed"
+        ]
         summary["issues"] = {
             "total": len(all_issues),
             "open": len(open_issues),
-            "closed": len(closed_issues)
+            "closed": len(closed_issues),
         }
     summary["forks"] = len(forks)
     report["summary"] = summary
@@ -163,10 +229,14 @@ def main():
     lines.append(f"# Third-Party GitHub Sweep Report (@{current_user})\n")
     if "prs" in summary:
         p = summary["prs"]
-        lines.append(f"**Pull Requests:** {p['total']} total ({p['open']} Open, {p['merged']} Merged, {p['closed']} Closed)")
+        lines.append(
+            f"**Pull Requests:** {p['total']} total ({p['open']} Open, {p['merged']} Merged, {p['closed']} Closed)"
+        )
     if "issues" in summary:
         i = summary["issues"]
-        lines.append(f"**Issues:** {i['total']} total ({i['open']} Open, {i['closed']} Closed)")
+        lines.append(
+            f"**Issues:** {i['total']} total ({i['open']} Open, {i['closed']} Closed)"
+        )
     lines.append(f"**Tracked Forks:** {summary['forks']}")
     lines.append("")
 
@@ -185,29 +255,37 @@ def main():
                 ci_tot = pr.get("ci_total", 0)
                 ci_fail = pr.get("ci_failures", 0)
                 ci_run = pr.get("ci_in_progress", 0)
-                
+
                 ci_str = f"CI: {ci_tot - ci_fail - ci_run}/{ci_tot} passed"
                 if ci_fail > 0:
-                    ci_str += f" ({ci_fail} failed: {', '.join(pr.get('failure_names', []))})"
+                    ci_str += (
+                        f" ({ci_fail} failed: {', '.join(pr.get('failure_names', []))})"
+                    )
                 if ci_run > 0:
                     ci_str += f" ({ci_run} queued/running)"
-                
+
                 lines.append(f"- **[{repo}#{num}]** {title}")
-                lines.append(f"  - Mergeable: `{mergeable}` | Review: `{rev}` | {ci_str}")
+                lines.append(
+                    f"  - Mergeable: `{mergeable}` | Review: `{rev}` | {ci_str}"
+                )
                 lines.append(f"  - URL: {pr['url']}")
             lines.append("")
 
     if "issues" in report and not args.open_only:
-        open_issues = [i for i in report["issues"] if i.get("state", "").lower() == "open"]
+        open_issues = [
+            i for i in report["issues"] if i.get("state", "").lower() == "open"
+        ]
         lines.append("## Open Issues by Repository")
         by_repo = defaultdict(list)
         for iss in open_issues:
             by_repo[iss["repository"]["nameWithOwner"]].append(iss)
-        
+
         for r, r_issues in sorted(by_repo.items()):
             lines.append(f"### {r} ({len(r_issues)} open)")
             for iss in r_issues:
-                lines.append(f"- **#{iss['number']}**: {iss['title']} ([Link]({iss['url']}))")
+                lines.append(
+                    f"- **#{iss['number']}**: {iss['title']} ([Link]({iss['url']}))"
+                )
             lines.append("")
 
     out_text = "\n".join(lines)
@@ -216,6 +294,7 @@ def main():
         print(f"Report written to {args.out}")
     else:
         print(out_text)
+
 
 if __name__ == "__main__":
     main()

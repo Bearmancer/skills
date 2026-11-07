@@ -43,7 +43,10 @@ def test_report_prints_each_index_under_its_phase_heading(clean_repo):
     expected = []
     for title, members in mod.PHASES:
         expected.append(f"== {title} ==")
-        expected += [f"{i}. {dict(enumerate((n for n, _ in mod.INDICES), 1))[i]}:" for i in members]
+        expected += [
+            f"{i}. {dict(enumerate((n for n, _ in mod.INDICES), 1))[i]}:"
+            for i in members
+        ]
     got = [l for l in lines if l.startswith("== ") or re.match(r"\d+\. ", l)]
     assert len(got) == len(expected)
     for g, e in zip(got, expected):

@@ -40,11 +40,17 @@ from pathlib import Path
 HOME = Path(os.environ.get("SPRAWL_GATE_HOME", Path.home()))
 PLAN_HOME = Path(os.environ.get("SPRAWL_GATE_PLAN_HOME", HOME / ".claude" / "plans"))
 DEV = Path(os.environ.get("SPRAWL_GATE_DEV", HOME / "Dev"))
-EXCEPTIONS_FILE = Path(os.environ.get("SPRAWL_GATE_EXCEPTIONS_FILE", Path(__file__).with_name("sprawl-gate.toml")))
+EXCEPTIONS_FILE = Path(
+    os.environ.get(
+        "SPRAWL_GATE_EXCEPTIONS_FILE", Path(__file__).with_name("sprawl-gate.toml")
+    )
+)
 STRAY_DIRS = (".omo/plans", ".mo/plans", ".claude/plans", ".omc/plans")
 # The issue CLI drain asks whether an issue exists; env SPRAWL_GATE_GH swaps in a fake for tests.
 GH = os.environ.get("SPRAWL_GATE_GH", "gh")
-TRACKER = re.compile(r"^\s*Tracker:\s*https://github\.com/([\w.-]+/[\w.-]+)/issues/(\d+)\b", re.MULTILINE)
+TRACKER = re.compile(
+    r"^\s*Tracker:\s*https://github\.com/([\w.-]+/[\w.-]+)/issues/(\d+)\b", re.MULTILINE
+)
 
 # Omo runtime needs: (dir directly under the plan home, reason). Not owner consent; derived from
 # omo's executor state layout, so an omo layout change is a change here and in the spec.
@@ -71,13 +77,21 @@ def user_exceptions() -> tuple[list[tuple[str, str]], list[str]]:
     try:
         data = tomllib.loads(EXCEPTIONS_FILE.read_text(encoding="utf-8"))
     except (OSError, tomllib.TOMLDecodeError) as e:
-        return [], [f"user exception file unreadable, no exception applied: {EXCEPTIONS_FILE}: {e}"]
+        return [], [
+            f"user exception file unreadable, no exception applied: {EXCEPTIONS_FILE}: {e}"
+        ]
     good: list[tuple[str, str]] = []
     bad: list[str] = []
     for i, entry in enumerate(data.get("exception", [])):
-        missing = [k for k in ("path", "reason", "granted") if not str(entry.get(k, "")).strip()]
+        missing = [
+            k
+            for k in ("path", "reason", "granted")
+            if not str(entry.get(k, "")).strip()
+        ]
         if missing:
-            bad.append(f"user exception #{i + 1} in {EXCEPTIONS_FILE} lacks {', '.join(missing)}; not applied")
+            bad.append(
+                f"user exception #{i + 1} in {EXCEPTIONS_FILE} lacks {', '.join(missing)}; not applied"
+            )
             continue
         raw = str(entry["path"])
         path = HOME / raw[2:] if raw.startswith("~/") else Path(raw)
@@ -136,9 +150,13 @@ def plan_violations() -> list[str]:
     for f in plan_files():
         t = tracker(f)
         if t is None:
-            v.append(f"[plan-not-live] file this plan as a tracker issue, add a 'Tracker: <issue url>' line, then run drain: {f}")
+            v.append(
+                f"[plan-not-live] file this plan as a tracker issue, add a 'Tracker: <issue url>' line, then run drain: {f}"
+            )
         else:
-            v.append(f"[plan-live-undrained] {t[0]}#{t[1]} is the record; run drain to delete this copy: {f}")
+            v.append(
+                f"[plan-live-undrained] {t[0]}#{t[1]} is the record; run drain to delete this copy: {f}"
+            )
     for r in roots():
         for sub in STRAY_DIRS:
             d = r / sub
@@ -150,7 +168,9 @@ def plan_violations() -> list[str]:
 
 
 def git(repo: Path, *args: str) -> str:
-    r = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, timeout=30)
+    r = subprocess.run(
+        ["git", "-C", str(repo), *args], capture_output=True, text=True, timeout=30
+    )
     return r.stdout
 
 
@@ -159,7 +179,11 @@ def worktree_violations() -> list[str]:
     for r in roots():
         if not (r / ".git").is_dir():
             continue
-        registered = {norm(line[9:]) for line in git(r, "worktree", "list", "--porcelain").splitlines() if line.startswith("worktree ")}
+        registered = {
+            norm(line[9:])
+            for line in git(r, "worktree", "list", "--porcelain").splitlines()
+            if line.startswith("worktree ")
+        }
         for path in sorted(registered):
             if not os.path.exists(path):
                 v.append(f"{r.name}: registered worktree missing on disk: {path}")
@@ -167,7 +191,9 @@ def worktree_violations() -> list[str]:
         if wt.is_dir():
             for d in sorted(wt.iterdir()):
                 if d.is_dir() and norm(d) not in registered:
-                    v.append(f"{r.name}: orphan worktree dir (not in git worktree list): {d}")
+                    v.append(
+                        f"{r.name}: orphan worktree dir (not in git worktree list): {d}"
+                    )
     return v
 
 
@@ -186,19 +212,32 @@ def verdict(file_path: str) -> tuple[bool, str, str]:
     if not n.startswith(home + os.sep):
         for sub in STRAY_DIRS:
             if f"{os.sep}{os.path.normcase(sub.replace('/', os.sep))}{os.sep}" in n:
-                return False, "base rule stray-plan-dir", f"a plan is a tracker issue body, never a file; {p} is in a stray plan dir"
+                return (
+                    False,
+                    "base rule stray-plan-dir",
+                    f"a plan is a tracker issue body, never a file; {p} is in a stray plan dir",
+                )
         return True, OUT_OF_SCOPE, "not in the plan home or a plan dir"
     rel = n[len(home) + 1 :]
     for name, reason in OMO_RUNTIME_NEEDS:
         if rel.split(os.sep)[0] == os.path.normcase(name):
             return True, OMO_NEED, reason
-    return True, "base rule plan-home-live", "a plan may sit in the plan home until it is filed as a tracker issue and drained"
+    return (
+        True,
+        "base rule plan-home-live",
+        "a plan may sit in the plan home until it is filed as a tracker issue and drained",
+    )
 
 
 def issue_exists(repo: str, number: str) -> bool:
     cmd = [sys.executable, GH] if GH.endswith(".py") else [GH]
     try:
-        r = subprocess.run([*cmd, "issue", "view", number, "-R", repo, "--json", "number"], capture_output=True, text=True, timeout=60)
+        r = subprocess.run(
+            [*cmd, "issue", "view", number, "-R", repo, "--json", "number"],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
     except (OSError, subprocess.TimeoutExpired):
         return False
     try:
@@ -236,12 +275,24 @@ def main() -> int:
         allowed, mechanism, reason = verdict(ti.get("file_path") or "")
         if not allowed:
             message = f"sprawl-gate [{mechanism}]: {reason} (no omo runtime need or user exception covers it)"
-            print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "deny", "permissionDecisionReason": message}}))
+            print(
+                json.dumps(
+                    {
+                        "hookSpecificOutput": {
+                            "hookEventName": "PreToolUse",
+                            "permissionDecision": "deny",
+                            "permissionDecisionReason": message,
+                        }
+                    }
+                )
+            )
         return 0
     if mode == "explain":
         for path in sys.argv[2:]:
             allowed, mechanism, reason = verdict(path)
-            print(f"{'allow' if allowed else 'deny '}  [{mechanism}]  {path}  -- {reason}")
+            print(
+                f"{'allow' if allowed else 'deny '}  [{mechanism}]  {path}  -- {reason}"
+            )
         return 0
     if mode == "stop":
         data = json.load(sys.stdin) if not sys.stdin.isatty() else {}
@@ -249,12 +300,18 @@ def main() -> int:
             return 0
         v = violations()
         if v:
-            print("sprawl-gate found sprawl; fix it or tell the user why it stays:\n" + "\n".join(v), file=sys.stderr)
+            print(
+                "sprawl-gate found sprawl; fix it or tell the user why it stays:\n"
+                + "\n".join(v),
+                file=sys.stderr,
+            )
             return 2
         return 0
     if mode == "drain":
         return drain()
-    print("usage: sprawl-gate.py check|hook|stop|drain|explain <path>...", file=sys.stderr)
+    print(
+        "usage: sprawl-gate.py check|hook|stop|drain|explain <path>...", file=sys.stderr
+    )
     return 2
 
 

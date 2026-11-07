@@ -141,7 +141,9 @@ def test_l1_linked_dir_cycle_never_followed(make_repo, tmp_path):
     os.utime(repo / "out", (old, old))
     start = time.monotonic()
     r = run_state_report("--roots", parent, "--json", extra_env=BASE_ENV)
-    assert time.monotonic() - start < 60  # a followed cycle never ends; under load a pass takes ~10 s
+    assert (
+        time.monotonic() - start < 60
+    )  # a followed cycle never ends; under load a pass takes ~10 s
     assert r.returncode == 0
     assert "truncat" not in r.stdout.lower()  # skipped, not timed out mid-cycle
     reports = load_reports(None)
@@ -435,7 +437,7 @@ def install_fake_git_hang(bindir, real, flag):
             "#!/bin/sh",
             'case "$*" in',
             "*--directory*)",
-            f"  if [ -e {shlex.quote(str(flag))} ]; then exec {shlex.quote(real)} \"$@\"; fi",
+            f'  if [ -e {shlex.quote(str(flag))} ]; then exec {shlex.quote(real)} "$@"; fi',
             f"  : > {shlex.quote(str(flag))}",
             "  sleep 5",
             "  exit 0",
@@ -474,7 +476,9 @@ def test_l6_timeout_becomes_finding_never_hang_or_crash(
     env = {**BASE_ENV, "WORK_AUDIT_SUBPROCESS_TIMEOUT": "1"}
     start = time.monotonic()
     r = run_state_report("--roots", clean_repo, "--json", extra_env=env)
-    assert time.monotonic() - start < 90  # bounded, not fast: every spawn here waits out its 1 s cap
+    assert (
+        time.monotonic() - start < 90
+    )  # bounded, not fast: every spawn here waits out its 1 s cap
     assert r.returncode == 0
     assert "subprocess timeouts" in r.stdout.lower()
 

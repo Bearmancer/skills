@@ -8,7 +8,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statSync,
 import { dirname, join, resolve } from "node:path";
 
 export const SLUG_RE = /^[a-z0-9][a-z0-9-]{0,79}$/;
-// Plans live at docs/plans/<issue-type>/<slug>/{plan.md,ledger.json,sources/,issues/}.
+// Plans live at .rigor/plans/<issue-type>/<slug>/{plan.md,ledger.json,sources/,issues/}.
 export const ISSUE_TYPES = ["feature", "bug", "refactor", "audit", "evidence", "chore", "docs"];
 export const TASK_KINDS = ["feature", "fix", "refactor", "docs", "chore"];
 export const ISSUE_REF_RE = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+#\d+$/;
@@ -19,7 +19,7 @@ export const SIZES = ["S", "M", "L"];
 export const DOUBT_CLASSES = ["valid_actionable", "valid_tradeoff", "contract_misread", "noise"];
 const LOCKFILE_RE = /(^|[\\/])(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb?|Cargo\.lock|go\.sum|uv\.lock|poetry\.lock|Gemfile\.lock)$/;
 const SCRIPTED_RE = /\b(codemod|scripted|ast-grep|jscodeshift|transform|sed)\b/i;
-export const planDir = (issueType, slug) => join("docs", "plans", issueType, slug);
+export const planDir = (issueType, slug) => join(".rigor", "plans", issueType, slug);
 export const LABEL_RE = /^[a-z0-9_-]{1,32}$/;
 export const SHA256_RE = /^[a-f0-9]{64}$/;
 export const FACT_KINDS = ["measured", "quote", "derived", "assumed", "converted"];
@@ -1388,7 +1388,7 @@ function resolveLedgerPath(a) {
     if (!existsSync(p)) fail([`ledger not found: ${p}`]);
     return p;
   }
-  const mapHit = join("docs", "maps", a.slug, "ledger.json");
+  const mapHit = join(".rigor", "maps", a.slug, "ledger.json");
   const mapExists = existsSync(mapHit);
   const planHits = ISSUE_TYPES.map((t) => join(planDir(t, a.slug), "ledger.json")).filter((p) => existsSync(p));
   if (mapExists && planHits.length > 0) {
@@ -1425,7 +1425,7 @@ export function main(argv = process.argv.slice(2)) {
   const [cmd, ...rest] = argv;
   const a = args(rest);
   const ledgerPath =
-    cmd === "init" ? null : cmd === "map-handoff" ? join("docs", "maps", a.slug || "", "ledger.json") : resolveLedgerPath(a);
+    cmd === "init" ? null : cmd === "map-handoff" ? join(".rigor", "maps", a.slug || "", "ledger.json") : resolveLedgerPath(a);
   if (cmd === "init") {
     if (!SLUG_RE.test(a.slug || "")) fail([`slug must match ${SLUG_RE}`]);
     if (a["test-first"] && a["no-test-first"]) fail(["--test-first and --no-test-first together: pick one (test-first defaults on)"]);
@@ -1435,7 +1435,7 @@ export function main(argv = process.argv.slice(2)) {
     if (!SIZES.includes(mapSize)) fail([`--size must be one of ${SIZES.join("|")}`]);
     if (a.map) {
       // Unknowns branch: a map of decision tickets, never a task plan.
-      const dir = join("docs", "maps", a.slug), lp = join(dir, "ledger.json");
+      const dir = join(".rigor", "maps", a.slug), lp = join(dir, "ledger.json");
       if (existsSync(lp)) {
         console.log(`exists: ${lp} (map no-op)`);
         return;

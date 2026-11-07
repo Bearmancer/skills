@@ -87,6 +87,12 @@ Trigger: a credit, quota, payment or auth failure (error classes in `references/
 
 Controls: `--list`, `--service all --list`, `--set <ACCOUNT>`, `--next --dry-run`, `--materialize`, `--fingerprints`. Services and env vars: `references/routing.md` "Key policy".
 
+## Rigor home
+
+Published pages stay in the `--site-root` clone. Working state (`work/`, `_ledger/`, runs, asks)
+targets `./.rigor/research/<topic>/`; until that code migration lands, the site clone remains the
+working root. Published output is intentionally external, not a `.rigor` artifact.
+
 ## Files
 
 - `references/roles.md`: author, extractor, verifier prompts and the reader profile. Roles and which of them check: `registry/roles.yaml`.

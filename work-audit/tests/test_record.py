@@ -562,7 +562,9 @@ def test_previous_ignores_records_of_an_older_index_scheme(recmod, tmp_path):
     assert recmod.previous(repo, "20", "current") is None
 
 
-def test_check_counts_a_record_of_an_older_scheme_as_missing(make_repo, tmp_path, recmod):
+def test_check_counts_a_record_of_an_older_scheme_as_missing(
+    make_repo, tmp_path, recmod
+):
     repo = make_demo(make_repo)
     b = cli_brief(repo, "demo-record")
     for idx in ("19", "20", "21", "verify"):
@@ -586,7 +588,9 @@ def test_claim_traced_to_a_code_line_is_accepted(make_repo, tmp_path):
     # #135: a composed name (f"{P}_{n}_{d}.ris") is on no line verbatim; the line building it counts.
     repo = make_demo(make_repo)
     rec, i = _claim_sample(repo, tmp_path)
-    rec["samples"][i].update(status="traced", evidence="app.py:1", reason="app.py:1 builds the name")
+    rec["samples"][i].update(
+        status="traced", evidence="app.py:1", reason="app.py:1 builds the name"
+    )
     r = write_cli(repo, rec, tmp_path, "traced")
     assert r.returncode == 0, r.stdout
 
@@ -611,12 +615,16 @@ def test_powershell_parameter_matches_its_declaration(recmod):
     assert not rc.token_in("TempAgeDays-", "$TempAgeDays")
 
 
-def test_verify_rerun_timeout_is_named_not_a_wrong_exit(make_repo, tmp_path, monkeypatch):
+def test_verify_rerun_timeout_is_named_not_a_wrong_exit(
+    make_repo, tmp_path, monkeypatch
+):
     # #135 review: a 2-minute suite died at the 30 s spawn cap and read as "exit differs".
     repo = make_demo(make_repo)
     b = cli_brief(repo, "demo-record")
     rec = build_record(repo, b, "verify")
-    rec["evidence"][0]["cmd"] = f'"{sys.executable}" -c "import threading; threading.Event().wait(5)"'
+    rec["evidence"][0]["cmd"] = (
+        f'"{sys.executable}" -c "import threading; threading.Event().wait(5)"'
+    )
     monkeypatch.setenv("WORK_AUDIT_TEST_TIMEOUT", "1")
     r = write_cli(repo, rec, tmp_path, "rerun-timeout")
     assert r.returncode == 1

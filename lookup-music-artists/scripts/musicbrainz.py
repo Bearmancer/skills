@@ -75,7 +75,7 @@ def harvest(rel: dict) -> dict[str, set[str]]:
             name = clean_name(c.get("name") or "")
             if not name or name.lower() in JUNK:
                 continue
-            typ = ((c.get("artist") or {}).get("type") or "")
+            typ = (c.get("artist") or {}).get("type") or ""
             if typ in ENSEMBLE_TYPES:
                 orchestras.add(name)
             elif typ == "Person":
@@ -91,14 +91,31 @@ def harvest(rel: dict) -> dict[str, set[str]]:
             tc = t.get("artist-credit") or []
             for c in tc:
                 n = clean_name(c.get("name") or "")
-                typ = ((c.get("artist") or {}).get("type") or "")
+                typ = (c.get("artist") or {}).get("type") or ""
                 if n and n.lower() not in JUNK and typ not in ENSEMBLE_TYPES:
                     composers.add(n)
             eat((t.get("recording") or {}).get("artist-credit"))
 
     def surname(n: str) -> str:
-        parts = [p for p in n.lower().replace("’", "'").split() if p.strip("'") not in
-                 {"de", "van", "von", "der", "den", "di", "da", "du", "le", "la", "el", "al"}]
+        parts = [
+            p
+            for p in n.lower().replace("’", "'").split()
+            if p.strip("'")
+            not in {
+                "de",
+                "van",
+                "von",
+                "der",
+                "den",
+                "di",
+                "da",
+                "du",
+                "le",
+                "la",
+                "el",
+                "al",
+            }
+        ]
         return parts[-1] if parts else n.lower()
 
     lead = {surname(x) for x in conductors | composers}
@@ -114,26 +131,38 @@ def main() -> None:
     ap.add_argument("--dump", help="also save raw JSON here")
     args = ap.parse_args()
 
-    host = "https://beta.musicbrainz.org" if "beta." in args.release else "https://musicbrainz.org"
+    host = (
+        "https://beta.musicbrainz.org"
+        if "beta." in args.release
+        else "https://musicbrainz.org"
+    )
     mbid = mbid_from(args.release)
     rel = fetch_release(mbid, host)
     if args.dump:
-        Path(args.dump).write_text(json.dumps(rel, ensure_ascii=False), encoding="utf-8")
+        Path(args.dump).write_text(
+            json.dumps(rel, ensure_ascii=False), encoding="utf-8"
+        )
     title = rel.get("title", mbid)
     groups = harvest(rel)
     if not any(groups.values()):
         sys.exit("nothing extracted — release has no classical artist credits?")
 
-    out = (Path(args.out) if args.out
-           else desktop_library("musicbrainz") / f"{slugify(title)}.md")
-    path = write_md(out, title, "MusicBrainz",
-                    f"https://musicbrainz.org/release/{mbid}", groups)
+    out = (
+        Path(args.out)
+        if args.out
+        else desktop_library("musicbrainz") / f"{slugify(title)}.md"
+    )
+    path = write_md(
+        out, title, "MusicBrainz", f"https://musicbrainz.org/release/{mbid}", groups
+    )
     for k, v in groups.items():
         print(f"{k}: {len(v)}")
     print(f"wrote {path}")
     if groups["Soloists"]:
-        print("REMINDER: cross-check Soloists against the release page's Other "
-              "artists block — non-lead conductors can leak in.")
+        print(
+            "REMINDER: cross-check Soloists against the release page's Other "
+            "artists block — non-lead conductors can leak in."
+        )
 
 
 if __name__ == "__main__":

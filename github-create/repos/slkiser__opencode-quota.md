@@ -1,6 +1,7 @@
 # slkiser/opencode-quota: reference for issues and PRs
 
 ## CI/CD contract (regenerated each run)
+
 - `ci.yml` (CI) on pull_request
   - job `pnpm-quality` runs-on ubuntu-latest needs -: uses actions/checkout@v6 | Use Node.js 24.x: uses actions/setup-node@v6 | Install dependencies: uses voidzero-dev/setup-vp@68f39c78aaf39be468cabd2afb09c162574c84af | Run canonical verification: pnpm verify | Pack and audit exact npm artifact once: pnpm run pack:release-package package-artifacts | Upload exact npm artifact: uses actions/upload-artifact@v7
   - job `windows-verify` runs-on windows-latest needs -: uses actions/checkout@v6 | Use Node.js 24.x: uses actions/setup-node@v6 | Install dependencies: uses voidzero-dev/setup-vp@68f39c78aaf39be468cabd2afb09c162574c84af | Run canonical verification: pnpm verify
@@ -16,4 +17,5 @@
 - policy file: .github\ISSUE_TEMPLATE\provider_request.yml
 
 ## Learnings (append with `learn`)
+
 - 2026-10-31: CI on fork PR by first-time contributor shows no check-runs -> gh api actions/runs?head_sha=<sha> reveals status completed/conclusion action_required; report as pending maintainer approval, never as failure

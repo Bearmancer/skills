@@ -1,6 +1,7 @@
 # anomalyco/opencode: reference for issues and PRs
 
 ## CI/CD contract (regenerated each run)
+
 - `check.yml` (check) on pull_request
   - job `check` runs-on blacksmith-4vcpu-ubuntu-2404 needs -: Checkout repository: uses actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 | Setup Bun: uses ./.github/actions/setup-bun | Run checks: bun run check | Lint changed files: bun run lint:changed HEAD^1
 - `nix-eval.yml` (nix-eval) on pull_request

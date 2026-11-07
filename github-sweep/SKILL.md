@@ -10,6 +10,7 @@ Autonomous, account-wide audit, triage, update, and branch-purge protocol across
 The run is **fully unattended and maximal**: all permissions are granted up-front; never stop to prompt or ask the user. Stops are strictly mechanical and fail closed. A mutation (code push, branch deletion, thread closure) carries primary-source proof or is not executed.
 
 Companions:
+
 - `references/sweep-pipeline.md`: Discovery mechanics, CodeGraph setup, triage states.
 - `references/branch-hygiene.md`: Branch selection and fail-closed criteria; generic deletion policy lives in `purge-safety`.
 - `scripts/sweep.py`: Account-wide census CLI (PRs, issues, forks, CI states).
@@ -99,7 +100,7 @@ All mechanical discovery, branch auditing, and rebasing operations are encapsula
    ```bash
    gh-sweep --json
    ```
-   *Fallback if `gh-sweep` CLI is unavailable:* run `python scripts/sweep.py --json`.
+   _Fallback if `gh-sweep` CLI is unavailable:_ run `python scripts/sweep.py --json`.
 
 3. **Branch Decision Gate:**
    - If all open PRs are green, mergeable, and awaiting maintainer review, with zero failing CI, zero unaddressed review comments, and zero merged/closed branches on remote forks:
@@ -114,11 +115,11 @@ For each target repository requiring triage or code modification:
 
 1. **Isolated Workspace:**
    ```bash
-   d=$(mktemp -d -t gh-sweep-<repo-slug>-XXXXXX)
+   d=$(mktemp -d -t gh-sweep- <repo-slug >-XXXXXX)
    ```
 2. **Clone Upstream Default Branch:**
    ```bash
-   gh repo clone <target-owner>/<target-repo> "$d/repo" -- --filter=blob:none
+   gh repo clone -- --filter=blob:none <target-owner >/ <target-repo >"$d/repo"
    ```
 3. **Initialize CodeGraph Immediately (size-gated, worker-capped):**
    <!-- CODEGRAPH-TEARDOWN v1 -->
@@ -156,7 +157,7 @@ For each pull request requiring changes:
    ```bash
    git push --force-with-lease fork <branch-name>
    ```
-   *Never use bare `git push --force`.* `--force-with-lease` guards against overwriting upstream maintainer tweaks.
+   _Never use bare `git push --force`._ `--force-with-lease` guards against overwriting upstream maintainer tweaks.
 5. **Maintainer Communication:**
    Post a concise, objective summary on the PR thread referencing the new commit SHA and specific points addressed.
 
@@ -165,10 +166,13 @@ For each pull request requiring changes:
 ## 4. Maximal Branch Purge (No Permission Asks)
 
 Audit remote branches across all user forks:
+
 ```bash
 gh repo list --fork --json nameWithOwner,name,parent --limit 100
 ```
+
 For each fork:
+
 1. List remote branches: `gh api repos/<user>/<fork>/branches --jq '.[].name'`.
 2. Compare each non-default branch against the PR census:
    - If the branch belongs to a **MERGED** PR: **PURGE IMMEDIATELY**.
@@ -190,12 +194,14 @@ For each fork:
 Print the conclusive triage ledger at the end of the run:
 
 ### A. Execution Ledger
-| Repository | Item / Branch | Status | Actions Executed |
-| :--- | :--- | :--- | :--- |
+
+| Repository       | Item / Branch           | Status      | Actions Executed                                                        |
+| :--------------- | :---------------------- | :---------- | :---------------------------------------------------------------------- |
 | `<owner>/<repo>` | PR #`<num>` (`<title>`) | `MERGEABLE` | Addressed review feedback in `<sha>`, rebased on `<base>`, tests passed |
-| `<user>/<fork>` | Branch `<name>` | `PURGED` | Merged in PR #`<num>`; remote ref deleted |
+| `<user>/<fork>`  | Branch `<name>`         | `PURGED`    | Merged in PR #`<num>`; remote ref deleted                               |
 
 ### B. Summary Totals
+
 - Total third-party PRs audited: `<count>`
 - PRs updated / rebased: `<count>`
 - PRs awaiting maintainer review: `<count>`

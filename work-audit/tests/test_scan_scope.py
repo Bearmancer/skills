@@ -80,7 +80,9 @@ def test_gh_lists_start_early_and_are_used_once(monkeypatch):
     calls = []
     monkeypatch.setattr(sr, "gh_ok", lambda: True)
     monkeypatch.setattr(sr, "origin_url", lambda r: "https://github.com/o/r")
-    monkeypatch.setattr(sr, "_gh_call", lambda r, a, deadline=None: calls.append(a) or (0, "[]", ""))
+    monkeypatch.setattr(
+        sr, "_gh_call", lambda r, a, deadline=None: calls.append(a) or (0, "[]", "")
+    )
     sr.REPOS[:] = ["repo"]
     with ThreadPoolExecutor(2) as ex:
         sr.prefetch_gh(ex)

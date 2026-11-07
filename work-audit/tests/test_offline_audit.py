@@ -13,14 +13,20 @@ AUDIT = Path(__file__).resolve().parent.parent / "scripts" / "offline-audit.py"
 def git(cwd: Path, *args: str) -> None:
     subprocess.run(
         ["git", "-c", "user.name=t", "-c", "user.email=t@t", *args],
-        cwd=cwd, check=True, capture_output=True, timeout=SCRIPT_TIMEOUT,
+        cwd=cwd,
+        check=True,
+        capture_output=True,
+        timeout=SCRIPT_TIMEOUT,
     )
 
 
 def audit(home: Path, *args: str):
     return subprocess.run(
         [*PY_RUNNER, str(AUDIT), "--home", str(home), "--roots", "Dev", ".omo", *args],
-        capture_output=True, text=True, encoding="utf-8", timeout=SCRIPT_TIMEOUT,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        timeout=SCRIPT_TIMEOUT,
         env={**os.environ, "GIT_CONFIG_NOSYSTEM": "1"},
     )
 
@@ -52,12 +58,18 @@ def test_inventory_ranks_items_skips_dependencies_and_repeats_exactly(tmp_path):
     assert first.returncode == 1  # nothing owned yet
     items = json.loads(first.stdout)["items"]
     assert [(i["path"], i["kind"]) for i in items] == [
-        ("Dev/proj", "repo"), (".omo/plans", "notes"), ("Dev/clean", "repo"),
+        ("Dev/proj", "repo"),
+        (".omo/plans", "notes"),
+        ("Dev/clean", "repo"),
     ]
     assert items[0]["dirty"] == 2  # dirty.txt and the untracked node_modules/
     assert items[0]["local_only"] == ["main"] and items[0]["stashes"] == 0
     assert items[1]["files"] == 1
-    assert [i["owner"] for i in items] == ["UNOWNED", "UNOWNED", "-"]  # a clean repo needs no owner
+    assert [i["owner"] for i in items] == [
+        "UNOWNED",
+        "UNOWNED",
+        "-",
+    ]  # a clean repo needs no owner
     assert audit(home, "--json").stdout == first.stdout
 
 

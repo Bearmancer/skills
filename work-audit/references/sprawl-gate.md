@@ -14,11 +14,11 @@ Spec for `scripts/sprawl-gate.py` (#215, #174; plan-home-live ruling 2026-10-25)
 
 A path is denied by a base rule unless an exemption covers it. A deny message names the rule in brackets, for example `sprawl-gate [base rule stray-plan-dir]: ...`, and ends with `(no omo runtime need or user exception covers it)`. `check` prefixes each plan violation with the same rule name.
 
-| Rule              | What it denies                                                                                                                                                                         |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `plan-home-live`  | `check` only; writes are allowed. A file in the plan home (`~/.claude/plans`) may hold a plan until it is live: without a `Tracker: <issue url>` line it fails as `plan-not-live`; with one it is a second copy of the issue and fails as `plan-live-undrained` until `drain` deletes it. Empty folders and a missing plan home are clean. |
-| `stray-plan-dir`  | Any file in `.omo/plans`, `.mo/plans`, `.claude/plans` or `.omc/plans` outside the plan home, wherever that segment appears in the path. `check` scans these dirs under the `~/Dev` roots. |
-| worktrees         | `check` only: a dir in `<repo>/.claude/worktrees` that `git worktree list` lacks, or a registered worktree missing on disk.                                                             |
+| Rule             | What it denies                                                                                                                                                                                                                                                                                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `plan-home-live` | `check` only; writes are allowed. A file in the plan home (`~/.claude/plans`) may hold a plan until it is live: without a `Tracker: <issue url>` line it fails as `plan-not-live`; with one it is a second copy of the issue and fails as `plan-live-undrained` until `drain` deletes it. Empty folders and a missing plan home are clean. |
+| `stray-plan-dir` | Any file in `.omo/plans`, `.mo/plans`, `.claude/plans` or `.omc/plans` outside the plan home, wherever that segment appears in the path. `check` scans these dirs under the `~/Dev` roots.                                                                                                                                                 |
+| worktrees        | `check` only: a dir in `<repo>/.claude/worktrees` that `git worktree list` lacks, or a registered worktree missing on disk.                                                                                                                                                                                                                |
 
 ## Two exemption mechanisms
 
@@ -36,7 +36,7 @@ What the owner allowed. Kept in `scripts/sprawl-gate.toml` (env `SPRAWL_GATE_EXC
 
 ```toml
 [[exception]]
-path = "~/some/dir"     # ~/ means the home folder; covers the path and everything beneath it
+path = "~/some/dir" # ~/ means the home folder; covers the path and everything beneath it
 reason = "why the owner allows it"
 granted = "2026-10-25"
 ```
@@ -55,19 +55,19 @@ No user exception is granted today.
 
 Each row is a test. `explain` prints the same verdict and mechanism.
 
-| Path                                                                | Verdict | Mechanism                                |
-| ------------------------------------------------------------------- | ------- | ---------------------------------------- |
-| a file in `<plan home>` with no Tracker line (`check`), `.omo/**` included | fail    | base rule `plan-not-live`                |
-| a file in `<plan home>` with a Tracker line (`check`)               | fail    | base rule `plan-live-undrained`          |
-| any write into `<plan home>`, `<plan home>/.omo/**` included        | allow   | base rule `plan-home-live`               |
-| `drain`: Tracker issue exists / not found / no Tracker line         | delete / keep / keep | base rule `plan-home-live` |
-| empty folders, empty or missing `<plan home>` (`check`)             | clean   | none                                     |
-| `~/.omo/plans/**`                                                   | deny    | base rule `stray-plan-dir` (ruling #247) |
-| `~/.omo/drafts/**`, `~/.omo/evidence/**`, other omo dirs            | allow   | out of scope                             |
-| `<repo>/.omo/plans/**`, `.mo/plans`, `.claude/plans`, `.omc/plans`  | deny    | base rule `stray-plan-dir`               |
-| a path under a well-formed user exception                           | allow   | user exception (reason and date printed) |
-| a stray plan path under an entry missing reason or date             | deny    | base rule; `check` reports the entry     |
-| an exception file that does not parse                               | deny    | base rule; `check` reports the file      |
+| Path                                                                       | Verdict              | Mechanism                                |
+| -------------------------------------------------------------------------- | -------------------- | ---------------------------------------- |
+| a file in `<plan home>` with no Tracker line (`check`), `.omo/**` included | fail                 | base rule `plan-not-live`                |
+| a file in `<plan home>` with a Tracker line (`check`)                      | fail                 | base rule `plan-live-undrained`          |
+| any write into `<plan home>`, `<plan home>/.omo/**` included               | allow                | base rule `plan-home-live`               |
+| `drain`: Tracker issue exists / not found / no Tracker line                | delete / keep / keep | base rule `plan-home-live`               |
+| empty folders, empty or missing `<plan home>` (`check`)                    | clean                | none                                     |
+| `~/.omo/plans/**`                                                          | deny                 | base rule `stray-plan-dir` (ruling #247) |
+| `~/.omo/drafts/**`, `~/.omo/evidence/**`, other omo dirs                   | allow                | out of scope                             |
+| `<repo>/.omo/plans/**`, `.mo/plans`, `.claude/plans`, `.omc/plans`         | deny                 | base rule `stray-plan-dir`               |
+| a path under a well-formed user exception                                  | allow                | user exception (reason and date printed) |
+| a stray plan path under an entry missing reason or date                    | deny                 | base rule; `check` reports the entry     |
+| an exception file that does not parse                                      | deny                 | base rule; `check` reports the file      |
 
 ## Live probes
 

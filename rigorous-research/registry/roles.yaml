@@ -3,8 +3,14 @@
 schema: 2
 roles:
   author: { note: "writes lessons from verified claims; sees no raw page text" }
-  extractor: { note: "tool-less; splits source text and final prose into claims" }
-  verifier: { note: "re-checks every claim, all statuses; sees ledger rows and quotes only" }
-  discovery: { note: "search and fetch tools; runs one discovery round or one fetch step; never judges" }
+  extractor: {
+    note: "tool-less; splits source text and final prose into claims",
+  }
+  verifier: {
+    note: "re-checks every claim, all statuses; sees ledger rows and quotes only",
+  }
+  discovery: {
+    note: "search and fetch tools; runs one discovery round or one fetch step; never judges",
+  }
   media: { note: "tool-less; reads attached files (page images, recordings)" }
 checking_roles: [extractor, verifier, media]

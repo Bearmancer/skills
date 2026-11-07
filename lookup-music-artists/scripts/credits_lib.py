@@ -15,7 +15,10 @@ from pathlib import Path
 GROUPS = ("Composers", "Orchestras", "Soloists")
 
 # Discogs/MB disambiguator tails that are database plumbing, not names.
-_DISAMBIG = re.compile(r"\s*\((?:\d+|[a-z]\.?|.*?-\s*\w+\s*(?:musician|music|composer|or.*|choir))\)\s*$", re.I)
+_DISAMBIG = re.compile(
+    r"\s*\((?:\d+|[a-z]\.?|.*?-\s*\w+\s*(?:musician|music|composer|or.*|choir))\)\s*$",
+    re.I,
+)
 
 # Ensemble-name heuristic (Discogs rarely tags a role; the artist name tells us).
 _ENSEMBLE = re.compile(
@@ -70,14 +73,18 @@ def classify(role: str, name: str) -> str | None:
         return None  # not in the three requested groups by default
     if _SKIP_ROLES.search(role):
         return None
-    if re.search(r"performer|solo|instrument", role, re.I) or _SOLOIST_ROLES.match(role):
+    if re.search(r"performer|solo|instrument", role, re.I) or _SOLOIST_ROLES.match(
+        role
+    ):
         return "Soloists"
     if role == "":  # credited with no role on the release itself
         return "Orchestras" if is_ensemble(name) else None
     return None
 
 
-def write_md(out_path: Path, title: str, site: str, source_url: str, groups: dict[str, set[str]]) -> Path:
+def write_md(
+    out_path: Path, title: str, site: str, source_url: str, groups: dict[str, set[str]]
+) -> Path:
     """Write the deliverable: grouped bare lists, names only."""
     lines = [f"# {title}", "", f"Source: {site} — {source_url}", ""]
     for group in GROUPS:
