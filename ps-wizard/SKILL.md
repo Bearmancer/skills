@@ -49,9 +49,9 @@ The 2026-10-26 Reset-PC-Wizard run failed at stage 8 and wrote no report; an aud
 - **A failed stage fails the run.** Let a stage throw. If a stage must catch its own error to continue, record a failure the summary lists and the exit code reflects, and skip every later stage that depends on it. A caught-and-logged stage error that still ends in exit 0 hides the failure.
 - **Every removal has a check for every place it removed from.** If a stage removes the uninstall entry, the program folder and the config folders, verification checks all three, not just the uninstall entry.
 - **System cmdlets that fail in pwsh 7 go to their native exe, not to 5.1.** Check every system module in the exact pwsh that will run the wizard; a module that loads is not proof that it works. As measured on Store pwsh 7.6.9 (2026-10-27):
-  - *Optional features:* `Get-WindowsOptionalFeature` failed with `Class not registered` or hung. Use `Get-OptionalFeatureState` and `Disable-OptionalFeature`, which call `dism.exe /Online /English`, read `State : <value>`, and treat exit 3010 as "reboot needed".
-  - *Provisioned Appx (for new users):* `dism.exe /Online /Get-ProvisionedAppxPackages` and `/Remove-ProvisionedAppxPackage /PackageName:<full name>`. They do not touch packages already installed for a user.
-  - *Per-user Appx (`Get-AppxPackage`, `Remove-AppxPackage`):* the Appx module does not load in pwsh 7 ("Operation is not supported on this platform"), because .NET 5+ removed built-in WinRT ([Microsoft Learn](https://learn.microsoft.com/dotnet/core/compatibility/interop/5.0/built-in-support-for-winrt-removed)). Microsoft's only supported route is the 5.1 compatibility layer, which is banned here ([module compatibility](https://learn.microsoft.com/powershell/windows/module-compatibility)). The WinRT `PackageManager` API through a C#/WinRT projection (`FindPackagesForUser`, `RemovePackageAsync`) is the documented native API, but it is unproven from pwsh 7. Until it is proven, make per-user Appx removal a human-action gate: open `ms-settings:appsfeatures` with `Open-Url`, name the app, and verify by a file or uninstall-entry check, not `Get-AppxPackage`.
+  - _Optional features:_ `Get-WindowsOptionalFeature` failed with `Class not registered` or hung. Use `Get-OptionalFeatureState` and `Disable-OptionalFeature`, which call `dism.exe /Online /English`, read `State : <value>`, and treat exit 3010 as "reboot needed".
+  - _Provisioned Appx (for new users):_ `dism.exe /Online /Get-ProvisionedAppxPackages` and `/Remove-ProvisionedAppxPackage /PackageName:<full name>`. They do not touch packages already installed for a user.
+  - _Per-user Appx (`Get-AppxPackage`, `Remove-AppxPackage`):_ the Appx module does not load in pwsh 7 ("Operation is not supported on this platform"), because .NET 5+ removed built-in WinRT ([Microsoft Learn](https://learn.microsoft.com/dotnet/core/compatibility/interop/5.0/built-in-support-for-winrt-removed)). Microsoft's only supported route is the 5.1 compatibility layer, which is banned here ([module compatibility](https://learn.microsoft.com/powershell/windows/module-compatibility)). The WinRT `PackageManager` API through a C#/WinRT projection (`FindPackagesForUser`, `RemovePackageAsync`) is the documented native API, but it is unproven from pwsh 7. Until it is proven, make per-user Appx removal a human-action gate: open `ms-settings:appsfeatures` with `Open-Url`, name the app, and verify by a file or uninstall-entry check, not `Get-AppxPackage`.
 - **A query failure is not an absence.** Never `-ErrorAction SilentlyContinue` on a query whose empty result means "removed" or "nothing to do". Let it throw; `Test-WizardGoal` turns the throw into a failed check.
 - **A check proves the goal state.** Test `State -eq 'Disabled'`, not `State -ne 'Enabled'`: a missing or failed query also passes the second. Each check computes its own data inside its scriptblock; a variable set by one check is not there for the report if that check threw.
 - **Delete exact targets only.** Build delete lists from exact known paths or uninstall-entry locations, never a broad glob: `C:\Python*` also matched `C:\PythonProjects`. Print the resolved list before deleting. Do not prune a PATH entry, shortcut or file association just because its target is missing right now: it may be on an offline share or an unplugged drive. Delete a shortcut only when its target is an exact path the wizard removed, never because its name matches an app (`AnyDesk*.lnk`), which a portable copy or the user's own shortcut also matches. Judge any delete stage with the `purge-safety` skill.
@@ -69,15 +69,15 @@ The 2026-10-26 Reset-PC-Wizard run failed at stage 8 and wrote no report; an aud
 
 Read the transcript (`wizard-<stamp>-transcript.log` on the Desktop) alongside the explicit log (`wizard-<stamp>.log`). When the explicit log stops early, the failure is in the transcript. Symptoms seen in the field and their causes:
 
-| Symptom | Cause |
-|---|---|
-| Explicit log holds only `Wizard started.`; error only in the transcript | A `Write-Error` in a catch under `Stop` ended the fatal handler |
-| A "press ENTER when done" gate opened and passed in the same second | An Enter buffered during an earlier stage satisfied `Read-Host` |
-| Enter seemed dead until Space or Esc was pressed; output paused mid-install until a key | QuickEdit selection started by a click after a GUI installer took focus |
-| `Class not registered`, or a hang, on a DISM cmdlet | Store pwsh cannot run the DISM module; use `dism.exe` |
-| Paths "removed" but still there at verification | A package-manager uninstall recreated them after the delete |
-| Only one of many dead entries cleaned | `Select-Object -Unique` collapsed distinct objects |
-| "Setup complete." with exit 1, or a report path that does not exist | A summary printed without consulting the results (fixed in the template) |
+| Symptom                                                                                 | Cause                                                                    |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Explicit log holds only `Wizard started.`; error only in the transcript                 | A `Write-Error` in a catch under `Stop` ended the fatal handler          |
+| A "press ENTER when done" gate opened and passed in the same second                     | An Enter buffered during an earlier stage satisfied `Read-Host`          |
+| Enter seemed dead until Space or Esc was pressed; output paused mid-install until a key | QuickEdit selection started by a click after a GUI installer took focus  |
+| `Class not registered`, or a hang, on a DISM cmdlet                                     | Store pwsh cannot run the DISM module; use `dism.exe`                    |
+| Paths "removed" but still there at verification                                         | A package-manager uninstall recreated them after the delete              |
+| Only one of many dead entries cleaned                                                   | `Select-Object -Unique` collapsed distinct objects                       |
+| "Setup complete." with exit 1, or a report path that does not exist                     | A summary printed without consulting the results (fixed in the template) |
 
 ## Process
 

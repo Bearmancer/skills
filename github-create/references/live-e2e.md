@@ -16,11 +16,11 @@ Subjects (public, open, picked from `gh search prs --state open --checks failure
 
 ## Classification vs gh
 
-| Source | Failed checks |
-| --- | --- |
-| `learn --from-pr 32` (state `failure`/`error`/`timed_out`/`cancelled` from `gh pr checks --json`) | one: workflow `lint`, job `build`, run 39547616734/job/119049251205, log tail from the failing ansible step |
-| `gh pr checks 32` at the same time | the same one job (`build`, `fail 1m9s`) |
-| `gh pr checks 32 --json` re-read afterwards | two failures: that `lint/build` job and `default-bare` `build (ubuntu-24.04, false)`, which failed after the learn run |
+| Source                                                                                            | Failed checks                                                                                                          |
+| ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `learn --from-pr 32` (state `failure`/`error`/`timed_out`/`cancelled` from `gh pr checks --json`) | one: workflow `lint`, job `build`, run 39547616734/job/119049251205, log tail from the failing ansible step            |
+| `gh pr checks 32` at the same time                                                                | the same one job (`build`, `fail 1m9s`)                                                                                |
+| `gh pr checks 32 --json` re-read afterwards                                                       | two failures: that `lint/build` job and `default-bare` `build (ubuntu-24.04, false)`, which failed after the learn run |
 
 Match: the skill recorded exactly the failures gh reported at that moment, with workflow, job, link and a log excerpt, and none of the queued, in-progress or passing jobs. The second failure appeared later in a live CI, not a classification miss; it was not re-run.
 

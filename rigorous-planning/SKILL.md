@@ -35,11 +35,11 @@ Planning only: no product edits, commits, pushes, PRs, or tracker writes. Execut
 | `--no-constraints` | quality-bar requirement | M/L need no quality-bar decision |
 | `--no-task-approval` | task-graph approval | multi-cap or size L needs no `approve-task-graph` |
 | `--size S|M|L` | scope class (default M) | S implies no branch + one closed wave; G5 audits claim |
-| `--type <issue-type>` | issue type (default feature) | picks `docs/plans/<type>/<slug>/` and task-kind rules |
+| `--type <issue-type>` | issue type (default feature) | picks `.rigor/plans/<type>/<slug>/` and task-kind rules |
 | `--issue owner/repo#n` | source issues (none; repeatable/comma) | read-only links; renders `## Issues` |
 | `--multi` | multi-capability (off) | G3 requires capability map |
 | `--deliberate` | deliberate record (off) | forces deliberation record even small |
-| `--map` | map (off) | creates `docs/maps/<slug>/` at W0 |
+| `--map` | map (off) | creates `.rigor/maps/<slug>/` at W0 |
 
 `--test-first` spells the default. Only a flag swaps the evidence check; prose never waives.
 
@@ -57,7 +57,7 @@ W0 map (unknowns only) -> P0 intake -> P1 axes -> P2 evidence -> P3 clarify -> P
 
 | Phase | Entry | Work | Artifact | Exit | Failure |
 | --- | --- | --- | --- | --- | --- |
-| W0 map | unknowns test fails | destination, map, tickets | `docs/maps/<slug>/map.md` + ledger | `G_MAP` | stay in map; task refused |
+| W0 map | unknowns test fails | destination, map, tickets | `.rigor/maps/<slug>/map.md` + ledger | `G_MAP` | stay in map; task refused |
 | P0 intake | request | destination, type, size, caps, branch | ledger, branch | `G0` | re-init/ask |
 | P1 axes | G0 | split topic; one lane per axis | `axes[]` | `G_AX` | add axis |
 | P2 evidence | `G_AX` | facts, snapshots, waves | F rows, sources, waves | `G1` | another wave |
@@ -98,7 +98,7 @@ render | render-issues | frontier [--done T1,T2] | validate | next | gate --id G
 map-handoff --type feature
 ```
 
-One process per call; batch a wave or findings; never write one ledger in parallel. Ledger found by slug; map under `docs/maps/`, plan under `docs/plans/<type>/`; pass `--type` if both.
+One process per call; batch a wave or findings; never write one ledger in parallel. Ledger found by slug; map under `.rigor/maps/`, plan under `.rigor/plans/<type>/`; pass `--type` if both.
 
 ## Gates
 
@@ -119,7 +119,7 @@ A gate is never a score, confidence %, self verdict, prior test run, or silence.
 
 ## Ledger and evidence
 
-State lives in `docs/plans/<issue-type>/<slug>/` (or `docs/maps/<slug>/` for W0):
+State lives in `.rigor/plans/<issue-type>/<slug>/` (or `.rigor/maps/<slug>/` for W0):
 
 ```text
 ledger.json append-only rows+events (CLI only)

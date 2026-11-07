@@ -1,6 +1,7 @@
 # vercel-labs/skills: reference for issues and PRs
 
 ## CI/CD contract (regenerated each run)
+
 - `agents.yml` (Agents CI) on pull_request
   - job `validate-agents` runs-on ubuntu-latest needs -: Checkout repository: uses actions/checkout@v6 | Setup pnpm: uses pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 | Setup Node.js: uses actions/setup-node@v6 | Install dependencies: pnpm install --frozen-lockfile | Validate agents: node scripts/validate-agents.ts
   - job `sync-agents` runs-on ubuntu-latest needs validate-agents: Checkout repository: uses actions/checkout@v6 | Setup pnpm: uses pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 | Setup Node.js: uses actions/setup-node@v6 | Install dependencies: pnpm install --frozen-lockfile | Sync agents: pnpm exec node scripts/sync-agents.ts | Commit changes: git config --local user.email "github-actions[bot]@users.noreply.github.com" | Push changes: git push

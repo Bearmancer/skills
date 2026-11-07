@@ -1,6 +1,7 @@
 # code-yeongyu/senpi: reference for issues and PRs
 
 ## CI/CD contract (regenerated each run)
+
 - `automation-branch-guard.yml` (Automation branch guard) on pull_request
   - job `guard` runs-on ubuntu-latest needs -: Refuse an automation branch from another repository: echo "::error::automation/opengateway-catalog-refresh must come from this repository, not ${HEAD_REPO}." | Checkout: uses actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 | Setup Node.js: uses actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 | Refuse commits the bot did not write: git show "${BASE_SHA}:scripts/check-bot-branch-commits.mjs" > "${RUNNER_TEMP}/check-bot-branch-commits.mjs" | Workflow summary: {
 - `changelog-gate.yml` (Changelog gate) on pull_request
@@ -57,4 +58,5 @@
 - policy file: .github\ISSUE_TEMPLATE\package-report.yml
 
 ## Learnings (append with `learn`)
+
 - 2026-10-20: PR #3648 CI run 39151562902 (2026-10-18), Test (coding-agent 3/3) failed; root cause unconfirmed, log showed no assertion (inferred: unknown-tool 'Did you mean' read the session tool set, not the caller pool) -> fix: d04e2d6f9 and 191a5f60a thread the resolved tool pool into the suggestion; PR green afterwards

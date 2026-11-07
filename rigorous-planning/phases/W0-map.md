@@ -6,7 +6,7 @@ Read this when the unknowns test fails: the destination cannot be stated in one 
 
 `node scripts/planning.mjs init --slug <slug> --map`
 
-Creates `docs/maps/<slug>/ledger.json` and `map.md` at phase `W0`. A map ledger has decisions and decision tickets, no tasks; `task` is refused. No branch, no tracker writes.
+Creates `.rigor/maps/<slug>/ledger.json` and `map.md` at phase `W0`. A map ledger has decisions and decision tickets, no tasks; `task` is refused. No branch, no tracker writes.
 
 ## The map
 
@@ -66,7 +66,7 @@ Before the gate, record the captain's sign-off: `approve --gate G_MAP --token ma
 
 ## Handoff
 
-`map-handoff --type feature` (or another issue type) seeds `docs/plans/<type>/<slug>/` with the map's active decisions and facts, at phase P0. Run `gate --id G0`, then rejoin the linear pipeline at P1 (axes). Do not jump to P5: collapsing the map straight into tasks throws away the linked decision detail. The handoff is a spec seed, not an implementation order.
+`map-handoff --type feature` (or another issue type) seeds `.rigor/plans/<type>/<slug>/` with the map's active decisions and facts, at phase P0. Run `gate --id G0`, then rejoin the linear pipeline at P1 (axes). Do not jump to P5: collapsing the map straight into tasks throws away the linked decision detail. The handoff is a spec seed, not an implementation order.
 
 ## What is a method here
 

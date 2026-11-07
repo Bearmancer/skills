@@ -1,6 +1,7 @@
 # vercel-labs/agent-skills: reference for issues and PRs
 
 ## CI/CD contract (regenerated each run)
+
 - `agent-skills-discovery.yml` (Agent Skills Discovery) on pull_request
   - job `validate` runs-on ubuntu-latest needs -: uses actions/checkout@v4 | npm ci --ignore-scripts | node scripts/build-discovery-index.mjs https://example.com/skills
   - job `publish` runs-on ubuntu-latest needs validate: uses actions/checkout@v4 | npm ci --ignore-scripts | node scripts/build-discovery-index.mjs "https://github.com/${{ github.repository }}/releases/download/${RELEASE_TAG}" | gh release view "$RELEASE_TAG" >/dev/null 2>&1 ||

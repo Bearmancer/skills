@@ -5,9 +5,12 @@ from pathlib import Path
 
 import pytest
 
-spec = importlib.util.spec_from_file_location("preflight", Path(__file__).parents[1] / "scripts" / "preflight.py")
+spec = importlib.util.spec_from_file_location(
+    "preflight", Path(__file__).parents[1] / "scripts" / "preflight.py"
+)
 pf = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(pf)
+
 
 def test_sh_default_timeout_is_short():
     assert pf.sh.__defaults__ == (None, 60)
@@ -15,7 +18,10 @@ def test_sh_default_timeout_is_short():
 
 def test_learn_concurrent_lock(tmp_path, monkeypatch):
     monkeypatch.setenv("GITHUB_CREATE_STATE_DIR", str(tmp_path))
-    threads = [threading.Thread(target=pf.learn, args=("o/r", f"note {i} -> x")) for i in range(2)]
+    threads = [
+        threading.Thread(target=pf.learn, args=("o/r", f"note {i} -> x"))
+        for i in range(2)
+    ]
     [t.start() for t in threads]
     [t.join() for t in threads]
     text = pf.doc_path("o/r").read_text()
@@ -25,9 +31,22 @@ def test_learn_concurrent_lock(tmp_path, monkeypatch):
 
 def test_concurrent_from_pr_records_each_check_once(tmp_path, monkeypatch):
     monkeypatch.setenv("GITHUB_CREATE_STATE_DIR", str(tmp_path))
-    checks = json.dumps([{"name": "t", "workflow": "CI", "state": "FAILURE", "bucket": "fail", "link": ""}])
+    checks = json.dumps(
+        [
+            {
+                "name": "t",
+                "workflow": "CI",
+                "state": "FAILURE",
+                "bucket": "fail",
+                "link": "",
+            }
+        ]
+    )
     run = lambda argv, cwd=None: checks if argv[:3] == ["gh", "pr", "checks"] else ""  # noqa: E731
-    threads = [threading.Thread(target=pf.learn, args=("o/r",), kwargs={"pr": 7, "run": run}) for _ in range(4)]
+    threads = [
+        threading.Thread(target=pf.learn, args=("o/r",), kwargs={"pr": 7, "run": run})
+        for _ in range(4)
+    ]
     [t.start() for t in threads]
     [t.join() for t in threads]
     assert pf.doc_path("o/r").read_text().count("CI failed: CI/t") == 1
@@ -59,6 +78,7 @@ def test_learn_makes_no_external_call(tmp_path, monkeypatch):
 
 def test_stale_lock_is_taken_over(tmp_path):
     import os
+
     path = tmp_path / "d.md"
     lock = tmp_path / "d.md.lock"
     lock.write_text("dead writer")

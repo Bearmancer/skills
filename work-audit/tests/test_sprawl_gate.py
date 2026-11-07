@@ -40,7 +40,9 @@ def gate(home: Path, *args, payload=None, extra_env=None):
 
 
 def hooked_write(home: Path, path: Path):
-    return gate(home, "hook", payload={"tool_input": {"file_path": str(path), "content": "x"}})
+    return gate(
+        home, "hook", payload={"tool_input": {"file_path": str(path), "content": "x"}}
+    )
 
 
 def deny_reason(result) -> str | None:
@@ -62,7 +64,9 @@ def test_empty_plan_home_is_clean(tmp_path):
     assert (clean.returncode, clean.stdout.strip()) == (0, "sprawl-gate: clean")
 
 
-TRACKED = "# AI-Config: plan\n\nTracker: https://github.com/Bearmancer/AI-Config/issues/7\n"
+TRACKED = (
+    "# AI-Config: plan\n\nTracker: https://github.com/Bearmancer/AI-Config/issues/7\n"
+)
 
 # Stand-in for `gh issue view N -R repo --json number`: issue 7 exists, every other number does not.
 FAKE_GH = """import json, sys
@@ -80,7 +84,9 @@ def drain(home: Path):
     return gate(home, "drain", extra_env={"SPRAWL_GATE_GH": str(fake)})
 
 
-@pytest.mark.parametrize("rel", ["ai-config.md", "notes.txt", "drafts/note.md", ".omo/waves/boulder.json"])
+@pytest.mark.parametrize(
+    "rel", ["ai-config.md", "notes.txt", "drafts/note.md", ".omo/waves/boulder.json"]
+)
 def test_check_fails_on_a_plan_home_file_that_is_not_live(tmp_path, rel):
     # `.omo` included: the executor-state allowance is gone since #174.
     f = tmp_path / "plans" / rel
@@ -110,7 +116,9 @@ def test_empty_folders_in_the_plan_home_are_clean(tmp_path):
     assert (clean.returncode, clean.stdout.strip()) == (0, "sprawl-gate: clean")
 
 
-@pytest.mark.parametrize("rel", ["ai-config.md", "drafts/note.md", ".omo/waves/boulder.json"])
+@pytest.mark.parametrize(
+    "rel", ["ai-config.md", "drafts/note.md", ".omo/waves/boulder.json"]
+)
 def test_hook_allows_writes_into_the_plan_home(tmp_path, rel):
     # Plan mode saves its file here; check and drain keep the tracker the one source of truth.
     target = tmp_path / "plans" / rel
@@ -126,7 +134,9 @@ def test_drain_deletes_only_plans_whose_issue_exists(tmp_path):
     untracked = plans / "draft.md"
     untracked.write_text("# draft\n", encoding="utf-8")
     missing = plans / "gone.md"
-    missing.write_text("Tracker: https://github.com/Bearmancer/AI-Config/issues/9\n", encoding="utf-8")
+    missing.write_text(
+        "Tracker: https://github.com/Bearmancer/AI-Config/issues/9\n", encoding="utf-8"
+    )
 
     result = drain(tmp_path)
     assert result.returncode == 1
@@ -151,7 +161,9 @@ def test_omo_home_plans_dir_is_denied_as_a_stray_plan_dir(tmp_path):
     # Owner ruling on #247: plans are tracker issues, so omo home's plans dir gets no exemption.
     target = tmp_path / ".omo" / "plans" / "omo-plan.md"
     reason = deny_reason(hooked_write(tmp_path, target))
-    assert reason.startswith("sprawl-gate [base rule stray-plan-dir]: a plan is a tracker issue body")
+    assert reason.startswith(
+        "sprawl-gate [base rule stray-plan-dir]: a plan is a tracker issue body"
+    )
     assert explain(tmp_path, target).startswith("deny   [base rule stray-plan-dir]")
 
 
@@ -162,7 +174,9 @@ def test_omo_home_outside_plans_is_out_of_scope(tmp_path):
         assert explain(tmp_path, target).startswith("allow  [out of scope]")
 
 
-@pytest.mark.parametrize("stray", [".omo/plans", ".mo/plans", ".claude/plans", ".omc/plans"])
+@pytest.mark.parametrize(
+    "stray", [".omo/plans", ".mo/plans", ".claude/plans", ".omc/plans"]
+)
 def test_repo_plan_dirs_are_denied_by_hook_and_reported_by_check(tmp_path, stray):
     target = tmp_path / "Dev" / "repo" / stray / "x.md"
     assert "[base rule stray-plan-dir]" in deny_reason(hooked_write(tmp_path, target))
@@ -170,7 +184,10 @@ def test_repo_plan_dirs_are_denied_by_hook_and_reported_by_check(tmp_path, stray
     target.parent.mkdir(parents=True)
     target.write_text("# x\n", encoding="utf-8")
     dirty = gate(tmp_path, "check")
-    assert (dirty.returncode, dirty.stdout.strip()) == (1, f"[stray-plan-dir] stray plan file: {target}")
+    assert (dirty.returncode, dirty.stdout.strip()) == (
+        1,
+        f"[stray-plan-dir] stray plan file: {target}",
+    )
 
 
 def test_user_exception_with_reason_and_date_allows_and_check_skips_it(tmp_path):
@@ -192,12 +209,17 @@ def test_user_exception_with_reason_and_date_allows_and_check_skips_it(tmp_path)
 
 def test_user_exception_without_reason_or_date_is_reported_and_not_applied(tmp_path):
     exceptions = tmp_path / "exceptions.toml"
-    exceptions.write_text('[[exception]]\npath = "~/Dev/repo/.omc/plans"\n', encoding="utf-8")
+    exceptions.write_text(
+        '[[exception]]\npath = "~/Dev/repo/.omc/plans"\n', encoding="utf-8"
+    )
     target = tmp_path / "Dev" / "repo" / ".omc" / "plans" / "x.md"
     assert "[base rule stray-plan-dir]" in deny_reason(hooked_write(tmp_path, target))
 
     dirty = gate(tmp_path, "check")
-    assert (dirty.returncode, dirty.stdout.strip()) == (1, f"user exception #1 in {exceptions} lacks reason, granted; not applied")
+    assert (dirty.returncode, dirty.stdout.strip()) == (
+        1,
+        f"user exception #1 in {exceptions} lacks reason, granted; not applied",
+    )
 
 
 def test_unreadable_user_exception_file_applies_nothing_and_check_says_so(tmp_path):
@@ -207,7 +229,9 @@ def test_unreadable_user_exception_file_applies_nothing_and_check_says_so(tmp_pa
 
     dirty = gate(tmp_path, "check")
     assert dirty.returncode == 1
-    assert dirty.stdout.startswith("user exception file unreadable, no exception applied:")
+    assert dirty.stdout.startswith(
+        "user exception file unreadable, no exception applied:"
+    )
 
 
 def test_missing_plan_home_dev_and_exception_file_are_clean(tmp_path):

@@ -4,11 +4,11 @@
     {
       "id": 1,
       "prompt": "Plan adding OAuth login to our Node app. We need it soon, don't ask me lots of questions, just give me the plan.",
-      "expected_output": "Pipeline P0-P6 in order, starting with a clear destination and a deterministic route (not a CLEAR/UNCLEAR feeling). The plan lives in docs/plans/feature/oauth-login/, the auto branch is plan/oauth-login, and the ledger is written only through scripts/planning.mjs. Evidence axes and saturation, then exactly one frontier round recorded with `round --asks`, with recommended answers. Intent is restated for an explicit yes. Tasks are written only after G3 and carry a structured test contract: test_seam '<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external', test_file, red, green. If the auth decision is marked irreversible (or the plan is size L), the deliberate record is also required. No PR, no implementation. Publish is fail-closed and G5 is run in this session.",
+      "expected_output": "Pipeline P0-P6 in order, starting with a clear destination and a deterministic route (not a CLEAR/UNCLEAR feeling). The plan lives in .rigor/plans/feature/oauth-login/, the auto branch is plan/oauth-login, and the ledger is written only through scripts/planning.mjs. Evidence axes and saturation, then exactly one frontier round recorded with `round --asks`, with recommended answers. Intent is restated for an explicit yes. Tasks are written only after G3 and carry a structured test contract: test_seam '<interface> | catches: ... | misses: ... | class: in-process|local-substitutable|remote-owned|true-external', test_file, red, green. If the auth decision is marked irreversible (or the plan is size L), the deliberate record is also required. No PR, no implementation. Publish is fail-closed and G5 is run in this session.",
       "files": [],
       "assertions": [
         "States the linear pipeline and does not skip a phase by judgement",
-        "Creates the branch and docs/plans/<type>/<slug>/ledger.json via planning.mjs",
+        "Creates the branch and .rigor/plans/<type>/<slug>/ledger.json via planning.mjs",
         "Does not waive clarification when the user says 'don't ask': one recorded frontier round with recommended answers instead",
         "Every task carries test_seam with a closed boundary class, test_file, red and green because --no-test-first was not passed",
         "Never implements code and never opens a PR",
@@ -30,11 +30,11 @@
     {
       "id": 3,
       "prompt": "I want to build a dashboard for our metrics.",
-      "expected_output": "The outcome is not statable as one line, so the effort is unknowns and does not enter a planning ledger. init --map creates docs/maps/<slug>/, the destination is named, unknowns items are recorded with `unknowns --add`, and decision tickets are worked one at a time. The captain signs the destination with approve --gate G_MAP --token map-destination --by user --quote '<the user's words>'; G_MAP passes only with that approval, then map-handoff seeds a planning ledger at P0 and the effort rejoins at P1. No tasks are minted in W0.",
+      "expected_output": "The outcome is not statable as one line, so the effort is unknowns and does not enter a planning ledger. init --map creates .rigor/maps/<slug>/, the destination is named, unknowns items are recorded with `unknowns --add`, and decision tickets are worked one at a time. The captain signs the destination with approve --gate G_MAP --token map-destination --by user --quote '<the user's words>'; G_MAP passes only with that approval, then map-handoff seeds a planning ledger at P0 and the effort rejoins at P1. No tasks are minted in W0.",
       "files": [],
       "assertions": [
         "Routes to the map branch rather than guessing a plan",
-        "Creates docs/maps/<slug>/ with map.md and a map ledger",
+        "Creates .rigor/maps/<slug>/ with map.md and a map ledger",
         "Records unknowns and decision tickets; task commands are refused in W0",
         "Records the map-destination approval with a quote before G_MAP passes",
         "Passes G_MAP before map-handoff and rejoins at P1"
@@ -80,10 +80,10 @@
     {
       "id": 7,
       "prompt": "Audit all issues across all my personal repos (not third-party forks).",
-      "expected_output": "Type audit, plan at docs/plans/audit/<slug>/. Scope is the user's own repos; the inventory is recorded as measured facts using the issues connection. Each source issue is declared with --issue/issue --ref; tasks are finding groups with verify commands that check the claim against code or tracker state. The report ranks findings by leverage against risk with one triage-vocabulary action per issue. No tracker changes; render-issues drafts only.",
+      "expected_output": "Type audit, plan at .rigor/plans/audit/<slug>/. Scope is the user's own repos; the inventory is recorded as measured facts using the issues connection. Each source issue is declared with --issue/issue --ref; tasks are finding groups with verify commands that check the claim against code or tracker state. The report ranks findings by leverage against risk with one triage-vocabulary action per issue. No tracker changes; render-issues drafts only.",
       "files": [],
       "assertions": [
-        "Uses issue type audit and docs/plans/audit/<slug>/",
+        "Uses issue type audit and .rigor/plans/audit/<slug>/",
         "Excludes third-party forks and upstream issues",
         "Reads issues with gh and -R owner/repo, never inferring the repo",
         "Does not label, comment on or close any issue",
@@ -93,10 +93,10 @@
     {
       "id": 8,
       "prompt": "Plan a fix for Bearmancer/Toolbox#286: audio tag --mbid should not require DISCOGS_TOKEN.",
-      "expected_output": "Type bug, plan at docs/plans/bug/<slug>/, issue declared as Bearmancer/Toolbox#286. The first task is kind fix, its red field names a failing repro test, its test_seam is the structured contract with a closed boundary class, and it links #286. No task contains skip/only/TODO markers. The review plan and Handoff sections are present; no implementation, no PR.",
+      "expected_output": "Type bug, plan at .rigor/plans/bug/<slug>/, issue declared as Bearmancer/Toolbox#286. The first task is kind fix, its red field names a failing repro test, its test_seam is the structured contract with a closed boundary class, and it links #286. No task contains skip/only/TODO markers. The review plan and Handoff sections are present; no implementation, no PR.",
       "files": [],
       "assertions": [
-        "Plan lives under docs/plans/bug/",
+        "Plan lives under .rigor/plans/bug/",
         "The fix task's red field names a repro test that fails first",
         "The task links the declared issue ref",
         "G4 is stated to reject a test.skip or TODO in any task",
@@ -113,7 +113,7 @@
         "Records evidence and task rows with one batch call, not one CLI call per row",
         "Does not run a topology round, challenge modes or a doubt cycle",
         "Does not claim size S if the task graph derives a larger size",
-        "Stays within docs/plans/<issue-type>/<slug>/ and never implements"
+        "Stays within .rigor/plans/<issue-type>/<slug>/ and never implements"
       ]
     },
     {

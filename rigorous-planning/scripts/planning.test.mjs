@@ -183,7 +183,7 @@ test("CLI: init flags are sticky, answer is guarded, out-of-scope maps", async (
       "answered question cannot be re-answered",
     );
     assert.equal(run("intent", "--slug", "demo", "--out-of-scope", "nothing-else").status, 0);
-    const ledger = JSON.parse(readFileSync(join(dir, "docs", "plans", "feature", "demo", "ledger.json"), "utf8"));
+    const ledger = JSON.parse(readFileSync(join(dir, ".rigor", "plans", "feature", "demo", "ledger.json"), "utf8"));
     assert.equal(ledger.intent.out_of_scope, "nothing-else");
     assert.notEqual(run("intent", "--slug", "demo", "--confirm").status, 0, "confirm without --by user must fail");
   } finally {
@@ -191,7 +191,7 @@ test("CLI: init flags are sticky, answer is guarded, out-of-scope maps", async (
   }
 });
 
-// ---- rigorous-planning additions: docs/plans layout, issues, task kinds, new sections ----
+// ---- rigorous-planning additions: .rigor/plans layout, issues, task kinds, new sections ----
 const goodTask = (over = {}) => ({
   type: "task",
   label: "t",
@@ -206,8 +206,8 @@ const goodTask = (over = {}) => ({
   ...over,
 });
 
-test("planDir: docs/plans/<issue-type>/<slug>; issue types are a closed set", () => {
-  assert.deepEqual(planDir("bug", "demo").split(/[\\/]/), ["docs", "plans", "bug", "demo"]);
+test("planDir: .rigor/plans/<issue-type>/<slug>; issue types are a closed set", () => {
+  assert.deepEqual(planDir("bug", "demo").split(/[\\/]/), [".rigor", "plans", "bug", "demo"]);
   for (const t of ["feature", "bug", "refactor", "audit", "evidence", "chore", "docs"]) {
     assert.ok(ISSUE_TYPES.includes(t), t);
   }
@@ -309,7 +309,7 @@ test("renderIssues: one ticket file per task with blocked-by, acceptance, verify
   assert.match(out[1].body, /needs-triage/);
 });
 
-test("CLI: docs/plans layout, --type, issues, render-issues, frontier, ambiguous slug", async () => {
+test("CLI: .rigor/plans layout, --type, issues, render-issues, frontier, ambiguous slug", async () => {
   const { spawnSync } = await import("node:child_process");
   const { mkdtempSync, rmSync, readFileSync, writeFileSync, existsSync } = await import("node:fs");
   const { tmpdir } = await import("node:os");
@@ -323,7 +323,7 @@ test("CLI: docs/plans layout, --type, issues, render-issues, frontier, ambiguous
     "--test-file", "a.test.js", "--red", "red: repro test fails", "--green", "green: minimal pass", ...extra,
   ];
   const setPhase = (phase) => {
-    const p = join(dir, "docs", "plans", "bug", "demo", "ledger.json");
+    const p = join(dir, ".rigor", "plans", "bug", "demo", "ledger.json");
     const x = JSON.parse(readFileSync(p, "utf8"));
     x.phase = phase;
     writeFileSync(p, JSON.stringify(x, null, 2) + "\n");
@@ -333,8 +333,8 @@ test("CLI: docs/plans layout, --type, issues, render-issues, frontier, ambiguous
       run("init", "--slug", "demo", "--type", "bug", "--no-branch", "--issue", "Bearmancer/Toolbox#289").status,
       0,
     );
-    assert.ok(existsSync(join(dir, "docs", "plans", "bug", "demo", "ledger.json")));
-    assert.ok(existsSync(join(dir, "docs", "plans", "bug", "demo", "plan.md")));
+    assert.ok(existsSync(join(dir, ".rigor", "plans", "bug", "demo", "ledger.json")));
+    assert.ok(existsSync(join(dir, ".rigor", "plans", "bug", "demo", "plan.md")));
     assert.ok(!existsSync(join(dir, ".planning")), "legacy .planning dir must never be created");
     setPhase("P4");
     assert.notEqual(run("init", "--slug", "x", "--type", "nonsense", "--no-branch").status, 0);
@@ -342,12 +342,12 @@ test("CLI: docs/plans layout, --type, issues, render-issues, frontier, ambiguous
     assert.notEqual(run("issue", "--slug", "demo", "--ref", "junk").status, 0);
     assert.equal(run(...taskArgs("first", ["--issue", "Bearmancer/Toolbox#289"])).status, 0);
     assert.equal(run(...taskArgs("second", ["--deps", "T1", "--closes", "ideal-1"])).status, 0);
-    const led = JSON.parse(readFileSync(join(dir, "docs", "plans", "bug", "demo", "ledger.json"), "utf8"));
+    const led = JSON.parse(readFileSync(join(dir, ".rigor", "plans", "bug", "demo", "ledger.json"), "utf8"));
     assert.deepEqual(led.rows.find((r) => r.id === "T2").closes, ["ideal-1"]);
     assert.equal(run("frontier", "--slug", "demo").stdout.trim(), "T1");
     assert.equal(run("frontier", "--slug", "demo", "--done", "T1").stdout.trim(), "T2");
     assert.equal(run("render-issues", "--slug", "demo").status, 0);
-    const t = readFileSync(join(dir, "docs", "plans", "bug", "demo", "issues", "02-second.md"), "utf8");
+    const t = readFileSync(join(dir, ".rigor", "plans", "bug", "demo", "issues", "02-second.md"), "utf8");
     assert.match(t, /Blocked by: .*01-first/);
     assert.equal(
       run("init", "--slug", "demo", "--type", "feature", "--no-branch").status,
@@ -540,7 +540,7 @@ test("CLI: --no-<feature> flags, size, doubt, irreversible decisions", async () 
   const run = (...a) => spawnSync("node", [cli, ...a], { cwd: dir, encoding: "utf8" });
   try {
     assert.equal(run("init", "--slug", "demo", "--no-branch", "--no-doubt", "--no-handoff", "--size", "S").status, 0);
-    const p = join(dir, "docs", "plans", "feature", "demo");
+    const p = join(dir, ".rigor", "plans", "feature", "demo");
     const l = JSON.parse(readFileSync(join(p, "ledger.json"), "utf8"));
     assert.deepEqual(l.flags.skip.sort(), ["doubt", "handoff"]);
     assert.equal(l.size, "S");
@@ -558,7 +558,7 @@ test("CLI: --no-<feature> flags, size, doubt, irreversible decisions", async () 
     assert.equal(l2.doubts[0].clean, false);
     assert.equal(l2.rows.filter((x) => x.type === "finding").length, 1);
     assert.equal(run("init", "--slug", "delib", "--no-branch", "--deliberate").status, 0);
-    const dl = JSON.parse(readFileSync(join(dir, "docs", "plans", "feature", "delib", "ledger.json"), "utf8"));
+    const dl = JSON.parse(readFileSync(join(dir, ".rigor", "plans", "feature", "delib", "ledger.json"), "utf8"));
     assert.equal(dl.flags.deliberate, true);
   } finally {
     rmSync(dir, { recursive: true, force: true });
@@ -576,7 +576,7 @@ test("CLI: --lean switches off every skippable feature at once and is sticky", a
   const run = (...a) => spawnSync("node", [cli, ...a], { cwd: dir, encoding: "utf8" });
   try {
     assert.equal(run("init", "--slug", "demo", "--no-branch", "--lean").status, 0);
-    const l = JSON.parse(readFileSync(join(dir, "docs", "plans", "feature", "demo", "ledger.json"), "utf8"));
+    const l = JSON.parse(readFileSync(join(dir, ".rigor", "plans", "feature", "demo", "ledger.json"), "utf8"));
     assert.deepEqual(l.flags.skip.slice().sort(), SKIPPABLE.slice().sort());
     assert.equal(l.flags.test_first, true, "--lean never touches test_first/interview/branch");
     assert.equal(l.flags.no_interview, false);
@@ -597,7 +597,7 @@ test("CLI: one batch call records issue, size, intent, decision, doubt and tasks
   const run = (...a) => spawnSync("node", [cli, ...a], { cwd: dir, encoding: "utf8" });
   try {
     assert.equal(run("init", "--slug", "demo", "--no-branch").status, 0);
-    const p = join(dir, "docs", "plans", "feature", "demo", "ledger.json");
+    const p = join(dir, ".rigor", "plans", "feature", "demo", "ledger.json");
     const init = JSON.parse(readFileSync(p, "utf8"));
     init.phase = "P4";
     writeFileSync(p, JSON.stringify(init, null, 2) + "\n");
@@ -671,7 +671,7 @@ test("review: dangling and unknown flags are errors, --issue repeats accumulate,
       run("init", "--slug", "demo", "--no-branch", "--issue", "o/r#1", "--issue", "o/r#2").status,
       0,
     );
-    const lp = join(dir, "docs", "plans", "feature", "demo", "ledger.json");
+    const lp = join(dir, ".rigor", "plans", "feature", "demo", "ledger.json");
     const l = JSON.parse(readFileSync(lp, "utf8"));
     assert.deepEqual(l.issues.map((i) => i.ref), ["o/r#1", "o/r#2"]);
     l.phase = "P4";
@@ -691,7 +691,7 @@ test("review: dangling and unknown flags are errors, --issue repeats accumulate,
         "--test-file", "a.test.js", "--red", "red: repro test fails", "--green", "green: minimal pass").status,
       0,
     );
-    const l2 = JSON.parse(readFileSync(join(dir, "docs", "plans", "feature", "demo", "ledger.json"), "utf8"));
+    const l2 = JSON.parse(readFileSync(join(dir, ".rigor", "plans", "feature", "demo", "ledger.json"), "utf8"));
     assert.deepEqual(l2.rows.find((x) => x.id === "T1").files, ["a.js", "b.js"]);
     const sup = run("supersede", "--slug", "demo", "--id", "T1", "--reason", "r");
     assert.notEqual(sup.status, 0);
@@ -774,7 +774,7 @@ test("review: publish refuses a hand-edited plan.md; self-reported doubt totals 
   const cli = fileURLToPath(new URL("./planning.mjs", import.meta.url));
   const dir = mkdtempSync(join(tmpdir(), "planning-cli8-"));
   const run = (...a) => spawnSync("node", [cli, ...a], { cwd: dir, encoding: "utf8" });
-  const lp = join(dir, "docs", "plans", "feature", "demo", "ledger.json");
+  const lp = join(dir, ".rigor", "plans", "feature", "demo", "ledger.json");
   const setPhase = (phase) => {
     const x = JSON.parse(readFileSync(lp, "utf8"));
     x.phase = phase;
@@ -783,7 +783,7 @@ test("review: publish refuses a hand-edited plan.md; self-reported doubt totals 
   try {
     assert.equal(run("init", "--slug", "demo", "--no-branch").status, 0);
     setPhase("P5");
-    const p = join(dir, "docs", "plans", "feature", "demo", "plan.md");
+    const p = join(dir, ".rigor", "plans", "feature", "demo", "plan.md");
     writeFileSync(p, readFileSync(p, "utf8") + "\nhand edit\n");
     const r = run("publish", "--slug", "demo");
     assert.notEqual(r.status, 0);
@@ -881,7 +881,7 @@ test("CLI: size S implies no branch in a git repo; plan-review command records a
   try {
     spawnSync("git", ["init", "-q"], { cwd: dir });
     assert.equal(run("init", "--slug", "demo", "--size", "S").status, 0);
-    const p = join(dir, "docs", "plans", "feature", "demo");
+    const p = join(dir, ".rigor", "plans", "feature", "demo");
     const l = JSON.parse(readFileSync(join(p, "ledger.json"), "utf8"));
     assert.equal(l.branch, null);
     assert.equal(l.branch_reason, "size-s");
@@ -897,7 +897,7 @@ test("CLI: size S implies no branch in a git repo; plan-review command records a
     const l2 = JSON.parse(readFileSync(join(p, "ledger.json"), "utf8"));
     assert.equal(l2.plan_reviews[0].clean, true);
     assert.equal(run("init", "--slug", "x2", "--no-branch", "--no-plan-review").status, 0);
-    const l3 = JSON.parse(readFileSync(join(dir, "docs", "plans", "feature", "x2", "ledger.json"), "utf8"));
+    const l3 = JSON.parse(readFileSync(join(dir, ".rigor", "plans", "feature", "x2", "ledger.json"), "utf8"));
     assert.ok(l3.flags.skip.includes("plan-review"));
   } finally {
     rmSync(dir, { recursive: true, force: true });
@@ -915,9 +915,9 @@ test("map: unknowns branch, map, G_MAP, handoff", async () => {
   const run = (...a) => spawnSync("node", [cli, ...a], { cwd: dir, encoding: "utf8" });
   try {
     assert.equal(run("init", "--slug", "mapdemo", "--map").status, 0);
-    const mapPath = join(dir, "docs", "maps", "mapdemo", "map.md");
+    const mapPath = join(dir, ".rigor", "maps", "mapdemo", "map.md");
     assert.ok(existsSync(mapPath), "map creates a map, not a plan");
-    const l = JSON.parse(readFileSync(join(dir, "docs", "maps", "mapdemo", "ledger.json"), "utf8"));
+    const l = JSON.parse(readFileSync(join(dir, ".rigor", "maps", "mapdemo", "ledger.json"), "utf8"));
     assert.equal(l.phase, "W0");
     assert.equal(l.map.map, true);
     assert.notEqual(
@@ -940,7 +940,7 @@ test("map: unknowns branch, map, G_MAP, handoff", async () => {
     );
     assert.equal(run("gate", "--slug", "mapdemo", "--id", "G_MAP").status, 0);
     assert.equal(run("map-handoff", "--slug", "mapdemo", "--type", "feature").status, 0);
-    assert.ok(existsSync(join(dir, "docs", "plans", "feature", "mapdemo", "ledger.json")), "handoff seeds a planning ledger at P0");
+    assert.ok(existsSync(join(dir, ".rigor", "plans", "feature", "mapdemo", "ledger.json")), "handoff seeds a planning ledger at P0");
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
@@ -984,7 +984,7 @@ test("phase machine: G0 advances to P1 and tasks cannot be minted before G3", as
     assert.equal(run("init", "--slug", "demo", "--no-branch", "--size", "S").status, 0);
     assert.equal(run("decision", "--slug", "demo", "--label", "destination", "--decision", "ship the demo").status, 0);
     assert.equal(run("gate", "--slug", "demo", "--id", "G0").status, 0);
-    const l = JSON.parse(readFileSync(join(dir, "docs", "plans", "feature", "demo", "ledger.json"), "utf8"));
+    const l = JSON.parse(readFileSync(join(dir, ".rigor", "plans", "feature", "demo", "ledger.json"), "utf8"));
     assert.equal(l.phase, "P1");
     const t = run("task", "--slug", "demo", "--label", "t", "--files", "a.js", "--interfaces", "i", "--acceptance", "a", "--verify", "v");
     assert.notEqual(t.status, 0);

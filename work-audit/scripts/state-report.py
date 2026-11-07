@@ -383,7 +383,9 @@ class BoundedScan:
                 if not isdir:
                     self.files += 1
                     if self.files > max_files():
-                        raise _Truncated(f"file-count cap {max_files()} exceeded at {dp}")
+                        raise _Truncated(
+                            f"file-count cap {max_files()} exceeded at {dp}"
+                        )
             yield dp, dns, fns, skipped
             for d in reversed(dns):
                 if self.prune_git and (dp / d / ".git").exists():
@@ -401,7 +403,17 @@ def reset_scan_state():
     _LS.clear()
     global _DEADLINE
     _DEADLINE = None
-    for f in (st, sha, txt, adrs, gh_ok, gh_bin, gh_auth_error, owners, extra_root_repos):
+    for f in (
+        st,
+        sha,
+        txt,
+        adrs,
+        gh_ok,
+        gh_bin,
+        gh_auth_error,
+        owners,
+        extra_root_repos,
+    ):
         f.cache_clear()
 
 
@@ -410,7 +422,17 @@ def setup(repos):
         c.clear()
     for c in (REPOS_SET, PLAN_STATS, IGN, RPT, FBR):
         c.clear()
-    for f in (st, sha, txt, adrs, gh_ok, gh_bin, gh_auth_error, owners, extra_root_repos):
+    for f in (
+        st,
+        sha,
+        txt,
+        adrs,
+        gh_ok,
+        gh_bin,
+        gh_auth_error,
+        owners,
+        extra_root_repos,
+    ):
         f.cache_clear()
     del SCAN_TRUNCATED[:]
     _CTX.clear()
@@ -683,9 +705,7 @@ def i2():
     for r, (br, wt, stash, up, d, merged_raw) in zip(REPOS, pmap(facts, REPOS)):
         loc = [b for b in br if "remotes/" not in b]
         merged = [
-            b.strip()
-            for b in merged_raw
-            if not b.startswith("*") and b.strip() != d
+            b.strip() for b in merged_raw if not b.startswith("*") and b.strip() != d
         ]
         for i, v in enumerate((len(wt) - 1, len(stash), len(up), len(merged))):
             tot[i] += v
@@ -1075,8 +1095,26 @@ def i11():
         check_deadline()
         if not (gh_up and RPT[r].get("2", {}).get("origin", "")):
             return None
-        issue_args = ("issue", "list", "--state", "open", "--json", "number", "--limit", "100")
-        pr_args = ("pr", "list", "--state", "open", "--json", "number", "--limit", "100")
+        issue_args = (
+            "issue",
+            "list",
+            "--state",
+            "open",
+            "--json",
+            "number",
+            "--limit",
+            "100",
+        )
+        pr_args = (
+            "pr",
+            "list",
+            "--state",
+            "open",
+            "--json",
+            "number",
+            "--limit",
+            "100",
+        )
         return gh_run(r, *issue_args), gh_run(r, *pr_args)
 
     fetched = dict(zip(REPOS, pmap(lists, REPOS)))
@@ -1287,10 +1325,23 @@ def i14():
         if not RPT[r].get("13", {}).get("commits", []):
             return None, []
         prs = gh_json(
-            r, "pr", "list", "--state", "merged", "--limit", "100", "--json", "mergeCommit"
+            r,
+            "pr",
+            "list",
+            "--state",
+            "merged",
+            "--limit",
+            "100",
+            "--json",
+            "mergeCommit",
         )
         log = git(
-            r, "log", "--branches", f"--since={SINCE_GIT}", "--name-only", "--pretty=format:"
+            r,
+            "log",
+            "--branches",
+            f"--since={SINCE_GIT}",
+            "--name-only",
+            "--pretty=format:",
         )
         return prs, log
 

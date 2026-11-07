@@ -23,4 +23,6 @@ def test_no_ref_dir_left_behind():
 def test_indices_md_lists_all_21_in_order():
     text = (SKILL / "references" / "indices.md").read_text(encoding="utf-8")
     section = text.split("\n## Definitions", 1)[1].split("\n## ", 1)[0]
-    assert [int(n) for n in re.findall(r"^(\d+)\. ", section, re.M)] == list(range(1, 22))
+    assert [int(n) for n in re.findall(r"^(\d+)\. ", section, re.M)] == list(
+        range(1, 22)
+    )

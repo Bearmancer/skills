@@ -24,15 +24,25 @@ import sys
 import urllib.request
 from pathlib import Path
 
-from credits_lib import (classify, clean_name, desktop_library, fix_stdout,
-                         is_ensemble, slugify, write_md)
+from credits_lib import (
+    classify,
+    clean_name,
+    desktop_library,
+    fix_stdout,
+    is_ensemble,
+    slugify,
+    write_md,
+)
 
-UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                    "(KHTML, like Gecko) Chrome/129.0 Safari/537.36"}
+UA = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/129.0 Safari/537.36"
+}
 ANCHOR = re.compile(
     r'href="https://www\.allmusic\.com/artist/[^"]*"[^>]*>([^<]+)</a>.*?'
     r'<span class="artistCredits">([^<]*)</span>',
-    re.I | re.S)
+    re.I | re.S,
+)
 
 
 def url_from(arg: str) -> str:
@@ -50,18 +60,23 @@ def fetch_html(url: str) -> str:
             return body
     except Exception:  # noqa: BLE001 - expected 403; fall through to firecrawl
         pass
-    fc = shutil.which("firecrawl") or str(Path.home() / ".bun" / "bin" / "firecrawl.exe")
+    fc = shutil.which("firecrawl") or str(
+        Path.home() / ".bun" / "bin" / "firecrawl.exe"
+    )
     tmp = Path.home() / ".cache" / "opencode" / "allmusic_raw.html"
     tmp.parent.mkdir(parents=True, exist_ok=True)
-    subprocess.run([fc, "scrape", url, "--format", "html", "-o", str(tmp)],
-                   check=True, timeout=180)
+    subprocess.run(
+        [fc, "scrape", url, "--format", "html", "-o", str(tmp)], check=True, timeout=180
+    )
     return tmp.read_text(encoding="utf-8", errors="replace")
 
 
 def best_group(name: str, role: str) -> str | None:
     """AllMusic stacks comma-separated roles ('Interviewee, Piano'); judge each
     part and keep the most performer-like hit."""
-    parts = [p.strip() for p in re.split(r"[;,]", html.unescape(role or "")) if p.strip()]
+    parts = [
+        p.strip() for p in re.split(r"[;,]", html.unescape(role or "")) if p.strip()
+    ]
     order = {"Composers": 3, "Orchestras": 2, "Soloists": 1}
     best: str | None = None
     for p in parts:
@@ -74,7 +89,11 @@ def best_group(name: str, role: str) -> str | None:
 
 
 def harvest(page: str) -> dict[str, set[str]]:
-    groups: dict[str, set[str]] = {"Composers": set(), "Orchestras": set(), "Soloists": set()}
+    groups: dict[str, set[str]] = {
+        "Composers": set(),
+        "Orchestras": set(),
+        "Soloists": set(),
+    }
     for name, role in ANCHOR.findall(page):
         name = clean_name(html.unescape(name.strip()))
         if not name or name.lower() in ("[none]",):
@@ -96,9 +115,11 @@ def main() -> None:
     groups = harvest(page)
     if not any(groups.values()):
         sys.exit("no credits parsed — page layout may have changed, check raw html")
-    mt = (re.search(r'<meta property="og:title" content="([^"]+)"', page)
-          or re.search(r"<title>([^<]+)</title>", page)
-          or re.search(r"<h1[^>]*>([^<]+)</h1>", page))
+    mt = (
+        re.search(r'<meta property="og:title" content="([^"]+)"', page)
+        or re.search(r"<title>([^<]+)</title>", page)
+        or re.search(r"<h1[^>]*>([^<]+)</h1>", page)
+    )
     if mt:
         title = html.unescape(mt.group(1)).split(" | ")[0].strip()
     else:
@@ -108,7 +129,11 @@ def main() -> None:
         else:
             mslug = re.search(r"(mw\d+)", args.album)
             title = f"AllMusic album {mslug.group(1)}" if mslug else "allmusic-album"
-    out = Path(args.out) if args.out else desktop_library("allmusic") / f"{slugify(title)}.md"
+    out = (
+        Path(args.out)
+        if args.out
+        else desktop_library("allmusic") / f"{slugify(title)}.md"
+    )
     path = write_md(out, title, "AllMusic", url_from(args.album), groups)
     for k, v in groups.items():
         print(f"{k}: {len(v)}")

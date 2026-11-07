@@ -56,12 +56,12 @@ You are establishing what was finished and verified in repo `<repo>`. Inputs: `r
 
 ```json
 {
-	"index": "21",
-	"repo": "demo",
-	"files_read": ["CLAUDE.md", "app.py"],
-	"rules": ["Keep one module per concept@CLAUDE.md:4"],
-	"findings": [],
-	"samples": [{ "id": "f1", "status": "conforms", "evidence": "app.py:1" }],
-	"verdict": "pass"
+  "index": "21",
+  "repo": "demo",
+  "files_read": ["CLAUDE.md", "app.py"],
+  "rules": ["Keep one module per concept@CLAUDE.md:4"],
+  "findings": [],
+  "samples": [{ "id": "f1", "status": "conforms", "evidence": "app.py:1" }],
+  "verdict": "pass"
 }
 ```

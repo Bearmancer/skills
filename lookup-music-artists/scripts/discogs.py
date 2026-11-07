@@ -20,8 +20,15 @@ import sys
 import urllib.request
 from pathlib import Path
 
-from credits_lib import (classify, clean_name, desktop_library, fix_stdout,
-                         is_ensemble, slugify, write_md)
+from credits_lib import (
+    classify,
+    clean_name,
+    desktop_library,
+    fix_stdout,
+    is_ensemble,
+    slugify,
+    write_md,
+)
 
 API = "https://api.discogs.com/releases/"
 UA = {"User-Agent": "lookup-music-artists/1.0 (personal md-library research)"}
@@ -43,7 +50,11 @@ def fetch(rid: str) -> dict:
 
 
 def harvest(rel: dict) -> dict[str, set[str]]:
-    groups: dict[str, set[str]] = {"Composers": set(), "Orchestras": set(), "Soloists": set()}
+    groups: dict[str, set[str]] = {
+        "Composers": set(),
+        "Orchestras": set(),
+        "Soloists": set(),
+    }
 
     def add(role: str, name: str):
         n = clean_name(name)
@@ -78,9 +89,18 @@ def main() -> None:
         sys.exit("no credits found on this Discogs release")
     title = rel.get("title", "discogs-release")
     artists = ", ".join(a.get("name", "") for a in rel.get("artists", [])[:2])
-    out = Path(args.out) if args.out else desktop_library("discogs") / f"{slugify(title)}.md"
-    path = write_md(out, f"{title} — {artists}".strip(" —"), "Discogs",
-                    f"https://www.discogs.com/release/{rel.get('id')}", groups)
+    out = (
+        Path(args.out)
+        if args.out
+        else desktop_library("discogs") / f"{slugify(title)}.md"
+    )
+    path = write_md(
+        out,
+        f"{title} — {artists}".strip(" —"),
+        "Discogs",
+        f"https://www.discogs.com/release/{rel.get('id')}",
+        groups,
+    )
     for k, v in groups.items():
         print(f"{k}: {len(v)}")
     print(f"wrote {path}")

@@ -4,7 +4,9 @@ from pathlib import Path
 
 import pytest
 
-spec = importlib.util.spec_from_file_location("preflight", Path(__file__).parents[1] / "scripts" / "preflight.py")
+spec = importlib.util.spec_from_file_location(
+    "preflight", Path(__file__).parents[1] / "scripts" / "preflight.py"
+)
 pf = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(pf)
 

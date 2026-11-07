@@ -17,12 +17,12 @@ references/design.md  skill-local decision record
 
 ## Where to look
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Add or change a search surface | `registry/registry.yaml` | then regenerate `references/routing.md` and `fleet.md` |
-| Change a role prompt | `references/roles.md`, `registry/roles.yaml` | |
-| Page layout | `references/layouts.md`, `assets/` | one layout per page |
-| Remove a published topic | `scripts/remove.py` | republishes the index, live-checks 404s |
+| Task                           | Location                                     | Notes                                                  |
+| ------------------------------ | -------------------------------------------- | ------------------------------------------------------ |
+| Add or change a search surface | `registry/registry.yaml`                     | then regenerate `references/routing.md` and `fleet.md` |
+| Change a role prompt           | `references/roles.md`, `registry/roles.yaml` |                                                        |
+| Page layout                    | `references/layouts.md`, `assets/`           | one layout per page                                    |
+| Remove a published topic       | `scripts/remove.py`                          | republishes the index, live-checks 404s                |
 
 ## Conventions
 

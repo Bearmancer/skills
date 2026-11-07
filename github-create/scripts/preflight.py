@@ -468,9 +468,13 @@ def check_layout(clone, args, body, problems, warns):
             problems.append(f"title must start with '{prefix}'")
     else:
         print(f"template: markdown {template.name}")
-        check_markdown(template, body, args.title, problems, getattr(args, "amend", False))
+        check_markdown(
+            template, body, args.title, problems, getattr(args, "amend", False)
+        )
         if not PERMALINK.search(body):
-            warns.append("no SHA-pinned permalink in the body (github.com/<o>/<r>/blob/<full-40-hex-sha>/...; commit/ links and short SHAs do not count)")
+            warns.append(
+                "no SHA-pinned permalink in the body (github.com/<o>/<r>/blob/<full-40-hex-sha>/...; commit/ links and short SHAs do not count)"
+            )
 
 
 def refuse_blank_issue(clone, shape):
@@ -554,9 +558,13 @@ def check_pr(clone, args, problems):
 def check_policy(clone, args, body, problems):
     if args.ai_policy == "none" and policy_hits(clone)["AI policy"]:
         problems.append("AI policy lines exist: read the policy, classify it")
-    disclosed = bool(args.disclosure) and body.rstrip().endswith(args.disclosure.strip())
+    disclosed = bool(args.disclosure) and body.rstrip().endswith(
+        args.disclosure.strip()
+    )
     if args.ai_policy == "disclose" and not disclosed:
-        problems.append("--ai-policy disclose needs --disclosure text as the last line of the body")
+        problems.append(
+            "--ai-policy disclose needs --disclosure text as the last line of the body"
+        )
 
 
 def all_matches(patterns, text):
@@ -986,7 +994,11 @@ def build_parser():
     check_cmd.add_argument("--title", required=True)
     check_cmd.add_argument("--template")
     check_cmd.add_argument("--base", help="pr: base ref (origin/HEAD)")
-    check_cmd.add_argument("--amend", action="store_true", help="corrective body edit: skip diff-against-base; allow documented unchecked checklist box with explanatory note")
+    check_cmd.add_argument(
+        "--amend",
+        action="store_true",
+        help="corrective body edit: skip diff-against-base; allow documented unchecked checklist box with explanatory note",
+    )
     check_cmd.add_argument(
         "--ai-policy",
         required=True,

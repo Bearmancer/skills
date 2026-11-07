@@ -232,7 +232,10 @@ def _list_dir(path, skip):
     except OSError:
         return None, []
     if any(c.name == ".git" for c in children):
-        return path, []  # a repo is a leaf: vendored clones and linked worktrees inside it are not walked
+        return (
+            path,
+            [],
+        )  # a repo is a leaf: vendored clones and linked worktrees inside it are not walked
     subs = []
     for c in children:
         try:
@@ -263,7 +266,9 @@ def discover_repos(root):
     except OSError:
         return []
     skip, found = _not_scanned_dirs(), []
-    repo, level = _list_dir(str(root), skip)  # root itself is never skipped, only what is below it
+    repo, level = _list_dir(
+        str(root), skip
+    )  # root itself is never skipped, only what is below it
     if repo is not None:
         return [root.resolve()]
     # Level by level: each level's listings run concurrently, total work stays linear.
@@ -742,7 +747,9 @@ def token_in(token, line):
     return bool(m) and re.search(rf"\${m[1]}\b", line, re.I) is not None
 
 
-TEST_TIMEOUT = 900  # a whole suite, not one git call: the 30 s spawn cap killed 2-minute suites
+TEST_TIMEOUT = (
+    900  # a whole suite, not one git call: the 30 s spawn cap killed 2-minute suites
+)
 
 
 def run_test(repo, cmd):
@@ -899,9 +906,15 @@ def validate(repo, rec, strict=True, pre=None):
                 e.append(f"evidence entry invalid or file not required: {v}")
             elif k == "test":
                 ran.add(v.get("cmd"))
-                rc, timed_out = run_test(repo, str(v.get("cmd"))) if strict else (v.get("exit"), False)
+                rc, timed_out = (
+                    run_test(repo, str(v.get("cmd")))
+                    if strict
+                    else (v.get("exit"), False)
+                )
                 if timed_out:
-                    e.append(f"test re-run timed out (WORK_AUDIT_TEST_TIMEOUT): {v.get('cmd')}")
+                    e.append(
+                        f"test re-run timed out (WORK_AUDIT_TEST_TIMEOUT): {v.get('cmd')}"
+                    )
                 elif rc != v.get("exit"):
                     e.append(
                         f"test re-run exit differs from recorded exit: {v.get('cmd')}"
@@ -1074,7 +1087,9 @@ def status(advance=False, cache=None):
                     continue
                 try:
                     rec = json.loads(f.read_text(encoding="utf-8"))
-                    if rec.get("scheme") != SCHEME:  # an older scheme's record is no record
+                    if (
+                        rec.get("scheme") != SCHEME
+                    ):  # an older scheme's record is no record
                         rows.append((idx, repo.name, "missing", ""))
                         continue
                     errs, _ = validate(repo, rec, strict=False, pre=(tr, ch))
