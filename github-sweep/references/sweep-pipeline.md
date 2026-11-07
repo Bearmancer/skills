@@ -17,7 +17,7 @@ CURRENT_USER=$(gh api user --jq .login)
 For every repository in the sweep, evaluate:
 
 ```bash
-gh repo view owner,isFork --jq '{owner: .owner.login, isFork: .isFork}' <owner >/ <repo >--json
+gh repo view <owner>/<repo> --json owner,isFork --jq '{owner: .owner.login, isFork: .isFork}'
 ```
 
 - `owner.login == CURRENT_USER` AND `isFork == false` ➔ **EXCLUDE**. (Personal repository. Never touch issues, PRs, or branches in personal repositories).
@@ -32,7 +32,7 @@ When a PR or issue requires code investigation, rebase, or fixes:
 
 1. Clone the upstream default branch with shallow blobless filter:
    ```bash
-   gh repo clone -- --filter=blob:none <upstream-owner >/ <upstream-repo >"$d/repo"
+   gh repo clone <upstream-owner>/<upstream-repo> "$d/repo" -- --filter=blob:none
    ```
 2. Initialize CodeGraph index (size-gated, worker-capped — the 8-worker WASM parse pool peaks at ~4.6 GB on monorepos):
    <!-- CODEGRAPH-TEARDOWN v1 -->

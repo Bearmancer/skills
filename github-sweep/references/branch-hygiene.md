@@ -9,7 +9,7 @@ Branch-specific selection rules only. Generic deletion safety (explicit targets,
 For every fork belonging to `CURRENT_USER`:
 
 ```bash
-gh api repos/ --jq '.[].name' <user >/ <fork >/branches
+gh api repos/<user>/<fork>/branches --jq '.[].name'
 ```
 
 Evaluate each branch against these criteria:
@@ -25,7 +25,7 @@ A remote branch is purged immediately if:
 3. **Orphan Branch with No Divergence:**
    The branch has no associated PR, and comparing against upstream default branch shows `ahead_by == 0` or status `identical` / `behind`:
    ```bash
-   gh api repos/ '{status: .status, ahead_by: .ahead_by}' <upstream-owner >/ <upstream-repo >/compare/ <default-branch >... <user >: <branch >--jq
+   gh api repos/<upstream-owner>/<upstream-repo>/compare/<default-branch>...<user>:<branch> --jq '{status: .status, ahead_by: .ahead_by}'
    ```
 
 ### B. Inviolable Preservation Criteria (Fail Closed)

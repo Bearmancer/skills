@@ -115,11 +115,11 @@ For each target repository requiring triage or code modification:
 
 1. **Isolated Workspace:**
    ```bash
-   d=$(mktemp -d -t gh-sweep- <repo-slug >-XXXXXX)
+   d=$(mktemp -d -t gh-sweep-<repo-slug>-XXXXXX)
    ```
 2. **Clone Upstream Default Branch:**
    ```bash
-   gh repo clone -- --filter=blob:none <target-owner >/ <target-repo >"$d/repo"
+   gh repo clone <target-owner>/<target-repo> "$d/repo" -- --filter=blob:none
    ```
 3. **Initialize CodeGraph Immediately (size-gated, worker-capped):**
    <!-- CODEGRAPH-TEARDOWN v1 -->
