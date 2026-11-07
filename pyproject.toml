@@ -1,0 +1,20 @@
+[project]
+name = "skills"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest", "pyyaml", "ruamel.yaml", "jsonschema"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = [
+  "purge-safety/tests",
+  "github-create/tests",
+  "work-audit/tests",
+  "rigorous-research/tests",
+  "github-sweep/tests",
+]
