@@ -1,6 +1,6 @@
 ---
 name: github-create
-description: 'Use when filing an issue, PR or feature request on a third-party GitHub repo, or after root-causing a bug in a dependency, plugin or CLI, even if the user only says "report this upstream" or "send them a fix". Runs unattended: existing-thread search, latest-version gate, fresh codegraph-indexed clone, counterfactual root cause, template-exact issue, live-proven fix, PR, CI, cleanup.'
+description: "Use when filing an issue, PR or feature request on a third-party GitHub repo, or after root-causing a bug in a dependency or CLI. Runs unattended through latest-version gate, proven fix, PR, CI and cleanup."
 ---
 
 Third-party repos only. The run is unattended and maximal: every step runs in full, and the stops are mechanical and fail closed (preflight, URL audit, loop limits). A post carries proof or is not filed: the reviewer checks every claim against source, diff or demo alone.

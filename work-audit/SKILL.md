@@ -1,6 +1,6 @@
 ---
 name: work-audit
-description: "Run at the END of every task, always, even small edits: before reporting done, finished, shipped, committing or pushing, and on \"status\", \"what is left\", \"anything pending\". Scans every touched git repo for 21 end-of-task indices, requires review records for judgment indices, resolves findings, writes the final report; a Stop hook blocks a skipped audit."
+description: "Use when a task ends, before reporting done, committing or pushing, or on 'status' and 'what is left'. Always, even for small edits: scans touched repos for 21 indices and writes the final report."
 ---
 
 # Work audit

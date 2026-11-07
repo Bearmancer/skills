@@ -1,6 +1,6 @@
 ---
 name: rigorous-research
-description: "Use to learn, understand, research, explain or fact-check a topic, or for board-game rules and classical-music picks. Modes: learn (per-chapter course), answer, verify, reference, rules, picks. Every claim is ledgered, verified, then published to bearmancer.github.io."
+description: "Use when learning, understanding, researching, explaining or fact-checking a topic, or for board-game rules and classical-music picks (modes: learn, answer, verify, reference, rules, picks). Every claim is ledgered, verified and published."
 ---
 
 Installed skill. Design record: `references/design.md` (ADRs 0001-0034). Agent-internal text: light caveman-style terse compression.

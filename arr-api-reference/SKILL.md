@@ -1,6 +1,6 @@
 ---
 name: arr-api-reference
-description: "Use when configuring or locating the Sonarr/Radarr/Prowlarr/SABnzbd/Emby/Bazarr stack through its HTTP APIs or on-disk paths: download clients and categories, root folders, Emby library paths, Bazarr search, logs, config, ports, autostart."
+description: "Use when configuring or locating Sonarr, Radarr, Prowlarr, SABnzbd, Emby or Bazarr through its HTTP APIs or on-disk paths: download clients, categories, root folders, ports, logs and autostart."
 ---
 
 Configure Sonarr/Radarr/Prowlarr/SABnzbd/Emby (plus Bazarr) through HTTP APIs or on-disk locations, not UI clicks. General HTTP/API debugging and PowerShell pitfalls go to `shell-gotchas`; web research goes to `rigorous-research`.
