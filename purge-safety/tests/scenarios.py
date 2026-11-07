@@ -82,7 +82,9 @@ def manifest(path, rows, root, generated="now"):
     doc = {"root": str(root), "entries": rows}
     if generated == "now":
         # Written right after the tree; one second covers a filesystem clock that runs ahead of ours.
-        doc["generated"] = (datetime.now() + timedelta(seconds=1)).astimezone().isoformat()
+        doc["generated"] = (
+            (datetime.now() + timedelta(seconds=1)).astimezone().isoformat()
+        )
     elif generated:
         doc["generated"] = generated
     write(path, json.dumps(doc, indent=2))
@@ -90,7 +92,12 @@ def manifest(path, rows, root, generated="now"):
 
 
 def row(base, rel, verdict="PURGE", category="probe"):
-    return {"path": str(Path(base) / rel), "verdict": verdict, "category": category, "reason": category}
+    return {
+        "path": str(Path(base) / rel),
+        "verdict": verdict,
+        "category": category,
+        "reason": category,
+    }
 
 
 # --- trees ------------------------------------------------------------------------------------
@@ -104,7 +111,7 @@ def build_home(home):
         "AppData/Local/uv/cache/k.bin": b"k" * 2560,
         "AppData/Local/npm-cache/_cacache/x": "0123456789",
         "AppData/Roaming/npm/node_modules/x/index.js": "12345",
-        ".cache/opencode/pkg.json": "{\"a\":1}",
+        ".cache/opencode/pkg.json": '{"a":1}',
         ".cache/other.txt": "zz",
         ".omo/logs/l.log": "logs",
         ".omo/agent/logs/a.log": "logs",
@@ -149,7 +156,12 @@ def build_home(home):
     mkdir(h / "deep/a/b/c")
     GUARDS.junction(h / "Dev/foo_tmp/j", h / "Documents")
     GUARDS.junction(h / "Dev/link", h / "Dev/repo")
-    for rel in ("AppData/Local/Temp/olddir", ".omo/agent/projects/orphan", "deep/a/b/c", "deep/a/b"):
+    for rel in (
+        "AppData/Local/Temp/olddir",
+        ".omo/agent/projects/orphan",
+        "deep/a/b/c",
+        "deep/a/b",
+    ):
         mkdir(h / rel, OLD)
     mkdir(h / "Dev/emptyold", OLD)
     return h
@@ -170,12 +182,23 @@ def s_scan_home(b, json_mode=False):
 def s_scan_long(b):
     home = empty_home(b)
     write(home / "Dev" / "long" / ("a" * 100) / ("b" * 100) / "deep.bak", "long", OLD)
-    return {"opts": {"scan": True, "root": home, "out-dir": b / "out", "lock-file": b / "p.lock"}, "home": home}
+    return {
+        "opts": {
+            "scan": True,
+            "root": home,
+            "out-dir": b / "out",
+            "lock-file": b / "p.lock",
+        },
+        "home": home,
+    }
 
 
 def s_plan_rescan(b):
     home = build_home(b / "home")
-    return {"opts": {"root": home, "out-dir": b / "out", "lock-file": b / "p.lock"}, "home": home}
+    return {
+        "opts": {"root": home, "out-dir": b / "out", "lock-file": b / "p.lock"},
+        "home": home,
+    }
 
 
 def guard_tree(b):
@@ -189,25 +212,87 @@ def plan_trap_rows(b, r):
     drive = os.environ.get("SystemDrive", "C:")
     return [
         row(r, ".omo/memory", "PURGE", "trap-protected"),
-        {"path": drive + "\\Windows\\Temp", "verdict": "PURGE", "category": "trap-outside", "reason": "outside root"},
-        {"path": str(r / "cache") + "\\*", "verdict": "PURGE", "category": "trap-wildcard", "reason": "wildcard"},
-        {"path": str(r / "cache") + "\\?x", "verdict": "PURGE", "category": "trap-wildcard", "reason": "wildcard"},
-        {"path": str(r), "verdict": "PURGE", "category": "trap-root", "reason": "root itself"},
-        {"path": str(r) + "\\", "verdict": "PURGE", "category": "trap-root", "reason": "root itself"},
-        {"path": drive + "\\", "verdict": "PURGE", "category": "trap-drive", "reason": "drive root"},
+        {
+            "path": drive + "\\Windows\\Temp",
+            "verdict": "PURGE",
+            "category": "trap-outside",
+            "reason": "outside root",
+        },
+        {
+            "path": str(r / "cache") + "\\*",
+            "verdict": "PURGE",
+            "category": "trap-wildcard",
+            "reason": "wildcard",
+        },
+        {
+            "path": str(r / "cache") + "\\?x",
+            "verdict": "PURGE",
+            "category": "trap-wildcard",
+            "reason": "wildcard",
+        },
+        {
+            "path": str(r),
+            "verdict": "PURGE",
+            "category": "trap-root",
+            "reason": "root itself",
+        },
+        {
+            "path": str(r) + "\\",
+            "verdict": "PURGE",
+            "category": "trap-root",
+            "reason": "root itself",
+        },
+        {
+            "path": drive + "\\",
+            "verdict": "PURGE",
+            "category": "trap-drive",
+            "reason": "drive root",
+        },
         row(r, ".omo/agent/projects/orphan", "OWNER", "trap-owner"),
         row(r, "keep", "KEEP", "trap-keep"),
-        {"path": str(r / "logs" / "keep.log"), "verdict": None, "category": "trap-null", "reason": "null verdict"},
-        {"path": str(r / "logs" / "keep.log"), "category": "trap-missing", "reason": "no verdict"},
+        {
+            "path": str(r / "logs" / "keep.log"),
+            "verdict": None,
+            "category": "trap-null",
+            "reason": "null verdict",
+        },
+        {
+            "path": str(r / "logs" / "keep.log"),
+            "category": "trap-missing",
+            "reason": "no verdict",
+        },
         {"path": "", "verdict": "PURGE", "category": "trap-empty", "reason": "empty"},
-        {"path": "   ", "verdict": "PURGE", "category": "trap-blank", "reason": "blank"},
-        {"path": str(r) + "\\..\\home", "verdict": "PURGE", "category": "trap-dotdot", "reason": "escapes"},
-        {"path": str(r / "junctions" / "lock" / "important.txt"), "verdict": "PURGE", "category": "trap-hop", "reason": "through a junction"},
+        {
+            "path": "   ",
+            "verdict": "PURGE",
+            "category": "trap-blank",
+            "reason": "blank",
+        },
+        {
+            "path": str(r) + "\\..\\home",
+            "verdict": "PURGE",
+            "category": "trap-dotdot",
+            "reason": "escapes",
+        },
+        {
+            "path": str(r / "junctions" / "lock" / "important.txt"),
+            "verdict": "PURGE",
+            "category": "trap-hop",
+            "reason": "through a junction",
+        },
         row(r, "cache/node_modules", "PURGE", "cache-tree"),
         row(r, "proj/artifacts", "purge", "lowercase-verdict"),
-        {"path": str(r / "logs" / "app.log.bak").replace("\\", "/"), "verdict": "PURGE"},
+        {
+            "path": str(r / "logs" / "app.log.bak").replace("\\", "/"),
+            "verdict": "PURGE",
+        },
         row(r, "never/existed", "PURGE", "missing-target"),
-        {"path": "r\\zero\\stub.txt", "verdict": "PURGE", "category": "relative", "reason": "relative to cwd"},
+        {
+            "path": "r\\zero\\stub.txt",
+            "verdict": "PURGE",
+            "category": "relative",
+            "reason": "relative to cwd",
+        },
         None,
     ]
 
@@ -223,12 +308,31 @@ def s_plan_traps(b, json_mode=False):
 
 def s_plan_clean(b):
     r = guard_tree(b)
-    m = manifest(b / "m" / "clean.json", [row(r, "cache/node_modules"), row(r, "logs/app.log.bak", category="backup")], r)
-    return {"opts": {"root": r, "manifest": m, "out-dir": b / "out", "lock-file": b / "p.lock"}, "home": b / "home"}
+    m = manifest(
+        b / "m" / "clean.json",
+        [row(r, "cache/node_modules"), row(r, "logs/app.log.bak", category="backup")],
+        r,
+    )
+    return {
+        "opts": {
+            "root": r,
+            "manifest": m,
+            "out-dir": b / "out",
+            "lock-file": b / "p.lock",
+        },
+        "home": b / "home",
+    }
 
 
 def apply_opts(b, r, m, **extra):
-    return {"root": r, "manifest": m, "apply": True, "out-dir": b / "out", "lock-file": b / "p.lock", **extra}
+    return {
+        "root": r,
+        "manifest": m,
+        "apply": True,
+        "out-dir": b / "out",
+        "lock-file": b / "p.lock",
+        **extra,
+    }
 
 
 def s_apply_full(b, json_mode=False):
@@ -251,13 +355,17 @@ def s_apply_full(b, json_mode=False):
 
 def s_apply_protected(b):
     r = guard_tree(b)
-    m = manifest(b / "m" / "prot.json", [row(r, ".omo/memory", "PURGE", "protected-row")], r)
+    m = manifest(
+        b / "m" / "prot.json", [row(r, ".omo/memory", "PURGE", "protected-row")], r
+    )
     return {"opts": apply_opts(b, r, m), "home": b / "home"}
 
 
 def s_apply_protected_override(b):
     r = guard_tree(b)
-    m = manifest(b / "m" / "prot.json", [row(r, ".omo/memory", "PURGE", "protected-row")], r)
+    m = manifest(
+        b / "m" / "prot.json", [row(r, ".omo/memory", "PURGE", "protected-row")], r
+    )
     return {"opts": apply_opts(b, r, m, override=r / ".omo"), "home": b / "home"}
 
 
@@ -266,7 +374,9 @@ def s_apply_readonly(b):
     f = write(r / "cache/node_modules/pkg/.git/objects/ab/cdef01", "blob")
     os.chmod(f, 0o444)
     empty_home(b)
-    m = manifest(b / "m" / "ro.json", [row(r, "cache/node_modules", "PURGE", "cache-tree")], r)
+    m = manifest(
+        b / "m" / "ro.json", [row(r, "cache/node_modules", "PURGE", "cache-tree")], r
+    )
     return {"opts": apply_opts(b, r, m), "home": b / "home"}
 
 
@@ -284,39 +394,74 @@ def s_apply_junction_ancestor(b):
     GUARDS.new_fixture(r / "outside-hold")
     mkdir(r / "hop")
     GUARDS.junction(r / "hop" / "link", r / "outside-hold" / "keep")
-    m = manifest(b / "m" / "hop.json", [row(r, "hop/link/important.txt", "PURGE", "junction-ancestor")], r)
+    m = manifest(
+        b / "m" / "hop.json",
+        [row(r, "hop/link/important.txt", "PURGE", "junction-ancestor")],
+        r,
+    )
     return {"opts": apply_opts(b, r, m), "home": b / "home"}
 
 
 def s_apply_missing_verdict(b):
     r = guard_tree(b)
-    m = manifest(b / "m" / "nov.json", [{"path": str(r / "cache/node_modules"), "category": "cache-tree", "reason": "no verdict field"}], r, generated=None)
+    m = manifest(
+        b / "m" / "nov.json",
+        [
+            {
+                "path": str(r / "cache/node_modules"),
+                "category": "cache-tree",
+                "reason": "no verdict field",
+            }
+        ],
+        r,
+        generated=None,
+    )
     return {"opts": apply_opts(b, r, m), "home": b / "home"}
 
 
 def s_apply_budget0(b):
     r = guard_tree(b)
-    m = manifest(b / "m" / "budget.json", [row(r, "cache/node_modules", "PURGE", "cache-tree")], r)
+    m = manifest(
+        b / "m" / "budget.json",
+        [row(r, "cache/node_modules", "PURGE", "cache-tree")],
+        r,
+    )
     return {"opts": apply_opts(b, r, m, **{"max-minutes": 0}), "home": b / "home"}
 
 
 def s_apply_lock_live(b):
     r = guard_tree(b)
-    m = manifest(b / "m" / "locked.json", [row(r, "cache/node_modules", "PURGE", "cache-tree")], r)
-    write(b / "p.lock", json.dumps({"pid": os.getpid(), "started": "probe", "mode": "apply"}))
+    m = manifest(
+        b / "m" / "locked.json",
+        [row(r, "cache/node_modules", "PURGE", "cache-tree")],
+        r,
+    )
+    write(
+        b / "p.lock",
+        json.dumps({"pid": os.getpid(), "started": "probe", "mode": "apply"}),
+    )
     return {"opts": apply_opts(b, r, m), "home": b / "home"}
 
 
 def s_apply_lock_stale(b):
     r = guard_tree(b)
-    m = manifest(b / "m" / "stale-lock.json", [row(r, "cache/node_modules", "PURGE", "cache-tree")], r)
+    m = manifest(
+        b / "m" / "stale-lock.json",
+        [row(r, "cache/node_modules", "PURGE", "cache-tree")],
+        r,
+    )
     write(b / "p.lock", json.dumps({"pid": 0, "started": "long ago", "mode": "apply"}))
     return {"opts": apply_opts(b, r, m), "home": b / "home"}
 
 
 def s_apply_stale(b, force=False):
     r = guard_tree(b)
-    m = manifest(b / "m" / "stale.json", [row(r, "logs/app.log.bak", "PURGE", "backup")], r, generated="2026-01-01T00:00:00.0000000+00:00")
+    m = manifest(
+        b / "m" / "stale.json",
+        [row(r, "logs/app.log.bak", "PURGE", "backup")],
+        r,
+        generated="2026-01-01T00:00:00.0000000+00:00",
+    )
     opts = apply_opts(b, r, m)
     if force:
         opts["force"] = True
@@ -325,7 +470,11 @@ def s_apply_stale(b, force=False):
 
 def s_apply_maxpaths(b):
     r = guard_tree(b)
-    m = manifest(b / "m" / "many.json", [row(r, "cache/node_modules"), row(r, "logs/app.log.bak")], r)
+    m = manifest(
+        b / "m" / "many.json",
+        [row(r, "cache/node_modules"), row(r, "logs/app.log.bak")],
+        r,
+    )
     return {"opts": apply_opts(b, r, m, **{"max-paths": 1}), "home": b / "home"}
 
 
@@ -341,7 +490,11 @@ def s_apply_max_failures(b):
     one = write(r / "busy1/in-use.txt", "held open")
     two = write(r / "busy2longer/in-use.txt", "held open")
     m = manifest(b / "m" / "busy.json", [row(r, "busy1"), row(r, "busy2longer")], r)
-    return {"opts": apply_opts(b, r, m, **{"max-failures": 1}), "home": b / "home", "hold": [one, two]}
+    return {
+        "opts": apply_opts(b, r, m, **{"max-failures": 1}),
+        "home": b / "home",
+        "hold": [one, two],
+    }
 
 
 def s_apply_residue(b):
@@ -352,7 +505,9 @@ def s_apply_residue(b):
 
 def s_apply_owner_no_override(b):
     r = guard_tree(b)
-    m = manifest(b / "m" / "owner.json", [row(r, "logs/app.log.bak", "OWNER", "owner-row")], r)
+    m = manifest(
+        b / "m" / "owner.json", [row(r, "logs/app.log.bak", "OWNER", "owner-row")], r
+    )
     return {"opts": apply_opts(b, r, m), "home": b / "home"}
 
 
@@ -365,8 +520,14 @@ def s_apply_nested(b):
         mkdir(r / rel, OLD)
     empty_home(b)
     # Removing the child rewrites the parent's LastWriteTime, so the parent row is refused as changed.
-    rows = [row(r, "work/.cache"), row(r, "work/.cache/opencode"), row(r, "gone/already")]
-    m = manifest(b / "m" / "nested.json", rows, r, generated="2026-01-02T00:00:00.0000000+00:00")
+    rows = [
+        row(r, "work/.cache"),
+        row(r, "work/.cache/opencode"),
+        row(r, "gone/already"),
+    ]
+    m = manifest(
+        b / "m" / "nested.json", rows, r, generated="2026-01-02T00:00:00.0000000+00:00"
+    )
     return {"opts": apply_opts(b, r, m), "home": b / "home"}
 
 
@@ -374,18 +535,32 @@ def s_usage(opts_fn):
     def build(b):
         r = guard_tree(b)
         return {"opts": opts_fn(b, r), "home": b / "home"}
+
     return build
 
 
 def s_missing_path_key(b):
     r = guard_tree(b)
     m = manifest(b / "m" / "nopath.json", [{"verdict": "PURGE", "category": "x"}], r)
-    return {"opts": {"root": r, "manifest": m, "lock-file": b / "p.lock"}, "home": b / "home", "stderr": "prefix"}
+    return {
+        "opts": {"root": r, "manifest": m, "lock-file": b / "p.lock"},
+        "home": b / "home",
+        "stderr": "prefix",
+    }
 
 
 def s_scan_budget0(b):
     home = build_home(b / "home")
-    return {"opts": {"scan": True, "root": home, "out-dir": b / "out", "max-minutes": 0, "lock-file": b / "p.lock"}, "home": home}
+    return {
+        "opts": {
+            "scan": True,
+            "root": home,
+            "out-dir": b / "out",
+            "max-minutes": 0,
+            "lock-file": b / "p.lock",
+        },
+        "home": home,
+    }
 
 
 ENGINE_SCENARIOS = {
@@ -416,12 +591,30 @@ ENGINE_SCENARIOS = {
     "apply-residue": s_apply_residue,
     "apply-owner-no-override": s_apply_owner_no_override,
     "apply-nested": s_apply_nested,
-    "usage-scan-and-apply": s_usage(lambda b, r: {"scan": True, "apply": True, "root": r, "manifest": b / "none.json"}),
+    "usage-scan-and-apply": s_usage(
+        lambda b, r: {
+            "scan": True,
+            "apply": True,
+            "root": r,
+            "manifest": b / "none.json",
+        }
+    ),
     "usage-apply-no-manifest": s_usage(lambda b, r: {"apply": True, "root": r}),
-    "usage-override-root": s_usage(lambda b, r: {"root": r, "override": str(r) + "\\", "manifest": b / "none.json"}),
-    "usage-root-missing": s_usage(lambda b, r: {"root": b / "no-such-root", "manifest": b / "none.json"}),
-    "usage-manifest-missing": s_usage(lambda b, r: {"root": r, "manifest": b / "none.json"}),
-    "usage-drive-root": s_usage(lambda b, r: {"root": os.environ.get("SystemDrive", "C:") + "\\", "manifest": b / "none.json"}),
+    "usage-override-root": s_usage(
+        lambda b, r: {"root": r, "override": str(r) + "\\", "manifest": b / "none.json"}
+    ),
+    "usage-root-missing": s_usage(
+        lambda b, r: {"root": b / "no-such-root", "manifest": b / "none.json"}
+    ),
+    "usage-manifest-missing": s_usage(
+        lambda b, r: {"root": r, "manifest": b / "none.json"}
+    ),
+    "usage-drive-root": s_usage(
+        lambda b, r: {
+            "root": os.environ.get("SystemDrive", "C:") + "\\",
+            "manifest": b / "none.json",
+        }
+    ),
     "usage-missing-path-key": s_missing_path_key,
 }
 
@@ -431,7 +624,15 @@ ENGINE_SCENARIOS = {
 
 def adapter_tree(b, duplicates=False):
     repo = b / "work" / "proj"
-    files = ["zero.txt", "a.tmp", "src/b.bak", "src/__pycache__/m.pyc", "old-ignored/x.log", "dup1.txt", "dup2.txt"]
+    files = [
+        "zero.txt",
+        "a.tmp",
+        "src/b.bak",
+        "src/__pycache__/m.pyc",
+        "old-ignored/x.log",
+        "dup1.txt",
+        "dup2.txt",
+    ]
     for rel in files:
         write(repo / rel, "" if rel == "zero.txt" else "data")
     mkdir(repo / "empty-dir")
@@ -443,15 +644,34 @@ def adapter_tree(b, duplicates=False):
                 "zero_byte": ["proj/zero.txt", "proj/missing.txt"],
                 "tmp_bak_orig": ["proj/a.tmp", "proj/src/b.bak", "proj/zero.txt"],
                 "pycache": ["proj/src/__pycache__"],
-                "ignored_untracked_old": ["old-ignored", "../outside", "proj/../../escape"],
+                "ignored_untracked_old": [
+                    "old-ignored",
+                    "../outside",
+                    "proj/../../escape",
+                ],
                 "safety": {
-                    "proj/a.tmp": {"files": 1, "newest_mtime": "2026-01-01 00:00", "branch": None},
-                    "proj/src/__pycache__": {"files": 1, "newest_mtime": None, "branch": "main", "uncommitted": 0, "unpushed": 2},
+                    "proj/a.tmp": {
+                        "files": 1,
+                        "newest_mtime": "2026-01-01 00:00",
+                        "branch": None,
+                    },
+                    "proj/src/__pycache__": {
+                        "files": 1,
+                        "newest_mtime": None,
+                        "branch": "main",
+                        "uncommitted": 0,
+                        "unpushed": 2,
+                    },
                     "proj/zero.txt": {},
                 },
             },
-            "15": {"empty_dirs": ["proj/nested/empty", "proj/empty-dir"], "safety": {"proj/empty-dir": {"files": 0}}},
-            "16": {"duplicates": [["proj/dup1.txt", "proj/dup2.txt"], ["proj/solo.txt"]]},
+            "15": {
+                "empty_dirs": ["proj/nested/empty", "proj/empty-dir"],
+                "safety": {"proj/empty-dir": {"files": 0}},
+            },
+            "16": {
+                "duplicates": [["proj/dup1.txt", "proj/dup2.txt"], ["proj/solo.txt"]]
+            },
         },
     }
     write(b / "records" / "report.json", json.dumps(report, indent=2))
@@ -465,18 +685,34 @@ def adapter_flat(b):
     """A hand-built report with the sections at the top level."""
     repo = b / "work" / "proj"
     write(repo / "x.orig", "o")
-    write(b / "records" / "report.json", json.dumps({"4": {"tmp_bak_orig": ["x.orig"]}}))
-    return {"opts": {"report": b / "records" / "report.json", "repo": repo, "out-dir": b / "elsewhere"}}
+    write(
+        b / "records" / "report.json", json.dumps({"4": {"tmp_bak_orig": ["x.orig"]}})
+    )
+    return {
+        "opts": {
+            "report": b / "records" / "report.json",
+            "repo": repo,
+            "out-dir": b / "elsewhere",
+        }
+    }
 
 
 ADAPTER_SCENARIOS = {
     "adapter-report": adapter_tree,
     "adapter-report-duplicates": lambda b: adapter_tree(b, duplicates=True),
     "adapter-flat": adapter_flat,
-    "adapter-empty": lambda b: (write(b / "records/report.json", "{}"), mkdir(b / "work/proj"),
-                                {"opts": {"report": b / "records/report.json", "repo": b / "work/proj"}})[-1],
-    "adapter-report-missing": lambda b: (mkdir(b / "work/proj"),
-                                         {"opts": {"report": b / "records/none.json", "repo": b / "work/proj"}, "stderr": "prefix"})[-1],
+    "adapter-empty": lambda b: (
+        write(b / "records/report.json", "{}"),
+        mkdir(b / "work/proj"),
+        {"opts": {"report": b / "records/report.json", "repo": b / "work/proj"}},
+    )[-1],
+    "adapter-report-missing": lambda b: (
+        mkdir(b / "work/proj"),
+        {
+            "opts": {"report": b / "records/none.json", "repo": b / "work/proj"},
+            "stderr": "prefix",
+        },
+    )[-1],
 }
 
 
@@ -497,10 +733,18 @@ def run(engine, base, scenario):
     env = dict(os.environ)
     if spec.get("home"):
         env.update(env_for(spec["home"]))
-    hold = [open(p, "rb") for p in spec.get("hold", [])]  # an open handle without share-delete blocks removal
+    hold = [
+        open(p, "rb") for p in spec.get("hold", [])
+    ]  # an open handle without share-delete blocks removal
     try:
-        proc = subprocess.run(command(engine, spec["opts"]), cwd=base, capture_output=True, timeout=TIMEOUT, env=env,
-                              stdin=subprocess.DEVNULL)
+        proc = subprocess.run(
+            command(engine, spec["opts"]),
+            cwd=base,
+            capture_output=True,
+            timeout=TIMEOUT,
+            env=env,
+            stdin=subprocess.DEVNULL,
+        )
     finally:
         for f in hold:
             f.close()
@@ -519,8 +763,13 @@ def tree(base):
                 dirnames.remove(name)
         out += [f"f {os.path.normpath(os.path.join(rel, n))}" for n in filenames]
     # pwsh wrote its module cache under the fake %LOCALAPPDATA% while the goldens were recorded.
-    return sorted(o for o in out if not re.match(r"\w (out|m|records|elsewhere)(\\|$)", o) and o != "f p.lock"
-                  and not re.search(r"AppData\\Local\\Microsoft(\\|$)", o))
+    return sorted(
+        o
+        for o in out
+        if not re.match(r"\w (out|m|records|elsewhere)(\\|$)", o)
+        and o != "f p.lock"
+        and not re.search(r"AppData\\Local\\Microsoft(\\|$)", o)
+    )
 
 
 def collect(base, proc, spec):
@@ -530,7 +779,12 @@ def collect(base, proc, spec):
         if d.is_dir():
             for f in sorted(d.iterdir()):
                 if f.name.startswith("Purge "):
-                    outputs.append((STAMP.sub("<STAMP>", f.name), f.read_text(encoding="utf-8-sig")))
+                    outputs.append(
+                        (
+                            STAMP.sub("<STAMP>", f.name),
+                            f.read_text(encoding="utf-8-sig"),
+                        )
+                    )
     return {
         "base": str(base),
         "code": proc.returncode,
@@ -561,7 +815,12 @@ def scrub_json(value, base):
         for k, v in value.items():
             if k in VOLATILE:
                 continue
-            if k == "error" or k == "abort_reason" and isinstance(v, str) and "could not be removed" in v:
+            if (
+                k == "error"
+                or k == "abort_reason"
+                and isinstance(v, str)
+                and "could not be removed" in v
+            ):
                 v = "<ERR>"
             out[k] = scrub_json(v, base)
         for k in ("entries", "refused"):
@@ -599,11 +858,17 @@ def parse_json_stream(text):
 
 def normalize(result):
     base = result["base"]
-    record = {"code": result["code"], "tree": [scrub(t, base) for t in result["tree"]], "lock_left": result["lock_left"]}
+    record = {
+        "code": result["code"],
+        "tree": [scrub(t, base) for t in result["tree"]],
+        "lock_left": result["lock_left"],
+    }
     if result["stderr_mode"] == "prefix":
         record["stderr"] = "<non-empty>" if result["stderr"].strip() else ""
     else:
-        record["stderr"] = re.sub(r"\(pid \d+,", "(pid <PID>,", scrub(result["stderr"].strip(), base))
+        record["stderr"] = re.sub(
+            r"\(pid \d+,", "(pid <PID>,", scrub(result["stderr"].strip(), base)
+        )
     json_out = None
     if result["stdout"].lstrip().startswith(("{", "[")):
         json_out = scrub_json(parse_json_stream(result["stdout"]), base)
@@ -614,8 +879,19 @@ def normalize(result):
     outputs = []
     for name, content in result["outputs"]:
         if name.endswith(".jsonl"):
-            events = [scrub_json(json.loads(line), base) for line in content.splitlines() if line.strip()]
-            outputs.append({"name": name, "events": sorted(events, key=lambda e: json.dumps(e, sort_keys=True))})
+            events = [
+                scrub_json(json.loads(line), base)
+                for line in content.splitlines()
+                if line.strip()
+            ]
+            outputs.append(
+                {
+                    "name": name,
+                    "events": sorted(
+                        events, key=lambda e: json.dumps(e, sort_keys=True)
+                    ),
+                }
+            )
         else:
             outputs.append({"name": name, "doc": scrub_json(json.loads(content), base)})
     record["outputs"] = outputs

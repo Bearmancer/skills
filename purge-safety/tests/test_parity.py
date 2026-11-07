@@ -38,7 +38,11 @@ def test_adapter_matches_golden(name, tmp_path):
 def test_long_path_candidates_are_found_where_powershell_missed_them(tmp_path):
     expected = golden("scan-long-path")
     assert expected["code"] == 0 and expected["outputs"][0]["doc"]["entries"] == []
-    actual = sc.normalize(sc.run("engine", tmp_path, sc.ENGINE_SCENARIOS["scan-long-path"]))
+    actual = sc.normalize(
+        sc.run("engine", tmp_path, sc.ENGINE_SCENARIOS["scan-long-path"])
+    )
     entries = actual["outputs"][0]["doc"]["entries"]
     assert actual["code"] == 0
-    assert [(e["category"], e["path"].endswith("\\deep.bak")) for e in entries] == [("backup", True)]
+    assert [(e["category"], e["path"].endswith("\\deep.bak")) for e in entries] == [
+        ("backup", True)
+    ]

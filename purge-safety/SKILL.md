@@ -14,6 +14,21 @@ A purge script is safe when four things hold. Not when it looks careful, not whe
 
 Your job is a verdict backed by evidence. "Looks fine" is not a verdict. A PASS names the probe that proved each invariant; a BLOCK names the line that breaks it.
 
+## Ownership
+
+This skill is the single owner of deletion policy: explicit targets, root
+containment, protected paths, verdict gates, manifests, write-ahead journals,
+counts, residue, budgets and locks. Other skills link here instead of
+restating these rules.
+
+- `github-sweep`: owns branch *selection* only (merged/closed/open, `ahead_by`,
+  default branches) and calls its `scripts/purge_branches.py` adapter. It does
+  not define a second purge policy.
+- `github-create`: may remove its own temporary run directory only; it follows
+  the explicit-target/no-wildcard rule here.
+- `work-audit`: finds candidates (indices 4, 15, 16) and hands the report to
+  `scripts/from-work-audit-report.py`; it never deletes ad hoc.
+
 ## 1. Read the destructive surface
 
 Enumerate every call that removes data, then ignore the rest of the file until each one is accounted for.
@@ -109,6 +124,8 @@ Safety of the script is necessary, not sufficient. Before any real `--apply`:
 
 ## 6. Work-audit handoff
 
+This section is the single home for work-audit routing; work-audit and its indices only point here.
+
 work-audit already finds the candidates (index 4 stale artifacts, index 15 empty dirs) and records their `safety` facts. Do not let it delete them ad hoc: convert the report into a purge manifest and let this engine do the deleting.
 
 ```powershell
@@ -133,22 +150,22 @@ When the engine scans the omo root after apply, it can report residue that its o
 
 `<skill>\scripts\purge.py` implements every invariant above and is the fixture partner for the harness; `references/engine.md` lists its flags and exit codes. `npx skills add Bearmancer/skills -s purge-safety -a <agents> -y` installs this skill from the public Bearmancer/skills repo into `~\.agents\skills\purge-safety` and links it into each named agent's skills folder (for example `~\.claude\skills\purge-safety`), so one source survives. Do not treat it as pre-approved: run the harness against it, and if a line contradicts an invariant, the line is wrong.
 
-| Invariant          | Where it lives                                                                                                   |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| Explicit targets   | `scan_entries`: rule table and `explicit` pairs; `read_entries` for a manifest                                   |
-| Root containment   | `test_entry`: `abspath`, root equality, drive-root regex, `under` the root                                       |
-| Protected denylist | `PROTECTED_PATTERNS`, applied by `test_entry` before any measure                                                 |
-| Per-path override  | `overridden`, exact path or ancestor, only from `--override`                                                     |
-| Verdict gate       | `test_entry` refuses anything but PURGE/OWNER                                                                    |
-| Reparse points     | `is_reparse`; `measure` counts instead of walking; `remove_tree` unlinks                                         |
-| Counts             | `measure`; `totals`; the `APPLY` summary line                                                                    |
-| Residue scan       | `apply_mode` `finally`: `scan_entries` + exit 2 when residue remains                                             |
-| Journal            | `apply_mode`: `delete` record appended before `remove_tree`, `removed`/`failed`/`prune-empty-parent` after       |
-| Self-termination   | `budget`, `--max-failures`, `enter_lock`/`exit_lock`, an explicit exit code from `main`                          |
-| Cascade            | `remove_empty_ancestors`                                                                                         |
-| No swallowing      | per-target `try/except` increments `failures` and journals the message                                           |
-| Junction ancestors | `test_entry` walks every ancestor between root and target and refuses a reparse point                            |
-| Verdict required   | `read_entries` marks a row without `verdict` as `MISSING`; `test_entry` refuses it                               |
-| Counts on success  | deleted files/dirs/bytes accrue after removal, so a failed delete does not inflate the report                    |
-| Manifest freshness | `read_entries` stores `generated`; `apply_mode` refuses a target newer than it unless `--force`                  |
-| Build rule         | `build_container`: repo must carry a project manifest and must not be the scan root                              |
+| Invariant          | Where it lives                                                                                             |
+| ------------------ | ---------------------------------------------------------------------------------------------------------- |
+| Explicit targets   | `scan_entries`: rule table and `explicit` pairs; `read_entries` for a manifest                             |
+| Root containment   | `test_entry`: `abspath`, root equality, drive-root regex, `under` the root                                 |
+| Protected denylist | `PROTECTED_PATTERNS`, applied by `test_entry` before any measure                                           |
+| Per-path override  | `overridden`, exact path or ancestor, only from `--override`                                               |
+| Verdict gate       | `test_entry` refuses anything but PURGE/OWNER                                                              |
+| Reparse points     | `is_reparse`; `measure` counts instead of walking; `remove_tree` unlinks                                   |
+| Counts             | `measure`; `totals`; the `APPLY` summary line                                                              |
+| Residue scan       | `apply_mode` `finally`: `scan_entries` + exit 2 when residue remains                                       |
+| Journal            | `apply_mode`: `delete` record appended before `remove_tree`, `removed`/`failed`/`prune-empty-parent` after |
+| Self-termination   | `budget`, `--max-failures`, `enter_lock`/`exit_lock`, an explicit exit code from `main`                    |
+| Cascade            | `remove_empty_ancestors`                                                                                   |
+| No swallowing      | per-target `try/except` increments `failures` and journals the message                                     |
+| Junction ancestors | `test_entry` walks every ancestor between root and target and refuses a reparse point                      |
+| Verdict required   | `read_entries` marks a row without `verdict` as `MISSING`; `test_entry` refuses it                         |
+| Counts on success  | deleted files/dirs/bytes accrue after removal, so a failed delete does not inflate the report              |
+| Manifest freshness | `read_entries` stores `generated`; `apply_mode` refuses a target newer than it unless `--force`            |
+| Build rule         | `build_container`: repo must carry a project manifest and must not be the scan root                        |

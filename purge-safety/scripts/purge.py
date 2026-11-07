@@ -62,9 +62,44 @@ PROTECTED_PATTERNS = [
 ]
 PROTECTED = [(p, re.compile(p)) for p in PROTECTED_PATTERNS]
 
-CACHE_NAMES = {n.upper() for n in ("node_modules", ".cache", "__pycache__", ".pytest_cache", ".ruff_cache", ".mypy_cache", ".venv", "venv", ".parcel-cache", ".turbo", ".next")}
-BUILD_NAMES = {n.upper() for n in ("bin", "obj", "artifacts", "dist", "build", "out", "coverage", "TestResults")}
-BUILD_MARKERS = ("*.csproj", "*.sln", "*.slnx", "package.json", "Cargo.toml", "go.mod", "pyproject.toml")
+CACHE_NAMES = {
+    n.upper()
+    for n in (
+        "node_modules",
+        ".cache",
+        "__pycache__",
+        ".pytest_cache",
+        ".ruff_cache",
+        ".mypy_cache",
+        ".venv",
+        "venv",
+        ".parcel-cache",
+        ".turbo",
+        ".next",
+    )
+}
+BUILD_NAMES = {
+    n.upper()
+    for n in (
+        "bin",
+        "obj",
+        "artifacts",
+        "dist",
+        "build",
+        "out",
+        "coverage",
+        "TestResults",
+    )
+}
+BUILD_MARKERS = (
+    "*.csproj",
+    "*.sln",
+    "*.slnx",
+    "package.json",
+    "Cargo.toml",
+    "go.mod",
+    "pyproject.toml",
+)
 BACKUP_NAME = re.compile(r"(?i)(\.bak$|\.old$|\.orig$|~$|\.backup\.\d+$)")
 ORPHAN_PARENT = re.compile(r"(?i)\\\.omo\\agent\\(projects|sessions)\\")
 DRIVE_ROOT = re.compile(r"(?i)^[A-Za-z]:\\?$")
@@ -167,7 +202,11 @@ def clear_readonly(path, a):
 
 def format_size(n):
     # n / scale is exact in binary, and Python rounds that exact value half-to-even, as .NET does.
-    for unit, scale, places in (("GB", 1 << 30, 2), ("MB", 1 << 20, 1), ("KB", 1 << 10, 0)):
+    for unit, scale, places in (
+        ("GB", 1 << 30, 2),
+        ("MB", 1 << 20, 1),
+        ("KB", 1 << 10, 0),
+    ):
         if n >= scale:
             return f"{n / scale:,.{places}f} {unit}"
     return f"{n} B"
@@ -197,14 +236,26 @@ class Engine:
         self.json = args.json
         self.start = time.monotonic()
         self.user_home = os.environ.get("USERPROFILE") or os.path.expanduser("~")
-        self.local = os.environ.get("LOCALAPPDATA") or os.path.join(self.user_home, "AppData", "Local")
-        self.roaming = os.environ.get("APPDATA") or os.path.join(self.user_home, "AppData", "Roaming")
+        self.local = os.environ.get("LOCALAPPDATA") or os.path.join(
+            self.user_home, "AppData", "Local"
+        )
+        self.roaming = os.environ.get("APPDATA") or os.path.join(
+            self.user_home, "AppData", "Roaming"
+        )
         self.exit = 0
         self.stamp = datetime.now().strftime("%Y-%m-%d %H%M%S")
-        lock_dir = os.path.join(os.environ["LOCALAPPDATA"], "Temp") if os.environ.get("LOCALAPPDATA") else tempfile.gettempdir()
+        lock_dir = (
+            os.path.join(os.environ["LOCALAPPDATA"], "Temp")
+            if os.environ.get("LOCALAPPDATA")
+            else tempfile.gettempdir()
+        )
         if not os.path.isdir(lock_dir):
             lock_dir = tempfile.gettempdir()
-        self.lock_path = full_path(args.lock_file) if args.lock_file else os.path.join(lock_dir, "Purge.lock")
+        self.lock_path = (
+            full_path(args.lock_file)
+            if args.lock_file
+            else os.path.join(lock_dir, "Purge.lock")
+        )
         self.lock_held = False
         self.manifest_generated = None
         self.out_dir = args.out_dir or os.path.join(self.user_home, ".omo", "reports")
@@ -217,7 +268,9 @@ class Engine:
 
     def budget(self, where):
         if (time.monotonic() - self.start) / 60 >= self.args.max_minutes:
-            raise BudgetExceeded(f"time budget {self.args.max_minutes}m exhausted at {where}")
+            raise BudgetExceeded(
+                f"time budget {self.args.max_minutes}m exhausted at {where}"
+            )
 
     # --- lock -----------------------------------------------------------------------------------
 
@@ -235,8 +288,15 @@ class Engine:
                 except (TypeError, ValueError):
                     pid = 0
                 if pid and pid_alive(pid):
-                    raise Fatal(f"another purge is running (pid {owner['pid']}, started {owner.get('started')})")
-        body = {"pid": os.getpid(), "started": now_iso(), "mode": "apply", "root": self.root}
+                    raise Fatal(
+                        f"another purge is running (pid {owner['pid']}, started {owner.get('started')})"
+                    )
+        body = {
+            "pid": os.getpid(),
+            "started": now_iso(),
+            "mode": "apply",
+            "root": self.root,
+        }
         with open(self.lock_path, "w", encoding="utf-8") as f:
             f.write(json.dumps(body, separators=(",", ":"), ensure_ascii=False) + "\n")
         self.lock_held = True
@@ -302,7 +362,16 @@ class Engine:
     # --- measuring ------------------------------------------------------------------------------
 
     def measure(self, path):
-        r = {"Files": 0, "Dirs": 0, "Bytes": 0, "EmptyDirs": 0, "ZeroFiles": 0, "Reparse": 0, "Errors": 0, "Exists": False}
+        r = {
+            "Files": 0,
+            "Dirs": 0,
+            "Bytes": 0,
+            "EmptyDirs": 0,
+            "ZeroFiles": 0,
+            "Reparse": 0,
+            "Errors": 0,
+            "Exists": False,
+        }
         st = lstat(path)
         if st is None:
             return r
@@ -350,9 +419,17 @@ class Engine:
     def new_entry(self, path, category, verdict, reason, m=None):
         m = m or self.measure(path)
         return {
-            "path": path, "category": category, "verdict": verdict, "reason": reason,
-            "files": m["Files"], "dirs": m["Dirs"], "bytes": m["Bytes"], "emptyDirs": m["EmptyDirs"],
-            "zeroFiles": m["ZeroFiles"], "reparse": m["Reparse"], "measured": True,
+            "path": path,
+            "category": category,
+            "verdict": verdict,
+            "reason": reason,
+            "files": m["Files"],
+            "dirs": m["Dirs"],
+            "bytes": m["Bytes"],
+            "emptyDirs": m["EmptyDirs"],
+            "zeroFiles": m["ZeroFiles"],
+            "reparse": m["Reparse"],
+            "measured": True,
         }
 
     # --- deleting -------------------------------------------------------------------------------
@@ -453,10 +530,18 @@ class Engine:
         if not is_file(os.path.join(repo_path, ".git", "HEAD")):
             return False
         try:
-            names = [e.name.upper() for e in list_dir(repo_path) if not entry_attrs(e) & FILE_ATTRIBUTE_DIRECTORY]
+            names = [
+                e.name.upper()
+                for e in list_dir(repo_path)
+                if not entry_attrs(e) & FILE_ATTRIBUTE_DIRECTORY
+            ]
         except OSError:
             return False
-        return any(fnmatch.fnmatchcase(name, marker.upper()) for marker in BUILD_MARKERS for name in names)
+        return any(
+            fnmatch.fnmatchcase(name, marker.upper())
+            for marker in BUILD_MARKERS
+            for name in names
+        )
 
     def default_toolchain(self):
         settings = os.path.join(self.user_home, ".rustup", "settings.toml")
@@ -495,13 +580,24 @@ class Engine:
                 if upper == ".GIT" or full.upper() in skip:
                     continue
                 if upper in CACHE_NAMES:
-                    rows.append((full, "cache-tree", "regenerable cache or dependency tree", "PURGE"))
+                    rows.append(
+                        (
+                            full,
+                            "cache-tree",
+                            "regenerable cache or dependency tree",
+                            "PURGE",
+                        )
+                    )
                     continue
                 if upper in BUILD_NAMES and self.build_container(d):
-                    rows.append((full, "build-output", "build output inside a repo", "PURGE"))
+                    rows.append(
+                        (full, "build-output", "build output inside a repo", "PURGE")
+                    )
                     continue
                 if ORPHAN_PARENT.search(full) and self.measure(full)["Files"] == 0:
-                    rows.append((full, "orphan-shell", "no files, no live task", "OWNER"))
+                    rows.append(
+                        (full, "orphan-shell", "no files, no live task", "OWNER")
+                    )
                     continue
                 subs.append(full)
                 continue
@@ -520,27 +616,83 @@ class Engine:
         explicit = [
             (os.path.join(local, "uv", "cache"), "cache-uv", "uv sync refills"),
             (os.path.join(local, "npm-cache"), "cache-npm", "next npm install refills"),
-            (os.path.join(roaming, "npm", "node_modules"), "cache-npm-global", "global npm tree, reinstalls"),
-            (os.path.join(home, ".cache", "opencode"), "cache-opencode", "opencode package cache"),
-            (os.path.join(home, ".bun", "install", "cache"), "cache-bun", "bun install refills"),
-            (os.path.join(home, "go", "pkg", "mod"), "cache-go", "go mod download refills"),
-            (os.path.join(home, ".cargo", "registry"), "cache-cargo", "cargo fetch refills"),
-            (os.path.join(home, ".cargo", "git"), "cache-cargo-git", "cargo refetches the checkout"),
-            (os.path.join(home, ".nuget", "packages"), "cache-nuget", "dotnet restore refills"),
+            (
+                os.path.join(roaming, "npm", "node_modules"),
+                "cache-npm-global",
+                "global npm tree, reinstalls",
+            ),
+            (
+                os.path.join(home, ".cache", "opencode"),
+                "cache-opencode",
+                "opencode package cache",
+            ),
+            (
+                os.path.join(home, ".bun", "install", "cache"),
+                "cache-bun",
+                "bun install refills",
+            ),
+            (
+                os.path.join(home, "go", "pkg", "mod"),
+                "cache-go",
+                "go mod download refills",
+            ),
+            (
+                os.path.join(home, ".cargo", "registry"),
+                "cache-cargo",
+                "cargo fetch refills",
+            ),
+            (
+                os.path.join(home, ".cargo", "git"),
+                "cache-cargo-git",
+                "cargo refetches the checkout",
+            ),
+            (
+                os.path.join(home, ".nuget", "packages"),
+                "cache-nuget",
+                "dotnet restore refills",
+            ),
             (os.path.join(home, ".wox", "updates"), "cache-wox", "installer downloads"),
             (os.path.join(home, ".wox", "filesearch"), "cache-wox", "rebuilt index"),
             (os.path.join(home, ".wox", "log"), "log-wox", "logs"),
             (os.path.join(home, ".wox", "cache"), "cache-wox", "cache"),
             (os.path.join(home, ".wox", "backup"), "backup-wox", "old snapshots"),
-            (os.path.join(home, ".claude", "plugins", "cache"), "cache-plugin", "plugin cache"),
-            (os.path.join(home, ".claude", "plugins", "marketplaces"), "cache-plugin", "marketplace clones"),
-            (os.path.join(home, ".vscode-insiders", "agent-plugins"), "cache-plugin", "extension clones"),
-            (os.path.join(home, ".gemini", "antigravity-cli"), "log-cli", "CLI logs and scratch"),
+            (
+                os.path.join(home, ".claude", "plugins", "cache"),
+                "cache-plugin",
+                "plugin cache",
+            ),
+            (
+                os.path.join(home, ".claude", "plugins", "marketplaces"),
+                "cache-plugin",
+                "marketplace clones",
+            ),
+            (
+                os.path.join(home, ".vscode-insiders", "agent-plugins"),
+                "cache-plugin",
+                "extension clones",
+            ),
+            (
+                os.path.join(home, ".gemini", "antigravity-cli"),
+                "log-cli",
+                "CLI logs and scratch",
+            ),
             (os.path.join(home, ".omo", "agent", "logs"), "log-agent", "runtime logs"),
             (os.path.join(home, ".omo", "logs"), "log-agent", "runtime logs"),
-            (os.path.join(home, ".local", "state", "fresh", "logs"), "log-tool", "tool logs"),
-            (os.path.join(home, ".claude", "file-history"), "history", "per-file edit history"),
-            (os.path.join(home, ".local", "backups"), "backup-snapshot", "dated snapshot, purpose served"),
+            (
+                os.path.join(home, ".local", "state", "fresh", "logs"),
+                "log-tool",
+                "tool logs",
+            ),
+            (
+                os.path.join(home, ".claude", "file-history"),
+                "history",
+                "per-file edit history",
+            ),
+            (
+                os.path.join(home, ".local", "backups"),
+                "backup-snapshot",
+                "dated snapshot, purpose served",
+            ),
         ]
         for path, category, reason in explicit:
             self.budget("explicit targets")
@@ -548,15 +700,33 @@ class Engine:
 
         versions = os.path.join(home, ".local", "share", "claude", "versions")
         if is_dir(versions):
-            items = sorted(list_dir(versions), key=lambda e: e.stat(follow_symlinks=False).st_mtime, reverse=True)
+            items = sorted(
+                list_dir(versions),
+                key=lambda e: e.stat(follow_symlinks=False).st_mtime,
+                reverse=True,
+            )
             for item in items[1:]:
-                self.add_target(entries, index, item.path, "version-superseded", "newer launcher build present")
+                self.add_target(
+                    entries,
+                    index,
+                    item.path,
+                    "version-superseded",
+                    "newer launcher build present",
+                )
         toolchains = os.path.join(home, ".rustup", "toolchains")
         if is_dir(toolchains):
             keep = self.default_toolchain()
             for item in list_dir(toolchains):
-                if entry_attrs(item) & FILE_ATTRIBUTE_DIRECTORY and not same(item.name, keep):
-                    self.add_target(entries, index, item.path, "version-superseded", f"active toolchain is {keep}")
+                if entry_attrs(item) & FILE_ATTRIBUTE_DIRECTORY and not same(
+                    item.name, keep
+                ):
+                    self.add_target(
+                        entries,
+                        index,
+                        item.path,
+                        "version-superseded",
+                        f"active toolchain is {keep}",
+                    )
 
         dev = os.path.join(home, "Dev")
         if is_dir(dev):
@@ -565,15 +735,27 @@ class Engine:
             except OSError:
                 children = []
             for item in children:
-                if entry_attrs(item) & FILE_ATTRIBUTE_DIRECTORY and item.name.upper().endswith("_TMP"):
-                    self.add_target(entries, index, item.path, "scratch", "test fixtures and probe output")
+                if entry_attrs(
+                    item
+                ) & FILE_ATTRIBUTE_DIRECTORY and item.name.upper().endswith("_TMP"):
+                    self.add_target(
+                        entries,
+                        index,
+                        item.path,
+                        "scratch",
+                        "test fixtures and probe output",
+                    )
             fixups = os.path.join(dev, "fixups")
             if is_dir(fixups):
-                self.add_target(entries, index, fixups, "scratch", "third-party rebase scratch")
+                self.add_target(
+                    entries, index, fixups, "scratch", "third-party rebase scratch"
+                )
 
         temp = os.path.join(local, "Temp")
         if is_dir(temp):
-            cutoff = (datetime.now() - timedelta(days=self.args.temp_age_days)).timestamp()
+            cutoff = (
+                datetime.now() - timedelta(days=self.args.temp_age_days)
+            ).timestamp()
             try:
                 children = list_dir(temp)
             except OSError:
@@ -584,7 +766,13 @@ class Engine:
                 except OSError:
                     continue
                 if old:
-                    self.add_target(entries, index, item.path, "temp", f"older than {self.args.temp_age_days} days")
+                    self.add_target(
+                        entries,
+                        index,
+                        item.path,
+                        "temp",
+                        f"older than {self.args.temp_age_days} days",
+                    )
 
         # The walk: each level's listings run on a thread pool; a target is never descended into.
         skip = {e["path"].upper() for e in entries}
@@ -593,7 +781,9 @@ class Engine:
         with ThreadPoolExecutor(WORKERS) as ex:
             while level:
                 nxt = []
-                for subs, found in ex.map(lambda d: self.walk_dir(d, base, skip), level):
+                for subs, found in ex.map(
+                    lambda d: self.walk_dir(d, base, skip), level
+                ):
                     nxt += subs
                     rows += found
                 level = nxt
@@ -615,7 +805,14 @@ class Engine:
 
     @staticmethod
     def totals(entries):
-        t = {"Paths": 0, "Files": 0, "Dirs": 0, "Bytes": 0, "EmptyDirs": 0, "ZeroFiles": 0}
+        t = {
+            "Paths": 0,
+            "Files": 0,
+            "Dirs": 0,
+            "Bytes": 0,
+            "EmptyDirs": 0,
+            "ZeroFiles": 0,
+        }
         for e in entries:
             t["Paths"] += 1
             t["Files"] += e["files"]
@@ -634,12 +831,18 @@ class Engine:
             elif e.get("measured"):
                 accepted.append(e)
             else:
-                accepted.append(self.new_entry(str(e["path"]), e["category"], e["verdict"], e["reason"]))
+                accepted.append(
+                    self.new_entry(
+                        str(e["path"]), e["category"], e["verdict"], e["reason"]
+                    )
+                )
         return accepted, refused
 
     def show(self, e, state):
         verdict = "" if e["verdict"] is None else e["verdict"]
-        self.line(f"{state:<8} {e['files']:>9} {e['dirs']:>8} {format_size(e['bytes']):>10}  {verdict}  [{e['category']}] {e['path']}")
+        self.line(
+            f"{state:<8} {e['files']:>9} {e['dirs']:>8} {format_size(e['bytes']):>10}  {verdict}  [{e['category']}] {e['path']}"
+        )
 
     def report(self, mode, accepted, refused, tail=""):
         t = self.totals(accepted)
@@ -660,7 +863,13 @@ class Engine:
         t = self.report("SCAN", accepted, refused)
         os.makedirs(self.out_dir, exist_ok=True)
         path = os.path.join(self.out_dir, f"Purge Manifest - {self.stamp}.json")
-        doc = {"root": self.root, "generated": now_iso(), "totals": t, "entries": accepted, "refused": refused}
+        doc = {
+            "root": self.root,
+            "generated": now_iso(),
+            "totals": t,
+            "entries": accepted,
+            "refused": refused,
+        }
         with open(path, "w", encoding="utf-8") as f:
             json.dump(doc, f, indent=2, ensure_ascii=False)
         self.line(f"manifest: {path}")
@@ -689,20 +898,38 @@ class Engine:
                 continue
             if not isinstance(raw, dict) or "path" not in raw:
                 raise Fatal("manifest row has no path property")
-            items.append({
-                "path": raw["path"],
-                "category": raw.get("category", "manifest"),
-                "verdict": raw["verdict"] if "verdict" in raw else "MISSING",
-                "reason": raw.get("reason", ""),
-                "files": 0, "dirs": 0, "bytes": 0, "emptyDirs": 0, "zeroFiles": 0, "reparse": 0,
-            })
+            items.append(
+                {
+                    "path": raw["path"],
+                    "category": raw.get("category", "manifest"),
+                    "verdict": raw["verdict"] if "verdict" in raw else "MISSING",
+                    "reason": raw.get("reason", ""),
+                    "files": 0,
+                    "dirs": 0,
+                    "bytes": 0,
+                    "emptyDirs": 0,
+                    "zeroFiles": 0,
+                    "reparse": 0,
+                }
+            )
         return items
 
     def plan_mode(self):
         accepted, refused = self.split(self.read_entries())
         t = self.report("PLAN", accepted, refused, "  apply=no")
         if self.json:
-            print(json.dumps({"mode": "plan", "totals": t, "entries": accepted, "refused": refused}, indent=2, ensure_ascii=False))
+            print(
+                json.dumps(
+                    {
+                        "mode": "plan",
+                        "totals": t,
+                        "entries": accepted,
+                        "refused": refused,
+                    },
+                    indent=2,
+                    ensure_ascii=False,
+                )
+            )
         self.exit = 1 if refused else 0
 
     def apply_mode(self):
@@ -712,7 +939,9 @@ class Engine:
 
         def record(**event):
             with open(journal, "a", encoding="utf-8") as f:
-                f.write(json.dumps(event, separators=(",", ":"), ensure_ascii=False) + "\n")
+                f.write(
+                    json.dumps(event, separators=(",", ":"), ensure_ascii=False) + "\n"
+                )
 
         removed = refused = failures = 0
         done = set()
@@ -720,8 +949,14 @@ class Engine:
         abort = None
 
         self.enter_lock()
-        record(event="start", root=self.root, pid=os.getpid(), utc=datetime.now(timezone.utc).isoformat(),
-               entries=len(entries), budgetMinutes=self.args.max_minutes)
+        record(
+            event="start",
+            root=self.root,
+            pid=os.getpid(),
+            utc=datetime.now(timezone.utc).isoformat(),
+            entries=len(entries),
+            budgetMinutes=self.args.max_minutes,
+        )
         try:
             accepted, refused_rows = self.split(entries)
             refused = len(refused_rows)
@@ -729,7 +964,9 @@ class Engine:
                 record(event="refused", path=r["Entry"]["path"], reason=r["Reason"])
                 self.line(f"REFUSED {r['Entry']['path']} :: {r['Reason']}")
             if len(accepted) > self.args.max_paths and not self.args.force:
-                raise Fatal(f"manifest holds {len(accepted)} paths, above --max-paths {self.args.max_paths} (raise it or pass --force)")
+                raise Fatal(
+                    f"manifest holds {len(accepted)} paths, above --max-paths {self.args.max_paths} (raise it or pass --force)"
+                )
 
             for e in sorted(accepted, key=lambda e: -len(e["path"])):
                 self.budget("apply")
@@ -745,14 +982,32 @@ class Engine:
                     newest = datetime.fromtimestamp(lstat(path).st_mtime, timezone.utc)
                     if newest > self.manifest_generated:
                         refused += 1
-                        record(event="refused", path=path, reason="changed after the manifest was written")
-                        self.line(f"REFUSED {path} :: changed after the manifest was written (pass --force to ignore)")
+                        record(
+                            event="refused",
+                            path=path,
+                            reason="changed after the manifest was written",
+                        )
+                        self.line(
+                            f"REFUSED {path} :: changed after the manifest was written (pass --force to ignore)"
+                        )
                         continue
                 was_overridden = bool(self.protected(path) or verdict_of(e) == "OWNER")
-                self.line(f"DELETE  files={live['Files']} dirs={live['Dirs']} {format_size(live['Bytes'])}  {'(override) ' if was_overridden else ''}{path}")
-                record(event="delete", path=path, category=e["category"], verdict=e["verdict"], override=was_overridden,
-                       files=live["Files"], dirs=live["Dirs"], bytes=live["Bytes"], emptyDirs=live["EmptyDirs"],
-                       zeroFiles=live["ZeroFiles"], reparse=live["Reparse"])
+                self.line(
+                    f"DELETE  files={live['Files']} dirs={live['Dirs']} {format_size(live['Bytes'])}  {'(override) ' if was_overridden else ''}{path}"
+                )
+                record(
+                    event="delete",
+                    path=path,
+                    category=e["category"],
+                    verdict=e["verdict"],
+                    override=was_overridden,
+                    files=live["Files"],
+                    dirs=live["Dirs"],
+                    bytes=live["Bytes"],
+                    emptyDirs=live["EmptyDirs"],
+                    zeroFiles=live["ZeroFiles"],
+                    reparse=live["Reparse"],
+                )
                 try:
                     a = attrs(path)
                     if a is not None and not a & FILE_ATTRIBUTE_DIRECTORY:
@@ -771,7 +1026,9 @@ class Engine:
                     for gone in self.remove_empty_ancestors(path):
                         before["Dirs"] += 1
                         record(event="prune-empty-parent", path=gone)
-                except Exception as error:  # every failure is counted and journalled, never swallowed
+                except (
+                    Exception
+                ) as error:  # every failure is counted and journalled, never swallowed
                     failures += 1
                     record(event="failed", path=path, error=str(error))
                     self.line(f"FAILED  {path} :: {error}")
@@ -794,12 +1051,22 @@ class Engine:
                     left.append(e)
             after = self.totals(left)
             summary = {
-                "mode": "apply", "root": self.root, "journal": journal,
-                "removed_paths": removed, "refused_paths": refused, "failed_paths": failures,
-                "deleted_files": before["Files"], "deleted_dirs": before["Dirs"], "deleted_bytes": before["Bytes"],
-                "deleted_empty_dirs": before["EmptyDirs"], "deleted_zero_files": before["ZeroFiles"],
-                "residual_paths": after["Paths"], "residual_files": after["Files"], "residual_dirs": after["Dirs"],
-                "aborted": bool(abort), "abort_reason": abort,
+                "mode": "apply",
+                "root": self.root,
+                "journal": journal,
+                "removed_paths": removed,
+                "refused_paths": refused,
+                "failed_paths": failures,
+                "deleted_files": before["Files"],
+                "deleted_dirs": before["Dirs"],
+                "deleted_bytes": before["Bytes"],
+                "deleted_empty_dirs": before["EmptyDirs"],
+                "deleted_zero_files": before["ZeroFiles"],
+                "residual_paths": after["Paths"],
+                "residual_files": after["Files"],
+                "residual_dirs": after["Dirs"],
+                "aborted": bool(abort),
+                "abort_reason": abort,
             }
             record(event="abort" if abort else "done", **summary)
             self.exit_lock()
@@ -808,8 +1075,12 @@ class Engine:
             if abort:
                 self.line(f"ABORT  {abort}")
             self.line(f"APPLY  removed={removed}  refused={refused}  failed={failures}")
-            self.line(f"       deleted files={before['Files']:,} dirs={before['Dirs']:,} bytes={format_size(before['Bytes'])} emptyDirs={before['EmptyDirs']:,} zeroFiles={before['ZeroFiles']:,}")
-            self.line(f"       residue paths={after['Paths']} files={after['Files']:,} dirs={after['Dirs']:,} (refused candidates: {left_refused})")
+            self.line(
+                f"       deleted files={before['Files']:,} dirs={before['Dirs']:,} bytes={format_size(before['Bytes'])} emptyDirs={before['EmptyDirs']:,} zeroFiles={before['ZeroFiles']:,}"
+            )
+            self.line(
+                f"       residue paths={after['Paths']} files={after['Files']:,} dirs={after['Dirs']:,} (refused candidates: {left_refused})"
+            )
             self.line(f"       journal: {journal}")
             if self.json:
                 print(json.dumps(summary, indent=2, ensure_ascii=False))
@@ -833,7 +1104,9 @@ def pid_alive(pid):
 
         kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
         kernel32.OpenProcess.restype = ctypes.c_void_p
-        handle = kernel32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+        handle = kernel32.OpenProcess(
+            0x1000, False, pid
+        )  # PROCESS_QUERY_LIMITED_INFORMATION
         if not handle:
             return ctypes.get_last_error() == 5  # access denied: the process exists
         try:
@@ -859,7 +1132,9 @@ class Parser(argparse.ArgumentParser):
 
 def parse_args(argv):
     p = Parser(prog="purge.py", description=__doc__.split("\n")[0], allow_abbrev=False)
-    p.add_argument("--root", default=os.environ.get("USERPROFILE") or os.path.expanduser("~"))
+    p.add_argument(
+        "--root", default=os.environ.get("USERPROFILE") or os.path.expanduser("~")
+    )
     p.add_argument("--manifest")
     p.add_argument("--scan", action="store_true")
     p.add_argument("--apply", action="store_true")
@@ -886,7 +1161,9 @@ def main(argv=None):
     # An override that covers the root is not an override: it disables the deny list for everything.
     for item in args.override:
         if same(full_path(item).rstrip("\\"), full_path(args.root).rstrip("\\")):
-            sys.stderr.write("purge: --override may name a path inside the root, never the root itself\n")
+            sys.stderr.write(
+                "purge: --override may name a path inside the root, never the root itself\n"
+            )
             return 1
     engine = None
     try:
