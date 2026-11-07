@@ -70,7 +70,7 @@ Credentials, usernames, hostnames and home paths become `<REDACTED>` or `<user>`
 Pull the timeline before deciding comment, new post or update:
 
 ```bash
-gh api repos/ --jq '.[] | select(.event=="closed" or .event=="cross-referenced") | {event:.event, actor:(.actor.login // null), at:.created_at}' <owner >/ <repo >/issues/ <n >/timeline
+gh api repos/<owner>/<repo>/issues/<n>/timeline --jq '.[] | select(.event=="closed" or .event=="cross-referenced") | {event:.event, actor:(.actor.login // null), at:.created_at}'
 ```
 
 A bot-applied `not_planned` is the stale default, not a rejection: read the timeline, never the label.
