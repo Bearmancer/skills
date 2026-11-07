@@ -11,9 +11,9 @@ The run is **fully unattended and maximal**: all permissions are granted up-fron
 
 Companions:
 - `references/sweep-pipeline.md`: Discovery mechanics, CodeGraph setup, triage states.
-- `references/branch-hygiene.md`: Maximal branch purge logic and fail-closed safety criteria.
+- `references/branch-hygiene.md`: Branch selection and fail-closed criteria; generic deletion policy lives in `purge-safety`.
 - `scripts/sweep.py`: Account-wide census CLI (PRs, issues, forks, CI states).
-- `scripts/purge.py`: Autonomous maximal fork branch purge engine.
+- `scripts/purge_branches.py`: GitHub branch purge adapter; generic deletion policy lives in `purge-safety`.
 - `scripts/rebase.py`: CodeGraph-backed isolated PR rebase and push runner.
 - `scripts/ci_status.py`: Detailed CI check analyzer and error parser.
 
@@ -26,8 +26,8 @@ All mechanical discovery, branch auditing, and rebasing operations are encapsula
 1. **`python scripts/sweep.py`** (or system `gh-sweep`):
    - Fast account-wide census across third-party repos.
    - Flags: `--open-only`, `--json`, `--prs-only`, `--issues-only`, `--forks-only`, `--out <file>`.
-2. **`python scripts/purge.py`**:
-   - Maximal remote fork branch purger.
+2. **`python scripts/purge_branches.py`**:
+   - Maximal remote fork branch purger (adapter; policy: purge-safety).
    - Deletes merged/closed/stale branches across all forks without interactive stops.
    - Flags: `--dry-run`, `--verbose`.
 3. **`python scripts/rebase.py <repo> <pr_number>`**:

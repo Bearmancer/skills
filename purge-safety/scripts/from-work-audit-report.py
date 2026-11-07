@@ -35,7 +35,10 @@ from itertools import groupby
 HOME_PURGE = ("evidence", "drafts", "tmp", "reports")
 HOME_OWNER = ("plans", "ulw-loop", "wayfinder")
 HOME_LOOSE = re.compile(r"(?i)\.(bak|old)$")
-ENGINE_FILES = ("Purge Manifest - *", "Purge Journal - *")  # the engine's own output under reports/
+ENGINE_FILES = (
+    "Purge Manifest - *",
+    "Purge Journal - *",
+)  # the engine's own output under reports/
 DRIVE_ROOT = re.compile(r"(?i)^[A-Za-z]:\\?$")
 REPARSE = 0x400
 
@@ -43,7 +46,9 @@ REPARSE = 0x400
 def engine_protected():
     """The engine's protected-path check, loaded from purge.py so there is one list."""
     here = os.path.dirname(os.path.abspath(__file__))
-    spec = importlib.util.spec_from_file_location("purge_engine", os.path.join(here, "purge.py"))
+    spec = importlib.util.spec_from_file_location(
+        "purge_engine", os.path.join(here, "purge.py")
+    )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module.Engine.protected
@@ -69,7 +74,9 @@ def load_sections(report):
 
 
 def is_link(st):
-    return stat.S_ISLNK(st.st_mode) or bool(getattr(st, "st_file_attributes", 0) & REPARSE)
+    return stat.S_ISLNK(st.st_mode) or bool(
+        getattr(st, "st_file_attributes", 0) & REPARSE
+    )
 
 
 def tree_facts(path):
@@ -107,14 +114,32 @@ def home_config(sections, age_days, now=None):
     now = time.time() if now is None else now
     cutoff = now - age_days * 86400
     four = sections.get("4") if isinstance(sections.get("4"), dict) else {}
-    home = os.path.abspath(os.environ.get("USERPROFILE") or os.path.expanduser("~")).rstrip("\\")
+    home = os.path.abspath(
+        os.environ.get("USERPROFILE") or os.path.expanduser("~")
+    ).rstrip("\\")
     protected = engine_protected()
     for item in four.get("config_root_entries") or []:
-        root = os.path.abspath(str(item.get("root") or "")).rstrip("\\") if isinstance(item, dict) else ""
+        root = (
+            os.path.abspath(str(item.get("root") or "")).rstrip("\\")
+            if isinstance(item, dict)
+            else ""
+        )
         if not root or os.path.basename(root).lower() != ".omo":
             continue
-        if root.upper() == home.upper() or DRIVE_ROOT.match(root) or not os.path.isdir(root) or is_link(os.lstat(root)):
-            return None, [], [], [f"home-config: refused root {root} (not an omo directory below the home folder)"]
+        if (
+            root.upper() == home.upper()
+            or DRIVE_ROOT.match(root)
+            or not os.path.isdir(root)
+            or is_link(os.lstat(root))
+        ):
+            return (
+                None,
+                [],
+                [],
+                [
+                    f"home-config: refused root {root} (not an omo directory below the home folder)"
+                ],
+            )
         rows, held = [], []
 
         def consider(path, verdict, category, reason):
@@ -123,8 +148,13 @@ def home_config(sections, age_days, now=None):
             except OSError:
                 return
             when = datetime.fromtimestamp(newest).strftime("%Y-%m-%d %H:%M")
-            row = {"path": path, "verdict": verdict, "category": category,
-                   "reason": f"{reason} (files {files}, newest {when})", "index": 4}
+            row = {
+                "path": path,
+                "verdict": verdict,
+                "category": category,
+                "reason": f"{reason} (files {files}, newest {when})",
+                "index": 4,
+            }
             pattern = protected(path)
             if pattern:
                 held.append((row, f"protected path ({pattern})"))
@@ -144,22 +174,43 @@ def home_config(sections, age_days, now=None):
                 continue
             verdict = "OWNER" if name in HOME_OWNER else "PURGE"
             for child in children:
-                if name == "reports" and any(fnmatch.fnmatchcase(child.name, p) for p in ENGINE_FILES):
+                if name == "reports" and any(
+                    fnmatch.fnmatchcase(child.name, p) for p in ENGINE_FILES
+                ):
                     continue
-                consider(child.path, verdict, f"home-config-{name}", f"omo generated {name}")
+                consider(
+                    child.path, verdict, f"home-config-{name}", f"omo generated {name}"
+                )
         with os.scandir(root) as it:
-            loose = sorted((e for e in it if e.is_file(follow_symlinks=False) and HOME_LOOSE.search(e.name)),
-                           key=lambda e: e.name.casefold())
+            loose = sorted(
+                (
+                    e
+                    for e in it
+                    if e.is_file(follow_symlinks=False) and HOME_LOOSE.search(e.name)
+                ),
+                key=lambda e: e.name.casefold(),
+            )
         for child in loose:
             consider(child.path, "PURGE", "home-config-backup", "omo backup file")
         return root, sorted(rows, key=lambda r: r["path"].casefold()), held, []
-    return None, [], [], ["home-config: the report lists no omo config root (index 4 config_root_entries)"]
+    return (
+        None,
+        [],
+        [],
+        [
+            "home-config: the report lists no omo config root (index 4 config_root_entries)"
+        ],
+    )
 
 
 def build(sections, repo, include_duplicates):
 
     def section(index, key):
-        value = (sections.get(index) or {}).get(key) if isinstance(sections.get(index), dict) else None
+        value = (
+            (sections.get(index) or {}).get(key)
+            if isinstance(sections.get(index), dict)
+            else None
+        )
         if value is None:
             return []
         return value if isinstance(value, list) else [value]
@@ -197,10 +248,20 @@ def build(sections, repo, include_duplicates):
             if "newest_mtime" in f:
                 bits.append("newest " + text(f["newest_mtime"]))
             if f.get("branch"):
-                bits.append(f"branch {text(f['branch'])} uncommitted {text(f.get('uncommitted'))} unpushed {text(f.get('unpushed'))}")
+                bits.append(
+                    f"branch {text(f['branch'])} uncommitted {text(f.get('uncommitted'))} unpushed {text(f.get('unpushed'))}"
+                )
             if bits:
                 reason = reason + " (" + ", ".join(bits) + ")"
-        entries.append({"path": full, "verdict": verdict, "category": category, "reason": reason, "index": index})
+        entries.append(
+            {
+                "path": full,
+                "verdict": verdict,
+                "category": category,
+                "reason": reason,
+                "index": index,
+            }
+        )
 
     for rel in section("4", "zero_byte"):
         add(rel, 4, "work-audit-4-zero-byte", "zero-byte file")
@@ -217,20 +278,38 @@ def build(sections, repo, include_duplicates):
             paths = pair if isinstance(pair, list) else [pair]
             if len(paths) < 2:
                 continue
-            add(text(paths[0]), 16, "work-audit-16-duplicate", f"duplicate of {text(paths[1])}; keeper is the second path", "OWNER")
+            add(
+                text(paths[0]),
+                16,
+                "work-audit-16-duplicate",
+                f"duplicate of {text(paths[1])}; keeper is the second path",
+                "OWNER",
+            )
 
     return sorted(entries, key=lambda e: (e["index"], e["path"].casefold()))
 
 
 def main(argv=None):
-    p = Parser(prog="from-work-audit-report.py", description=__doc__.split("\n")[0], allow_abbrev=False)
+    p = Parser(
+        prog="from-work-audit-report.py",
+        description=__doc__.split("\n")[0],
+        allow_abbrev=False,
+    )
     p.add_argument("--report", required=True)
     p.add_argument("--repo", required=True)
     p.add_argument("--out-dir")
     p.add_argument("--include-duplicates", action="store_true")
-    p.add_argument("--home-config", action="store_true",
-                   help="also write a manifest for the generated state under the report's ~/.omo config root")
-    p.add_argument("--home-age-days", type=int, default=7, help="age gate for --home-config rows (default 7)")
+    p.add_argument(
+        "--home-config",
+        action="store_true",
+        help="also write a manifest for the generated state under the report's ~/.omo config root",
+    )
+    p.add_argument(
+        "--home-age-days",
+        type=int,
+        default=7,
+        help="age gate for --home-config rows (default 7)",
+    )
     args = p.parse_args(argv)
     try:
         if not os.path.isfile(args.report):
@@ -243,18 +322,33 @@ def main(argv=None):
         entries = build(sections, repo, args.include_duplicates)
         stamp = datetime.now().strftime("%Y-%m-%d %H%M%S")
         generated = datetime.now().astimezone().isoformat()
-        manifest = {"root": repo, "generated": generated, "source": args.report, "entries": entries}
+        manifest = {
+            "root": repo,
+            "generated": generated,
+            "source": args.report,
+            "entries": entries,
+        }
         os.makedirs(out_dir, exist_ok=True)
         path = os.path.join(out_dir, "Purge Manifest - work-audit - " + stamp + ".json")
         with open(path, "w", encoding="utf-8") as f:
             json.dump(manifest, f, indent=2, ensure_ascii=False)
         home = None
         if args.home_config:
-            home_root, home_rows, held, notes = home_config(sections, args.home_age_days)
+            home_root, home_rows, held, notes = home_config(
+                sections, args.home_age_days
+            )
             home_path = None
             if home_root:
-                home_path = os.path.join(out_dir, "Purge Manifest - work-audit home-config - " + stamp + ".json")
-                doc = {"root": home_root, "generated": generated, "source": args.report, "entries": home_rows}
+                home_path = os.path.join(
+                    out_dir,
+                    "Purge Manifest - work-audit home-config - " + stamp + ".json",
+                )
+                doc = {
+                    "root": home_root,
+                    "generated": generated,
+                    "source": args.report,
+                    "entries": home_rows,
+                }
                 with open(home_path, "w", encoding="utf-8") as f:
                     json.dump(doc, f, indent=2, ensure_ascii=False)
             home = (home_root, home_rows, held, notes, home_path)
@@ -264,16 +358,22 @@ def main(argv=None):
     order = " -> ".join(str(k) for k, _ in groupby(e["index"] for e in entries))
     print(f"order: {order} (index asc, then path asc)")
     for category in sorted({e["category"] for e in entries}):
-        print(f"{category:<28} {sum(e['category'] == category for e in entries):>5}  {repo}")
+        print(
+            f"{category:<28} {sum(e['category'] == category for e in entries):>5}  {repo}"
+        )
     print(f"{'TOTAL':<28} {len(entries):>5}  {path}")
     if home:
         home_root, home_rows, held, notes, home_path = home
         for note in notes:
             print(note)
         if home_root:
-            print(f"home-config root: {home_root} (plan and apply with --root {home_root})")
+            print(
+                f"home-config root: {home_root} (plan and apply with --root {home_root})"
+            )
             for category in sorted({r["category"] for r in home_rows}):
-                print(f"{category:<28} {sum(r['category'] == category for r in home_rows):>5}  {home_root}")
+                print(
+                    f"{category:<28} {sum(r['category'] == category for r in home_rows):>5}  {home_root}"
+                )
             for row, why in held:
                 print(f"held  {row['verdict']:<5} {row['path']} :: {why}")
             print(f"{'TOTAL':<28} {len(home_rows):>5}  {home_path}")

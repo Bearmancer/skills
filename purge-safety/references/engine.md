@@ -23,30 +23,30 @@ uv run purge.py --apply --manifest "<manifest>.json"
 
 ## Parameters
 
-| Parameter          | Default                          | Meaning                                                                                                                          |
-| ------------------ | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `--root`           | `%USERPROFILE%`                  | the only tree the engine may touch                                                                                               |
-| `--manifest`       | none                             | JSON with `entries[]`; each row needs `path`, `verdict` (`PURGE` or `OWNER`)                                                     |
+| Parameter          | Default                          | Meaning                                                                                                                      |
+| ------------------ | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `--root`           | `%USERPROFILE%`                  | the only tree the engine may touch                                                                                           |
+| `--manifest`       | none                             | JSON with `entries[]`; each row needs `path`, `verdict` (`PURGE` or `OWNER`)                                                 |
 | `--override`       | none                             | one or more exact paths (or ancestors) allowed past the protected list and the OWNER gate; naming the root itself is refused |
-| `--out-dir`        | `~\.omo\reports`                 | manifest and journal location; keep it outside every target                                                                      |
-| `--temp-age-days`  | 2                                | age gate for `%LOCALAPPDATA%\Temp` entries                                                                                       |
-| `--empty-age-days` | 1                                | age gate for empty directories                                                                                                   |
-| `--max-minutes`    | 60                               | time budget; aborts mid-run, journalled                                                                                          |
-| `--max-paths`      | 5000                             | manifest size ceiling; `--force` raises it                                                                                       |
-| `--max-failures`   | 25                               | failure ceiling                                                                                                                  |
-| `--lock-file`      | `%LOCALAPPDATA%\Temp\Purge.lock` | single-instance lock; a live owner blocks a second run                                                                           |
-| `--force`          | off                              | ignores `--max-paths` and manifest freshness                                                                                     |
-| `--json`           | off                              | emit the result object as JSON                                                                                                   |
+| `--out-dir`        | `~\.omo\reports`                 | manifest and journal location; keep it outside every target                                                                  |
+| `--temp-age-days`  | 2                                | age gate for `%LOCALAPPDATA%\Temp` entries                                                                                   |
+| `--empty-age-days` | 1                                | age gate for empty directories                                                                                               |
+| `--max-minutes`    | 60                               | time budget; aborts mid-run, journalled                                                                                      |
+| `--max-paths`      | 5000                             | manifest size ceiling; `--force` raises it                                                                                   |
+| `--max-failures`   | 25                               | failure ceiling                                                                                                              |
+| `--lock-file`      | `%LOCALAPPDATA%\Temp\Purge.lock` | single-instance lock; a live owner blocks a second run                                                                       |
+| `--force`          | off                              | ignores `--max-paths` and manifest freshness                                                                                 |
+| `--json`           | off                              | emit the result object as JSON                                                                                               |
 
 ## Exit codes
 
-| Code | Meaning                                                                                                    |
-| ---- | ---------------------------------------------------------------------------------------------------------- |
-| 0    | applied and clean, or plan with no refusals                                                                |
+| Code | Meaning                                                                                                      |
+| ---- | ------------------------------------------------------------------------------------------------------------ |
+| 0    | applied and clean, or plan with no refusals                                                                  |
 | 1    | guard or usage error, refused lock, manifest over `--max-paths`, failure ceiling reached, plan with refusals |
-| 2    | residue remained after apply                                                                               |
-| 3    | applied with refusals or failed deletes; a scan that refused candidates                                    |
-| 4    | aborted by the time budget                                                                                 |
+| 2    | residue remained after apply                                                                                 |
+| 3    | applied with refusals or failed deletes; a scan that refused candidates                                      |
+| 4    | aborted by the time budget                                                                                   |
 
 ## Guarantees
 
