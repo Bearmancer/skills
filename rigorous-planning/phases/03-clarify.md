@@ -4,6 +4,8 @@ Contract: gates, CLI and the state machine are in ../SKILL.md. This playbook is 
 
 ## P3: clarify (tool only)
 
+**After Q0 this phase asks the user nothing.** The interview already happened (`phases/Q0-sweep.md`): every `q0-*` question is answered, intent is confirmed, and `autonomy` is recorded. Here you finish the bookkeeping the gate checks: put every answered Q in a recorded `round`, record the topology, and run the counter-questions below as self-answered `decision` rows (label `challenge-*`, with the chosen default and how to reverse it), not as new user questions. A fork that Q0 missed follows `phases/Q0-sweep.md` section 6: fact, logged default, or a first `owner-confirm-*` task. Under `autonomy = checkpoints`, the two approvals at design and task graph are the only later questions. The rest of this page is the mechanics for Q rows, rounds and answers, which Q0 also uses.
+
 Every question is a `Q` row: `question --label ... --question ... [--recommend "..."] [--blocked-by Q...]`. The ready frontier is recorded with `round --asks ...`. `ask --slug ...` prints JSON for the harness `question` tool; call that tool with the exact JSON in the same turn. Record every answer with `answer --id ...`. A turn never ends with an active `Q`.
 
 If the user stops, record `decision --label early-exit --decision "<open Q ids and why>"`, then `retract` each open `Q` with reason `user stopped clarification`; G2 blocks publish until the early-exit decision is superseded. Or start with `--no-interview`: fill the six intent fields from request plus evidence, record shaky ones as facts `--kind assumed`, run `intent --assume`, log the choices as decisions; `confirmed` stays false.
@@ -27,7 +29,7 @@ If the `question` tool is unavailable, record a blocker; do not ask in prose.
 
 **Domain terms and ADRs.** When a term resolves, record `--domain-term <term>` and a `fact --label term-<term> --locator GLOSSARY.md:<line>` whose quote matches `**Term**: definition _Avoid_: synonyms`; G4 rejects a closed term with no glossary fact. A hard-to-reverse decision passing the three-part test is recorded with `--adr --adr-file docs/adr/NNNN-x.md`; G3 requires the `adr-convention` fact.
 
-**Quality bar.** Use `methods/quality-bar.md`; record the result as a decision labelled `quality-bar` (G4 requires it at M/L). It is not a separate interview: any open choice is a `Q` row.
+**Quality bar.** Use `methods/quality-bar.md`; record the result as a decision labelled `quality-bar` (G4 requires it at L). It is not a separate interview: any open choice is a `Q` row.
 
 **Questionnaire.** A decision owned by someone else becomes a blocked `Q` naming the recipient and a `to-questionnaire-<slug>.md` draft. It is a document, not a chat question.
 

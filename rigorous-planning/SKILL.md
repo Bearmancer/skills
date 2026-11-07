@@ -1,6 +1,6 @@
 ---
 name: rigorous-planning
-description: "Plan non-trivial work before code: a ledger-backed pipeline from unknowns or intake through evidence, clarification, design, test-first task slices and tickets to a fail-closed publish. Hard gates only; plans, never implementation."
+description: "Plan non-trivial work before code: a maximalist up-front question sweep, then an unattended ledger-backed run through evidence, design, CPM-ordered test-first task slices and a mass-ulw dispatch plan to a fail-closed publish. Hard gates only; plans, never implementation."
 ---
 
 # Rigorous planning
@@ -15,7 +15,11 @@ The model thinks; `scripts/planning.mjs` enforces. A regex, count, hash or exit-
 2. Hard evidence over prose: gates pass only on persisted rows, resolvable files/hashes, exit statuses, or owner tokens with quotes.
 3. One phase, one artifact, one exit gate: no judgement skips; ambiguity goes to map first.
 4. No ceremony by arithmetic: size `S` takes the fast path; skips need a recorded predicate or flag.
-5. P3 uses the harness `question` tool only; never end a turn with an open Q.
+5. Ask everything first, then never stop: Q0 (`phases/Q0-sweep.md`) is the only phase that questions the user, through the harness `question` tool only; never end a turn with an open Q. Q0 ends with the doubt loop: rounds of "any doubt left?" until the user answers "No remaining doubt". Once `G0` passes, the run drives itself to `DONE published` (run-through); the plan review is a `next` step that runs by itself, never a question (`--no-plan-review` at init is the only opt-out).
+6. Deterministic, not narrated: sizes are only S or L; autonomy, approval quotes, `owner-confirm-*` roots, CPM fields, the Todo mirror and post-publish amendments (`--reason`, ledgered in `changes`) are script checks. Planning is decoupled from execution: the plan carries no executor rules; `dag`, `todos` and `cpm` are read-only exports.
+7. CPM by default: tasks carry honest `deps`, `files` and `--effort`; the plan renders the critical path (`methods/cpm-dispatch.md`).
+8. Parallel workers wherever safe: tasks with disjoint `files` and no dependency run as mass-ulw nodes; `dag` emits the definition and serializes same-file tasks. Planning itself never starts an implementer.
+9. Planner persona: the first line is `RIGOROUS-PLANNING MODE ENABLED!` plus the working contract and intent verdict (`phases/Q0-sweep.md` section 1). Every `ulw-plan` capability has a home in this skill (`methods/ulw-plan-parity.md`).
 
 Planning only: no product edits, commits, pushes, PRs, or tracker writes. Execution starts from `plan_sha256`.
 
@@ -32,9 +36,11 @@ Planning only: no product edits, commits, pushes, PRs, or tracker writes. Execut
 | `--no-review-section` | review-plan section | not rendered/required |
 | `--no-handoff` | handoff section | not rendered/required |
 | `--no-adr` | ADR convention check | `--adr` needs no convention fact/file |
-| `--no-constraints` | quality-bar requirement | M/L need no quality-bar decision |
+| `--no-constraints` | quality-bar requirement | L needs no quality-bar decision |
 | `--no-task-approval` | task-graph approval | multi-cap or size L needs no `approve-task-graph` |
-| `--size S|M|L` | scope class (default M) | S implies no branch + one closed wave; G5 audits claim |
+| `--no-cpm` | CPM requirements | tasks need no `--effort`/`--category`; no critical-path check |
+| `--no-sweep` | Q0 question sweep | `G0` does not require the ten `q0-*` categories; use only for throwaway plans |
+| `--size S|L` | scope class (default L) | S implies no branch + one closed wave; G5 audits claim |
 | `--type <issue-type>` | issue type (default feature) | picks `.rigor/plans/<type>/<slug>/` and task-kind rules |
 | `--issue owner/repo#n` | source issues (none; repeatable/comma) | read-only links; renders `## Issues` |
 | `--multi` | multi-capability (off) | G3 requires capability map |
@@ -45,23 +51,23 @@ Planning only: no product edits, commits, pushes, PRs, or tracker writes. Execut
 
 ## Fast path (early exit by predicate)
 
-Small work: <=2 tasks, <=3 files, one capability, no irreversible decision (size `S`). Init `--size S --lean`, record `destination`, `gate G0`; P1 axes, P2 one closed wave, P3 restate-and-yes, P5 1-2 tasks, P6 publish. Intent yes and `approve-design` apply. G5 fails on understated size.
+Small work: <=2 tasks, <=3 files, one capability, no irreversible decision (size `S`). Init `--size S --lean`, record `destination`, cover the ten Q0 categories, the doubt loop (`q0-doubt-1` answered `No remaining doubt`) and the `autonomy` decision in one `batch` (mostly `scoped out:` decisions) with one restate-and-yes, `gate G0`; P1 axes, P2 one closed wave, P3 restate-and-yes, P5 1-2 tasks, P6 publish. Intent yes and `approve-design` apply. G5 fails on understated size.
 
 Skip planning for a single-line fix, typo, or unambiguous self-contained edit. Plan first without a concrete anchor (path, issue/PR, symbol, test, acceptance); `force:`/`!` skips.
 
 ## The linear pipeline
 
 ```text
-W0 map (unknowns only) -> P0 intake -> P1 axes -> P2 evidence -> P3 clarify -> P4 design/spec -> P5 tasks/plan -> P6 publish
+W0 map (unknowns only) -> P0 intake + Q0 sweep -> P1 axes -> P2 evidence -> P3 clarify -> P4 design/spec -> P5 tasks/plan -> P6 publish
 ```
 
 | Phase | Entry | Work | Artifact | Exit | Failure |
 | --- | --- | --- | --- | --- | --- |
 | W0 map | unknowns test fails | destination, map, tickets | `.rigor/maps/<slug>/map.md` + ledger | `G_MAP` | stay in map; task refused |
-| P0 intake | request | destination, type, size, caps, branch | ledger, branch | `G0` | re-init/ask |
+| P0 intake + Q0 sweep | request | orientation read, destination, type, size, caps, branch, all ten question categories asked or scoped out | ledger, branch, `q0-*` rows | `G0` | re-init; open `q0-*` blocks |
 | P1 axes | G0 | split topic; one lane per axis | `axes[]` | `G_AX` | add axis |
 | P2 evidence | `G_AX` | facts, snapshots, waves | F rows, sources, waves | `G1` | another wave |
-| P3 clarify | G1 | topology, rounds, intent | Q rows, intent | `G2` | early-exit blocks |
+| P3 clarify | G1 | self-resolve: topology, counter-questions as decisions, rounds; no new user questions after Q0 | D rows, intent | `G2` | early-exit blocks |
 | P4 design | G2 | approaches, seams, consensus, review, doubt | D/A rows, spec, findings | `G3` | cycle/escalate |
 | P5 tasks | G3 | tracer bullets, contracts, tickets | T rows, plan.md, issues/ | `G4` | fix/re-render |
 | P6 publish | G4 | render, publish | `plan_sha256` | `G5` | exit 1 |
@@ -73,11 +79,15 @@ Map rejoins at P1, never P5.
 All commands: `node scripts/planning.mjs <cmd> --slug <slug> [--type <issue-type>]`.
 
 ```text
-init     --slug S [--type T] [--issue owner/repo#n,...] [--size S|M|L] [--multi] [--deliberate] [--map] [--no-test-first] [--no-interview] [--no-branch] [--no-plan-review] [--no-doubt] [--no-review-section] [--no-handoff] [--no-adr] [--no-constraints] [--lean]
+init     --slug S [--type T] [--issue owner/repo#n,...] [--size S|L] [--multi] [--deliberate] [--map] [--no-test-first] [--no-interview] [--no-branch] [--no-plan-review] [--no-doubt] [--no-review-section] [--no-handoff] [--no-adr] [--no-constraints] [--no-sweep] [--no-cpm] [--lean]
 axis --label L
 issue --ref owner/repo#n [--title text]
+repo --id kebab --path dir [--role text]
+assimilate --from plan-dir|ledger.json [--repo id]
+chat --path file
+purge
 capability --id kebab --responsibility text [--deps id1,id2]
-fact --label L --kind quote|measured|derived|assumed|converted --locator file:line|URL [--axis A1] [--source S1] [--external --sha <sha256>] [--quote text]
+fact --label L --kind quote|measured|derived|assumed|converted --locator file:line|URL [--axis A1] [--repo id] [--source S1] [--external --sha <sha256>] [--quote text]
 wave
 question --label L --question text [--recommend text] [--blocked-by Q1,Q2] [--domain-term term] [--map [--kind evidence|prototype|user|task]]
 round --asks Q1,Q3 [--fact-lane]
@@ -87,14 +97,14 @@ decision --label L --decision text [--adr --adr-file docs/adr/NNNN-x.md] [--irre
 doubt --id D1 --claim text --cycle n [--clean --scope file:line,...]
 finding --review plan-review:<cycle>|doubt:<decision>:<cycle> --class CLASS [--locator file:line] [--sha <sha256>] [--note text]
 plan-review --cycle n [--clean --scope file:line,...]
-size --class S|M|L
-task --label L --files a,b --interfaces text --acceptance text --verify cmd [--deps T1,T2] [--kind feature|fix|refactor|docs|chore] [--issue owner/repo#n] [--est-lines n] [--closes ideal-n|gap-n] [--test-seam "..." --test-file path --red "..." --green "..."]
+size --class S|L
+task --label L --files a,b --interfaces text --acceptance text --verify cmd [--deps T1,T2] [--kind feature|fix|refactor|docs|chore] [--issue owner/repo#n] [--est-lines n] [--effort n] [--category C] [--repo id] [--closes ideal-n|gap-n] [--test-seam "..." --test-file path --red "..." --green "..."]
 batch --file rows.json
 intent --outcome .. --user .. --why-now .. --success .. --constraint .. --out-of-scope .. [--confirm --by user] [--assume]
 approve --gate G_MAP|G3|G4 --token map-destination|approve-design|approve-capability-map|doubt-escalated|plan-review-escalated --by user --quote "..."
 supersede --id X --reason text --replacement Y | retract --id X --reason text
 unknowns --add "item[,item]" | --clear
-render | render-issues | frontier [--done T1,T2] | validate | next | gate --id G0..G5|G_AX|G_MAP | publish
+render | render-issues | frontier [--done T1,T2] | cpm | dag [--done T1,T2] | todos [--done T1,T2] | validate | next | gate --id G0..G5|G_AX|G_MAP | publish
 map-handoff --type feature
 ```
 
@@ -106,12 +116,12 @@ One process per call; batch a wave or findings; never write one ledger in parall
 
 | Gate | Phase | Checks |
 | --- | --- | --- |
-| `G0` | intake | destination 1-2 lines; slug/type/refs/flags/size/branch; full ledger validation |
+| `G0` | intake | destination 1-2 lines; slug/type/refs/flags/size/branch; full ledger validation; Q0 sweep (each of outcome, users, scope, constraints, risk, verification, execution, parallelism, authorization, done has a `q0-<category>*` question or `scoped out:` decision, none open; doubt loop closed by `No remaining doubt`; `autonomy` decision) |
 | `G_AX` | axes | at least one axis; unique ids and non-empty labels; every active fact names an existing axis; phase P1 |
 | `G1` | evidence | per-axis fact; saturation; no late fact; external hash+file; locators resolve; refactor survey/top-rec |
 | `G2` | clarify | no active Q; every Q in a round; answers recorded; no prose questions; six intent fields; yes/assumed; early-exit/unknowns |
 | `G3` | design | approve-design quote; map approval if >1; review/doubt findings; cycle cap; deliberate record |
-| `G4` | plan | task fields; test-first seam or none; deps rendered; kinds; no fake-done; lockfile chore; quality bar M/L; adr; domain term; user-stories L; task-graph approval for multi-cap/L unless skipped; waves/matrix; ideal/gap; headings |
+| `G4` | plan | task fields; test-first seam or none; deps rendered; kinds; no fake-done; lockfile chore; quality bar L; adr; domain term; user-stories L; task-graph approval for multi-cap/L unless skipped; waves/matrix; ideal/gap; headings |
 | `G5` | publish | G0-G4 + `G_AX`; evidence; size; test_run if claimed; hash |
 | `G_MAP` | map | ledger; destination <=2 lines; unknowns cleared; no open ticket; >=1 resolved; approval; map headings |
 
@@ -154,3 +164,9 @@ Read the file named by the branch; pointer says what and when.
 | ticket drafts / handoff | `methods/issue-drafts.md` |
 | plan-writing | `methods/plan-writing.md` |
 | execution handoff shape | `methods/handoff-shape.md` |
+| Q0 sweep, standing authorization, run-through | `phases/Q0-sweep.md` |
+| how to ask, reply classification, overrides | `methods/stance.md` |
+| CPM, parallel safety, mass-ulw dispatch | `methods/cpm-dispatch.md` |
+| spawning children, consultation lanes, review convergence | `methods/delegation.md` |
+| several repos, folding old plans in, automatic purge | `methods/multi-repo.md` |
+| which `ulw-plan` feature lives where | `methods/ulw-plan-parity.md` |

@@ -22,7 +22,7 @@ Contested claims are not averaged. Record the competing readings, debate with ev
 
 ## Waves and saturation
 
-Record a wave's facts with one `batch`, then close it with `wave`; `new_facts` is derived from the rows, never supplied. Saturation overrides budgets: stop when a pass finds nothing new (two consecutive empty waves at M/L; one closed wave at S), not when a token budget says so. Never re-explore to double-check. At size L, add the adversarial phases: collect, verify (try to falsify), design, adversarial (reject self-report and grep-only QA), synthesize.
+Record a wave's facts with one `batch`, then close it with `wave`; `new_facts` is derived from the rows, never supplied. Saturation overrides budgets: stop when a pass finds nothing new (two consecutive empty waves at L; one closed wave at S), not when a token budget says so. Never re-explore to double-check. At size L, add the adversarial phases: collect, verify (try to falsify), design, adversarial (reject self-report and grep-only QA), synthesize.
 
 ## What is a method here
 
