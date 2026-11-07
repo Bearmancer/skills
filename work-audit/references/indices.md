@@ -22,40 +22,40 @@ Purge routing is the only deletion path: hand the report to `purge-safety`'s ada
 
 1. git status
 2. branches/worktrees/stashes
-3. tool state
+6. tool state
 
 ### Phase 2: clutter
 
-4. stale artifacts `[purge]`
+4. stale artifacts  `[purge]`
 5. handoffs and wizards
-6. empty dirs `[purge]`
-7. duplicates `[purge, owner]`
+15. empty dirs  `[purge]`
+16. duplicates  `[purge, owner]`
 
 ### Phase 3: tests
 
 7. tests present
 8. tests run
 9. tests deleted
-10. skipped `[judgment]`
+12. skipped  `[judgment]`
 
 ### Phase 4: work status
 
 3. plan files
-4. other files deleted
-5. left `[judgment]`
-6. finished `[judgment]`
-7. unfinished
+10. other files deleted
+11. left  `[judgment]`
+13. finished  `[judgment]`
+17. unfinished
 
 ### Phase 5: verification
 
-14. not verified `[judgment]`
-15. small commits to squash
+14. not verified  `[judgment]`
+18. small commits to squash
 
 ### Phase 6: docs and sprawl
 
-19. doc mismatches `[hint]`
-20. doc sprawl `[hint]`
-21. repo sprawl vs style `[hint]`
+19. doc mismatches  `[hint]`
+20. doc sprawl  `[hint]`
+21. repo sprawl vs style  `[hint]`
 
 ## Definitions
 

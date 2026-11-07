@@ -44,6 +44,14 @@ TEMPLATES = {
 _SHARED = {}
 
 
+@pytest.fixture(scope="session")
+def force_rmtree():
+    def remove(path: Path) -> None:
+        shutil.rmtree(path, ignore_errors=True)
+
+    return remove
+
+
 @pytest.fixture(scope="session", autouse=True)
 def _shared_root(tmp_path_factory, force_rmtree):
     """Root of the shared templates and state, under basetemp."""
