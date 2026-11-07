@@ -1,6 +1,6 @@
 ---
 name: ps-wizard
-description: Generate admin-ready pwsh 7 one-shot wizards as single .ps1 files with self-elevation, goal-sufficiency gate, blocker force-close, screen+file logging, Desktop output, backup, auto-uninstall, and max tracing. Use this skill whenever the user asks for a Windows setup, install, migration, or admin wizard, mentions pwsh, PowerShell script, .ps1, self-elevating script, or wants a one-shot Windows automation — even if they do not say "wizard". Also use it to diagnose a wizard run that failed, skipped a prompt, or froze until a key was pressed.
+description: "Use when the user asks for a Windows setup, install, migration or admin wizard, mentions pwsh or .ps1, or a wizard run failed, skipped a prompt or froze. Generates single .ps1 wizards with self-elevation, logging, backup and auto-uninstall."
 ---
 
 # PS-Wizard

@@ -1,15 +1,6 @@
 ---
 name: lookup-music-artists
-description: >
-  Extract Composers, Orchestras and Soloists as bare grouped name lists from a
-  music release, from any of: MusicBrainz (musicbrainz.org or beta release URLs
-  or MBIDs), Discogs (release id/URL), AllMusic (album URL or mw id). Use
-  whenever the user shares one of those release/album URLs or ids and asks what
-  is on it, who performs it, or wants a composers/orchestras/soloists list —
-  even if they only say "extract same", "same lists", "add this box to my
-  library", or "who soloed on this". Writes the deliverable to
-  Desktop\md-library\<site>\<release-slug>.md in the owner's literal-list format
-  (bare lines, names only, no roles, no commas).
+description: "Use when the user shares a MusicBrainz, Discogs or AllMusic release URL or id and asks who is on it: extract Composers, Orchestras and Soloists as bare name lists to Desktop\\md-library\\<site>\\<release-slug>.md."
 ---
 
 # lookup-music-artists

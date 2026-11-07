@@ -1,6 +1,6 @@
 ---
 name: shell-gotchas
-description: "Use when writing or debugging PowerShell or Bash-tool (git-bash on Windows) commands: parsing errors, silently empty variables, read-only-variable errors, a catch block that stops halfway, a prompt that skips itself or a console that freezes until Space, DISM cmdlets failing in Store pwsh, wrong zip structure, a `cd` that resets, hand-built JSON with Windows paths, trailing-comma JSON failures, Bun.$ path and kernel traps, uv tool installs, topgrade steps, headless browsers, service binPath backslash-quotes, read-only CIM PathName, phantom doubled profile paths."
+description: "Use when writing or debugging PowerShell or git-bash commands on Windows: quoting, empty variables, a catch block that stops halfway, cd resets, JSON paths, Bun.$, service binPath."
 ---
 
 Known shell foot-guns, verified in this environment. Check this list before debugging a shell error from scratch.

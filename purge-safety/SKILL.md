@@ -1,6 +1,6 @@
 ---
 name: purge-safety
-description: "Use whenever a purge, cleanup, uninstall, reset or delete script is written, reviewed, approved or about to run — questions like 'is this script safe to run', 'can I delete this', 'review my cleanup script', 'purge the caches', or an agent one command away from deleting a tree. Judges safety from evidence: guards exercised on a sandbox, counts proven, residue scanned, real run gated."
+description: "Use when a purge, cleanup, uninstall, reset or delete script is written, reviewed or about to run, or an agent is one command away from deleting a tree. Judges from evidence: sandboxed guards, proven counts, residue scan, gated real run."
 ---
 
 # Purge safety

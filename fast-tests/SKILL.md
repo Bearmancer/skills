@@ -1,6 +1,6 @@
 ---
 name: fast-tests
-description: "Use when tests are slow: suite over 10 s, a test over 5 s, flaky only under xdist, a slow test without benchmark evidence, or new tests that spawn processes, git repos or external tools. Measure the bottleneck first, then cut."
+description: "Use when tests are slow (a suite over 10 s, a test over 5 s, flaky only under xdist) or new tests spawn processes, git repos or external tools. Measure the bottleneck first, then cut."
 ---
 
 # Fast tests

@@ -1,6 +1,6 @@
 ---
 name: subtitle-triage
-description: "Use whenever subtitles are the subject in a Sonarr/Radarr/Bazarr library: provenance, fit to the video (late, out of sync, past the end), a better replacement, resync or cleanup. Measure the fit first, even when the user only says \"the subtitles are wrong\"."
+description: "Use when subtitles are the problem in a Sonarr, Radarr or Bazarr library: provenance, sync fit, a better replacement, resync or cleanup. Measure the fit first."
 ---
 
 # Subtitle triage

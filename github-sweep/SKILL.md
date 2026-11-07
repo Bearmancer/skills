@@ -1,6 +1,6 @@
 ---
 name: github-sweep
-description: 'Use when auditing, sweeping, or triaging pre-existing GitHub PRs, issues, review requests, and fork branches across third-party repositories. Runs fully unattended without interactive permission stops: strictly excludes personal non-fork repos, checks all open items, front-loads fresh CodeGraph indexing before branch/code evaluation, checks latest upstream base, executes requested changes in isolated branches, pushes with lease protection, maximally purges merged/closed fork branches, and prints initial/final triage tables.'
+description: "Use when auditing, sweeping or triaging open PRs, issues, review requests and fork branches on third-party repos. Runs unattended, excludes personal non-fork repos, prints triage tables."
 ---
 
 # GitHub Sweep (Unattended Third-Party Audit & Update Protocol)
