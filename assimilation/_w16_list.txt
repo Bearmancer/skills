@@ -1,0 +1,859 @@
+=== diagnosing-bugs
+== SKILL.md
+   0 |fm-field|L1-2|--- name: diagnosing-bugs
+   1 |fm-field|L3-5|description: Diagnosis loop for hard bugs and performance regressions. Use when the user says "diagnose"/"debu
+   2 |heading|L6-7|# Diagnosing Bugs
+   3 |para|L8-9|A discipline for hard bugs. Skip phases only when explicitly justified.
+   4 |para|L10-11|When exploring the codebase, read `GLOSSARY.md` (if it exists) to get a clear mental model of the relevant mod
+   5 |heading|L12-13|## Redact
+   6 |para|L14-15|This skill has you show commands, outputs and captured artifacts. **Redact every secret first**: write `<REDAC
+   7 |para|L16-17|If the redacted output is not enough to diagnose the bug, say so and ask the user.
+   8 |heading|L18-19|## Phase 1: Build a feedback loop
+   9 |para|L20-21|**This is the skill.** Everything else is mechanical. If you have a **tight** pass/fail signal for the bug (on
+  10 |para|L22-23|Spend disproportionate effort here. **Be aggressive. Be creative. Refuse to give up.**
+  11 |heading|L24-25|### Ways to construct one, in roughly this order
+  12 |list-item|L26-26|1. **Failing test** at whatever seam reaches the bug: unit, integration, e2e.
+  13 |list-item|L27-27|2. **Curl / HTTP script** against a running dev server.
+  14 |list-item|L28-28|3. **CLI invocation** with a fixture input, diffing stdout against a known-good snapshot.
+  15 |list-item|L29-29|4. **Headless browser script** (Playwright / Puppeteer) that drives the UI and asserts on DOM/console/network.
+  16 |list-item|L30-30|5. **Replay a captured trace.** Save a real network request / payload / event log to disk; replay it through t
+  17 |list-item|L31-31|6. **Throwaway harness.** Spin up a minimal subset of the system (one service, mocked deps) that exercises the
+  18 |list-item|L32-32|7. **Property / fuzz loop.** If the bug is "sometimes wrong output", run 1000 random inputs and look for the f
+  19 |list-item|L33-33|8. **Bisection harness.** If the bug appeared between two known states (commit, dataset, version), automate "b
+  20 |list-item|L34-34|9. **Differential loop.** Run the same input through old-version vs new-version (or two configs) and diff outp
+  21 |list-item|L35-36|10. **HITL bash script.** Last resort. If a human must click, drive _them_ with `scripts/hitl-loop.template.sh
+  22 |para|L37-38|Build the right feedback loop, and the bug is 90% fixed.
+  23 |heading|L39-40|### Tighten the loop
+  24 |para|L41-42|Treat the loop as a product. Once you have _a_ loop, **tighten** it:
+  25 |list-item|L43-43|- Can I make it faster? (Cache setup, skip unrelated init, narrow the test scope.)
+  26 |list-item|L44-44|- Can I make the signal sharper? (Assert on the specific symptom, not "didn't crash".)
+  27 |list-item|L45-46|- Can I make it more deterministic? (Pin time, seed RNG, isolate filesystem, freeze network.)
+  28 |para|L47-48|A 30-second flaky loop is barely better than no loop; a 2-second deterministic one is tight, a debugging super
+  29 |heading|L49-50|### Non-deterministic bugs
+  30 |para|L51-52|The goal is not a clean repro but a **higher reproduction rate**. Loop the trigger 100×, parallelise, add stre
+  31 |heading|L53-54|### When you genuinely cannot build a loop
+  32 |para|L55-56|Stop and say so explicitly. List what you tried. Ask the user for: (a) access to whatever environment reproduc
+  33 |heading|L57-58|### Completion criterion: a tight loop that goes red
+  34 |para|L59-60|Phase 1 is done when the loop is **tight** and **red-capable**: you can name **one command** (a script path, a
+  35 |list-item|L61-61|- [ ] **Red-capable**: it drives the actual bug code path and asserts the **user's exact symptom**, so it can 
+  36 |list-item|L62-62|- [ ] **Deterministic**: same verdict every run (flaky bugs: a pinned, high reproduction rate, per above).
+  37 |list-item|L63-63|- [ ] **Fast**: seconds, not minutes.
+  38 |list-item|L64-65|- [ ] **Agent-runnable**: you can run it unattended; a human in the loop only via `scripts/hitl-loop.template.
+  39 |para|L66-67|If you catch yourself reading code to build a theory before this command exists, **stop: jumping straight to a
+  40 |heading|L68-69|## Phase 2: Reproduce + minimise
+  41 |para|L70-71|Run the loop. Watch it go red as the bug appears.
+  42 |para|L72-73|Confirm:
+  43 |list-item|L74-74|- [ ] The loop produces the failure mode the **user** described, not a different failure that happens to be ne
+  44 |list-item|L75-75|- [ ] The failure is reproducible across multiple runs (or, for non-deterministic bugs, reproducible at a high
+  45 |list-item|L76-77|- [ ] You have captured the exact symptom (error message, wrong output, slow timing) so later phases can verif
+  46 |heading|L78-79|### Minimise
+  47 |para|L80-81|Once it's red, shrink the repro to the **smallest scenario that still goes red**. Cut inputs, callers, config,
+  48 |para|L82-83|Why bother: a minimal repro shrinks the hypothesis space in Phase 3 (fewer moving parts left to suspect) and b
+  49 |para|L84-85|Done when **every remaining element is load-bearing**: removing any one of them makes the loop go green.
+  50 |para|L86-87|Do not proceed until you have reproduced **and** minimised.
+  51 |heading|L88-89|## Phase 3: Hypothesise
+  52 |para|L90-91|Generate **3–5 ranked hypotheses** before testing any of them. Single-hypothesis generation anchors on the fir
+  53 |para|L92-93|Each hypothesis must be **falsifiable**: state the prediction it makes.
+  54 |quote|L94-95|> Format: "If <X> is the cause, then <changing Y> will make the bug disappear / <changing Z> will make it wors
+  55 |para|L96-97|If you cannot state the prediction, the hypothesis is a vibe: discard or sharpen it.
+  56 |para|L98-99|**Show the ranked list to the user before testing.** They often have domain knowledge that re-ranks instantly 
+  57 |heading|L100-101|## Phase 4: Instrument
+  58 |para|L102-103|Each probe must map to a specific prediction from Phase 3. **Change one variable at a time.**
+  59 |para|L104-105|Tool preference:
+  60 |list-item|L106-106|1. **Debugger / REPL inspection** if the env supports it. One breakpoint beats ten logs.
+  61 |list-item|L107-107|2. **Targeted logs** at the boundaries that distinguish hypotheses.
+  62 |list-item|L108-109|3. Never "log everything and grep".
+  63 |para|L110-111|**Tag every debug log** with a unique prefix, e.g. `[DEBUG-a4f2]`. Cleanup at the end becomes a single grep. U
+  64 |para|L112-113|**Perf branch.** For performance regressions, logs are usually wrong. Instead: establish a baseline measuremen
+  65 |heading|L114-115|## Phase 5: Fix + regression test
+  66 |para|L116-117|Write the regression test **before the fix**, but only if there is a **correct seam** for it.
+  67 |para|L118-119|A correct seam is one where the test exercises the **real bug pattern** as it occurs at the call site. If the 
+  68 |para|L120-121|**If no correct seam exists, that itself is the finding.** Note it. The codebase architecture is preventing th
+  69 |para|L122-123|If a correct seam exists:
+  70 |list-item|L124-124|1. Turn the minimised repro into a failing test at that seam.
+  71 |list-item|L125-125|2. Watch it fail. If you forced the red by mutating code or a fixture, `diff` against a pristine copy to prove
+  72 |list-item|L126-126|3. Apply the fix.
+  73 |list-item|L127-127|4. Watch it pass.
+  74 |list-item|L128-129|5. Re-run the Phase 1 feedback loop against the original (un-minimised) scenario.
+  75 |heading|L130-131|## Phase 6: Cleanup
+  76 |para|L132-133|Required before declaring done:
+  77 |list-item|L134-134|- [ ] Original repro no longer reproduces (re-run the Phase 1 loop)
+  78 |list-item|L135-135|- [ ] Regression test passes (or absence of seam is documented)
+  79 |list-item|L136-136|- [ ] All `[DEBUG-...]` instrumentation removed (`grep` the prefix)
+  80 |list-item|L137-137|- [ ] Throwaway prototypes deleted (or moved to a clearly-marked debug location)
+  81 |list-item|L138-138|- [ ] The hypothesis that turned out correct is stated in the commit / PR message, so the next debugger learns
+== agents/openai.yaml
+   0 |file|L1-4|interface: display_name: "Diagnosing Bugs" short_description: "Diagnose hard bugs and regressions"
+== scripts/hitl-loop.template.sh
+   0 |file|L1-45|#!/usr/bin/env bash # Human-in-the-loop reproduction loop. # Copy this file, edit the steps below, and run it.
+
+=== domain-modeling
+== SKILL.md
+   0 |fm-field|L1-2|--- name: domain-modeling
+   1 |fm-field|L3-5|description: Build and sharpen a project's domain model. Use when discussing codebase terminology, writing or 
+   2 |heading|L6-7|# Domain Modeling
+   3 |para|L8-9|Actively build and sharpen the project's domain model as you design. This is the _active_ discipline: challeng
+   4 |heading|L10-11|## File structure
+   5 |para|L12-13|Most repos have a single context:
+   6 |code|L14-23|``` / ├── GLOSSARY.md ├── docs/ │ └── adr/ │ ├── 0001-event-sourced-orders.md │ └── 0002-postgres-for-write-mo
+   7 |para|L24-25|If a `GLOSSARY-MAP.md` exists at the root, the repo has multiple contexts. The map points to where each one li
+   8 |code|L26-39|``` / ├── GLOSSARY-MAP.md ├── docs/ │ └── adr/ ← system-wide decisions ├── src/ │ ├── ordering/ │ │ ├── GLOSSA
+   9 |para|L40-41|Create files lazily: only when you have something to write. If no `GLOSSARY.md` exists, create one when the fi
+  10 |heading|L42-43|## During the session
+  11 |heading|L44-45|### Challenge against the glossary
+  12 |para|L46-47|When the user uses a term that conflicts with the existing language in `GLOSSARY.md`, call it out immediately.
+  13 |heading|L48-49|### Sharpen fuzzy language
+  14 |para|L50-51|When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account': do y
+  15 |heading|L52-53|### Discuss concrete scenarios
+  16 |para|L54-55|When domain relationships are being discussed, stress-test them with specific scenarios. Invent scenarios that
+  17 |heading|L56-57|### Cross-reference with code
+  18 |para|L58-59|When the user states how something works, check whether the code agrees. If you find a contradiction, surface 
+  19 |heading|L60-61|### Update GLOSSARY.md inline
+  20 |para|L62-63|When a term is resolved, update `GLOSSARY.md` right there. Don't batch these up: capture them as they happen. 
+  21 |para|L64-65|`GLOSSARY.md` should be totally devoid of implementation details. Do not treat `GLOSSARY.md` as a spec, a scra
+  22 |heading|L66-67|### Offer ADRs sparingly
+  23 |para|L68-69|Only offer to create an ADR when all three are true:
+  24 |list-item|L70-70|1. **Hard to reverse**: the cost of changing your mind later is meaningful
+  25 |list-item|L71-71|2. **Surprising without context**: a future reader will wonder "why did they do it this way?"
+  26 |list-item|L72-73|3. **The result of a real trade-off**: there were genuine alternatives and you picked one for specific reasons
+  27 |para|L74-74|If any of the three is missing, skip the ADR. Use the format in [ADR-FORMAT.md](./ADR-FORMAT.md).
+== ADR-FORMAT.md
+   0 |heading|L1-2|# ADR Format
+   1 |para|L3-4|ADRs live in `docs/adr/` and use sequential numbering: `0001-slug.md`, `0002-slug.md`, etc.
+   2 |para|L5-6|Create the `docs/adr/` directory lazily: only when the first ADR is needed.
+   3 |heading|L7-8|## Template
+   4 |code|L9-14|```md # {Short title of the decision} {1-3 sentences: what's the context, what did we decide, and why.} ```
+   5 |para|L15-16|That's it. An ADR can be a single paragraph. The value is in recording _that_ a decision was made and _why_, n
+   6 |heading|L17-18|## Optional sections
+   7 |para|L19-20|Only include these when they add genuine value. Most ADRs won't need them.
+   8 |list-item|L21-21|- **Status** frontmatter (`proposed | accepted | deprecated | superseded by ADR-NNNN`): useful when decisions 
+   9 |list-item|L22-22|- **Considered Options**: only when the rejected alternatives are worth remembering
+  10 |list-item|L23-24|- **Consequences**: only when non-obvious downstream effects need to be called out
+  11 |heading|L25-26|## Numbering
+  12 |para|L27-28|Scan `docs/adr/` for the highest existing number and increment by one.
+  13 |heading|L29-30|## When to offer an ADR
+  14 |para|L31-32|All three of these must be true:
+  15 |list-item|L33-33|DUP mattpocock:domain-modeling/SKILL.md#0024|1. **Hard to reverse**: the cost of changing your mind later is meaningful
+  16 |list-item|L34-34|2. **Surprising without context**: a future reader will look at the code and wonder "why on earth did they do 
+  17 |list-item|L35-36|DUP mattpocock:domain-modeling/SKILL.md#0026|3. **The result of a real trade-off**: there were genuine alternatives and you picked one for specific reasons
+  18 |para|L37-38|If a decision is easy to reverse, skip it: you'll just reverse it. If it's not surprising, nobody will wonder 
+  19 |heading|L39-40|### What qualifies
+  20 |list-item|L41-41|- **Architectural shape.** "We're using a monorepo." "The write model is event-sourced, the read model is proj
+  21 |list-item|L42-42|- **Integration patterns between contexts.** "Ordering and Billing communicate via domain events, not synchron
+  22 |list-item|L43-43|- **Technology choices that carry lock-in.** Database, message bus, auth provider, deployment target. Not ever
+  23 |list-item|L44-44|- **Boundary and scope decisions.** "Customer data is owned by the Customer context; other contexts reference 
+  24 |list-item|L45-45|- **Deliberate deviations from the obvious path.** "We're using manual SQL instead of an ORM because X." Anyth
+  25 |list-item|L46-46|- **Constraints not visible in the code.** "We can't use AWS because of compliance requirements." "Response ti
+  26 |list-item|L47-47|- **Rejected alternatives when the rejection is non-obvious.** If you considered GraphQL and picked REST for s
+== GLOSSARY-FORMAT.md
+   0 |heading|L1-2|# GLOSSARY.md Format
+   1 |heading|L3-4|## Structure
+   2 |code|L5-24|```md # {Context Name} {One or two sentence description of what this context is and why it exists.} ## Languag
+   3 |heading|L25-26|## Rules
+   4 |list-item|L27-27|- **Be opinionated.** When multiple words exist for the same concept, pick the best one and list the others un
+   5 |list-item|L28-28|- **Keep definitions tight.** One or two sentences max. Define what it IS, not what it does.
+   6 |list-item|L29-29|- **Only include terms specific to this project's context.** General programming concepts (timeouts, error typ
+   7 |list-item|L30-31|- **Group terms under subheadings** when natural clusters emerge. If all terms belong to a single cohesive are
+   8 |heading|L32-33|## Single vs multi-context repos
+   9 |para|L34-35|**Single context (most repos):** One `GLOSSARY.md` at the repo root.
+  10 |para|L36-37|**Multiple contexts:** A `GLOSSARY-MAP.md` at the repo root lists the contexts, where they live, and how they 
+  11 |code|L38-53|```md # Glossary Map ## Contexts - [Ordering](./src/ordering/GLOSSARY.md): receives and tracks customer orders
+  12 |para|L54-55|The skill infers which structure applies:
+  13 |list-item|L56-56|- If `GLOSSARY-MAP.md` exists, read it to find contexts
+  14 |list-item|L57-57|- If only a root `GLOSSARY.md` exists, single context
+  15 |list-item|L58-59|- If neither exists, create a root `GLOSSARY.md` lazily when the first term is resolved
+  16 |para|L60-60|When multiple contexts exist, infer which one the current topic relates to. If unclear, ask.
+== agents/openai.yaml
+   0 |file|L1-4|interface: display_name: "Domain Modeling" short_description: "Build and sharpen a domain model"
+
+=== tdd
+== SKILL.md
+   0 |fm-field|L1-2|--- name: tdd
+   1 |fm-field|L3-5|description: Test-driven development. Use when the user wants to build features or fix bugs test-first, mentio
+   2 |heading|L6-7|# Test-Driven Development
+   3 |para|L8-9|TDD is the red → green loop. This skill is the reference that makes that loop produce tests worth keeping: wha
+   4 |para|L10-11|When exploring the codebase, read `GLOSSARY.md` (if it exists) so test names and interface vocabulary match th
+   5 |heading|L12-13|## What a good test is
+   6 |para|L14-15|Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests s
+   7 |para|L16-17|See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
+   8 |heading|L18-19|## Seams: where tests go
+   9 |para|L20-21|A **seam** is the public boundary you test at: the interface where you observe behavior without reaching insid
+  10 |para|L22-23|**Test only at pre-agreed seams.** Before writing any test, write down the seams under test and confirm them w
+  11 |para|L24-25|Ask: "What's the public interface, and which seams should we test?" Give each proposed seam a one-line note on
+  12 |para|L26-27|When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what t
+  13 |heading|L28-29|## Anti-patterns
+  14 |list-item|L30-30|- **Implementation-coupled**: mocks internal collaborators, tests private methods, or verifies through a side 
+  15 |list-item|L31-31|- **Tautological**: the assertion recomputes the expected value the way the code does (`expect(add(a, b)).toBe
+  16 |list-item|L32-33|- **Horizontal slicing**: writing all tests first, then all implementation. Bulk tests verify _imagined_ behav
+  17 |heading|L34-35|## Rules of the loop
+  18 |list-item|L36-36|- **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate futur
+  19 |list-item|L37-37|- **One slice at a time.** One seam, one test, one minimal implementation per cycle.
+  20 |list-item|L38-38|- **Refactoring is not part of the loop.** It belongs to the review stage (see the `code-review` skill), not t
+== agents/openai.yaml
+   0 |file|L1-4|interface: display_name: "TDD" short_description: "Test-driven red-green-refactor"
+== mocking.md
+   0 |heading|L1-2|# When to Mock
+   1 |para|L3-4|Mock at **system boundaries** only:
+   2 |list-item|L5-5|- External APIs (payment, email, etc.)
+   3 |list-item|L6-6|- Databases (sometimes - prefer test DB)
+   4 |list-item|L7-7|- Time/randomness
+   5 |list-item|L8-9|- File system (sometimes)
+   6 |para|L10-11|Don't mock:
+   7 |list-item|L12-12|- Your own classes/modules
+   8 |list-item|L13-13|- Internal collaborators
+   9 |list-item|L14-15|- Anything you control
+  10 |heading|L16-17|## Designing for Mockability
+  11 |para|L18-19|At system boundaries, design interfaces that are easy to mock:
+  12 |para|L20-21|**1. Use dependency injection**
+  13 |para|L22-23|Pass external dependencies in rather than creating them internally:
+  14 |code|L24-36|```typescript // Easy to mock function processPayment(order, paymentClient) { return paymentClient.charge(orde
+  15 |para|L37-38|**2. Prefer SDK-style interfaces over generic fetchers**
+  16 |para|L39-40|Create specific functions for each external operation instead of one generic function with conditional logic:
+  17 |code|L41-54|```typescript // GOOD: Each function is independently mockable const api = { getUser: (id) => fetch(`/users/${
+  18 |para|L55-56|The SDK approach means:
+  19 |list-item|L57-57|- Each mock returns one specific shape
+  20 |list-item|L58-58|- No conditional logic in test setup
+  21 |list-item|L59-59|- Easier to see which endpoints a test exercises
+  22 |list-item|L60-60|- Type safety per endpoint
+== tests.md
+   0 |heading|L1-2|# Good and Bad Tests
+   1 |heading|L3-4|## Good Tests
+   2 |para|L5-6|**Integration-style**: Test through real interfaces, not mocks of internal parts.
+   3 |code|L7-16|```typescript // GOOD: Tests observable behavior test("user can checkout with valid cart", async () => { const
+   4 |para|L17-18|Characteristics:
+   5 |list-item|L19-19|- Tests behavior users/callers care about
+   6 |list-item|L20-20|- Uses public API only
+   7 |list-item|L21-21|- Survives internal refactors
+   8 |list-item|L22-22|- Describes WHAT, not HOW
+   9 |list-item|L23-24|- One logical assertion per test
+  10 |heading|L25-26|## Bad Tests
+  11 |para|L27-28|**Implementation-detail tests**: Coupled to internal structure.
+  12 |code|L29-37|```typescript // BAD: Tests implementation details test("checkout calls paymentService.process", async () => {
+  13 |para|L38-39|Red flags:
+  14 |list-item|L40-40|- Mocking internal collaborators
+  15 |list-item|L41-41|- Testing private methods
+  16 |list-item|L42-42|- Asserting on call counts/order
+  17 |list-item|L43-43|- Test breaks when refactoring without behavior change
+  18 |list-item|L44-44|- Test name describes HOW not WHAT
+  19 |list-item|L45-46|- Verifying through external means instead of interface
+  20 |code|L47-62|```typescript // BAD: Bypasses interface to verify test("createUser saves to database", async () => { await cr
+  21 |para|L63-64|**Tautological tests**: Expected value restates the implementation, so the test passes by construction.
+  22 |code|L65-77|```typescript // BAD: Expected value is recomputed the way the code computes it test("calculateTotal sums line
+
+=== to-tickets
+== SKILL.md
+   0 |fm-field|L1-2|--- name: to-tickets
+   1 |fm-field|L3-3|description: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declari
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |heading|L7-8|# To Tickets
+   4 |para|L9-10|Break a plan, spec, or conversation into a set of **tickets**: tracer-bullet vertical slices, each declaring t
+   5 |para|L11-12|DUP mattpocock:to-spec/SKILL.md#0004|The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `
+   6 |heading|L13-14|## Process
+   7 |heading|L15-16|### 1. Gather context
+   8 |para|L17-18|Work from whatever is already in the conversation context. If the user passes a reference (a spec path, an iss
+   9 |heading|L19-20|### 2. Explore the codebase (optional)
+  10 |para|L21-22|If you have not already explored the codebase, do so to understand the current state of the code. Ticket title
+  11 |para|L23-24|Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then ma
+  12 |heading|L25-26|### 3. Draft vertical slices
+  13 |para|L27-28|Break the work into **tracer bullet** tickets.
+  14 |para|L29-30|<vertical-slice-rules>
+  15 |list-item|L31-31|- Each slice cuts a narrow but COMPLETE path through every layer (schema, API, UI, tests): vertical, NOT a hor
+  16 |list-item|L32-32|- A completed slice is demoable or verifiable on its own
+  17 |list-item|L33-33|- Each slice is sized to fit in a single fresh context window
+  18 |list-item|L34-35|- Any prefactoring should be done first
+  19 |para|L36-37|</vertical-slice-rules>
+  20 |para|L38-39|Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket wi
+  21 |para|L40-41|**Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename
+  22 |heading|L42-43|### 4. Quiz the user
+  23 |para|L44-45|Present the proposed breakdown as a numbered list. For each ticket, show:
+  24 |list-item|L46-46|- **Title**: short descriptive name
+  25 |list-item|L47-47|- **Blocked by**: which other tickets (if any) must complete first
+  26 |list-item|L48-49|- **What it delivers**: the end-to-end behaviour this ticket makes work
+  27 |para|L50-51|Ask the user:
+  28 |list-item|L52-52|- Does the granularity feel right? (too coarse / too fine)
+  29 |list-item|L53-53|- Are the blocking edges correct: does each ticket only depend on tickets that genuinely gate it?
+  30 |list-item|L54-55|- Should any tickets be merged or split further?
+  31 |para|L56-57|Iterate until the user approves the breakdown.
+  32 |heading|L58-59|### 5. Publish the tickets to the configured tracker
+  33 |para|L60-61|Publish the approved tickets. **How** depends on the tracker `/setup-matt-pocock-skills` configured; the ticke
+  34 |list-item|L62-62|- **Local files** → write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered 
+  35 |list-item|L63-64|- **A real issue tracker (GitHub, Linear, …)** → publish one issue per ticket in dependency order (blockers fi
+  36 |para|L65-66|Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bot
+  37 |para|L67-68|Do NOT close or modify any parent issue.
+  38 |para|L69-70|<local-ticket-template>
+  39 |heading|L71-72|# <NN>: <Ticket title>
+  40 |para|L73-74|**What to build:** the end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-b
+  41 |para|L75-76|**Blocked by:** the numbers/titles of the tickets that gate this one, or "None (can start immediately)".
+  42 |para|L77-78|**Status:** ready-for-agent
+  43 |list-item|L79-79|- [ ] Acceptance criterion 1
+  44 |list-item|L80-81|- [ ] Acceptance criterion 2
+  45 |para|L82-83|</local-ticket-template>
+  46 |para|L84-85|<issue-template>
+  47 |heading|L86-87|## Parent
+  48 |para|L88-89|A reference to the parent issue on the tracker (if the source was an existing issue, otherwise omit this secti
+  49 |heading|L90-91|## What to build
+  50 |para|L92-93|The end-to-end behaviour this ticket makes work, from the user's perspective, not layer-by-layer implementatio
+  51 |heading|L94-95|## Acceptance criteria
+  52 |list-item|L96-96|- [ ] Criterion 1
+  53 |list-item|L97-98|- [ ] Criterion 2
+  54 |heading|L99-100|## Blocked by
+  55 |list-item|L101-102|- A reference to each blocking ticket, or "None (can start immediately)". Omit this section when blockers were
+  56 |para|L103-104|</issue-template>
+  57 |para|L105-105|In either form, avoid specific file paths or code snippets: they go stale fast. Exception: if a prototype prod
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "To Tickets" short_description: "Split a plan into tracer-bullet tickets" policy: all
+
+=== wayfinder
+== SKILL.md
+   0 |fm-field|L1-2|--- name: wayfinder
+   1 |fm-field|L3-3|description: Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tick
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-8|A loose idea has arrived, too big for one agent session, and wrapped in fog: the way from here to the **destin
+   4 |para|L9-10|The destination varies per effort, and naming it is the first act of charting: it shapes every ticket. It migh
+   5 |heading|L11-12|## Plan, don't do
+   6 |para|L13-14|Wayfinder is **planning** by default: each ticket resolves a decision, and the map is done when the way is cle
+   7 |heading|L15-16|## Refer by name
+   8 |para|L17-18|Every map and ticket is an issue, so it has a **name**: its title. In everything the human reads (narration, t
+   9 |heading|L19-20|## The Map
+  10 |para|L21-22|The map is a single issue on this repo's issue tracker, labelled `wayfinder:map`, the canonical artifact. Its 
+  11 |para|L23-24|The map is an **index**, not a store. It lists the decisions made and points at the tickets that hold their de
+  12 |para|L25-26|**Where the map, its child tickets, blocking, and frontier queries physically live is tracker-specific.** The 
+  13 |heading|L27-28|### The map body
+  14 |para|L29-30|The whole map at low resolution, loaded once per session. Open tickets are **not** listed: they are open child
+  15 |code|L31-54|```markdown ## Destination <what reaching the end of this map looks like: the spec, decision, or change this e
+  16 |heading|L55-56|### Tickets
+  17 |para|L57-58|Each ticket is a **child issue** of the map; the tracker's issue id is its identity. Its body is the question,
+  18 |code|L59-64|```markdown ## Question <the decision or investigation this ticket resolves> ```
+  19 |para|L65-66|Each ticket carries a `wayfinder:<type>` label, one of `research`, `prototype`, `grilling`, `task` (see [Ticke
+  20 |para|L67-68|A session **claims** a ticket by assigning it to the dev driving the map, **first**, before any work, so concu
+  21 |para|L69-70|Blocking uses the tracker's **native** dependency relationship: essential because it renders the frontier _vis
+  22 |para|L71-72|The answer isn't part of the body; it's recorded on resolution (see [Work through the map](#work-through-the-m
+  23 |heading|L73-74|## Ticket Types
+  24 |para|L75-76|Every ticket is either **HITL** (human in the loop, worked _with_ a human who speaks for themselves) or **AFK*
+  25 |list-item|L77-77|- **Research** (AFK): Reading documentation, third-party APIs, or local resources like knowledge bases to surf
+  26 |list-item|L78-78|- **Prototype** (HITL): Raise the fidelity of the discussion by making a cheap, rough, concrete artifact to re
+  27 |list-item|L79-79|- **Grilling** (HITL): Conversation. The default case. Always call the Skill tool twice, for "grilling" and "d
+  28 |list-item|L80-81|- **Task** (HITL or AFK): Manual work that must happen before a _decision_ can be made: nothing to decide, pro
+  29 |heading|L82-83|## Fog of war
+  30 |para|L84-85|The map is _deliberately_ incomplete: don't chart what you can't yet see. Beyond the live tickets lies the **f
+  31 |para|L86-87|The map's **Not yet specified** section is where that dim view is written down: the suspected question, the ar
+  32 |para|L88-89|**Fog or ticket?** The test is whether you can state the question precisely now, _not_ whether you can answer 
+  33 |list-item|L90-90|- **Ticket when** the question is already sharp, even if it's blocked and you can't act on it yet.
+  34 |list-item|L91-92|- **Not yet specified when** you can't yet phrase it that sharply. Don't pre-slice the fog into ticket-sized p
+  35 |para|L93-94|**Not yet specified** excludes what's already decided (Decisions so far), what's already a live ticket, and wh
+  36 |heading|L95-96|## Out of scope
+  37 |para|L97-98|Fog only ever gathers _toward_ the destination. The destination fixes the scope, so work beyond it is **out of
+  38 |para|L99-100|Out-of-scope work never graduates (the frontier stops at the destination), so it returns only if the destinati
+  39 |para|L101-102|Ruling something out of scope is a scoping act, not a step on the route. When a ticket that already exists tur
+  40 |heading|L103-104|## Invocation
+  41 |para|L105-106|Two modes. Either way, **never resolve more than one ticket per session**, with the exception of research tick
+  42 |heading|L107-108|### Chart the map
+  43 |para|L109-110|User invokes with a loose idea.
+  44 |list-item|L111-111|1. **Name the destination.** Call the Skill tool twice, for "grilling" and "domain-modeling", to pin down what
+  45 |list-item|L112-112|2. **Map the frontier.** Grill again, **breadth-first** this time: fan out across the whole space rather than 
+  46 |list-item|L113-113|3. **Create the map** (label `wayfinder:map`): Destination and Notes filled in, Decisions-so-far empty, the fo
+  47 |list-item|L114-114|4. **Create the tickets you can specify now** as child issues of the map, then wire blocking edges in a **seco
+  48 |list-item|L115-115|5. **Fire the research subagents.** For each `research` ticket you just created, spin up a subagent with a fre
+  49 |list-item|L116-117|6. Stop: charting is one session's work; it hand-resolves nothing.
+  50 |heading|L118-119|### Work through the map
+  51 |para|L120-121|User invokes with a map (URL or number). A ticket is **optional**: without one, you pick the next decision, no
+  52 |list-item|L122-122|1. Load the **map**: the low-res view, not every ticket body.
+  53 |list-item|L123-123|2. Choose the ticket. If the user named one, use it. Otherwise take the first frontier ticket in order. **Clai
+  54 |list-item|L124-124|3. Resolve it as the type its `wayfinder:<type>` label names (see [Ticket Types](#ticket-types)). Read the lab
+  55 |list-item|L125-125|4. Record the resolution: post the answer as a **resolution comment**, **close** the issue, and **append a con
+  56 |list-item|L126-127|5. Add newly-surfaced tickets (create-then-wire); graduate any fog the answer has made specifiable, clearing e
+  57 |para|L128-128|The user may run unblocked tickets in parallel, so expect other sessions to be editing the tracker concurrentl
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Wayfinder" short_description: "Map a large effort as decision tickets" policy: allow
+
+=== writing-for-agents
+== SKILL.md
+   0 |fm-field|L1-2|--- name: writing-for-agents
+   1 |fm-field|L3-5|description: Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAU
+   2 |para|L6-7|Reference for writing any document an agent consumes: a skill, an `AGENTS.md` / `CLAUDE.md`, a doc reached by 
+   3 |para|L8-9|When the document you're writing is a skill, read [`SKILL-MECHANICS.md`](SKILL-MECHANICS.md) for frontmatter, 
+   4 |heading|L10-11|## Context pointers
+   5 |para|L12-13|A **context pointer** is a reference held in the agent's context that names some out-of-context material and e
+   6 |para|L14-15|A pointer does two jobs: state what the material is, and list the **branches** that should trigger reaching it
+   7 |list-item|L16-16|- **Front-load the leading word**: the pointer is where it does its triggering work.
+   8 |list-item|L17-17|- **One trigger per branch.** Synonyms that rename a single branch are one branch written twice; collapse them
+   9 |list-item|L18-19|- **Cut identity the body already carries.**
+  10 |heading|L20-21|## The two loads
+  11 |para|L22-23|Every document and pointer you add spends one of two budgets:
+  12 |list-item|L24-24|- **Context load** is the cost of always-loaded material on the agent's window: an `AGENTS.md` line, a skill d
+  13 |list-item|L25-26|- **Cognitive load** is the cost on the human: which documents exist and when to reach for each. The human is 
+  14 |para|L27-28|Material reached only through a pointer escapes context load at the price of the pointer's own line; material 
+  15 |heading|L29-30|## Information hierarchy
+  16 |para|L31-32|A document is built from two content types: **steps** (the ordered actions the agent performs) and **reference
+  17 |list-item|L33-33|1. **In-file step** is the primary tier: what the agent does, in order.
+  18 |list-item|L34-34|2. **In-file reference** is consulted on demand. Often a legitimately flat peer-set (every rule of a review on
+  19 |list-item|L35-36|3. **Disclosed reference** is pushed out into a separate file, reached by a context pointer, loaded only when 
+  20 |para|L37-38|Push too little down and the top bloats; push too much and you hide material the agent actually needs. That te
+  21 |para|L39-40|**Progressive disclosure** is the move down the ladder (out of the main file and behind a pointer) so the top 
+  22 |para|L41-42|**Co-location** is the within-file companion: where the ladder decides _how far down_ a piece sits, co-locatio
+  23 |para|L43-44|**Sprawl** is the failure mode here: a document simply too long, even when every line is live and unique. Atte
+  24 |heading|L45-46|## Steps and completion criteria
+  25 |para|L47-48|Every step ends on a **completion criterion**, the condition that tells the agent the work is done. Two proper
+  26 |list-item|L49-49|- **Clarity**: can the agent tell done from not-done? A vague bound ("understanding reached") invites **premat
+  27 |list-item|L50-51|- **Demand**: how much it requires. "Every modified model accounted for" forces thorough work where "produce a
+  28 |para|L52-53|The strongest criteria are both checkable and exhaustive.
+  29 |heading|L54-55|## When to split
+  30 |para|L56-57|Splitting one document into two spends one of the two loads, so split only when the cut earns it:
+  31 |list-item|L58-58|- **By sequence**: split a run of steps where the post-completion steps tempt the agent to rush the one in fro
+  32 |list-item|L59-60|- **By invocation**, skill-specific: see [`SKILL-MECHANICS.md`](SKILL-MECHANICS.md).
+  33 |heading|L61-62|## Leading words
+  34 |para|L63-64|A **leading word** is a compact concept already living in the model's pretraining that the agent thinks with w
+  35 |para|L65-66|It anchors twice. In the body, _execution_: the agent reaches for the same behaviour every time the word appea
+  36 |para|L67-68|Hunt for opportunities to refactor with leading words. A triad spelled out at three sites, a pointer spending 
+  37 |list-item|L69-69|- "fast, deterministic, low-overhead" → _tight_ (a _tight_ loop).
+  38 |list-item|L70-71|- "a loop you believe in" → _red_, turning a fuzzy gate into a binary observable state (the loop goes _red_ on
+  39 |para|L72-73|You win twice: fewer tokens, and a sharper hook for the agent to hang its thinking on. Assume every document i
+  40 |para|L74-75|**Negation** is the failure mode beside this lever: steering by prohibition drags the forbidden behaviour into
+  41 |heading|L76-77|## Pruning
+  42 |list-item|L78-78|- Keep each meaning in a **single source of truth**: one authoritative place, so changing the behaviour is a o
+  43 |list-item|L79-79|- The **environment** is a source of truth too (`package.json` scripts, config files, the directory layout, `-
+  44 |list-item|L80-80|- Check every line for **relevance**: does it still bear on what the document does? A line loses relevance by 
+  45 |list-item|L81-81|- Hunt **no-ops** sentence by sentence: an instruction the model already obeys by default pays load to say not
+== SKILL-MECHANICS.md
+   0 |heading|L1-2|# Skill mechanics
+   1 |para|L3-4|The skill-specific branch of [`writing-for-agents`](SKILL.md): what changes when the document is a skill (fron
+   2 |heading|L5-6|## Invocation
+   3 |para|L7-8|Two choices, trading the two loads:
+   4 |list-item|L9-9|- A **model-invoked** skill keeps a `description`, so the agent can fire it autonomously, and other skills can
+   5 |list-item|L10-11|- A **user-invoked** skill strips the description from the agent's reach: only the human typing its name can i
+   6 |para|L12-13|Pick model-invocation only when the agent must reach the skill on its own, or another skill must. If it only e
+   7 |para|L14-15|Shared reference that two user-invoked skills both need can live in neither: with no descriptions, neither can
+   8 |heading|L16-17|## Splitting by invocation
+   9 |para|L18-19|The invocation cut of splitting (the sequence cut lives in `SKILL.md`): split off a model-invoked skill when y
+  10 |heading|L20-21|## Router skills
+  11 |para|L22-22|When user-invoked skills multiply past what you can remember, that piled-up cognitive load is cured by a **rou
+== agents/openai.yaml
+   0 |file|L1-4|interface: display_name: "Writing for Agents" short_description: "Write documents agents consume"
+
+=== code-review
+== SKILL.md
+   0 |fm-field|L1-2|--- name: code-review
+   1 |fm-field|L3-5|description: "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Stan
+   2 |para|L6-7|Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
+   3 |list-item|L8-8|- **Standards**: does the code conform to this repo's documented coding standards?
+   4 |list-item|L9-10|- **Spec**: does the code faithfully implement the originating issue / spec?
+   5 |para|L11-12|Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregate
+   6 |para|L13-14|The issue tracker should have been provided to you. If not, tell the user to run `/setup-matt-pocock-skills`.
+   7 |heading|L15-16|## Process
+   8 |heading|L17-18|### 1. Pin the fixed point
+   9 |para|L19-20|Whatever the user said is the fixed point (a commit SHA, branch name, tag, `main`, `HEAD~5`, etc.). If they di
+  10 |para|L21-22|Capture the diff command once: `git diff <fixed-point>...HEAD` (three-dot, so the comparison is against the me
+  11 |para|L23-24|Before going further, confirm the fixed point resolves (`git rev-parse <fixed-point>`) and the diff is non-emp
+  12 |heading|L25-26|### 2. Identify the spec source
+  13 |para|L27-28|Look for the originating spec, in this order:
+  14 |list-item|L29-29|1. Issue references in the commit messages (`#123`, `Closes #45`, GitLab `!67`, etc.), fetched via the workflo
+  15 |list-item|L30-30|2. A path the user passed as an argument.
+  16 |list-item|L31-31|3. A spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.
+  17 |list-item|L32-33|4. If nothing is found, ask the user where the spec is. If they say there isn't one, the **Spec** sub-agent wi
+  18 |heading|L34-35|### 3. Identify the standards sources
+  19 |para|L36-37|Search the repo for every file that documents how code should be written. When `CODING_STANDARDS.md` or `CONTR
+  20 |para|L38-39|On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below: a fixed
+  21 |list-item|L40-40|- **The repo overrides.** A documented repo standard always wins; where it endorses something the baseline wou
+  22 |list-item|L41-42|- **Always a judgement call.** Each smell is a labelled heuristic ("possible Feature Envy"), never a hard viol
+  23 |para|L43-44|Each smell reads _what it is_ → _how to fix_; match it against the diff:
+  24 |list-item|L45-45|- **Mysterious Name**: a function, variable, or type whose name doesn't reveal what it does or holds. → rename
+  25 |list-item|L46-46|- **Duplicated Code**: the same logic shape appears in more than one hunk or file in the change. → extract the
+  26 |list-item|L47-47|- **Feature Envy**: a method that reaches into another object's data more than its own. → move the method onto
+  27 |list-item|L48-48|- **Data Clumps**: the same few fields or params keep travelling together (a type wanting to be born). → bundl
+  28 |list-item|L49-49|- **Primitive Obsession**: a primitive or string standing in for a domain concept that deserves its own type. 
+  29 |list-item|L50-50|- **Repeated Switches**: the same `switch`/`if`-cascade on the same type recurs across the change. → replace w
+  30 |list-item|L51-51|- **Shotgun Surgery**: one logical change forces scattered edits across many files in the diff. → gather what 
+  31 |list-item|L52-52|- **Divergent Change**: one file or module is edited for several unrelated reasons. → split so each module cha
+  32 |list-item|L53-53|- **Speculative Generality**: abstraction, parameters, or hooks added for needs the spec doesn't have. → delet
+  33 |list-item|L54-54|- **Message Chains**: long `a.b().c().d()` navigation the caller shouldn't depend on. → hide the walk behind o
+  34 |list-item|L55-55|- **Middle Man**: a class or function that mostly just delegates onward. → cut it, call the real target direct
+  35 |list-item|L56-57|- **Refused Bequest**: a subclass or implementer that ignores or overrides most of what it inherits. → drop th
+  36 |heading|L58-59|### 4. Spawn both sub-agents in parallel
+  37 |para|L60-61|Issue both sub-agent calls together, in the foreground, and aggregate the reports they return.
+  38 |para|L62-63|**Standards sub-agent prompt** should include:
+  39 |list-item|L64-64|- The full diff command and commit list.
+  40 |list-item|L65-65|- The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in fu
+  41 |list-item|L66-67|- The brief: "Report, per file/hunk where relevant, (a) every place the diff violates a documented standard: c
+  42 |para|L68-69|**Spec sub-agent prompt** should include:
+  43 |list-item|L70-70|- The diff command and commit list.
+  44 |list-item|L71-71|- The path or fetched contents of the spec.
+  45 |list-item|L72-73|- The brief: "Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the di
+  46 |para|L74-75|If the spec is missing, skip the Spec sub-agent and note this in the final report.
+  47 |heading|L76-77|### 5. Aggregate
+  48 |para|L78-79|Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** m
+  49 |para|L80-81|End with a one-line summary: total findings per axis, and the worst issue _within each axis_ (if any). Don't p
+  50 |heading|L82-83|## Why two axes
+  51 |para|L84-85|A change can pass one axis and fail the other:
+  52 |list-item|L86-86|- Code that follows every standard but implements the wrong thing → **Standards pass, Spec fail.**
+  53 |list-item|L87-88|- Code that does exactly what the issue asked but breaks the project's conventions → **Spec pass, Standards fa
+  54 |para|L89-89|Reporting them separately stops one axis from masking the other.
+== agents/openai.yaml
+   0 |file|L1-4|interface: display_name: "Code Review" short_description: "Review a diff on standards and spec"
+
+=== scaffold-exercises
+== SKILL.md
+   0 |fm-field|L1-2|--- name: scaffold-exercises
+   1 |fm-field|L3-5|description: Create exercise directory structures with sections, problems, solutions, and explainers that pass
+   2 |heading|L6-7|# Scaffold Exercises
+   3 |para|L8-9|Create exercise directory structures that pass `pnpm ai-hero-cli internal lint`, then commit with `git commit`
+   4 |heading|L10-11|## Directory naming
+   5 |list-item|L12-12|- **Sections**: `XX-section-name/` inside `exercises/` (e.g., `01-retrieval-skill-building`)
+   6 |list-item|L13-13|- **Exercises**: `XX.YY-exercise-name/` inside a section (e.g., `01.03-retrieval-with-bm25`)
+   7 |list-item|L14-14|- Section number = `XX`, exercise number = `XX.YY`
+   8 |list-item|L15-16|- Names are dash-case (lowercase, hyphens)
+   9 |heading|L17-18|## Exercise variants
+  10 |para|L19-20|Each exercise needs at least one of these subfolders:
+  11 |list-item|L21-21|- `problem/` - student workspace with TODOs
+  12 |list-item|L22-22|- `solution/` - reference implementation
+  13 |list-item|L23-24|- `explainer/` - conceptual material, no TODOs
+  14 |para|L25-26|When stubbing, default to `explainer/` unless the plan specifies otherwise.
+  15 |heading|L27-28|## Required files
+  16 |para|L29-30|Each subfolder (`problem/`, `solution/`, `explainer/`) needs a `readme.md` that:
+  17 |list-item|L31-31|- Is **not empty** (must have real content, even a single title line works)
+  18 |list-item|L32-33|- Has no broken links
+  19 |para|L34-35|When stubbing, create a minimal readme with a title and a description:
+  20 |code|L36-41|```md # Exercise Title Description here ```
+  21 |para|L42-43|If the subfolder has code, it also needs a `main.ts` (>1 line). But for stubs, a readme-only exercise is fine.
+  22 |heading|L44-45|## Workflow
+  23 |list-item|L46-46|1. **Parse the plan** - extract section names, exercise names, and variant types
+  24 |list-item|L47-47|2. **Create directories** - `mkdir -p` for each path
+  25 |list-item|L48-48|3. **Create stub readmes** - one `readme.md` per variant folder with a title
+  26 |list-item|L49-49|4. **Run lint** - `pnpm ai-hero-cli internal lint` to validate
+  27 |list-item|L50-51|5. **Fix any errors** - iterate until lint passes
+  28 |heading|L52-53|## Lint rules summary
+  29 |para|L54-55|The linter (`pnpm ai-hero-cli internal lint`) checks:
+  30 |list-item|L56-56|- Each exercise has subfolders (`problem/`, `solution/`, `explainer/`)
+  31 |list-item|L57-57|- At least one of `problem/`, `explainer/`, or `explainer.1/` exists
+  32 |list-item|L58-58|- `readme.md` exists and is non-empty in the primary subfolder
+  33 |list-item|L59-59|- No `.gitkeep` files
+  34 |list-item|L60-60|- No `speaker-notes.md` files
+  35 |list-item|L61-61|- No broken links in readmes
+  36 |list-item|L62-62|- No `pnpm run exercise` commands in readmes
+  37 |list-item|L63-64|- `main.ts` required per subfolder unless it's readme-only
+  38 |heading|L65-66|## Moving/renaming exercises
+  39 |para|L67-68|When renumbering or moving exercises:
+  40 |list-item|L69-69|1. Use `git mv` (not `mv`) to rename directories - preserves git history
+  41 |list-item|L70-70|2. Update the numeric prefix to maintain order
+  42 |list-item|L71-72|3. Re-run lint after moves
+  43 |para|L73-74|Example:
+  44 |code|L75-78|```bash git mv exercises/01-retrieval/01.03-embeddings exercises/01-retrieval/01.04-embeddings ```
+  45 |heading|L79-80|## Example: stubbing from a plan
+  46 |para|L81-82|Given a plan like:
+  47 |code|L83-89|``` Section 05: Memory Skill Building - 05.01 Introduction to Memory - 05.02 Short-term Memory (explainer + pr
+  48 |para|L90-91|Create:
+  49 |code|L92-97|```bash mkdir -p exercises/05-memory-skill-building/05.01-introduction-to-memory/explainer mkdir -p exercises/
+  50 |para|L98-99|Then create readme stubs:
+  51 |code|L100-106|``` exercises/05-memory-skill-building/05.01-introduction-to-memory/explainer/readme.md -> "# Introduction to 
+== agents/openai.yaml
+   0 |file|L1-4|interface: display_name: "Scaffold Exercises" short_description: "Scaffold lint-ready course exercises"
+
+=== chief-of-staff
+== SKILL.md
+   0 |fm-field|L1-2|--- name: chief-of-staff
+   1 |fm-field|L3-3|description: Pursue a long-running goal in a single session by co-ordinating subagents.
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-8|You are a chief of staff, co-ordinating subagents and schedules to pursue a long-running goal. This session wi
+   4 |para|L9-10|You are the Directly Responsible Individual for this goal. You are empowered to think much longer-term than yo
+   5 |list-item|L11-11|- Tactical: how do I complete the immediate task?
+   6 |list-item|L12-13|- Strategic: how do I modify the environment to improve the outcomes of the _next_ task?
+   7 |heading|L14-15|## Schedules
+   8 |para|L16-17|Harness-permitting, you will suggest recurring schedules which can help in achieving the goal.
+   9 |heading|L18-19|## Subagents
+  10 |para|L20-21|All work should be done in subagents. Protect your context window.
+  11 |para|L22-23|Use background agents so you can stay in active dialogue with the user. Start every subagent with a fresh cont
+  12 |para|L24-25|Communication to and from subagents should be sparse. Communicate primarily through **context pointers**: rese
+  13 |heading|L26-27|## Wiki
+  14 |para|L28-29|Keep your memory in a **wiki**: a folder of interlinked markdown pages that outlives this session. Tribal know
+  15 |list-item|L30-30|- `index.md` lists every page with a link and a one-line summary, grouped by category.
+  16 |list-item|L31-31|- Each other page covers one thing: a decision, a recurring problem, a subsystem, a user preference. Link rela
+  17 |list-item|L32-33|- Sources (issues, PRs, transcripts, subagent reports) are never copied in or edited. Pages cite them.
+  18 |para|L34-35|Three operations keep it alive:
+  19 |list-item|L36-36|- **Ingest.** When you learn something durable (a decision, a user correction, a subagent's finding), update e
+  20 |list-item|L37-37|- **Query.** Before a decision, read `index.md` and the pages it points to. If the answer you build is worth k
+  21 |list-item|L38-39|- **Lint.** Periodically look for contradictions, orphan pages, missing links and claims newer sources have ov
+  22 |heading|L40-41|### Write history, not the present
+  23 |para|L42-43|The wiki is a historical record. It never claims to describe how things are now, because it cannot keep up wit
+  24 |list-item|L44-44|- Date every claim: "On 2026-10-13, Matt decided..."
+  25 |list-item|L45-45|- When a claim concerns code, cite the commit it was true at, with its repo: "As of `mattpocock/skills@abc1234
+  26 |list-item|L46-46|- Never write "currently", "now" or "is" about code without a date or commit beside it.
+  27 |list-item|L47-48|- When something changes, add a new dated claim and mark the old one superseded. Don't rewrite the old one.
+  28 |heading|L49-50|## Procedures
+  29 |para|L51-52|Some procedures you run live in other skills, installed beside this one. To run one, read its `SKILL.md` at th
+  30 |list-item|L53-53|- **Retro** (`../retro/SKILL.md`): run a retro on about one in five of your subagents' sessions, including tho
+  31 |list-item|L54-55|- **Large chunks of work**: write a spec with `../to-spec/SKILL.md`, break it into tickets with `../to-tickets
+  32 |heading|L56-57|## Strategic View
+  33 |para|L58-59|As part of any and all work, FIRST consider how the environment the agents operate in might be improved. Agent
+  34 |list-item|L60-60|- API's and functions which are extremely constrained and limited
+  35 |list-item|L61-61|- Lint rules which force correctness
+  36 |list-item|L62-63|- CODING_STANDARDS.md files which let code reviewers enforce best practices
+  37 |para|L64-65|They also need relevant **data sources** to succeed:
+  38 |list-item|L66-66|- Logs from critical running processes, like dev servers (or production logs)
+  39 |list-item|L67-67|- Access to test environment databases
+  40 |list-item|L68-69|- Access to the browser (when necessary) for clicking around and taking screenshots
+  41 |para|L70-71|Finally, create environments (and codebases) that obey the **"no workarounds"** rule:
+  42 |list-item|L72-72|- No one-off workarounds, or hacks that bypass established processes
+  43 |list-item|L73-74|- Any deviations from conventions must be fixed proactively, before feature work is done
+  44 |para|L75-75|Be relentless in improving the environment. Use every user message as an excuse to search for these improvemen
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Chief Of Staff" short_description: "Pursue a long-running goal in a single session b
+
+=== to-spec
+== SKILL.md
+   0 |fm-field|L1-2|--- name: to-spec
+   1 |fm-field|L3-3|description: "Turn the current conversation into a spec and publish it to the project issue tracker: no interv
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-8|This skill takes the current conversation context and codebase understanding and produces a spec. Do NOT inter
+   4 |para|L9-10|The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `
+   5 |heading|L11-12|## Process
+   6 |list-item|L13-14|1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's
+   7 |list-item|L15-16|2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new o
+   8 |para|L17-18|Check with the user that these seams match their expectations.
+   9 |list-item|L19-20|3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for
+  10 |para|L21-22|<spec-template>
+  11 |heading|L23-24|## Problem Statement
+  12 |para|L25-26|The problem that the user is facing, from the user's perspective.
+  13 |heading|L27-28|## Solution
+  14 |para|L29-30|The solution to the problem, from the user's perspective.
+  15 |heading|L31-32|## User Stories
+  16 |para|L33-34|A LONG, numbered list of user stories. Each user story should be in the format of:
+  17 |list-item|L35-36|1. As an <actor>, I want a <feature>, so that <benefit>
+  18 |para|L37-37|<user-story-example>
+  19 |list-item|L38-40|1. As a mobile bank customer, I want to see balance on my accounts, so that I can make better informed decisio
+  20 |para|L41-42|This list of user stories should be extremely extensive and cover all aspects of the feature.
+  21 |heading|L43-44|## Implementation Decisions
+  22 |para|L45-46|A list of implementation decisions that were made. This can include:
+  23 |list-item|L47-47|- The modules that will be built/modified
+  24 |list-item|L48-48|- The interfaces of those modules that will be modified
+  25 |list-item|L49-49|- Technical clarifications from the developer
+  26 |list-item|L50-50|- Architectural decisions
+  27 |list-item|L51-51|- Schema changes
+  28 |list-item|L52-52|- API contracts
+  29 |list-item|L53-54|- Specific interactions
+  30 |para|L55-56|Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+  31 |para|L57-58|Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state mach
+  32 |heading|L59-60|## Testing Decisions
+  33 |para|L61-62|A list of testing decisions that were made. Include:
+  34 |list-item|L63-63|- A description of what makes a good test (only test external behavior, not implementation details)
+  35 |list-item|L64-64|- Which modules will be tested
+  36 |list-item|L65-66|- Prior art for the tests (i.e. similar types of tests in the codebase)
+  37 |heading|L67-68|## Out of Scope
+  38 |para|L69-70|A description of the things that are out of scope for this spec.
+  39 |heading|L71-72|## Further Notes
+  40 |para|L73-74|Any further notes about the feature.
+  41 |para|L75-75|</spec-template>
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "To Spec" short_description: "Turn a conversation into a spec" policy: allow_implicit
+
+=== to-questionnaire
+== SKILL.md
+   0 |fm-field|L1-2|--- name: to-questionnaire
+   1 |fm-field|L3-3|description: Turn a decision you can't fully answer into a questionnaire for someone else to fill in.
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-8|Turn something the user can't answer alone into a **questionnaire**: a Markdown document they hand to one pers
+   4 |para|L9-10|**Grill the send, not the subject.** Interview the user only about the _send_, which they can always answer: w
+   5 |list-item|L11-12|1. **Who is it going to?** Ask, in one exchange, the recipient's role, expertise, and relationship to the user
+   6 |list-item|L13-14|2. **What do you need back?** Ask, in one exchange, the specific decisions or facts the user can't resolve alo
+   7 |list-item|L15-16|3. **Write the questionnaire.** Draft questions aimed at the gap from steps 1–2, following the Document struct
+   8 |heading|L17-18|## Document structure
+   9 |para|L19-20|Frame the document as a **discovery questionnaire**: the user lacks context, the recipient holds it. Order que
+  10 |para|L21-22|<questionnaire-template>
+  11 |heading|L23-24|# <Questionnaire title>
+  12 |para|L25-26|**Purpose:** why this questionnaire exists and the decision riding on it.
+  13 |para|L27-28|**From:** <the user>, **To:** <the recipient>, **How your answers will be used:** <where they go>
+  14 |heading|L29-30|## Context
+  15 |para|L31-32|One paragraph orienting a recipient who wasn't in the user's head. Enough to answer well, not a page.
+  16 |heading|L33-34|## How to answer
+  17 |para|L35-36|Deadline and rough effort. Partial answers and "I don't know" are useful: flag anything you're unsure of rathe
+  18 |heading|L37-38|## <Theme heading>
+  19 |para|L39-40|One `##` section per theme. Under each, its questions, most-important-first. Every question is one idea, never
+  20 |para|L41-41|<question-example>
+  21 |heading|L42-43|### What load is the system expected to handle at launch?
+  22 |para|L44-45|_Why this matters: it decides whether we provision for burst traffic now or defer it._
+  23 |quote|L46-47|>
+  24 |para|L48-49|</question-example>
+  25 |heading|L50-51|## Anything else?
+  26 |para|L52-53|A closing catch-all: anything we didn't ask that we should know?
+  27 |para|L54-54|</questionnaire-template>
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "To Questionnaire" short_description: "Front-load questions into a doc for someone to
+
+=== retro
+== SKILL.md
+   0 |fm-field|L1-2|--- name: retro
+   1 |fm-field|L3-3|description: "Conduct a retrospective on a coding session."
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-8|The user has asked for a **retrospective**. You are suggesting improvements to the coding agent's **environmen
+   4 |heading|L9-10|## Steps
+   5 |list-item|L11-12|1. Call the Skill tool with `writing-for-agents` for the writing style guide.
+   6 |list-item|L13-14|2. Read the primary sources for the session the user specifies. This may mean searching through session logs o
+   7 |list-item|L15-16|3. Look for candidates for improvement in these categories.
+   8 |list-item|L17-17|- **Navigation**: how easy was it for the agent to find the right files? Are there hidden dependencies between
+   9 |list-item|L18-18|- **Automated checks**: are there automated checks that could catch errors the agent made? Linting, typing, te
+  10 |list-item|L19-19|- **Coding standards**: should the **reviewer agent** be given a new rule to enforce? Should an existing rule 
+  11 |list-item|L20-20|- **Global AGENTS.md**: are there any steering instructions that should be moved to coding standards (or autom
+  12 |list-item|L21-21|- **Tool economy**: did the agent make expensive tool calls that could be streamlined? Is there any custom too
+  13 |list-item|L22-22|- **No-ops**: look for instructions in steering files that don't modify the agent's behavior. _Use when_ the s
+  14 |list-item|L23-24|- **Information access**: look for opportunities to increase the agent's access to information. Teeing dev ser
+  15 |list-item|L25-26|4. Present these candidates to the user, in order of severity.
+  16 |heading|L27-28|## Reference
+  17 |heading|L29-30|### Implementation vs Review
+  18 |para|L31-32|Remember that all work goes through two stages: implementation and review. The implementation agent has the mo
+  19 |para|L33-34|The review agent has the least context pressure - it receives a diff, so no exploration needed. It often does 
+  20 |para|L35-36|This means that the review agent should be responsible for imposing coding standards, not the implementation a
+  21 |heading|L37-38|### Files
+  22 |para|L39-40|You have access to several files in the repo:
+  23 |list-item|L41-41|- `CLAUDE.md`/`AGENTS.md`: these files are pushed to the context window of any agent working in this repo. The
+  24 |list-item|L42-42|- `CODING_STANDARDS.md`: this file is read during review, not implementation. Add **navigation pointers** to d
+  25 |list-item|L43-43|- Docs: use docs as references files, pointed to by other files. Look for existing docs before writing new one
+  26 |list-item|L44-44|- Skills: use skills for docs (since their description goes into the agent's context window), or for user-invo
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Retro" short_description: "Conduct a retrospective on a coding session." policy: all
+
+=== implement-spec
+== SKILL.md
+   0 |fm-field|L1-2|--- name: implement-spec
+   1 |fm-field|L3-3|description: "Implement the result of /to-spec and /to-tickets in code."
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-8|You have been provided a spec. This spec should have tickets associated with it, describing how to implement t
+   4 |para|L9-10|DUP mattpocock:code-review/SKILL.md#0006|The issue tracker should have been provided to you. If not, tell the user to run `/setup-matt-pocock-skills`.
+   5 |para|L11-12|The goal is the entire spec implemented on a single **integration branch**, with every ticket resolved the way
+   6 |para|L13-14|The tickets are not a list of steps. They are a **task graph** with blocking relationships between them. This 
+   7 |para|L15-16|Start every subagent with a fresh context window.
+   8 |para|L17-18|Communication to and from subagents should be sparse. Communicate primarily through **context pointers**: to t
+   9 |para|L19-20|**Implementer subagents** should be run in the background where possible for maximum concurrency.
+  10 |heading|L21-22|## Steps
+  11 |list-item|L23-24|1. Read the spec and tickets to understand the task graph.
+  12 |list-item|L25-26|2. (optional) Use an **exploration subagent** to conduct any exploration required by the tickets - relevant co
+  13 |list-item|L27-28|3. Create the integration branch. If the issue tracker closes work through PRs, or the user asks for one, open
+  14 |list-item|L29-29|4. Use a fresh **implementer subagent** for each ticket, each in its own worktree on its own branch. Each impl
+  15 |list-item|L30-30|- confirms its worktree is based on the integration branch before starting, and resets onto it if not;
+  16 |list-item|L31-31|- calls the Skill tool with `tdd` to build the ticket;
+  17 |list-item|L32-33|- merges the integration branch tip into its own branch before reporting done
+  18 |list-item|L34-35|5. Once an **implementer subagent** completes, merge its work to the integration branch with a **merger subage
+  19 |list-item|L36-37|6. If this changes the **frontier** of available tickets, kick off more **implementer subagents** to work on t
+  20 |list-item|L38-39|7. Once all tickets are complete, call the Skill tool with `code-review` on the integration branch. Fix all is
+  21 |list-item|L40-41|8. If a draft PR exists, mark it ready for review. Otherwise, resolve each ticket the way the issue tracker cl
+  22 |list-item|L42-42|9. Clean up all **implementer subagent** worktrees.
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Implement Spec" short_description: "Implement the result of /to-spec and /to-tickets
+
+=== loop-me
+== SKILL.md
+   0 |fm-field|L1-2|--- name: loop-me
+   1 |fm-field|L3-3|description: Grill me about specs for the workflows I want to build, within this workspace.
+   2 |fm-field|L4-4|disable-model-invocation: true
+   3 |fm-field|L5-7|argument-hint: "A workflow to design, or nothing to go find one" ---
+   4 |para|L8-9|Run a stateful `/grilling` session whose only output is **workflow** specs. Use the grilling discipline (relen
+   5 |heading|L10-11|## The loop lens
+   6 |para|L12-13|A **loop** is a recurring pattern in the user's life: their career, their week, their morning, a single repeat
+   7 |para|L14-15|A **workflow** is the spec of one loop, made real. You run a workflow on a loop: the loop is its running insta
+   8 |heading|L16-17|## Vocabulary
+   9 |para|L18-19|A shared language, reached for only when a workflow calls for it: never a checklist. **Mandate nothing structu
+  10 |list-item|L20-20|- **Trigger**: what fires each run, an **event** (a new email, a new issue) or a **schedule** (every morning).
+  11 |list-item|L21-21|- **Checkpoint**: a human-in-the-loop point where the user is asked to verify or decide. Some workflows have n
+  12 |list-item|L22-22|- **Push right**: defer the checkpoint as far as it will go. Do maximal work before involving the human, so th
+  13 |list-item|L23-24|- **Brief**: what a checkpoint presents, a tight, decision-ready summary (what was produced, why, and a link d
+  14 |heading|L25-26|## Definition of done
+  15 |para|L27-28|A workflow spec is done when an implementer agent could build it without asking a single question. Grill until
+  16 |heading|L29-30|## The workspace
+  17 |list-item|L31-31|- `workflows/*.md`: one spec per workflow.
+  18 |list-item|L32-32|- `NOTES.md`: raw notes on the user's world, the tools they use, the channels they process, and their own term
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Loop Me" short_description: "Spec the workflows you want to build" policy: allow_imp
+
+=== claude-handoff
+== SKILL.md
+   0 |fm-field|L1-2|--- name: claude-handoff
+   1 |fm-field|L3-3|description: Hand the current conversation off to a fresh background agent that picks up the work immediately.
+   2 |fm-field|L4-4|argument-hint: "What will the next session be used for?"
+   3 |fm-field|L5-7|disable-model-invocation: true ---
+   4 |para|L8-9|Write a handoff summary of the current conversation so a fresh agent can continue the work. Save it to the tem
+   5 |para|L10-11|Always pass `-n`/`--name` with a descriptive name (e.g. `--name "Fix login bug"`); it sets the display name sh
+   6 |para|L12-13|Include a "suggested skills" section in the summary, naming which skills the next agent should call the Skill 
+   7 |para|L14-15|Do not duplicate content already captured in other artifacts (specs, plans, ADRs, issues, commits, diffs). Ref
+   8 |para|L16-17|Redact any sensitive information, such as API keys, passwords, or personally identifiable information, since t
+   9 |para|L18-18|If the user passed arguments, treat them as a description of what the next session will focus on and tailor th
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Claude Handoff" short_description: "Hand off to a background agent" policy: allow_im
+
+=== grilling
+== SKILL.md
+   0 |fm-field|L1-2|--- name: grilling
+   1 |fm-field|L3-5|description: Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-te
+   2 |para|L6-7|Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every d
+   3 |para|L8-9|Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the q
+   4 |para|L10-11|Format a round like so:
+   5 |code|L12-23|``` ❓ **Q1** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
+   6 |para|L24-25|Word each question so "yes" accepts your recommended answer.
+   7 |para|L26-27|Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questio
+   8 |para|L28-29|Finding _facts_ is your job, never the user's. When a frontier question needs a fact from the environment (fil
+   9 |para|L30-30|The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently
+== agents/openai.yaml
+   0 |file|L1-4|interface: display_name: "Grilling" short_description: "Stress-test thinking a round of questions at a time"
+
+=== handoff
+== SKILL.md
+   0 |fm-field|L1-2|--- name: handoff
+   1 |fm-field|L3-3|description: Compact the current conversation into a handoff document for another agent to pick up.
+   2 |fm-field|L4-4|argument-hint: "What will the next session be used for?"
+   3 |fm-field|L5-7|disable-model-invocation: true ---
+   4 |para|L8-9|Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save to 
+   5 |para|L10-11|Include a "suggested skills" section in the document, naming which skills the next agent should call the Skill
+   6 |para|L12-13|DUP mattpocock:claude-handoff/SKILL.md#0007|Do not duplicate content already captured in other artifacts (specs, plans, ADRs, issues, commits, diffs). Ref
+   7 |para|L14-15|Redact any sensitive information, such as API keys, passwords, or personally identifiable information.
+   8 |para|L16-16|If the user passed arguments, treat them as a description of what the next session will focus on and tailor th
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Handoff" short_description: "Compact a conversation into a handoff" policy: allow_im
+
+=== implement
+== SKILL.md
+   0 |fm-field|L1-2|--- name: implement
+   1 |fm-field|L3-3|description: "Implement a piece of work based on a spec or set of tickets."
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-8|Implement the work described by the user in the spec or tickets.
+   4 |para|L9-10|If the user passes a ticket reference, fetch it from the issue tracker and state its title before starting. If
+   5 |para|L11-12|Call the Skill tool with "tdd" where possible, at pre-agreed seams.
+   6 |para|L13-14|Run typechecking regularly, single test files regularly, and the full test suite once at the end.
+   7 |para|L15-16|Once done, call the Skill tool with "code-review" to review the work.
+   8 |para|L17-17|Commit your work to the current branch.
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Implement" short_description: "Build work from a spec or tickets" policy: allow_impl
+
+=== research
+== SKILL.md
+   0 |fm-field|L1-2|--- name: research
+   1 |fm-field|L3-5|description: Investigate a question against high-trust primary sources and capture the findings as a Markdown 
+   2 |para|L6-7|Spin up a **background agent** to do the research, so you keep working while it reads. Start it with a fresh c
+   3 |para|L8-9|Its job:
+   4 |list-item|L10-10|1. Investigate the question against **primary sources** (official docs, source code, specs, first-party APIs),
+   5 |list-item|L11-11|2. Write the findings to a single Markdown file, citing each claim's source.
+   6 |list-item|L12-12|3. Save it where the repo already keeps such notes; match the existing convention, and if there is none, put i
+== agents/openai.yaml
+   0 |file|L1-4|interface: display_name: "Research" short_description: "Research from high-trust sources"
+
+=== grill-me
+== SKILL.md
+   0 |fm-field|L1-2|--- name: grill-me
+   1 |fm-field|L3-3|description: A relentless interview to sharpen a plan or design.
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-7|Call the Skill tool with "grilling".
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Grill Me" short_description: "Sharpen a plan through interview" policy: allow_implic
+
+=== grill-with-docs
+== SKILL.md
+   0 |fm-field|L1-2|--- name: grill-with-docs
+   1 |fm-field|L3-3|description: A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) 
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-7|Call the Skill tool twice, for "grilling" and "domain-modeling".
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Grill with Docs" short_description: "Grill a design and write its docs" policy: allo
+
+=== wait-what
+== SKILL.md
+   0 |fm-field|L1-2|--- name: wait-what
+   1 |fm-field|L3-3|description: "Stop. That last message did not land: re-pitch it."
+   2 |fm-field|L4-6|disable-model-invocation: true ---
+   3 |para|L7-7|Wait, I don't understand where you've got to here. Re-pitch that: give me a little bit of context, talk in ASD
+== agents/openai.yaml
+   0 |file|L1-6|interface: display_name: "Wait What" short_description: "Re-pitch that: simpler, with the context I'm missing"

@@ -1,0 +1,848 @@
+{"id":"omo:debugging/SKILL.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/SKILL.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging loop overview"}}
+{"id":"omo:debugging/SKILL.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/SKILL.md#0003","omo:debugging/SKILL.md#0006"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging principles: runtime truth and leaving no trace"}}
+{"id":"omo:debugging/SKILL.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/SKILL.md#0008","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging principles: runtime truth and leaving no trace"}}
+{"id":"omo:debugging/SKILL.md#0009","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/SKILL.md#0010","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference gate before attaching"}}
+{"id":"omo:debugging/SKILL.md#0011","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/SKILL.md#0012","omo:debugging/SKILL.md#0019"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference gate before attaching"}}
+{"id":"omo:debugging/SKILL.md#0020","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/SKILL.md#0021","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tools: use when the scenario fits"}}
+{"id":"omo:debugging/SKILL.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/SKILL.md#0023","omo:debugging/SKILL.md#0029"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tools: use when the scenario fits"}}
+{"id":"omo:debugging/SKILL.md#0030","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/SKILL.md#0031","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging phase loop with one reference per phase"}}
+{"id":"omo:debugging/SKILL.md#0032","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/SKILL.md#0033","omo:debugging/SKILL.md#0044"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging phase loop with one reference per phase"}}
+{"id":"omo:debugging/SKILL.md#0045","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/SKILL.md#0046","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cross-cutting references: flaky, partial evidence, audits"}}
+{"id":"omo:debugging/SKILL.md#0047","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/SKILL.md#0048","omo:debugging/SKILL.md#0049"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cross-cutting references: flaky, partial evidence, audits"}}
+{"range":["omo:debugging/SKILL.md#0050","omo:debugging/SKILL.md#0052"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/SKILL.md#0053","omo:debugging/SKILL.md#0060"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging safety invariants"}}
+{"id":"omo:debugging/SKILL.md#0061","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/SKILL.md#0062","omo:debugging/SKILL.md#0068"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging entry procedure"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 0-1: why map the environment and keep a journal"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0003","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 0: environment assessment"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/00-setup.md#0005","omo:debugging/references/methodology/00-setup.md#0010"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 0: environment assessment"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0011","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0012","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 0: environment assessment"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0014","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 0: environment assessment"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0015","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/00-setup.md#0016","omo:debugging/references/methodology/00-setup.md#0021"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 0: environment assessment"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/00-setup.md#0023","omo:debugging/references/methodology/00-setup.md#0027"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Bounded inspection output budget"}}
+{"range":["omo:debugging/references/methodology/00-setup.md#0028","omo:debugging/references/methodology/00-setup.md#0030"],"d":"dropped","why":"example-only","note":"before/after command examples of bounding output"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0031","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Bounded inspection output budget"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0033","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 0: environment assessment gate"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0035","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 1: single debug journal"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0036","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0037","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0038","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 1: single debug journal"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/00-setup.md#0040","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 1: single debug journal"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0041","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/00-setup.md#0042","omo:debugging/references/methodology/00-setup.md#0043"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Journal-then-modify rule"}}
+{"id":"omo:debugging/references/methodology/00-setup.md#0044","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/00-setup.md#0045","omo:debugging/references/methodology/00-setup.md#0047"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Why one journal, not scattered comments"}}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0001","d":"dropped","why":"runtime","note":"Senpi/OpenCode harness tool mapping table (task, task_output, team_*, monitor)"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0003","omo:debugging/references/methodology/02-investigate.md#0012"],"d":"dropped","why":"runtime","note":"Senpi/OpenCode harness tool mapping table (task, task_output, team_*, monitor)"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0014","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Hypothesis formation: minimum three"}}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0015","omo:debugging/references/methodology/02-investigate.md#0016"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0017","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Hypothesis formation: minimum three"}}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0019","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Hypothesis formation: orthogonal axes"}}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0020","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0021","omo:debugging/references/methodology/02-investigate.md#0028"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Hypothesis formation: orthogonal axes"}}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0030","omo:debugging/references/methodology/02-investigate.md#0032"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Hypothesis record: claim, distinguishing evidence, fix"}}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0034","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Hypothesis collapse rule"}}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0035","omo:debugging/references/methodology/02-investigate.md#0036"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0037","omo:debugging/references/methodology/02-investigate.md#0044"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"State freshness invariant for debug sessions"}}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0045","omo:debugging/references/methodology/02-investigate.md#0046"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0047","omo:debugging/references/methodology/02-investigate.md#0051"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugger failure-to-recovery taxonomy"}}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0052","omo:debugging/references/methodology/02-investigate.md#0053"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0054","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Parallel investigation: one hypothesis per agent"}}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0055","omo:debugging/references/methodology/02-investigate.md#0056"],"d":"dropped","why":"runtime","note":"debug-squad team spec under .omo/teams and team_task_create plumbing"}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0057","omo:debugging/references/methodology/02-investigate.md#0063"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Parallel investigation: one hypothesis per agent"}}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0064","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0065","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Parallel investigation: one hypothesis per agent"}}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0066","d":"dropped","why":"example-only","note":"task() spawn sample for explore subagents"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0067","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Parallel investigation: one hypothesis per agent"}}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0068","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/02-investigate.md#0069","omo:debugging/references/methodology/02-investigate.md#0074"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Evidence capture: verbatim values only"}}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0075","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/02-investigate.md#0076","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Round completion"}}
+{"id":"omo:debugging/references/methodology/03-flaky-triage.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/03-flaky-triage.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Flaky failure triage"}}
+{"id":"omo:debugging/references/methodology/03-flaky-triage.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/03-flaky-triage.md#0003","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Flaky triage: capture the failure signature"}}
+{"id":"omo:debugging/references/methodology/03-flaky-triage.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/03-flaky-triage.md#0005","omo:debugging/references/methodology/03-flaky-triage.md#0008"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Flaky triage: capture the failure signature"}}
+{"range":["omo:debugging/references/methodology/03-flaky-triage.md#0009","omo:debugging/references/methodology/03-flaky-triage.md#0010"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/03-flaky-triage.md#0011","omo:debugging/references/methodology/03-flaky-triage.md#0015"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Flaky triage: read the signature"}}
+{"id":"omo:debugging/references/methodology/03-flaky-triage.md#0016","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/03-flaky-triage.md#0017","omo:debugging/references/methodology/03-flaky-triage.md#0023"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Flaky triage: concurrent-run contention checklist"}}
+{"id":"omo:debugging/references/methodology/03-flaky-triage.md#0024","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/03-flaky-triage.md#0025","omo:debugging/references/methodology/03-flaky-triage.md#0029"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Flaky triage: fix policy"}}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0001","d":"dropped","why":"runtime","note":"Senpi/OpenCode harness tool mapping table (task, task_output, team_*, monitor)"}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/04-oracle-triple.md#0003","omo:debugging/references/methodology/04-oracle-triple.md#0012"],"d":"dropped","why":"runtime","note":"Senpi/OpenCode harness tool mapping table (task, task_output, team_*, monitor)"}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0013","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/04-oracle-triple.md#0014","omo:debugging/references/methodology/04-oracle-triple.md#0016"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: when to invoke"}}
+{"range":["omo:debugging/references/methodology/04-oracle-triple.md#0017","omo:debugging/references/methodology/04-oracle-triple.md#0018"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/04-oracle-triple.md#0019","omo:debugging/references/methodology/04-oracle-triple.md#0022"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: when to invoke"}}
+{"range":["omo:debugging/references/methodology/04-oracle-triple.md#0023","omo:debugging/references/methodology/04-oracle-triple.md#0024"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/04-oracle-triple.md#0025","omo:debugging/references/methodology/04-oracle-triple.md#0030"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: orthogonal framings"}}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0031","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0032","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: orthogonal framings"}}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0033","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/04-oracle-triple.md#0034","omo:debugging/references/methodology/04-oracle-triple.md#0035"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: synthesis across three"}}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0036","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0037","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: synthesis across three"}}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0038","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0039","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: synthesis across three"}}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0040","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0041","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: synthesis across three"}}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0042","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/04-oracle-triple.md#0043","omo:debugging/references/methodology/04-oracle-triple.md#0045"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: synthesis across three"}}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0046","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0047","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: synthesis across three"}}
+{"id":"omo:debugging/references/methodology/04-oracle-triple.md#0048","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/04-oracle-triple.md#0049","omo:debugging/references/methodology/04-oracle-triple.md#0051"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Oracle triple: escalate after two more failed rounds"}}
+{"id":"omo:debugging/references/methodology/05-escalate.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/05-escalate.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"User escalation: when to ask [conflict: non-stop runs park questions to the end]"}}
+{"id":"omo:debugging/references/methodology/05-escalate.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/05-escalate.md#0003","omo:debugging/references/methodology/05-escalate.md#0006"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"User escalation: when to ask [conflict: non-stop runs park questions to the end]"}}
+{"id":"omo:debugging/references/methodology/05-escalate.md#0007","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/05-escalate.md#0008","omo:debugging/references/methodology/05-escalate.md#0011"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"User escalation: when to ask [conflict: non-stop runs park questions to the end]"}}
+{"id":"omo:debugging/references/methodology/05-escalate.md#0012","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/05-escalate.md#0013","omo:debugging/references/methodology/05-escalate.md#0014"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"User escalation: format and follow-up [conflict: non-stop runs park questions to the end]"}}
+{"id":"omo:debugging/references/methodology/05-escalate.md#0015","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/05-escalate.md#0016","omo:debugging/references/methodology/05-escalate.md#0020"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"User escalation: format and follow-up [conflict: non-stop runs park questions to the end]"}}
+{"id":"omo:debugging/references/methodology/05-escalate.md#0021","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/05-escalate.md#0022","omo:debugging/references/methodology/05-escalate.md#0025"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"User escalation: format and follow-up [conflict: non-stop runs park questions to the end]"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/06-fix.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Root cause confirmation: toggle proof"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/06-fix.md#0003","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Root cause confirmation: toggle proof"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/06-fix.md#0005","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Root cause confirmation: toggle proof"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0006","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/06-fix.md#0007","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Root cause confirmation: toggle proof"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0008","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0009","omo:debugging/references/methodology/06-fix.md#0011"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Root cause confirmation: toggle proof"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0012","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0013","omo:debugging/references/methodology/06-fix.md#0017"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Root cause confirmation: toggle proof"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0019","omo:debugging/references/methodology/06-fix.md#0020"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Root cause confirmation: toggle proof"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/06-fix.md#0022","d":"absorbed","to":{"skill":"planning-rigorously","section":"Test-first: red, green, refactor, regression"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0024","omo:debugging/references/methodology/06-fix.md#0027"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Fix locked by a failing proof: owner test first"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0028","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0029","omo:debugging/references/methodology/06-fix.md#0036"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Fix locked by a failing proof: red reproduction test"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0037","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0038","omo:debugging/references/methodology/06-fix.md#0045"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Test-first: red, green, refactor, regression"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0046","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0047","omo:debugging/references/methodology/06-fix.md#0049"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Test-first: red, green, refactor, regression"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0050","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0051","omo:debugging/references/methodology/06-fix.md#0052"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Test-first: red, green, refactor, regression"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0053","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0054","omo:debugging/references/methodology/06-fix.md#0055"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Fix locked by a failing proof: close the observability gap"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0056","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/06-fix.md#0057","d":"absorbed","to":{"skill":"planning-rigorously","section":"Test-first: red, green, refactor, regression"}}
+{"id":"omo:debugging/references/methodology/06-fix.md#0058","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/06-fix.md#0059","omo:debugging/references/methodology/06-fix.md#0060"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Fix locked by a failing proof: red-green discipline"}}
+{"id":"omo:debugging/references/methodology/08-qa.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/08-qa.md#0001","omo:debugging/references/methodology/08-qa.md#0002"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Manual QA: exercise the real surface"}}
+{"id":"omo:debugging/references/methodology/08-qa.md#0003","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/08-qa.md#0004","d":"absorbed","to":{"skill":"review-rigorously","section":"Manual QA: exercise the real surface"}}
+{"id":"omo:debugging/references/methodology/08-qa.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/08-qa.md#0006","omo:debugging/references/methodology/08-qa.md#0013"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Manual QA: exercise the real surface"}}
+{"range":["omo:debugging/references/methodology/08-qa.md#0014","omo:debugging/references/methodology/08-qa.md#0015"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/08-qa.md#0016","omo:debugging/references/methodology/08-qa.md#0020"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Manual QA: journal format and partial results"}}
+{"id":"omo:debugging/references/methodology/08-qa.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/08-qa.md#0022","d":"absorbed","to":{"skill":"review-rigorously","section":"Silent-failure check on every fix"}}
+{"id":"omo:debugging/references/methodology/08-qa.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/08-qa.md#0024","omo:debugging/references/methodology/08-qa.md#0034"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Silent-failure check on every fix"}}
+{"id":"omo:debugging/references/methodology/08-qa.md#0035","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/08-qa.md#0036","omo:debugging/references/methodology/08-qa.md#0042"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Silent-failure check on every fix"}}
+{"id":"omo:debugging/references/methodology/08-qa.md#0043","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/08-qa.md#0044","omo:debugging/references/methodology/08-qa.md#0050"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Adjacent silent failures: journal as follow-ups, do not fix"}}
+{"id":"omo:debugging/references/methodology/08-qa.md#0051","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/08-qa.md#0052","omo:debugging/references/methodology/08-qa.md#0053"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Fix verified bar: re-run the original scenario"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: leave no trace"}}
+{"range":["omo:debugging/references/methodology/09-cleanup.md#0002","omo:debugging/references/methodology/09-cleanup.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0004","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: walk the journal and revert"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0005","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0006","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: walk the journal and revert"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0007","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0008","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0009","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: diff holds only fix and test"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0010","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/methodology/09-cleanup.md#0011","omo:debugging/references/methodology/09-cleanup.md#0014"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: diff holds only fix and test"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0016","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: detector patterns for leftover debug code"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/09-cleanup.md#0018","omo:debugging/references/methodology/09-cleanup.md#0027"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: detector patterns for leftover debug code"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0029","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: remove the journal last"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0030","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0031","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: remove the journal last"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0033","d":"absorbed","to":{"skill":"review-rigorously","section":"Final verification: four evidence gates"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/09-cleanup.md#0035","omo:debugging/references/methodology/09-cleanup.md#0039"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Final verification: four evidence gates"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/09-cleanup.md#0041","omo:debugging/references/methodology/09-cleanup.md#0044"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debug final report template"}}
+{"id":"omo:debugging/references/methodology/09-cleanup.md#0045","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/09-cleanup.md#0046","omo:debugging/references/methodology/09-cleanup.md#0048"],"d":"dropped","why":"example-only","note":"real-session sample final message"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0001","d":"dropped","why":"runtime","note":"Senpi/OpenCode harness tool mapping table (task, task_output, team_*, monitor)"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0003","omo:debugging/references/methodology/partial-runtime-evidence.md#0012"],"d":"dropped","why":"runtime","note":"Senpi/OpenCode harness tool mapping table (task, task_output, team_*, monitor)"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0013","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0014","omo:debugging/references/methodology/partial-runtime-evidence.md#0016"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: when it applies"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0018","omo:debugging/references/methodology/partial-runtime-evidence.md#0027"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: when it applies"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0029","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0030","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0031","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0032","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0033","omo:debugging/references/methodology/partial-runtime-evidence.md#0037"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0038","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0039","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0040","omo:debugging/references/methodology/partial-runtime-evidence.md#0041"],"d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0042","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0043","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0044","omo:debugging/references/methodology/partial-runtime-evidence.md#0049"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0050","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0051","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0052","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0053","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0054","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0055","omo:debugging/references/methodology/partial-runtime-evidence.md#0056"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0057","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0058","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: tiers"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0059","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0060","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: combining signals"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0061","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0062","omo:debugging/references/methodology/partial-runtime-evidence.md#0071"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial runtime evidence: combining signals"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0072","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0073","omo:debugging/references/methodology/partial-runtime-evidence.md#0074"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Verification oracle for artifact deliverables"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0075","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0076","omo:debugging/references/methodology/partial-runtime-evidence.md#0078"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Verification oracle for artifact deliverables"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0079","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0080","d":"absorbed","to":{"skill":"review-rigorously","section":"Verification oracle for artifact deliverables"}}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0081","omo:debugging/references/methodology/partial-runtime-evidence.md#0082"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0083","omo:debugging/references/methodology/partial-runtime-evidence.md#0087"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Verification oracle vs oracle triple"}}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0088","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0089","d":"absorbed","to":{"skill":"review-rigorously","section":"Verification oracle vs oracle triple"}}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0090","omo:debugging/references/methodology/partial-runtime-evidence.md#0091"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0092","omo:debugging/references/methodology/partial-runtime-evidence.md#0095"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Partial-evidence anti-patterns"}}
+{"range":["omo:debugging/references/methodology/partial-runtime-evidence.md#0096","omo:debugging/references/methodology/partial-runtime-evidence.md#0097"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/methodology/partial-runtime-evidence.md#0098","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0001","omo:debugging/references/runtimes/bundled-js-binary.md#0003"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0005","omo:debugging/references/runtimes/bundled-js-binary.md#0011"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0012","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0013","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0014","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0016","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0018","omo:debugging/references/runtimes/bundled-js-binary.md#0027"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0028","omo:debugging/references/runtimes/bundled-js-binary.md#0029"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0030","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0031","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0032","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0033","omo:debugging/references/runtimes/bundled-js-binary.md#0035"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0036","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0037","omo:debugging/references/runtimes/bundled-js-binary.md#0038"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0040","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0041","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0043","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0044","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0045","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0046","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0047","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0048","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0049","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0050","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0051","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0052","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0053","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0054","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0055","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0056","omo:debugging/references/runtimes/bundled-js-binary.md#0057"],"d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0058","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0059","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0060","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0061","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0062","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0063","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0064","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0065","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0066","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0067","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0068","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0069","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0070","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0071","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0072","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0073","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0074","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0075","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0076","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0077","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0078","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0079","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0080","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0081","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0082","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0083","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0084","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0085","omo:debugging/references/runtimes/bundled-js-binary.md#0086"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0087","omo:debugging/references/runtimes/bundled-js-binary.md#0088"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0089","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0090","omo:debugging/references/runtimes/bundled-js-binary.md#0094"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0095","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0096","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0097","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0098","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0099","omo:debugging/references/runtimes/bundled-js-binary.md#0100"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0101","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0102","omo:debugging/references/runtimes/bundled-js-binary.md#0103"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0104","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0105","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0106","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0107","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0108","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0109","omo:debugging/references/runtimes/bundled-js-binary.md#0110"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0111","omo:debugging/references/runtimes/bundled-js-binary.md#0114"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"range":["omo:debugging/references/runtimes/bundled-js-binary.md#0115","omo:debugging/references/runtimes/bundled-js-binary.md#0116"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0117","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0118","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/bundled-js-binary.md#0119","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: bundled JS binary"}}
+{"id":"omo:debugging/references/runtimes/go.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0003","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0005","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0006","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0007","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0008","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0009","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0010","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0011","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0012","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0013","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0014","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0016","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0017","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0019","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0020","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0021","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/go.md#0023","omo:debugging/references/runtimes/go.md#0027"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0029","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0030","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0031","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0032","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0034","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/go.md#0035","omo:debugging/references/runtimes/go.md#0036"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0037","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0038","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"range":["omo:debugging/references/runtimes/go.md#0039","omo:debugging/references/runtimes/go.md#0040"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0041","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0043","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0044","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0045","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0046","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0047","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0048","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"id":"omo:debugging/references/runtimes/go.md#0049","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0050","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/go.md#0051","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Go"}}
+{"range":["omo:debugging/references/runtimes/go.md#0052","omo:debugging/references/runtimes/go.md#0053"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/go.md#0054","omo:debugging/references/runtimes/go.md#0061"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"range":["omo:debugging/references/runtimes/go.md#0062","omo:debugging/references/runtimes/go.md#0063"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/go.md#0064","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0001","omo:debugging/references/runtimes/native-binary.md#0006"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0007","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0008","omo:debugging/references/runtimes/native-binary.md#0009"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0010","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0011","omo:debugging/references/runtimes/native-binary.md#0012"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0014","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0015","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0016","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0017","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0018","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0019","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0020","omo:debugging/references/runtimes/native-binary.md#0025"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0026","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0027","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0029","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0030","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0031","omo:debugging/references/runtimes/native-binary.md#0032"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0033","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0035","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0036","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0037","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0038","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0039","omo:debugging/references/runtimes/native-binary.md#0043"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0044","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0045","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0046","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0047","omo:debugging/references/runtimes/native-binary.md#0048"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0049","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0050","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0051","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0052","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0053","omo:debugging/references/runtimes/native-binary.md#0054"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0055","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0056","omo:debugging/references/runtimes/native-binary.md#0060"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0061","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0062","omo:debugging/references/runtimes/native-binary.md#0063"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0064","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0065","omo:debugging/references/runtimes/native-binary.md#0066"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0067","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0068","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0069","omo:debugging/references/runtimes/native-binary.md#0070"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0071","omo:debugging/references/runtimes/native-binary.md#0075"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0076","omo:debugging/references/runtimes/native-binary.md#0077"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0078","omo:debugging/references/runtimes/native-binary.md#0080"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0081","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0082","omo:debugging/references/runtimes/native-binary.md#0084"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0085","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0086","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0087","omo:debugging/references/runtimes/native-binary.md#0088"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0089","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0090","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0091","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0092","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0093","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0094","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0095","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0096","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0097","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0098","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0099","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0100","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0101","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0102","omo:debugging/references/runtimes/native-binary.md#0107"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: native binary"}}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0108","omo:debugging/references/runtimes/native-binary.md#0109"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0110","omo:debugging/references/runtimes/native-binary.md#0114"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"range":["omo:debugging/references/runtimes/native-binary.md#0115","omo:debugging/references/runtimes/native-binary.md#0116"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/native-binary.md#0117","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0003","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/node.md#0005","omo:debugging/references/runtimes/node.md#0006"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"range":["omo:debugging/references/runtimes/node.md#0007","omo:debugging/references/runtimes/node.md#0008"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/node.md#0009","omo:debugging/references/runtimes/node.md#0012"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"range":["omo:debugging/references/runtimes/node.md#0013","omo:debugging/references/runtimes/node.md#0014"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0015","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0017","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0019","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0020","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0021","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0022","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0024","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"range":["omo:debugging/references/runtimes/node.md#0025","omo:debugging/references/runtimes/node.md#0026"],"d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0027","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0029","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0030","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0031","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0032","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0033","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0035","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0036","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0037","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0038","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0040","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0041","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0043","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"id":"omo:debugging/references/runtimes/node.md#0044","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/node.md#0045","omo:debugging/references/runtimes/node.md#0054"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"id":"omo:debugging/references/runtimes/node.md#0055","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0056","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0057","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0058","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/node.md#0059","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/node.md#0060","omo:debugging/references/runtimes/node.md#0064"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Node.js"}}
+{"id":"omo:debugging/references/runtimes/node.md#0065","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/node.md#0066","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0003","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/runtimes/python.md#0004","omo:debugging/references/runtimes/python.md#0009"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"range":["omo:debugging/references/runtimes/python.md#0010","omo:debugging/references/runtimes/python.md#0011"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/python.md#0012","omo:debugging/references/runtimes/python.md#0016"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0017","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0018","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0019","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/python.md#0020","omo:debugging/references/runtimes/python.md#0021"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0022","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0023","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0024","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0025","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0026","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0027","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0028","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0030","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0031","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0033","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0035","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0036","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0037","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0038","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0040","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0041","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0042","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0043","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0044","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0045","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0046","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0047","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"id":"omo:debugging/references/runtimes/python.md#0048","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0049","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0050","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0051","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0052","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0053","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0054","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0055","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0056","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0057","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0058","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/python.md#0059","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Python"}}
+{"id":"omo:debugging/references/runtimes/python.md#0060","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0061","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"id":"omo:debugging/references/runtimes/python.md#0062","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/python.md#0063","omo:debugging/references/runtimes/python.md#0069"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"range":["omo:debugging/references/runtimes/python.md#0070","omo:debugging/references/runtimes/python.md#0071"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/python.md#0072","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0003","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0004","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/rust.md#0006","omo:debugging/references/runtimes/rust.md#0013"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0014","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0015","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0016","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0017","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0018","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0019","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0020","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0022","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0023","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0024","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0025","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0026","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0028","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0029","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"range":["omo:debugging/references/runtimes/rust.md#0030","omo:debugging/references/runtimes/rust.md#0031"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0032","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0034","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0035","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0036","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0037","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0038","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0040","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0041","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0042","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0043","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0044","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0045","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0046","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0047","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0048","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0049","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0050","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0051","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0052","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0053","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0054","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0055","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0056","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"id":"omo:debugging/references/runtimes/rust.md#0057","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/runtimes/rust.md#0058","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Runtime reference: Rust"}}
+{"range":["omo:debugging/references/runtimes/rust.md#0059","omo:debugging/references/runtimes/rust.md#0060"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/runtimes/rust.md#0061","omo:debugging/references/runtimes/rust.md#0067"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Silent-failure patterns by runtime"}}
+{"range":["omo:debugging/references/runtimes/rust.md#0068","omo:debugging/references/runtimes/rust.md#0069"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/runtimes/rust.md#0070","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/scripts/dap.mjs#0000","d":"dropped","why":"runtime","note":"debugging helper script (DAP REPL client / fixture adapter) shipped with the skill; DAP rules absorbed from tools/dap.md"}
+{"id":"omo:debugging/references/scripts/fixture-adapter.mjs#0000","d":"dropped","why":"runtime","note":"debugging helper script (DAP REPL client / fixture adapter) shipped with the skill; DAP rules absorbed from tools/dap.md"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0001","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: browser reproduction"}}
+{"id":"omo:debugging/references/tools/browser-qa.md#0002","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0003","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/browser-qa.md#0004","omo:debugging/references/tools/browser-qa.md#0006"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: browser reproduction"}}
+{"range":["omo:debugging/references/tools/browser-qa.md#0007","omo:debugging/references/tools/browser-qa.md#0008"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0009","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0010","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: browser reproduction"}}
+{"id":"omo:debugging/references/tools/browser-qa.md#0011","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0012","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0013","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: browser reproduction"}}
+{"id":"omo:debugging/references/tools/browser-qa.md#0014","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0015","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: browser reproduction"}}
+{"id":"omo:debugging/references/tools/browser-qa.md#0016","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0017","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: browser reproduction"}}
+{"id":"omo:debugging/references/tools/browser-qa.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0019","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: browser reproduction"}}
+{"id":"omo:debugging/references/tools/browser-qa.md#0020","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0021","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: browser reproduction"}}
+{"id":"omo:debugging/references/tools/browser-qa.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/browser-qa.md#0023","omo:debugging/references/tools/browser-qa.md#0027"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: browser reproduction"}}
+{"id":"omo:debugging/references/tools/browser-qa.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/browser-qa.md#0029","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: remove runtime and tool debug artifacts"}}
+{"id":"omo:debugging/references/tools/dap.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/dap.md#0001","omo:debugging/references/tools/dap.md#0003"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"range":["omo:debugging/references/tools/dap.md#0004","omo:debugging/references/tools/dap.md#0005"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/dap.md#0006","omo:debugging/references/tools/dap.md#0008"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"range":["omo:debugging/references/tools/dap.md#0009","omo:debugging/references/tools/dap.md#0010"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/dap.md#0011","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"id":"omo:debugging/references/tools/dap.md#0012","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/dap.md#0013","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"range":["omo:debugging/references/tools/dap.md#0014","omo:debugging/references/tools/dap.md#0015"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/dap.md#0016","omo:debugging/references/tools/dap.md#0025"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"id":"omo:debugging/references/tools/dap.md#0026","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/dap.md#0027","omo:debugging/references/tools/dap.md#0032"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"id":"omo:debugging/references/tools/dap.md#0033","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/dap.md#0034","omo:debugging/references/tools/dap.md#0035"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"id":"omo:debugging/references/tools/dap.md#0036","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/dap.md#0037","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"id":"omo:debugging/references/tools/dap.md#0038","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/dap.md#0039","omo:debugging/references/tools/dap.md#0052"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"id":"omo:debugging/references/tools/dap.md#0053","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/dap.md#0054","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/dap.md#0055","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: DAP client"}}
+{"id":"omo:debugging/references/tools/frida.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/frida.md#0001","omo:debugging/references/tools/frida.md#0003"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0005","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0006","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0008","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0009","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0010","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0011","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0012","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0013","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0014","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0016","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0017","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0018","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0020","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0022","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0024","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0025","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0026","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0027","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0028","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0029","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0030","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0031","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0032","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0033","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/frida.md#0035","omo:debugging/references/tools/frida.md#0036"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0037","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/tools/frida.md#0038","omo:debugging/references/tools/frida.md#0039"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Frida"}}
+{"id":"omo:debugging/references/tools/frida.md#0040","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/frida.md#0041","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/frida.md#0042","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup: remove runtime and tool debug artifacts"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/ghidra.md#0001","omo:debugging/references/tools/ghidra.md#0003"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0005","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/ghidra.md#0006","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0007","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/ghidra.md#0008","omo:debugging/references/tools/ghidra.md#0015"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0017","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/ghidra.md#0019","omo:debugging/references/tools/ghidra.md#0022"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0024","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/ghidra.md#0025","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0026","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0027","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/ghidra.md#0028","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0030","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0031","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0032","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0034","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0035","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/ghidra.md#0036","omo:debugging/references/tools/ghidra.md#0037"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0038","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/ghidra.md#0039","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/ghidra.md#0041","omo:debugging/references/tools/ghidra.md#0042"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"range":["omo:debugging/references/tools/ghidra.md#0043","omo:debugging/references/tools/ghidra.md#0044"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0045","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/ghidra.md#0046","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0047","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0048","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/ghidra.md#0049","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0050","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/ghidra.md#0051","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0052","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/ghidra.md#0053","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0054","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0055","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0056","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/tools/ghidra.md#0057","omo:debugging/references/tools/ghidra.md#0061"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0062","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/ghidra.md#0063","omo:debugging/references/tools/ghidra.md#0066"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0067","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/ghidra.md#0068","omo:debugging/references/tools/ghidra.md#0072"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0073","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/ghidra.md#0074","omo:debugging/references/tools/ghidra.md#0078"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: Ghidra"}}
+{"id":"omo:debugging/references/tools/ghidra.md#0079","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/ghidra.md#0080","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/pwndbg.md#0001","omo:debugging/references/tools/pwndbg.md#0003"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0005","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0006","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0007","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/pwndbg.md#0008","omo:debugging/references/tools/pwndbg.md#0009"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0010","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0011","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0012","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0013","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0014","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"range":["omo:debugging/references/tools/pwndbg.md#0015","omo:debugging/references/tools/pwndbg.md#0016"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0017","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0018","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0019","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0020","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0022","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0023","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0025","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0026","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0027","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0029","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0030","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0031","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0032","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0033","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0034","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0035","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/tools/pwndbg.md#0036","omo:debugging/references/tools/pwndbg.md#0037"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0038","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0040","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0041","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0042","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0043","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0044","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0045","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/pwndbg.md#0046","omo:debugging/references/tools/pwndbg.md#0049"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwndbg"}}
+{"id":"omo:debugging/references/tools/pwndbg.md#0050","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwndbg.md#0051","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/pwntools.md#0001","omo:debugging/references/tools/pwntools.md#0008"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0009","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0010","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0011","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"range":["omo:debugging/references/tools/pwntools.md#0012","omo:debugging/references/tools/pwntools.md#0013"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0014","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0016","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0017","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0018","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0020","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0021","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0022","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0023","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0024","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0025","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0026","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0027","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0028","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0029","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0030","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0031","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0032","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0033","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0034","d":"dropped","why":"example-only","note":"command or code sample"}
+{"range":["omo:debugging/references/tools/pwntools.md#0035","omo:debugging/references/tools/pwntools.md#0036"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0037","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0038","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0039","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0040","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0041","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0043","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0044","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0045","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0046","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0047","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0048","d":"dropped","why":"example-only","note":"command or code sample"}
+{"id":"omo:debugging/references/tools/pwntools.md#0049","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0050","d":"dropped","why":"boilerplate"}
+{"range":["omo:debugging/references/tools/pwntools.md#0051","omo:debugging/references/tools/pwntools.md#0055"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Specialist tool: pwntools"}}
+{"id":"omo:debugging/references/tools/pwntools.md#0056","d":"dropped","why":"boilerplate"}
+{"id":"omo:debugging/references/tools/pwntools.md#0057","d":"dropped","why":"example-only","note":"command or code sample"}

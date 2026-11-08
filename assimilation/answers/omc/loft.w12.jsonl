@@ -1,0 +1,25 @@
+{"range":["omc:loft/SKILL.md#0000","omc:loft/SKILL.md#0002"],"d":"dropped","why":"runtime","note":"omc frontmatter: name, description, level"}
+{"id":"omc:loft/SKILL.md#0003","d":"dropped","why":"boilerplate"}
+{"range":["omc:loft/SKILL.md#0004","omc:loft/SKILL.md#0005"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Loft purpose: settle design questions with a throwaway artifact"}}
+{"id":"omc:loft/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["omc:loft/SKILL.md#0007","omc:loft/SKILL.md#0009"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Loft triggers: stalled design question, loft ticket, deferral"}}
+{"id":"omc:loft/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omc:loft/SKILL.md#0011","omc:loft/SKILL.md#0014"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Loft exclusions: repo-answerable, fog, settled, bugs"}}
+{"id":"omc:loft/SKILL.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omc:loft/SKILL.md#0016","d":"absorbed","to":{"skill":"planning-rigorously","section":"Fork choice: pick by what the question asks"}}
+{"id":"omc:loft/SKILL.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["omc:loft/SKILL.md#0018","omc:loft/SKILL.md#0021"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Logic fork: isolate core, clickable shell, lift when confirmed"}}
+{"id":"omc:loft/SKILL.md#0022","d":"dropped","why":"boilerplate"}
+{"id":"omc:loft/SKILL.md#0023","d":"absorbed","to":{"skill":"visualize-rigorously","section":"UI fork: shape questions via variants [conflict: UI building dropped for now]"}}
+{"range":["omc:loft/SKILL.md#0024","omc:loft/SKILL.md#0026"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"UI fork: structural variants, switcher, branch-only [conflict: UI building dropped for now]"}}
+{"id":"omc:loft/SKILL.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omc:loft/SKILL.md#0028","d":"absorbed","to":{"skill":"planning-rigorously","section":"Loft discipline: one command, minimal, expect revision"}}
+{"id":"omc:loft/SKILL.md#0029","d":"absorbed","to":{"skill":"planning-rigorously","section":"Loft artifact: no persistence, no tests [conflict: TDD on by default in planning]"}}
+{"range":["omc:loft/SKILL.md#0030","omc:loft/SKILL.md#0032"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Loft discipline: minutes long, one question per loft"}}
+{"id":"omc:loft/SKILL.md#0033","d":"dropped","why":"boilerplate"}
+{"range":["omc:loft/SKILL.md#0034","omc:loft/SKILL.md#0035"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Loft fold: decision recorded where it lives"}}
+{"range":["omc:loft/SKILL.md#0036","omc:loft/SKILL.md#0037"],"d":"absorbed","to":{"skill":"version-control-rigorously","section":"Loft branch: push loft/<name>, never merged"}}
+{"id":"omc:loft/SKILL.md#0038","d":"dropped","why":"boilerplate"}
+{"range":["omc:loft/SKILL.md#0039","omc:loft/SKILL.md#0041"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Loft scope: answers, not deliverables or diagnosis"}}
+{"id":"omc:loft/SKILL.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"omc:loft/SKILL.md#0043","d":"absorbed","to":{"skill":"planning-rigorously","section":"Loft completion: reaction, recorded answer, branch artifact"}}

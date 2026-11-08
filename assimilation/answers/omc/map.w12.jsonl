@@ -1,0 +1,11 @@
+{"range":["omc:map/SKILL.md#0000","omc:map/SKILL.md#0003"],"d":"dropped","why":"runtime","note":"omc skill frontmatter: name, description, argument hint, invocation flag"}
+{"id":"omc:map/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omc:map/SKILL.md#0005","d":"absorbed","to":{"skill":"core","section":"Map purpose: find which skill owns a job"}}
+{"id":"omc:map/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["omc:map/SKILL.md#0007","omc:map/SKILL.md#0022"],"d":"absorbed","to":{"skill":"core","section":"Delivery loop routing table: harbor, intent, ask, deep-interview, plan, launch, ralph, autopilot, team, execute, loft, review, verify, pr, refit"}}
+{"id":"omc:map/SKILL.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["omc:map/SKILL.md#0024","omc:map/SKILL.md#0033"],"d":"absorbed","to":{"skill":"core","section":"On-ramps: debug, tdd, architecture-survey, ai-slop-cleaner, research, wiki, self-improve, session-flow, visual"}}
+{"id":"omc:map/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["omc:map/SKILL.md#0035","omc:map/SKILL.md#0039"],"d":"absorbed","to":{"skill":"core","section":"Utilities: setup, skill management, trace and graph, cancel"}}
+{"id":"omc:map/SKILL.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["omc:map/SKILL.md#0041","omc:map/SKILL.md#0044"],"d":"absorbed","to":{"skill":"core","section":"Rules: map routes and never executes; delivery loop tiebreak; phase boundaries; unmatched job says so"}}

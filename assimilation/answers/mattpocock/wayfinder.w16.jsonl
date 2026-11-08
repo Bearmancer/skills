@@ -1,0 +1,31 @@
+{"range":["mattpocock:wayfinder/SKILL.md#0000","mattpocock:wayfinder/SKILL.md#0002"],"d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:wayfinder/SKILL.md#0003","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: map of decision tickets"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0004","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: name the destination"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:wayfinder/SKILL.md#0006","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: plan, do not do"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:wayfinder/SKILL.md#0008","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: refer to maps and tickets by name"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0009","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:wayfinder/SKILL.md#0011","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: map is an index"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0013","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:wayfinder/SKILL.md#0014","mattpocock:wayfinder/SKILL.md#0015"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: map body"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:wayfinder/SKILL.md#0018","d":"dropped","why":"example-only","note":"ticket body sample"}
+{"id":"mattpocock:wayfinder/SKILL.md#0019","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: ticket types"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0022","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: record resolution on closing"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:wayfinder/SKILL.md#0024","mattpocock:wayfinder/SKILL.md#0028"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: ticket types"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:wayfinder/SKILL.md#0030","mattpocock:wayfinder/SKILL.md#0035"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: fog of war"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0036","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:wayfinder/SKILL.md#0037","mattpocock:wayfinder/SKILL.md#0039"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: out of scope"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0040","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:wayfinder/SKILL.md#0041","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: one ticket per session"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:wayfinder/SKILL.md#0043","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: chart the map"}}
+{"range":["mattpocock:wayfinder/SKILL.md#0044","mattpocock:wayfinder/SKILL.md#0049"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: chart the map"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0050","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:wayfinder/SKILL.md#0051","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: work through the map"}}
+{"range":["mattpocock:wayfinder/SKILL.md#0052","mattpocock:wayfinder/SKILL.md#0056"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: work through the map"}}
+{"id":"mattpocock:wayfinder/SKILL.md#0057","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wayfinder: concurrent sessions"}}
+{"id":"mattpocock:wayfinder/agents/openai.yaml#0000","d":"dropped","why":"noise","note":"agent UI metadata"}

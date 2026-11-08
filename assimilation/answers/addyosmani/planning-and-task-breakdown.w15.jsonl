@@ -1,0 +1,27 @@
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0000","addyosmani:planning-and-task-breakdown/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0004","d":"absorbed","to":{"skill":"planning-rigorously","section":"Task breakdown: small verifiable tasks"}}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0006","addyosmani:planning-and-task-breakdown/SKILL.md#0011"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Task breakdown: when to break work down"}}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0012","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0013","addyosmani:planning-and-task-breakdown/SKILL.md#0019"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan mode: read-only exploration before code"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0020","addyosmani:planning-and-task-breakdown/SKILL.md#0021"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Dependency graph and build order"}}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0022","d":"dropped","why":"example-only","note":"dependency graph diagram"}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0023","d":"absorbed","to":{"skill":"planning-rigorously","section":"Dependency graph and build order"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0024","addyosmani:planning-and-task-breakdown/SKILL.md#0025"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Vertical slicing over horizontal layers"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0026","addyosmani:planning-and-task-breakdown/SKILL.md#0029"],"d":"dropped","why":"example-only","note":"bad/good slicing sample"}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0030","d":"absorbed","to":{"skill":"planning-rigorously","section":"Vertical slicing over horizontal layers"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0031","addyosmani:planning-and-task-breakdown/SKILL.md#0033"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Task structure: acceptance criteria and verification"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0034","addyosmani:planning-and-task-breakdown/SKILL.md#0041"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Task order and checkpoints"}}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0043","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0044","addyosmani:planning-and-task-breakdown/SKILL.md#0054"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Task sizing and when to split"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0055","addyosmani:planning-and-task-breakdown/SKILL.md#0062"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan output files and never overwrite incomplete plan"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0063","addyosmani:planning-and-task-breakdown/SKILL.md#0067"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Task list target: default file or external tracker"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0068","addyosmani:planning-and-task-breakdown/SKILL.md#0070"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan document template"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0071","addyosmani:planning-and-task-breakdown/SKILL.md#0075"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Parallel versus sequential tasks"}}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0076","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:planning-and-task-breakdown/SKILL.md#0077","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0078","addyosmani:planning-and-task-breakdown/SKILL.md#0082"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning rationalizations"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0083","addyosmani:planning-and-task-breakdown/SKILL.md#0091"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning red flags"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0092","addyosmani:planning-and-task-breakdown/SKILL.md#0101"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan verification checklist before implementing"}}
+{"range":["addyosmani:planning-and-task-breakdown/SKILL.md#0102","addyosmani:planning-and-task-breakdown/SKILL.md#0103"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Acceptance criteria per task versus project bar"}}

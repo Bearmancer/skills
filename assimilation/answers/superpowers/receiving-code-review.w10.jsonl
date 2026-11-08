@@ -1,0 +1,42 @@
+{"id":"superpowers:receiving-code-review/SKILL.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0001","d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: verify before implementing"}}
+{"range":["superpowers:receiving-code-review/SKILL.md#0002","superpowers:receiving-code-review/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0004","superpowers:receiving-code-review/SKILL.md#0005"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: verify before implementing"}}
+{"id":"superpowers:receiving-code-review/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0007","d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: verify before implementing"}}
+{"range":["superpowers:receiving-code-review/SKILL.md#0008","superpowers:receiving-code-review/SKILL.md#0009"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0010","superpowers:receiving-code-review/SKILL.md#0012"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: no performative agreement"}}
+{"id":"superpowers:receiving-code-review/SKILL.md#0013","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0014","superpowers:receiving-code-review/SKILL.md#0017"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: no performative agreement"}}
+{"id":"superpowers:receiving-code-review/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0019","d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: clarify unclear items first"}}
+{"id":"superpowers:receiving-code-review/SKILL.md#0020","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0021","d":"dropped","why":"example-only","note":"worked example of unclear items 1-6"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0022","superpowers:receiving-code-review/SKILL.md#0023"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0024","superpowers:receiving-code-review/SKILL.md#0027"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: source-specific handling"}}
+{"id":"superpowers:receiving-code-review/SKILL.md#0028","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0029","superpowers:receiving-code-review/SKILL.md#0030"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: source-specific handling"}}
+{"id":"superpowers:receiving-code-review/SKILL.md#0031","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0032","superpowers:receiving-code-review/SKILL.md#0033"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: YAGNI check"}}
+{"id":"superpowers:receiving-code-review/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0035","d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: implementation order, one at a time"}}
+{"range":["superpowers:receiving-code-review/SKILL.md#0036","superpowers:receiving-code-review/SKILL.md#0037"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0038","superpowers:receiving-code-review/SKILL.md#0043"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: when and how to push back"}}
+{"id":"superpowers:receiving-code-review/SKILL.md#0044","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0045","superpowers:receiving-code-review/SKILL.md#0049"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: when and how to push back"}}
+{"range":["superpowers:receiving-code-review/SKILL.md#0050","superpowers:receiving-code-review/SKILL.md#0051"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0052","superpowers:receiving-code-review/SKILL.md#0054"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: acknowledge correct feedback by fixing"}}
+{"range":["superpowers:receiving-code-review/SKILL.md#0055","superpowers:receiving-code-review/SKILL.md#0056"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0057","superpowers:receiving-code-review/SKILL.md#0058"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: correct your own wrong pushback"}}
+{"range":["superpowers:receiving-code-review/SKILL.md#0059","superpowers:receiving-code-review/SKILL.md#0060"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:receiving-code-review/SKILL.md#0061","superpowers:receiving-code-review/SKILL.md#0067"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Receiving review: common mistakes"}}
+{"id":"superpowers:receiving-code-review/SKILL.md#0068","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0069","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0070","d":"dropped","why":"example-only","note":"bad example of performative agreement"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0071","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0072","d":"dropped","why":"example-only","note":"good example of technical verification"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0073","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0074","d":"dropped","why":"example-only","note":"good example of YAGNI check"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0075","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0076","d":"dropped","why":"example-only","note":"good example of unclear item handling"}
+{"id":"superpowers:receiving-code-review/SKILL.md#0077","d":"dropped","why":"boilerplate"}

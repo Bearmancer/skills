@@ -1,0 +1,32 @@
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0000","mattpocock:diagnosing-bugs/SKILL.md#0002"],"d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0003","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Diagnosis phases: skip only when justified"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0004","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Read glossary when exploring"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0006","mattpocock:diagnosing-bugs/SKILL.md#0007"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Redact secrets in shown output"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0008","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0009","mattpocock:diagnosing-bugs/SKILL.md#0010"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 1: build a feedback loop"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0011","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0012","mattpocock:diagnosing-bugs/SKILL.md#0021"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Ways to construct a feedback loop"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0022","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Phase 1: build a feedback loop"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0024","mattpocock:diagnosing-bugs/SKILL.md#0028"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Tighten the loop"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0030","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Non-deterministic bugs: raise reproduction rate"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0031","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0032","d":"absorbed","to":{"skill":"debugging-rigorously","section":"No loop possible: stop and ask"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0033","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0034","mattpocock:diagnosing-bugs/SKILL.md#0039"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Loop completion criterion: tight and red-capable"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0041","mattpocock:diagnosing-bugs/SKILL.md#0045"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Reproduce and minimise"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0046","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0047","mattpocock:diagnosing-bugs/SKILL.md#0050"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Reproduce and minimise"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0051","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0052","mattpocock:diagnosing-bugs/SKILL.md#0056"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Ranked falsifiable hypotheses"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0057","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0058","mattpocock:diagnosing-bugs/SKILL.md#0064"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Instrumentation: one variable, tagged probes"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0065","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0066","mattpocock:diagnosing-bugs/SKILL.md#0074"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Regression test at the correct seam"}}
+{"id":"mattpocock:diagnosing-bugs/SKILL.md#0075","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:diagnosing-bugs/SKILL.md#0076","mattpocock:diagnosing-bugs/SKILL.md#0081"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cleanup before declaring done"}}
+{"id":"mattpocock:diagnosing-bugs/agents/openai.yaml#0000","d":"dropped","why":"noise","note":"agent UI metadata"}
+{"id":"mattpocock:diagnosing-bugs/scripts/hitl-loop.template.sh#0000","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Ways to construct a feedback loop"}}

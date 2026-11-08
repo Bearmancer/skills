@@ -1,0 +1,36 @@
+{"range":["omc:ai-slop-cleaner/SKILL.md#0000","omc:ai-slop-cleaner/SKILL.md#0002"],"d":"dropped","why":"runtime","note":"omc skill frontmatter: invocation and level metadata"}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0003","d":"dropped","why":"boilerplate"}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0004","d":"absorbed","to":{"skill":"review-rigorously","section":"Slop cleanup: deletion-first, behavior-locked"}}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0005","omc:ai-slop-cleaner/SKILL.md#0006"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0007","omc:ai-slop-cleaner/SKILL.md#0011"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Slop cleanup: when to use"}}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0012","omc:ai-slop-cleaner/SKILL.md#0013"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0014","omc:ai-slop-cleaner/SKILL.md#0017"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Slop cleanup: when not to use"}}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0019","omc:ai-slop-cleaner/SKILL.md#0027"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Slop cleanup: behavior lock and deletion-first posture"}}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0028","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0029","omc:ai-slop-cleaner/SKILL.md#0033"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Slop cleanup: bounded file-list scope"}}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0035","omc:ai-slop-cleaner/SKILL.md#0039"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Post-review cleanup pass inside a loop"}}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0041","omc:ai-slop-cleaner/SKILL.md#0044"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Reviewer-only anti-slop pass: writer and reviewer split"}}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0045","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0046","omc:ai-slop-cleaner/SKILL.md#0047"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Reviewer-only pass: review plan and evidence, no edits"}}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0048","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0049","omc:ai-slop-cleaner/SKILL.md#0053"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Reviewer checklist: dead code, duplicates, wrappers, tests"}}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0054","omc:ai-slop-cleaner/SKILL.md#0055"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Reviewer verdict and handback to a writer pass"}}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0056","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0057","omc:ai-slop-cleaner/SKILL.md#0060"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Protect behavior first: lock tests before edits"}}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0061","omc:ai-slop-cleaner/SKILL.md#0064"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Cleanup plan before code: bound, list, order"}}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0065","omc:ai-slop-cleaner/SKILL.md#0070"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Slop classification: duplication, dead code, abstraction, boundaries"}}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0071","d":"dropped","why":"out-of-scope","note":"user: dropped frontend framework and UI building"}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0072","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0073","omc:ai-slop-cleaner/SKILL.md#0079"],"d":"dropped","why":"out-of-scope","note":"user: dropped frontend framework and UI building"}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0080","d":"absorbed","to":{"skill":"execute-rigorously","section":"One smell-focused pass at a time, re-verify each"}}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0081","omc:ai-slop-cleaner/SKILL.md#0084"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell passes: dead code, duplicates, naming, tests"}}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0085","omc:ai-slop-cleaner/SKILL.md#0086"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"One smell-focused pass at a time, re-verify each"}}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0087","omc:ai-slop-cleaner/SKILL.md#0091"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Quality gates: tests, lint, typecheck before report"}}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0092","omc:ai-slop-cleaner/SKILL.md#0096"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Evidence-dense closing report"}}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0097","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0098","omc:ai-slop-cleaner/SKILL.md#0101"],"d":"dropped","why":"runtime","note":"omc slash-command usage syntax and Ralph invocation wiring"}
+{"id":"omc:ai-slop-cleaner/SKILL.md#0102","d":"dropped","why":"boilerplate"}
+{"range":["omc:ai-slop-cleaner/SKILL.md#0103","omc:ai-slop-cleaner/SKILL.md#0106"],"d":"dropped","why":"example-only","note":"Good and bad fit examples for deslop requests"}

@@ -1,0 +1,50 @@
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0000","addyosmani:deprecation-and-migration/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0004","addyosmani:deprecation-and-migration/SKILL.md#0005"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Deprecation decision and lifecycle"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0006","addyosmani:deprecation-and-migration/SKILL.md#0012"],"d":"dropped","why":"superseded","note":"activation triggers; lane skills own their triggers"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0013","addyosmani:deprecation-and-migration/SKILL.md#0014"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0015","d":"absorbed","to":{"skill":"planning-rigorously","section":"Deprecation decision and lifecycle"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0017","d":"absorbed","to":{"skill":"planning-rigorously","section":"Deprecation decision and lifecycle"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0019","d":"absorbed","to":{"skill":"planning-rigorously","section":"Deprecation decision and lifecycle"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0020","addyosmani:deprecation-and-migration/SKILL.md#0021"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0022","d":"absorbed","to":{"skill":"planning-rigorously","section":"Deprecation decision and lifecycle"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0023","addyosmani:deprecation-and-migration/SKILL.md#0024"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0025","addyosmani:deprecation-and-migration/SKILL.md#0027"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Compulsory versus advisory deprecation"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0028","addyosmani:deprecation-and-migration/SKILL.md#0029"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0030","addyosmani:deprecation-and-migration/SKILL.md#0033"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Deprecation decision and lifecycle"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0035","d":"dropped","why":"example-only","note":"deprecation notice template"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0036","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0037","d":"absorbed","to":{"skill":"execute-rigorously","section":"Incremental consumer migration and removal"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0038","addyosmani:deprecation-and-migration/SKILL.md#0039"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Incremental consumer migration and removal"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0041","addyosmani:deprecation-and-migration/SKILL.md#0042"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Incremental consumer migration and removal"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0043","addyosmani:deprecation-and-migration/SKILL.md#0044"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0045","d":"absorbed","to":{"skill":"execute-rigorously","section":"Incremental consumer migration and removal"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0046","d":"dropped","why":"example-only","note":"strangler phase sample"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0047","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0048","d":"absorbed","to":{"skill":"execute-rigorously","section":"Incremental consumer migration and removal"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0049","d":"dropped","why":"example-only","note":"adapter sample"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0050","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0051","d":"absorbed","to":{"skill":"execute-rigorously","section":"Incremental consumer migration and removal"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0052","d":"dropped","why":"example-only","note":"feature-flag sample"}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0053","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0054","addyosmani:deprecation-and-migration/SKILL.md#0055"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Schema migration: expand and contract"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0056","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0057","addyosmani:deprecation-and-migration/SKILL.md#0062"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Schema migration: expand and contract"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0063","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0064","addyosmani:deprecation-and-migration/SKILL.md#0068"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Schema migration: expand and contract"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0069","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0070","addyosmani:deprecation-and-migration/SKILL.md#0076"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Zombie code: assign an owner or deprecate"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0077","addyosmani:deprecation-and-migration/SKILL.md#0078"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0079","addyosmani:deprecation-and-migration/SKILL.md#0084"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Deprecation decision and lifecycle"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0085","addyosmani:deprecation-and-migration/SKILL.md#0087"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Schema migration: expand and contract"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0088","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0089","addyosmani:deprecation-and-migration/SKILL.md#0094"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Deprecation decision and lifecycle"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0095","d":"absorbed","to":{"skill":"execute-rigorously","section":"Incremental consumer migration and removal"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0096","addyosmani:deprecation-and-migration/SKILL.md#0098"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Schema migration: expand and contract"}}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0099","addyosmani:deprecation-and-migration/SKILL.md#0100"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0101","addyosmani:deprecation-and-migration/SKILL.md#0106"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Incremental consumer migration and removal"}}
+{"id":"addyosmani:deprecation-and-migration/SKILL.md#0107","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:deprecation-and-migration/SKILL.md#0108","addyosmani:deprecation-and-migration/SKILL.md#0111"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Schema migration: expand and contract"}}

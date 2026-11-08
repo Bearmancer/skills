@@ -1,0 +1,81 @@
+{"range":["omc:launch/SKILL.md#0000","omc:launch/SKILL.md#0001"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:launch/SKILL.md#0002","omc:launch/SKILL.md#0005"],"d":"dropped","why":"runtime","note":"omc skill frontmatter: invocation, level and pipeline settings (harness metadata)"}
+{"id":"omc:launch/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"id":"omc:launch/SKILL.md#0007","d":"absorbed","to":{"skill":"execute-rigorously","section":"Delivery run: brief to verified change"}}
+{"id":"omc:launch/SKILL.md#0008","d":"absorbed","to":{"skill":"core","section":"Verifiability test for every step"}}
+{"id":"omc:launch/SKILL.md#0009","d":"absorbed","to":{"skill":"core","section":"Entry gate: harness audit before run"}}
+{"id":"omc:launch/SKILL.md#0010","d":"dropped","why":"runtime","note":"yard audit report contract (contractVersion, shipyard.yard.unlaid): drydock --check machinery"}
+{"range":["omc:launch/SKILL.md#0011","omc:launch/SKILL.md#0013"],"d":"absorbed","to":{"skill":"core","section":"Entry gate: harness audit before run"}}
+{"id":"omc:launch/SKILL.md#0014","d":"dropped","why":"runtime","note":"yard audit contract v2 executable subset (scripts/shipyard-audit): shipyard harness machinery"}
+{"id":"omc:launch/SKILL.md#0015","d":"absorbed","to":{"skill":"core","section":"Entry gate: harness audit before run"}}
+{"id":"omc:launch/SKILL.md#0016","d":"absorbed","to":{"skill":"core","section":"Entry gate: CLAUDE.md is the rules entry"}}
+{"id":"omc:launch/SKILL.md#0017","d":"dropped","why":"boilerplate"}
+{"id":"omc:launch/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omc:launch/SKILL.md#0019","d":"absorbed","to":{"skill":"planning-rigorously","section":"Checkpoint C1: human authors mission brief"}}
+{"range":["omc:launch/SKILL.md#0020","omc:launch/SKILL.md#0021"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Checkpoints C2-C3: human approves spec and tickets [conflict: approval stops vs ask-up-front]"}}
+{"id":"omc:launch/SKILL.md#0022","d":"absorbed","to":{"skill":"execute-rigorously","section":"Checkpoint C4: mid-run decisions [conflict: async asks vs ask-up-front]"}}
+{"id":"omc:launch/SKILL.md#0023","d":"absorbed","to":{"skill":"review-rigorously","section":"Checkpoint C5: human accepts completion report"}}
+{"id":"omc:launch/SKILL.md#0024","d":"absorbed","to":{"skill":"execute-rigorously","section":"Continuous run between checkpoints"}}
+{"id":"omc:launch/SKILL.md#0025","d":"dropped","why":"boilerplate"}
+{"range":["omc:launch/SKILL.md#0026","omc:launch/SKILL.md#0027"],"d":"dropped","why":"runtime","note":"OMC Team lifecycle: task statuses and runtime state machine"}
+{"id":"omc:launch/SKILL.md#0028","d":"absorbed","to":{"skill":"core","section":"Step order: plan, execute, review, verify"}}
+{"id":"omc:launch/SKILL.md#0029","d":"absorbed","to":{"skill":"core","section":"Resuming: re-read artifacts, no auto-resume"}}
+{"id":"omc:launch/SKILL.md#0030","d":"absorbed","to":{"skill":"planning-rigorously","section":"Fog gate: destination stateable and routing"}}
+{"id":"omc:launch/SKILL.md#0031","d":"dropped","why":"runtime","note":"omc approval receipts, revision counter, replay log, cancellation and rollback: runtime machinery"}
+{"id":"omc:launch/SKILL.md#0032","d":"absorbed","to":{"skill":"core","section":"Durability means tracker records or repo files"}}
+{"id":"omc:launch/SKILL.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"omc:launch/SKILL.md#0034","d":"absorbed","to":{"skill":"core","section":"Entry gate: harness audit before run"}}
+{"id":"omc:launch/SKILL.md#0035","d":"absorbed","to":{"skill":"core","section":"Localized prose; paths and flags stay literal"}}
+{"id":"omc:launch/SKILL.md#0036","d":"absorbed","to":{"skill":"planning-rigorously","section":"Brief self-check: objective, scope, non-goals"}}
+{"id":"omc:launch/SKILL.md#0037","d":"absorbed","to":{"skill":"planning-rigorously","section":"Fog gate: destination stateable and routing"}}
+{"range":["omc:launch/SKILL.md#0038","omc:launch/SKILL.md#0041"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Entry routing: map check, spec, brief, single fix"}}
+{"id":"omc:launch/SKILL.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"omc:launch/SKILL.md#0043","d":"absorbed","to":{"skill":"planning-rigorously","section":"Converge: design tree and frontier questions"}}
+{"id":"omc:launch/SKILL.md#0044","d":"absorbed","to":{"skill":"planning-rigorously","section":"Converge: comprehension reset before signature"}}
+{"id":"omc:launch/SKILL.md#0045","d":"dropped","why":"boilerplate"}
+{"range":["omc:launch/SKILL.md#0046","omc:launch/SKILL.md#0050"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Paper trail: glossary, ADRs, prior rejections"}}
+{"id":"omc:launch/SKILL.md#0051","d":"absorbed","to":{"skill":"planning-rigorously","section":"Converge: residual questions when frontier stalls"}}
+{"id":"omc:launch/SKILL.md#0052","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Detour: settle visual questions with figures"}}
+{"id":"omc:launch/SKILL.md#0053","d":"absorbed","to":{"skill":"planning-rigorously","section":"Harbor briefs: carry signed decisions forward"}}
+{"id":"omc:launch/SKILL.md#0054","d":"absorbed","to":{"skill":"planning-rigorously","section":"Settled-consensus exit: skip converged decisions"}}
+{"id":"omc:launch/SKILL.md#0055","d":"dropped","why":"boilerplate"}
+{"range":["omc:launch/SKILL.md#0056","omc:launch/SKILL.md#0057"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec synthesis: parent spec and sections"}}
+{"id":"omc:launch/SKILL.md#0058","d":"absorbed","to":{"skill":"planning-rigorously","section":"Checkpoints C2-C3: human approves spec and tickets [conflict: approval stops vs ask-up-front]"}}
+{"id":"omc:launch/SKILL.md#0059","d":"absorbed","to":{"skill":"planning-rigorously","section":"Tender rule: contested interface shape"}}
+{"id":"omc:launch/SKILL.md#0060","d":"absorbed","to":{"skill":"planning-rigorously","section":"Durability gate: contracts, not coordinates"}}
+{"id":"omc:launch/SKILL.md#0061","d":"absorbed","to":{"skill":"planning-rigorously","section":"Testing decisions: retire orphaned tests"}}
+{"id":"omc:launch/SKILL.md#0062","d":"dropped","why":"boilerplate"}
+{"range":["omc:launch/SKILL.md#0063","omc:launch/SKILL.md#0065"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Ticket decomposition: vertical slices with blockers"}}
+{"id":"omc:launch/SKILL.md#0066","d":"absorbed","to":{"skill":"planning-rigorously","section":"Wide refactors: expand-contract batches"}}
+{"id":"omc:launch/SKILL.md#0067","d":"absorbed","to":{"skill":"planning-rigorously","section":"Checkpoints C2-C3: human approves spec and tickets [conflict: approval stops vs ask-up-front]"}}
+{"id":"omc:launch/SKILL.md#0068","d":"absorbed","to":{"skill":"planning-rigorously","section":"Vertical slices include wiring and smoke assertion"}}
+{"id":"omc:launch/SKILL.md#0069","d":"dropped","why":"boilerplate"}
+{"id":"omc:launch/SKILL.md#0070","d":"absorbed","to":{"skill":"execute-rigorously","section":"Frontier: tickets with all blockers complete"}}
+{"id":"omc:launch/SKILL.md#0071","d":"absorbed","to":{"skill":"execute-rigorously","section":"Scout pass: shared exploration runs once"}}
+{"id":"omc:launch/SKILL.md#0072","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Integration branch: worker output converges"}}
+{"id":"omc:launch/SKILL.md#0073","d":"absorbed","to":{"skill":"execute-rigorously","section":"Repair rule: single repair worker, re-pass"}}
+{"id":"omc:launch/SKILL.md#0074","d":"absorbed","to":{"skill":"execute-rigorously","section":"Parallel dispatch default for 2+ tickets"}}
+{"id":"omc:launch/SKILL.md#0075","d":"absorbed","to":{"skill":"execute-rigorously","section":"Serial dispatch: one ticket at a time"}}
+{"range":["omc:launch/SKILL.md#0076","omc:launch/SKILL.md#0078"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Two-axis review gate: standards and spec"}}
+{"id":"omc:launch/SKILL.md#0079","d":"absorbed","to":{"skill":"execute-rigorously","section":"Checkpoint C4: mid-run decisions [conflict: async asks vs ask-up-front]"}}
+{"id":"omc:launch/SKILL.md#0080","d":"absorbed","to":{"skill":"core","section":"Resuming: re-read artifacts, no auto-resume"}}
+{"id":"omc:launch/SKILL.md#0081","d":"absorbed","to":{"skill":"execute-rigorously","section":"Checkpoint C4: mid-run decisions [conflict: async asks vs ask-up-front]"}}
+{"id":"omc:launch/SKILL.md#0082","d":"absorbed","to":{"skill":"core","section":"Stop rule: three failed repairs halt lane"}}
+{"id":"omc:launch/SKILL.md#0083","d":"dropped","why":"boilerplate"}
+{"id":"omc:launch/SKILL.md#0084","d":"absorbed","to":{"skill":"review-rigorously","section":"Closeout: verify across whole change"}}
+{"id":"omc:launch/SKILL.md#0085","d":"absorbed","to":{"skill":"planning-rigorously","section":"Paper trail: reconcile at closeout"}}
+{"id":"omc:launch/SKILL.md#0086","d":"absorbed","to":{"skill":"core","section":"Closeout: re-audit harness for drift"}}
+{"id":"omc:launch/SKILL.md#0087","d":"absorbed","to":{"skill":"review-rigorously","section":"Sediment pass: route lessons to durable slots"}}
+{"id":"omc:launch/SKILL.md#0088","d":"dropped","why":"boilerplate"}
+{"range":["omc:launch/SKILL.md#0089","omc:launch/SKILL.md#0099"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Sediment pass: route lessons to durable slots"}}
+{"range":["omc:launch/SKILL.md#0100","omc:launch/SKILL.md#0101"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion report: run numbers and evidence"}}
+{"id":"omc:launch/SKILL.md#0103","d":"dropped","why":"boilerplate"}
+{"id":"omc:launch/SKILL.md#0104","d":"absorbed","to":{"skill":"core","section":"Context hygiene: compact at phase boundaries"}}
+{"id":"omc:launch/SKILL.md#0105","d":"absorbed","to":{"skill":"core","section":"Canonical artifacts over conversation memory"}}
+{"id":"omc:launch/SKILL.md#0106","d":"absorbed","to":{"skill":"core","section":"Context boundary: four-way choice"}}
+{"id":"omc:launch/SKILL.md#0107","d":"absorbed","to":{"skill":"core","section":"Long runs: periodic progress markers"}}
+{"id":"omc:launch/SKILL.md#0108","d":"absorbed","to":{"skill":"execute-rigorously","section":"Fresh context per ticket by construction"}}
+{"range":["omc:launch/SKILL.md#0109","omc:launch/SKILL.md#0110"],"d":"absorbed","to":{"skill":"core","section":"Session handoffs: pointers and planned stops"}}
+{"id":"omc:launch/SKILL.md#0111","d":"absorbed","to":{"skill":"core","section":"Resuming: re-read artifacts, no auto-resume"}}
+{"id":"omc:launch/SKILL.md#0112","d":"dropped","why":"boilerplate"}
+{"id":"omc:launch/SKILL.md#0113","d":"absorbed","to":{"skill":"review-rigorously","section":"Completion definition: terminal tickets and report"}}

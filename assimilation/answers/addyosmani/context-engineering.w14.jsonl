@@ -1,0 +1,70 @@
+{"range":["addyosmani:context-engineering/SKILL.md#0000","addyosmani:context-engineering/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0004","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0006","addyosmani:context-engineering/SKILL.md#0010"],"d":"dropped","why":"superseded","note":"activation triggers; lane skills own their triggers"}
+{"range":["addyosmani:context-engineering/SKILL.md#0011","addyosmani:context-engineering/SKILL.md#0012"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0013","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0014","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0015","d":"absorbed","to":{"skill":"core","section":"Project rules file"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0017","d":"dropped","why":"example-only","note":"CLAUDE.md template"}
+{"id":"addyosmani:context-engineering/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0019","addyosmani:context-engineering/SKILL.md#0022"],"d":"dropped","why":"runtime","note":"per-tool rules files (CLAUDE.md, .cursorrules, AGENTS.md)"}
+{"id":"addyosmani:context-engineering/SKILL.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0024","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"range":["addyosmani:context-engineering/SKILL.md#0025","addyosmani:context-engineering/SKILL.md#0026"],"d":"dropped","why":"example-only","note":"effective vs wasteful spec loading samples"}
+{"id":"addyosmani:context-engineering/SKILL.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0028","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0030","addyosmani:context-engineering/SKILL.md#0033"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0035","addyosmani:context-engineering/SKILL.md#0038"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Untrusted loaded content is data"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0039","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0040","addyosmani:context-engineering/SKILL.md#0042"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Feed back only the specific error"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0043","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0044","addyosmani:context-engineering/SKILL.md#0048"],"d":"absorbed","to":{"skill":"core","section":"Context hygiene and compaction"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0049","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0050","addyosmani:context-engineering/SKILL.md#0058"],"d":"absorbed","to":{"skill":"core","section":"Restartable session boundaries"}}
+{"range":["addyosmani:context-engineering/SKILL.md#0059","addyosmani:context-engineering/SKILL.md#0061"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0062","d":"dropped","why":"example-only","note":"brain dump template"}
+{"id":"addyosmani:context-engineering/SKILL.md#0063","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0064","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0065","d":"dropped","why":"example-only","note":"selective include sample"}
+{"id":"addyosmani:context-engineering/SKILL.md#0066","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0067","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0068","d":"dropped","why":"example-only","note":"project map sample"}
+{"id":"addyosmani:context-engineering/SKILL.md#0069","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0070","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0071","addyosmani:context-engineering/SKILL.md#0072"],"d":"absorbed","to":{"skill":"core","section":"Context hygiene and compaction"}}
+{"range":["addyosmani:context-engineering/SKILL.md#0073","addyosmani:context-engineering/SKILL.md#0074"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0075","addyosmani:context-engineering/SKILL.md#0078"],"d":"absorbed","to":{"skill":"core","section":"Context hygiene and compaction"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0079","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0080","addyosmani:context-engineering/SKILL.md#0083"],"d":"absorbed","to":{"skill":"core","section":"Context hygiene and compaction"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0084","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0085","d":"absorbed","to":{"skill":"core","section":"Context hygiene and compaction"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0086","d":"dropped","why":"example-only","note":"compress-before-dropping sample"}
+{"id":"addyosmani:context-engineering/SKILL.md#0087","d":"absorbed","to":{"skill":"core","section":"Context hygiene and compaction"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0088","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0089","d":"absorbed","to":{"skill":"core","section":"Order context for recency"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0090","d":"dropped","why":"example-only","note":"recency ordering sketch"}
+{"range":["addyosmani:context-engineering/SKILL.md#0091","addyosmani:context-engineering/SKILL.md#0098"],"d":"dropped","why":"runtime","note":"MCP server integrations (Context7, DevTools, PostgreSQL, Filesystem, GitHub)"}
+{"range":["addyosmani:context-engineering/SKILL.md#0099","addyosmani:context-engineering/SKILL.md#0101"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0102","d":"dropped","why":"example-only","note":"REST vs GraphQL conflict sample"}
+{"id":"addyosmani:context-engineering/SKILL.md#0103","d":"absorbed","to":{"skill":"execute-rigorously","section":"Surface confusion, stop on missing requirements"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0104","d":"dropped","why":"example-only","note":"CONFUSION message sample"}
+{"id":"addyosmani:context-engineering/SKILL.md#0105","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0106","addyosmani:context-engineering/SKILL.md#0109"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Surface confusion, stop on missing requirements"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0110","d":"dropped","why":"example-only","note":"MISSING REQUIREMENT message sample"}
+{"id":"addyosmani:context-engineering/SKILL.md#0111","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:context-engineering/SKILL.md#0112","d":"absorbed","to":{"skill":"execute-rigorously","section":"Inline plan before multi-step work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0113","d":"dropped","why":"example-only","note":"PLAN sample"}
+{"id":"addyosmani:context-engineering/SKILL.md#0114","d":"absorbed","to":{"skill":"execute-rigorously","section":"Inline plan before multi-step work"}}
+{"range":["addyosmani:context-engineering/SKILL.md#0115","addyosmani:context-engineering/SKILL.md#0116"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0117","addyosmani:context-engineering/SKILL.md#0123"],"d":"absorbed","to":{"skill":"core","section":"Context anti-patterns"}}
+{"range":["addyosmani:context-engineering/SKILL.md#0124","addyosmani:context-engineering/SKILL.md#0125"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0126","addyosmani:context-engineering/SKILL.md#0129"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0130","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0131","addyosmani:context-engineering/SKILL.md#0136"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"range":["addyosmani:context-engineering/SKILL.md#0137","addyosmani:context-engineering/SKILL.md#0138"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:context-engineering/SKILL.md#0139","addyosmani:context-engineering/SKILL.md#0143"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}
+{"id":"addyosmani:context-engineering/SKILL.md#0144","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context loading before work"}}

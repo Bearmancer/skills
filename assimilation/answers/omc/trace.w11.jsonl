@@ -1,0 +1,81 @@
+{"range":["omc:trace/SKILL.md#0000","omc:trace/SKILL.md#0001"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0002","d":"dropped","why":"noise","note":"argument-hint display"}
+{"id":"omc:trace/SKILL.md#0003","d":"dropped","why":"runtime","note":"omc tracer agent binding"}
+{"id":"omc:trace/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0006","omc:trace/SKILL.md#0007"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Competing-hypothesis tracing: when to use"}}
+{"id":"omc:trace/SKILL.md#0008","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0009","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0010","omc:trace/SKILL.md#0013"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Competing-hypothesis tracing: when to use"}}
+{"id":"omc:trace/SKILL.md#0014","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0015","omc:trace/SKILL.md#0020"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Competing-hypothesis tracing: when to use"}}
+{"id":"omc:trace/SKILL.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0023","omc:trace/SKILL.md#0029"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Tracing contract: observation to discriminating probe"}}
+{"id":"omc:trace/SKILL.md#0030","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0031","omc:trace/SKILL.md#0034"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Tracing contract: observation to discriminating probe"}}
+{"id":"omc:trace/SKILL.md#0035","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0036","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Evidence strength hierarchy"}}
+{"id":"omc:trace/SKILL.md#0037","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0038","omc:trace/SKILL.md#0044"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Evidence strength hierarchy"}}
+{"id":"omc:trace/SKILL.md#0045","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0046","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Falsification of the favorite hypothesis"}}
+{"id":"omc:trace/SKILL.md#0047","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0048","omc:trace/SKILL.md#0052"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Falsification of the favorite hypothesis"}}
+{"id":"omc:trace/SKILL.md#0053","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0054","omc:trace/SKILL.md#0058"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Explicit down-ranking guidance"}}
+{"id":"omc:trace/SKILL.md#0059","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0060","d":"dropped","why":"runtime","note":"omc Claude built-in team mode"}
+{"id":"omc:trace/SKILL.md#0061","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0062","omc:trace/SKILL.md#0071"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Competing hypotheses: restate, generate, parallel lanes"}}
+{"id":"omc:trace/SKILL.md#0072","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0073","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0074","omc:trace/SKILL.md#0078"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Default hypothesis lanes"}}
+{"id":"omc:trace/SKILL.md#0079","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0080","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0081","omc:trace/SKILL.md#0084"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Cross-check lenses: systems, premortem, science"}}
+{"id":"omc:trace/SKILL.md#0085","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0086","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Worker contract per hypothesis lane"}}
+{"id":"omc:trace/SKILL.md#0087","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0088","omc:trace/SKILL.md#0096"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Worker contract per hypothesis lane"}}
+{"id":"omc:trace/SKILL.md#0097","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0098","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Worker contract per hypothesis lane"}}
+{"range":["omc:trace/SKILL.md#0099","omc:trace/SKILL.md#0100"],"d":"dropped","why":"runtime","note":"omc trace_timeline and trace_summary tools"}
+{"id":"omc:trace/SKILL.md#0101","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0102","omc:trace/SKILL.md#0109"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Worker contract per hypothesis lane"}}
+{"id":"omc:trace/SKILL.md#0110","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0111","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Leader synthesis contract"}}
+{"id":"omc:trace/SKILL.md#0112","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0113","omc:trace/SKILL.md#0123"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Leader synthesis contract"}}
+{"id":"omc:trace/SKILL.md#0124","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0125","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0126","omc:trace/SKILL.md#0133"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Rebuttal round and convergence detection"}}
+{"id":"omc:trace/SKILL.md#0134","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0135","omc:trace/SKILL.md#0142"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Explicit down-ranking guidance"}}
+{"id":"omc:trace/SKILL.md#0143","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0144","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0145","omc:trace/SKILL.md#0151"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Competing hypotheses: restate, generate, parallel lanes"}}
+{"id":"omc:trace/SKILL.md#0152","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0153","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0154","omc:trace/SKILL.md#0159"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Output quality bar"}}
+{"range":["omc:trace/SKILL.md#0160","omc:trace/SKILL.md#0161"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0162","d":"dropped","why":"example-only","note":"example final synthesis shape"}
+{"id":"omc:trace/SKILL.md#0163","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0164","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0165","d":"dropped","why":"example-only","note":"example final synthesis shape"}
+{"id":"omc:trace/SKILL.md#0166","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0167","omc:trace/SKILL.md#0169"],"d":"dropped","why":"example-only","note":"example final synthesis shape"}
+{"id":"omc:trace/SKILL.md#0170","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0171","omc:trace/SKILL.md#0173"],"d":"dropped","why":"example-only","note":"example final synthesis shape"}
+{"id":"omc:trace/SKILL.md#0174","d":"dropped","why":"boilerplate"}
+{"range":["omc:trace/SKILL.md#0175","omc:trace/SKILL.md#0176"],"d":"dropped","why":"example-only","note":"example final synthesis shape"}
+{"id":"omc:trace/SKILL.md#0177","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0178","d":"dropped","why":"example-only","note":"example final synthesis shape"}
+{"id":"omc:trace/SKILL.md#0179","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0180","d":"dropped","why":"example-only","note":"example final synthesis shape"}
+{"id":"omc:trace/SKILL.md#0181","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0182","d":"dropped","why":"example-only","note":"example final synthesis shape"}
+{"id":"omc:trace/SKILL.md#0183","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0184","d":"dropped","why":"example-only","note":"example final synthesis shape"}
+{"id":"omc:trace/SKILL.md#0185","d":"dropped","why":"boilerplate"}
+{"id":"omc:trace/SKILL.md#0186","d":"dropped","why":"example-only","note":"example final synthesis shape"}

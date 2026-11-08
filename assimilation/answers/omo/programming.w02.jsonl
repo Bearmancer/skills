@@ -1,0 +1,810 @@
+{"id":"omo:programming/references/code-smells.md#0001","d":"absorbed","to":{"skill":"review-rigorously","section":"Code smells: stop and re-examine design"}}
+{"range":["omo:programming/references/code-smells.md#0004","omo:programming/references/code-smells.md#0009"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: file over 250 pure LOC"}}
+{"id":"omo:programming/references/code-smells.md#0011","d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: file over 250 pure LOC"}}
+{"range":["omo:programming/references/code-smells.md#0013","omo:programming/references/code-smells.md#0014"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Split oversized files while writing"}}
+{"id":"omo:programming/references/code-smells.md#0015","d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: file over 250 pure LOC"}}
+{"range":["omo:programming/references/code-smells.md#0017","omo:programming/references/code-smells.md#0022"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Split oversized files while writing"}}
+{"range":["omo:programming/references/code-smells.md#0024","omo:programming/references/code-smells.md#0027"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: file over 250 pure LOC"}}
+{"range":["omo:programming/references/code-smells.md#0043","omo:programming/references/code-smells.md#0045"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: more than 3 function parameters"}}
+{"range":["omo:programming/references/code-smells.md#0047","omo:programming/references/code-smells.md#0048"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: more than 3 function parameters"}}
+{"id":"omo:programming/references/code-smells.md#0052","d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: more than 3 function parameters"}}
+{"id":"omo:programming/references/code-smells.md#0055","d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: more than 3 function parameters"}}
+{"id":"omo:programming/references/code-smells.md#0057","d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: more than 3 function parameters"}}
+{"id":"omo:programming/references/code-smells.md#0059","d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: more than 3 function parameters"}}
+{"id":"omo:programming/references/code-smells.md#0063","d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: more than 3 function parameters"}}
+{"range":["omo:programming/references/code-smells.md#0066","omo:programming/references/code-smells.md#0070"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: redundant verification after destructive action"}}
+{"range":["omo:programming/references/code-smells.md#0077","omo:programming/references/code-smells.md#0083"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: redundant verification after destructive action"}}
+{"range":["omo:programming/references/code-smells.md#0086","omo:programming/references/code-smells.md#0087"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: negative-form names and conditions"}}
+{"range":["omo:programming/references/code-smells.md#0090","omo:programming/references/code-smells.md#0097"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: negative-form names and conditions"}}
+{"range":["omo:programming/references/code-smells.md#0104","omo:programming/references/code-smells.md#0107"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Smell: negative-form names and conditions"}}
+{"id":"omo:programming/references/code-smells.md#0030","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0032","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0034","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0036","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0038","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0040","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0049","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0050","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0051","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0053","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0054","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0056","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0060","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0061","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0062","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0072","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0073","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0074","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0075","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0099","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0100","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0101","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0102","d":"dropped","why":"example-only","note":"code example of the smell"}
+{"id":"omo:programming/references/code-smells.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0003","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0010","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0012","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0031","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0035","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0037","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0041","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0046","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0058","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0064","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0065","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0071","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0076","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0084","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0085","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0088","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0089","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0098","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0103","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/testing/junk-classes.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/testing/junk-classes.md#0001","d":"absorbed","to":{"skill":"review-rigorously","section":"Test junk classes and marks"}}
+{"id":"omo:programming/references/testing/junk-classes.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/testing/junk-classes.md#0003","omo:programming/references/testing/junk-classes.md#0007"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Test junk classes and marks"}}
+{"range":["omo:programming/references/testing/junk-classes.md#0008","omo:programming/references/testing/junk-classes.md#0009"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/testing/junk-classes.md#0010","omo:programming/references/testing/junk-classes.md#0024"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Test junk classes and marks"}}
+{"id":"omo:programming/references/testing/junk-classes.md#0025","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/testing/junk-classes.md#0026","omo:programming/references/testing/junk-classes.md#0031"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Test retention bar"}}
+{"id":"omo:programming/references/testing/junk-classes.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/testing/junk-classes.md#0033","d":"absorbed","to":{"skill":"review-rigorously","section":"Mutation proof rule for deleting tests"}}
+{"id":"omo:programming/references/testing/junk-classes.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/testing/junk-classes.md#0035","omo:programming/references/testing/junk-classes.md#0039"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Mutation proof rule for deleting tests"}}
+{"id":"omo:programming/references/code-smells.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Code smells: stop and re-examine design"}}
+{"range":["omo:programming/references/code-smells.md#0002","omo:programming/references/code-smells.md#0003"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0004","omo:programming/references/code-smells.md#0009"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: file over 250 pure LOC"}}
+{"id":"omo:programming/references/code-smells.md#0010","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0011","d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: file over 250 pure LOC"}}
+{"id":"omo:programming/references/code-smells.md#0012","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0013","omo:programming/references/code-smells.md#0015"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: file over 250 pure LOC"}}
+{"id":"omo:programming/references/code-smells.md#0016","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0017","omo:programming/references/code-smells.md#0022"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: file over 250 pure LOC"}}
+{"id":"omo:programming/references/code-smells.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0024","omo:programming/references/code-smells.md#0027"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: file over 250 pure LOC"}}
+{"range":["omo:programming/references/code-smells.md#0028","omo:programming/references/code-smells.md#0029"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0031","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0035","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0037","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0030","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0032","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0034","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0036","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0038","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0040","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/code-smells.md#0041","omo:programming/references/code-smells.md#0042"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0043","omo:programming/references/code-smells.md#0045"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: function over 3 parameters"}}
+{"id":"omo:programming/references/code-smells.md#0046","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0047","d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: function over 3 parameters"}}
+{"id":"omo:programming/references/code-smells.md#0048","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0049","omo:programming/references/code-smells.md#0051"],"d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0052","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0053","omo:programming/references/code-smells.md#0054"],"d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0055","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/code-smells.md#0056","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0057","d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: function over 3 parameters"}}
+{"range":["omo:programming/references/code-smells.md#0058","omo:programming/references/code-smells.md#0059"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0060","omo:programming/references/code-smells.md#0062"],"d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0063","d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: function over 3 parameters"}}
+{"range":["omo:programming/references/code-smells.md#0064","omo:programming/references/code-smells.md#0065"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0066","omo:programming/references/code-smells.md#0070"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: redundant verification after destructive action"}}
+{"id":"omo:programming/references/code-smells.md#0071","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0072","omo:programming/references/code-smells.md#0075"],"d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/code-smells.md#0076","omo:programming/references/code-smells.md#0077"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0078","omo:programming/references/code-smells.md#0083"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: redundant verification after destructive action"}}
+{"range":["omo:programming/references/code-smells.md#0084","omo:programming/references/code-smells.md#0085"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0086","omo:programming/references/code-smells.md#0087"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: negative-form names and conditions"}}
+{"range":["omo:programming/references/code-smells.md#0088","omo:programming/references/code-smells.md#0089"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0090","omo:programming/references/code-smells.md#0097"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: negative-form names and conditions"}}
+{"id":"omo:programming/references/code-smells.md#0098","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0099","omo:programming/references/code-smells.md#0102"],"d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/code-smells.md#0103","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/code-smells.md#0104","omo:programming/references/code-smells.md#0107"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Smell: negative-form names and conditions"}}
+{"id":"omo:programming/references/go/README.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/README.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go: philosophy and non-negotiables"}}
+{"id":"omo:programming/references/go/README.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/README.md#0003","omo:programming/references/go/README.md#0015"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go: philosophy and non-negotiables"}}
+{"range":["omo:programming/references/go/README.md#0016","omo:programming/references/go/README.md#0017"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/README.md#0018","omo:programming/references/go/README.md#0034"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go: strict tooling table"}}
+{"range":["omo:programming/references/go/README.md#0035","omo:programming/references/go/README.md#0037"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go: single CI gate command"}}
+{"range":["omo:programming/references/go/README.md#0038","omo:programming/references/go/README.md#0039"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/README.md#0040","omo:programming/references/go/README.md#0051"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go: reference map"}}
+{"id":"omo:programming/references/go/README.md#0052","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/README.md#0053","omo:programming/references/go/README.md#0054"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go: 250 pure LOC ceiling"}}
+{"id":"omo:programming/references/go/README.md#0055","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/README.md#0056","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go: existing non-strict codebases"}}
+{"id":"omo:programming/references/go/README.md#0057","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/README.md#0058","omo:programming/references/go/README.md#0059"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go: activation and reading references"}}
+{"id":"omo:programming/references/go/concurrency.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: discipline overview"}}
+{"id":"omo:programming/references/go/concurrency.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/concurrency.md#0003","omo:programming/references/go/concurrency.md#0006"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: four non-negotiables"}}
+{"id":"omo:programming/references/go/concurrency.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0008","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/concurrency.md#0009","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: context first parameter"}}
+{"id":"omo:programming/references/go/concurrency.md#0010","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0011","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/concurrency.md#0012","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/concurrency.md#0013","omo:programming/references/go/concurrency.md#0015"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: context.Value rules"}}
+{"id":"omo:programming/references/go/concurrency.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0017","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/concurrency.md#0018","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: pair cancel with defer"}}
+{"id":"omo:programming/references/go/concurrency.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0020","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: errgroup"}}
+{"id":"omo:programming/references/go/concurrency.md#0021","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/concurrency.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/concurrency.md#0023","omo:programming/references/go/concurrency.md#0025"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: errgroup"}}
+{"id":"omo:programming/references/go/concurrency.md#0026","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/concurrency.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0028","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/go/concurrency.md#0029","omo:programming/references/go/concurrency.md#0031"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: goleak in TestMain"}}
+{"id":"omo:programming/references/go/concurrency.md#0032","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/go/concurrency.md#0033","omo:programming/references/go/concurrency.md#0034"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0035","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/concurrency.md#0036","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: channel direction"}}
+{"id":"omo:programming/references/go/concurrency.md#0037","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/concurrency.md#0038","omo:programming/references/go/concurrency.md#0040"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: channel closing"}}
+{"id":"omo:programming/references/go/concurrency.md#0041","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/concurrency.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0043","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/go/concurrency.md#0044","omo:programming/references/go/concurrency.md#0045"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: select pitfalls"}}
+{"id":"omo:programming/references/go/concurrency.md#0046","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/concurrency.md#0047","omo:programming/references/go/concurrency.md#0049"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: buffered vs unbuffered channels"}}
+{"id":"omo:programming/references/go/concurrency.md#0050","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/concurrency.md#0051","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0052","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: lock pyramid"}}
+{"id":"omo:programming/references/go/concurrency.md#0053","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0054","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/go/concurrency.md#0055","omo:programming/references/go/concurrency.md#0057"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: mutex rules"}}
+{"id":"omo:programming/references/go/concurrency.md#0058","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0059","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: sync.OnceValue"}}
+{"id":"omo:programming/references/go/concurrency.md#0060","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/concurrency.md#0061","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: sync.OnceValue"}}
+{"id":"omo:programming/references/go/concurrency.md#0062","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0063","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: typed atomics"}}
+{"id":"omo:programming/references/go/concurrency.md#0064","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/concurrency.md#0065","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/go/concurrency.md#0066","omo:programming/references/go/concurrency.md#0070"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: inject clock, no sleep"}}
+{"id":"omo:programming/references/go/concurrency.md#0071","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/concurrency.md#0072","omo:programming/references/go/concurrency.md#0076"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: race detector in CI"}}
+{"range":["omo:programming/references/go/concurrency.md#0077","omo:programming/references/go/concurrency.md#0078"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/concurrency.md#0079","omo:programming/references/go/concurrency.md#0085"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go concurrency: antipatterns"}}
+{"id":"omo:programming/references/go/concurrency.md#0086","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/concurrency.md#0087","omo:programming/references/go/concurrency.md#0091"],"d":"dropped","why":"noise"}
+{"id":"omo:programming/references/go/error-handling.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: five rules"}}
+{"id":"omo:programming/references/go/error-handling.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/error-handling.md#0003","omo:programming/references/go/error-handling.md#0007"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: five rules"}}
+{"id":"omo:programming/references/go/error-handling.md#0008","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0009","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0010","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0011","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0012","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: sentinel errors with errors.Is"}}
+{"id":"omo:programming/references/go/error-handling.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0014","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: typed errors with errors.As"}}
+{"id":"omo:programming/references/go/error-handling.md#0015","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0017","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0018","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: typed errors with errors.As"}}
+{"id":"omo:programming/references/go/error-handling.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0020","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0021","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: wrap once per layer with %w"}}
+{"id":"omo:programming/references/go/error-handling.md#0022","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0023","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: wrap once per layer with %w"}}
+{"id":"omo:programming/references/go/error-handling.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0025","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0026","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: errors.Join"}}
+{"id":"omo:programming/references/go/error-handling.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0028","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/error-handling.md#0029","omo:programming/references/go/error-handling.md#0031"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: panics banned"}}
+{"id":"omo:programming/references/go/error-handling.md#0032","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/error-handling.md#0033","omo:programming/references/go/error-handling.md#0034"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: panics allowed"}}
+{"id":"omo:programming/references/go/error-handling.md#0035","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/go/error-handling.md#0036","omo:programming/references/go/error-handling.md#0037"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: panics allowed"}}
+{"id":"omo:programming/references/go/error-handling.md#0038","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0039","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/error-handling.md#0041","omo:programming/references/go/error-handling.md#0044"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: defer for resources"}}
+{"id":"omo:programming/references/go/error-handling.md#0045","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0046","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0047","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: errors.Join for cleanup"}}
+{"id":"omo:programming/references/go/error-handling.md#0048","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0049","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: single HTTP error funnel"}}
+{"id":"omo:programming/references/go/error-handling.md#0050","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0051","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: single HTTP error funnel"}}
+{"id":"omo:programming/references/go/error-handling.md#0052","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0053","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0054","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/go/error-handling.md#0055","omo:programming/references/go/error-handling.md#0058"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: errgroup propagation"}}
+{"id":"omo:programming/references/go/error-handling.md#0059","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/error-handling.md#0060","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/go/error-handling.md#0061","omo:programming/references/go/error-handling.md#0062"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: log once at outermost frame"}}
+{"range":["omo:programming/references/go/error-handling.md#0063","omo:programming/references/go/error-handling.md#0064"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/error-handling.md#0065","omo:programming/references/go/error-handling.md#0071"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: antipatterns"}}
+{"id":"omo:programming/references/go/error-handling.md#0072","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: typed nil pointer in error interface"}}
+{"id":"omo:programming/references/go/error-handling.md#0073","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"id":"omo:programming/references/go/error-handling.md#0074","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go errors: typed nil pointer in error interface"}}
+{"id":"omo:programming/references/go/error-handling.md#0075","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/error-handling.md#0076","omo:programming/references/go/error-handling.md#0079"],"d":"dropped","why":"noise"}
+{"id":"omo:programming/references/go/type-patterns.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/type-patterns.md#0001","omo:programming/references/go/type-patterns.md#0006"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go types: four patterns"}}
+{"id":"omo:programming/references/go/type-patterns.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0008","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go types: named types"}}
+{"id":"omo:programming/references/go/type-patterns.md#0009","d":"dropped","why":"example-only","note":"worked code example of the rule stated in prose"}
+{"range":["omo:programming/references/go/type-patterns.md#0010","omo:programming/references/go/type-patterns.md#0011"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go types: named types"}}
+{"id":"omo:programming/references/go/type-patterns.md#0012","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0013","d":"dropped","why":"example-only","note":"Milliseconds type sample illustrates named-type rule stated in unit 14."}
+{"id":"omo:programming/references/go/type-patterns.md#0014","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go named types and smart constructors"}}
+{"id":"omo:programming/references/go/type-patterns.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0016","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go named types and smart constructors"}}
+{"id":"omo:programming/references/go/type-patterns.md#0017","d":"dropped","why":"example-only","note":"Email smart-constructor sample illustrates rules in units 19-23."}
+{"id":"omo:programming/references/go/type-patterns.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/type-patterns.md#0019","omo:programming/references/go/type-patterns.md#0023"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go named types and smart constructors"}}
+{"id":"omo:programming/references/go/type-patterns.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0025","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go named types and smart constructors"}}
+{"id":"omo:programming/references/go/type-patterns.md#0026","d":"dropped","why":"example-only","note":"IsZero sample illustrates the zero-value rule in unit 25."}
+{"id":"omo:programming/references/go/type-patterns.md#0027","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go named types and smart constructors"}}
+{"id":"omo:programming/references/go/type-patterns.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0029","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go sealed interfaces and exhaustive switch"}}
+{"id":"omo:programming/references/go/type-patterns.md#0030","d":"dropped","why":"example-only","note":"Sealed Event sample illustrates unit 29."}
+{"id":"omo:programming/references/go/type-patterns.md#0031","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0032","d":"dropped","why":"example-only","note":"Render type-switch sample illustrates units 33 and 38-40."}
+{"id":"omo:programming/references/go/type-patterns.md#0033","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go sealed interfaces and exhaustive switch"}}
+{"id":"omo:programming/references/go/type-patterns.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0035","d":"dropped","why":"example-only","note":"exhaustive linter config sample illustrates unit 36."}
+{"id":"omo:programming/references/go/type-patterns.md#0036","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go sealed interfaces and exhaustive switch"}}
+{"id":"omo:programming/references/go/type-patterns.md#0037","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/type-patterns.md#0038","omo:programming/references/go/type-patterns.md#0040"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go sealed interfaces and exhaustive switch"}}
+{"id":"omo:programming/references/go/type-patterns.md#0041","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0042","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go generics with constraints"}}
+{"id":"omo:programming/references/go/type-patterns.md#0043","d":"dropped","why":"example-only","note":"Max and constraint sample illustrates units 42, 44 and 46-47."}
+{"id":"omo:programming/references/go/type-patterns.md#0044","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go generics with constraints"}}
+{"id":"omo:programming/references/go/type-patterns.md#0045","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/type-patterns.md#0046","omo:programming/references/go/type-patterns.md#0047"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go generics with constraints"}}
+{"id":"omo:programming/references/go/type-patterns.md#0048","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0049","d":"dropped","why":"example-only","note":"comma-ok and errors.As sample illustrates unit 50."}
+{"id":"omo:programming/references/go/type-patterns.md#0050","d":"absorbed","to":{"skill":"execute-rigorously","section":"Go type assertions with comma-ok"}}
+{"id":"omo:programming/references/go/type-patterns.md#0051","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/go/type-patterns.md#0052","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/type-patterns.md#0053","omo:programming/references/go/type-patterns.md#0056"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go pointer versus value receivers"}}
+{"id":"omo:programming/references/go/type-patterns.md#0057","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/type-patterns.md#0058","omo:programming/references/go/type-patterns.md#0062"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Go any usage limits"}}
+{"id":"omo:programming/references/go/type-patterns.md#0063","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/go/type-patterns.md#0064","omo:programming/references/go/type-patterns.md#0067"],"d":"dropped","why":"boilerplate","note":"Source link list only."}
+{"id":"omo:programming/references/logging.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/logging.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging purpose and stack discovery"}}
+{"id":"omo:programming/references/logging.md#0002","d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging purpose and stack discovery"}}
+{"id":"omo:programming/references/logging.md#0003","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/logging.md#0004","d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging purpose and stack discovery"}}
+{"id":"omo:programming/references/logging.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/logging.md#0006","omo:programming/references/logging.md#0011"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging purpose and stack discovery"}}
+{"id":"omo:programming/references/logging.md#0012","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/logging.md#0013","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/logging.md#0014","omo:programming/references/logging.md#0018"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging greenfield setup"}}
+{"id":"omo:programming/references/logging.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/logging.md#0020","d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging level by consumer"}}
+{"id":"omo:programming/references/logging.md#0021","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/logging.md#0022","omo:programming/references/logging.md#0025"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging level by consumer"}}
+{"id":"omo:programming/references/logging.md#0026","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/logging.md#0027","omo:programming/references/logging.md#0028"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging level by consumer"}}
+{"id":"omo:programming/references/logging.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/logging.md#0030","omo:programming/references/logging.md#0040"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging placement at decisions"}}
+{"id":"omo:programming/references/logging.md#0041","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/logging.md#0042","omo:programming/references/logging.md#0047"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Logging line contract"}}
+{"id":"omo:programming/references/logging.md#0048","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/logging.md#0049","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/logging.md#0050","omo:programming/references/logging.md#0059"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Logging anti-patterns review checklist"}}
+{"id":"omo:programming/references/logging.md#0060","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/logging.md#0061","omo:programming/references/logging.md#0062"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Logging as debugging evidence"}}
+{"id":"omo:programming/references/python/async-anyio.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO mandate and version"}}
+{"id":"omo:programming/references/python/async-anyio.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0003","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO task groups and spawning"}}
+{"id":"omo:programming/references/python/async-anyio.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0005","d":"dropped","why":"example-only","note":"start_soon sample illustrates units 6-9."}
+{"range":["omo:programming/references/python/async-anyio.md#0006","omo:programming/references/python/async-anyio.md#0009"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO task groups and spawning"}}
+{"id":"omo:programming/references/python/async-anyio.md#0010","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0012","d":"dropped","why":"example-only","note":"start sample illustrates units 13-15."}
+{"id":"omo:programming/references/python/async-anyio.md#0011","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO task groups and spawning"}}
+{"range":["omo:programming/references/python/async-anyio.md#0013","omo:programming/references/python/async-anyio.md#0015"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO task groups and spawning"}}
+{"id":"omo:programming/references/python/async-anyio.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0017","d":"dropped","why":"example-only","note":"create_task sample illustrates units 18-21."}
+{"range":["omo:programming/references/python/async-anyio.md#0018","omo:programming/references/python/async-anyio.md#0021"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO task groups and spawning"}}
+{"id":"omo:programming/references/python/async-anyio.md#0022","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/async-anyio.md#0024","omo:programming/references/python/async-anyio.md#0039"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO asyncio replacement mapping"}}
+{"id":"omo:programming/references/python/async-anyio.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/async-anyio.md#0041","omo:programming/references/python/async-anyio.md#0043"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO cancellation and shielding"}}
+{"id":"omo:programming/references/python/async-anyio.md#0044","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0045","d":"dropped","why":"example-only","note":"Basic CancelScope sample illustrates units 41-43."}
+{"id":"omo:programming/references/python/async-anyio.md#0046","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0047","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO cancellation and shielding"}}
+{"id":"omo:programming/references/python/async-anyio.md#0048","d":"dropped","why":"example-only","note":"Shielding sample illustrates unit 47."}
+{"id":"omo:programming/references/python/async-anyio.md#0049","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO cancellation and shielding"}}
+{"id":"omo:programming/references/python/async-anyio.md#0050","d":"dropped","why":"example-only","note":"Shielded cleanup sample illustrates unit 49."}
+{"id":"omo:programming/references/python/async-anyio.md#0051","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/async-anyio.md#0052","omo:programming/references/python/async-anyio.md#0056"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO cancellation and shielding"}}
+{"id":"omo:programming/references/python/async-anyio.md#0057","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0058","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO timeouts"}}
+{"id":"omo:programming/references/python/async-anyio.md#0059","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0060","d":"dropped","why":"example-only","note":"fail_after sample illustrates unit 58."}
+{"id":"omo:programming/references/python/async-anyio.md#0061","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0062","d":"dropped","why":"example-only","note":"move_on_after sample illustrates unit 58."}
+{"id":"omo:programming/references/python/async-anyio.md#0063","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0064","d":"dropped","why":"example-only","note":"shield plus timeout sample illustrates units 47 and 49."}
+{"id":"omo:programming/references/python/async-anyio.md#0065","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0066","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO memory object streams"}}
+{"id":"omo:programming/references/python/async-anyio.md#0067","d":"dropped","why":"example-only","note":"memory stream sample illustrates units 66 and 68-73."}
+{"id":"omo:programming/references/python/async-anyio.md#0068","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO memory object streams"}}
+{"range":["omo:programming/references/python/async-anyio.md#0069","omo:programming/references/python/async-anyio.md#0073"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO memory object streams"}}
+{"id":"omo:programming/references/python/async-anyio.md#0074","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0075","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO backend selection"}}
+{"id":"omo:programming/references/python/async-anyio.md#0076","d":"dropped","why":"example-only","note":"backend selection sample illustrates unit 75."}
+{"id":"omo:programming/references/python/async-anyio.md#0077","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO backend selection"}}
+{"id":"omo:programming/references/python/async-anyio.md#0078","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0079","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0080","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO asyncio-only library compatibility"}}
+{"id":"omo:programming/references/python/async-anyio.md#0081","d":"dropped","why":"example-only","note":"asyncio-only library sample illustrates unit 80."}
+{"id":"omo:programming/references/python/async-anyio.md#0082","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO asyncio-only library compatibility"}}
+{"id":"omo:programming/references/python/async-anyio.md#0084","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO asyncio-only library compatibility"}}
+{"id":"omo:programming/references/python/async-anyio.md#0083","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0085","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/async-anyio.md#0086","omo:programming/references/python/async-anyio.md#0089"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO asyncio-only library compatibility"}}
+{"id":"omo:programming/references/python/async-anyio.md#0090","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0091","d":"dropped","why":"example-only","note":"get_running_loop sample illustrates unit 92."}
+{"id":"omo:programming/references/python/async-anyio.md#0092","d":"absorbed","to":{"skill":"execute-rigorously","section":"AnyIO asyncio-only library compatibility"}}
+{"id":"omo:programming/references/python/async-anyio.md#0093","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0094","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0095","d":"dropped","why":"example-only","note":"Snippet 1 illustrates units 6-9 and 49."}
+{"id":"omo:programming/references/python/async-anyio.md#0096","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0097","d":"dropped","why":"example-only","note":"Snippet 2 illustrates units 66-73."}
+{"id":"omo:programming/references/python/async-anyio.md#0098","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0099","d":"dropped","why":"example-only","note":"Snippet 3 illustrates the to_thread rule."}
+{"id":"omo:programming/references/python/async-anyio.md#0100","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0101","d":"dropped","why":"example-only","note":"Snippet 4 illustrates the from_thread rule."}
+{"id":"omo:programming/references/python/async-anyio.md#0102","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/async-anyio.md#0103","d":"dropped","why":"example-only","note":"Snippet 5 illustrates units 49 and 52-56."}
+{"id":"omo:programming/references/python/async-anyio.md#0104","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/async-anyio.md#0105","omo:programming/references/python/async-anyio.md#0113"],"d":"dropped","why":"boilerplate","note":"Source link list only."}
+{"id":"omo:programming/scripts/typescript/oxc/.oxfmtrc.json#0000","d":"dropped","why":"runtime","note":"bundled tool script"}
+{"id":"omo:programming/scripts/typescript/oxc/lint/oxlint-plugin/index.js#0000","d":"dropped","why":"runtime","note":"bundled tool script"}
+{"id":"omo:programming/scripts/typescript/oxc/tsconfig.json#0000","d":"dropped","why":"runtime","note":"bundled tool script"}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Strict tsconfig baseline and compiler flags"}}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0003","d":"absorbed","to":{"skill":"execute-rigorously","section":"Strict tsconfig baseline and compiler flags"}}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/typescript/tsconfig-strict.md#0006","omo:programming/references/typescript/tsconfig-strict.md#0010"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Strict tsconfig flag rationale"}}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0011","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/typescript/tsconfig-strict.md#0012","omo:programming/references/typescript/tsconfig-strict.md#0013"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Bun-specific tsconfig additions"}}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0014","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0015","d":"dropped","why":"noise"}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0017","d":"absorbed","to":{"skill":"execute-rigorously","section":"Strict CI gate commands"}}
+{"range":["omo:programming/references/typescript/tsconfig-strict.md#0018","omo:programming/references/typescript/tsconfig-strict.md#0020"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/cargo-strict.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/cargo-strict.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Rust strict project config defaults"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/cargo-strict.md#0003","omo:programming/references/rust/cargo-strict.md#0004"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Rust toolchain pin and components"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0005","d":"dropped","why":"omo:programming/references/rust-ub/miri-sanitizers-loom.md#0012"}
+{"id":"omo:programming/references/rust/cargo-strict.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/cargo-strict.md#0007","omo:programming/references/rust/cargo-strict.md#0009"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Cargo lints configuration"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/cargo-strict.md#0011","omo:programming/references/rust/cargo-strict.md#0012"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Release profile settings"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/cargo-strict.md#0014","d":"absorbed","to":{"skill":"execute-rigorously","section":"Workspace package and resolver settings"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0015","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/cargo-strict.md#0016","omo:programming/references/rust/cargo-strict.md#0017"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Cargo features and build script rules"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/cargo-strict.md#0019","omo:programming/references/rust/cargo-strict.md#0020"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Rustfmt configuration"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/cargo-strict.md#0022","d":"absorbed","to":{"skill":"execute-rigorously","section":"Clippy threshold configuration"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/cargo-strict.md#0024","d":"absorbed","to":{"skill":"execute-rigorously","section":"cargo-deny advisory and license policy"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0025","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/cargo-strict.md#0026","d":"absorbed","to":{"skill":"execute-rigorously","section":"CI workflow for Rust projects"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/cargo-strict.md#0028","d":"absorbed","to":{"skill":"execute-rigorously","section":"Project bootstrap commands"}}
+{"id":"omo:programming/references/rust/cargo-strict.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/cargo-strict.md#0030","d":"absorbed","to":{"skill":"execute-rigorously","section":"After-change verification commands"}}
+{"range":["omo:programming/references/typescript/type-patterns.md#0000","omo:programming/references/typescript/type-patterns.md#0002"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0003","d":"absorbed","to":{"skill":"execute-rigorously","section":"Branded types for distinct primitives"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0004","d":"dropped","why":"example-only","note":"brand declaration shown in code; rule stated in prose row 3"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0005","d":"absorbed","to":{"skill":"execute-rigorously","section":"Branded types for distinct primitives"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0006","d":"dropped","why":"example-only","note":"Zod brand snippet; rule stated in prose"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0007","d":"absorbed","to":{"skill":"execute-rigorously","section":"Branded types for distinct primitives"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0008","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0009","d":"absorbed","to":{"skill":"execute-rigorously","section":"as const literal types from values"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0010","d":"dropped","why":"example-only","note":"as const snippet; rule stated in prose"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0011","d":"absorbed","to":{"skill":"execute-rigorously","section":"as const literal types from values"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0012","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0013","d":"absorbed","to":{"skill":"execute-rigorously","section":"satisfies validates without widening"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0014","d":"dropped","why":"example-only","note":"satisfies snippet; rule stated in prose"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0015","d":"absorbed","to":{"skill":"execute-rigorously","section":"satisfies validates without widening"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0017","d":"absorbed","to":{"skill":"execute-rigorously","section":"Discriminated unions for outcomes"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0018","d":"dropped","why":"omo:programming/references/typescript/data-modeling.md#0025"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0019","d":"absorbed","to":{"skill":"execute-rigorously","section":"Discriminated unions for outcomes"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0020","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0021","d":"absorbed","to":{"skill":"execute-rigorously","section":"Exhaustive switch with assertNever"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0022","d":"dropped","why":"example-only","note":"assertNever snippet; rule stated in prose"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0023","d":"absorbed","to":{"skill":"execute-rigorously","section":"Exhaustive switch with assertNever"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0025","d":"absorbed","to":{"skill":"execute-rigorously","section":"Narrowing via compiler-visible checks"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0026","d":"dropped","why":"example-only","note":"narrowing snippet; rule stated in prose"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0028","d":"dropped","why":"example-only","note":"type guard snippet; rule stated in prose"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0030","d":"absorbed","to":{"skill":"execute-rigorously","section":"Type-only imports with import type"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0031","d":"dropped","why":"example-only","note":"import type snippet; rule stated in prose"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/type-patterns.md#0033","d":"dropped","why":"example-only","note":"mixed import snippet; rule stated in prose"}
+{"range":["omo:programming/references/typescript/type-patterns.md#0034","omo:programming/references/typescript/type-patterns.md#0035"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/typescript/type-patterns.md#0036","omo:programming/references/typescript/type-patterns.md#0046"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Utility types quick reference"}}
+{"id":"omo:programming/references/typescript/type-patterns.md#0047","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/typescript/type-patterns.md#0048","omo:programming/references/typescript/type-patterns.md#0050"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/data-processing.md#0000","omo:programming/references/python/data-processing.md#0001"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/data-processing.md#0002","d":"absorbed","to":{"skill":"execute-rigorously","section":"Polars and DuckDB over pandas"}}
+{"range":["omo:programming/references/python/data-processing.md#0003","omo:programming/references/python/data-processing.md#0004"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/data-processing.md#0005","omo:programming/references/python/data-processing.md#0014"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Engine choice decision table"}}
+{"id":"omo:programming/references/python/data-processing.md#0015","d":"dropped","why":"noise"}
+{"id":"omo:programming/references/python/data-processing.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/data-processing.md#0017","d":"dropped","why":"example-only","note":"standard import block; no rule beyond stack choice"}
+{"id":"omo:programming/references/python/data-processing.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/data-processing.md#0019","d":"dropped","why":"example-only","note":"DuckDB direct query snippet; rule stated in row 5"}
+{"id":"omo:programming/references/python/data-processing.md#0020","d":"absorbed","to":{"skill":"execute-rigorously","section":"DuckDB results converted to Polars"}}
+{"id":"omo:programming/references/python/data-processing.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/data-processing.md#0022","d":"dropped","why":"example-only","note":"lazy pipeline snippet; rule stated in prose row 23"}
+{"id":"omo:programming/references/python/data-processing.md#0023","d":"absorbed","to":{"skill":"execute-rigorously","section":"Polars lazy scan over eager reads"}}
+{"id":"omo:programming/references/python/data-processing.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/data-processing.md#0025","d":"dropped","why":"example-only","note":"streaming snippet; rule stated elsewhere"}
+{"id":"omo:programming/references/python/data-processing.md#0026","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/data-processing.md#0027","d":"dropped","why":"example-only","note":"hybrid pipeline snippet; rule stated in engine table"}
+{"id":"omo:programming/references/python/data-processing.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/data-processing.md#0029","d":"absorbed","to":{"skill":"execute-rigorously","section":"Explicit schemas and casts in Polars"}}
+{"id":"omo:programming/references/python/data-processing.md#0030","d":"dropped","why":"example-only","note":"schema snippet; rule stated in prose row 29"}
+{"id":"omo:programming/references/python/data-processing.md#0031","d":"absorbed","to":{"skill":"execute-rigorously","section":"Explicit schemas and casts in Polars"}}
+{"id":"omo:programming/references/python/data-processing.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/data-processing.md#0033","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/data-processing.md#0034","omo:programming/references/python/data-processing.md#0040"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"pandas to Polars equivalents"}}
+{"id":"omo:programming/references/python/data-processing.md#0041","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/data-processing.md#0042","omo:programming/references/python/data-processing.md#0044"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual for interactive terminal UIs"}}
+{"id":"omo:programming/references/python/textual-tui.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0003","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual install and dev tooling"}}
+{"id":"omo:programming/references/python/textual-tui.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0005","d":"dropped","why":"example-only","note":"minimal app snippet; no separate rule"}
+{"range":["omo:programming/references/python/textual-tui.md#0006","omo:programming/references/python/textual-tui.md#0007"],"d":"dropped","why":"example-only","note":"run command snippet; no separate rule"}
+{"id":"omo:programming/references/python/textual-tui.md#0008","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0009","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual install and dev tooling"}}
+{"id":"omo:programming/references/python/textual-tui.md#0010","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0011","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual reactive attributes"}}
+{"id":"omo:programming/references/python/textual-tui.md#0012","d":"dropped","why":"example-only","note":"reactive snippet; rule stated in prose"}
+{"id":"omo:programming/references/python/textual-tui.md#0013","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual reactive attributes"}}
+{"id":"omo:programming/references/python/textual-tui.md#0014","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0015","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual workers for blocking work"}}
+{"id":"omo:programming/references/python/textual-tui.md#0016","d":"dropped","why":"example-only","note":"worker snippet; rule stated in prose"}
+{"range":["omo:programming/references/python/textual-tui.md#0017","omo:programming/references/python/textual-tui.md#0018"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual workers for blocking work"}}
+{"id":"omo:programming/references/python/textual-tui.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0020","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual key bindings and actions"}}
+{"id":"omo:programming/references/python/textual-tui.md#0021","d":"dropped","why":"example-only","note":"BINDINGS snippet; rule stated in prose"}
+{"id":"omo:programming/references/python/textual-tui.md#0022","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual key bindings and actions"}}
+{"id":"omo:programming/references/python/textual-tui.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0024","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual CSS styling"}}
+{"id":"omo:programming/references/python/textual-tui.md#0025","d":"dropped","why":"example-only","note":"CSS snippet; rule stated in prose"}
+{"id":"omo:programming/references/python/textual-tui.md#0026","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual install and dev tooling"}}
+{"id":"omo:programming/references/python/textual-tui.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/textual-tui.md#0028","d":"dropped","why":"example-only","note":"pytest pilot snippet; rule stated in row 29"}
+{"id":"omo:programming/references/python/textual-tui.md#0029","d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual testing with pilot"}}
+{"range":["omo:programming/references/python/textual-tui.md#0030","omo:programming/references/python/textual-tui.md#0031"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/textual-tui.md#0032","omo:programming/references/python/textual-tui.md#0036"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Textual versus simpler CLI tools"}}
+{"id":"omo:programming/references/python/textual-tui.md#0037","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/textual-tui.md#0038","omo:programming/references/python/textual-tui.md#0040"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/typescript/tsconfig-strict.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/one-liners.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/one-liners.md#0001","omo:programming/references/python/one-liners.md#0002"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"PEP 723 self-contained script rule"}}
+{"range":["omo:programming/references/python/one-liners.md#0003","omo:programming/references/python/one-liners.md#0004"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/one-liners.md#0005","d":"dropped","why":"example-only","note":"uv inline run snippet; rule stated in row 6"}
+{"id":"omo:programming/references/python/one-liners.md#0006","d":"absorbed","to":{"skill":"execute-rigorously","section":"uv inline run for one-shot commands"}}
+{"id":"omo:programming/references/python/one-liners.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/one-liners.md#0008","d":"absorbed","to":{"skill":"execute-rigorously","section":"PEP 723 script structure"}}
+{"id":"omo:programming/references/python/one-liners.md#0009","d":"dropped","why":"example-only","note":"canonical script snippet; rules stated in mandatory elements"}
+{"range":["omo:programming/references/python/one-liners.md#0010","omo:programming/references/python/one-liners.md#0011"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/one-liners.md#0012","omo:programming/references/python/one-liners.md#0016"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"PEP 723 script structure"}}
+{"id":"omo:programming/references/python/one-liners.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/one-liners.md#0018","omo:programming/references/python/one-liners.md#0020"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"PEP 723 usage comment block"}}
+{"id":"omo:programming/references/python/one-liners.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/one-liners.md#0022","d":"absorbed","to":{"skill":"execute-rigorously","section":"PEP 723 template generator"}}
+{"id":"omo:programming/references/python/one-liners.md#0023","d":"dropped","why":"example-only","note":"scaffold commands; rule stated in row 22"}
+{"range":["omo:programming/references/python/one-liners.md#0024","omo:programming/references/python/one-liners.md#0025"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/one-liners.md#0026","omo:programming/references/python/one-liners.md#0032"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Common dependency sets"}}
+{"range":["omo:programming/references/python/one-liners.md#0033","omo:programming/references/python/one-liners.md#0034"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/one-liners.md#0035","d":"dropped","why":"example-only","note":"fetch and print script; no separate rule"}
+{"id":"omo:programming/references/python/one-liners.md#0036","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/one-liners.md#0037","d":"dropped","why":"example-only","note":"CSV to Parquet script; no separate rule"}
+{"id":"omo:programming/references/python/one-liners.md#0038","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/one-liners.md#0039","d":"dropped","why":"example-only","note":"benchmark script; no separate rule"}
+{"range":["omo:programming/references/python/one-liners.md#0040","omo:programming/references/python/one-liners.md#0041"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/one-liners.md#0042","omo:programming/references/python/one-liners.md#0047"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"PEP 723 anti-patterns to avoid"}}
+{"id":"omo:programming/references/python/one-liners.md#0048","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/one-liners.md#0049","omo:programming/references/python/one-liners.md#0052"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"FastAPI async stack baseline"}}
+{"id":"omo:programming/references/python/fastapi-stack.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0003","d":"dropped","why":"example-only","note":"project layout illustration; no separate rule"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/fastapi-stack.md#0005","omo:programming/references/python/fastapi-stack.md#0006"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"FastAPI stack dependencies"}}
+{"id":"omo:programming/references/python/fastapi-stack.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0008","d":"dropped","why":"example-only","note":"superseded config snippet; real version in row 10"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0009","d":"dropped","why":"noise"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0010","d":"dropped","why":"example-only","note":"Settings class snippet; rule stated in row 11"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0011","d":"absorbed","to":{"skill":"execute-rigorously","section":"Settings loaded from environment"}}
+{"id":"omo:programming/references/python/fastapi-stack.md#0012","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0013","d":"dropped","why":"example-only","note":"database module snippet; rule stated in row 14"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0014","d":"absorbed","to":{"skill":"execute-rigorously","section":"Async session configuration for FastAPI"}}
+{"id":"omo:programming/references/python/fastapi-stack.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0016","d":"dropped","why":"example-only","note":"models snippet; rule stated in row 17"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0017","d":"absorbed","to":{"skill":"execute-rigorously","section":"SQLAlchemy 2.x models with MappedAsDataclass"}}
+{"id":"omo:programming/references/python/fastapi-stack.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0019","d":"dropped","why":"example-only","note":"schema snippet; rule stated in row 20"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0020","d":"absorbed","to":{"skill":"execute-rigorously","section":"Separate input and output Pydantic models"}}
+{"id":"omo:programming/references/python/fastapi-stack.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0022","d":"dropped","why":"example-only","note":"router snippet; no separate rule"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0024","d":"dropped","why":"example-only","note":"application factory snippet; no separate rule"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0025","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0026","d":"dropped","why":"example-only","note":"run command; no separate rule"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0028","d":"dropped","why":"example-only","note":"alembic init command; rule in row 29"}
+{"range":["omo:programming/references/python/fastapi-stack.md#0029","omo:programming/references/python/fastapi-stack.md#0031"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Alembic async migrations setup"}}
+{"id":"omo:programming/references/python/fastapi-stack.md#0032","d":"dropped","why":"example-only","note":"alembic config snippet; rule stated in row 31"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0034","d":"dropped","why":"example-only","note":"alembic revision commands; no separate rule"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0035","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0036","d":"dropped","why":"example-only","note":"async test snippet; rule stated in row 37"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0037","d":"absorbed","to":{"skill":"execute-rigorously","section":"Database-backed tests in CI"}}
+{"id":"omo:programming/references/python/fastapi-stack.md#0038","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/python/fastapi-stack.md#0039","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/python/fastapi-stack.md#0040","omo:programming/references/python/fastapi-stack.md#0045"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Common FastAPI SQLAlchemy pitfalls"}}
+{"range":["omo:programming/references/python/fastapi-stack.md#0046","omo:programming/references/python/fastapi-stack.md#0052"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0001","d":"dropped","why":"example-only","note":"motivating arena anecdote; no rule"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/unsafe-discipline.md#0003","omo:programming/references/rust/unsafe-discipline.md#0006"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Every unsafe block needs three components"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0008","d":"dropped","why":"example-only","note":"reference to a screenshot"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0009","d":"dropped","why":"example-only","note":"NonNull wrapper code; rule stated in rows 11-14"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/unsafe-discipline.md#0011","omo:programming/references/rust/unsafe-discipline.md#0014"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Safe wrapper type guarantees"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0015","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/unsafe-discipline.md#0016","omo:programming/references/rust/unsafe-discipline.md#0017"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"SAFETY comment grammar"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0019","d":"dropped","why":"example-only","note":"anti-example comments; rule in rows 16-17"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0020","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0021","d":"dropped","why":"example-only","note":"good SAFETY comment examples; rule in rows 16-17"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0022","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0023","d":"dropped","why":"example-only","note":"arena description used as illustration"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0025","d":"dropped","why":"example-only","note":"arena code shape"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0026","d":"dropped","why":"example-only","note":"restates the three-block illustration"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0028","d":"absorbed","to":{"skill":"execute-rigorously","section":"Miri test invocation commands"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/unsafe-discipline.md#0030","omo:programming/references/rust/unsafe-discipline.md#0038"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri catches bugs the borrow checker misses"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0040","d":"absorbed","to":{"skill":"execute-rigorously","section":"FFI declarations in Rust 2024"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0041","d":"dropped","why":"example-only","note":"FFI declaration snippet"}
+{"range":["omo:programming/references/rust/unsafe-discipline.md#0042","omo:programming/references/rust/unsafe-discipline.md#0044"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"FFI declarations in Rust 2024"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0045","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0046","d":"absorbed","to":{"skill":"execute-rigorously","section":"MaybeUninit for uninitialized memory"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0047","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/unsafe-discipline.md#0048","omo:programming/references/rust/unsafe-discipline.md#0053"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Testing unsafe code when miri cannot run"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0054","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0055","d":"absorbed","to":{"skill":"execute-rigorously","section":"Loom for concurrent unsafe code"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0056","d":"dropped","why":"example-only","note":"loom cfg snippet"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0057","d":"absorbed","to":{"skill":"execute-rigorously","section":"Loom for concurrent unsafe code"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0058","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0059","d":"absorbed","to":{"skill":"review-rigorously","section":"Unsafe code rejection checklist"}}
+{"range":["omo:programming/references/rust/unsafe-discipline.md#0060","omo:programming/references/rust/unsafe-discipline.md#0068"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Unsafe code rejection checklist"}}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0069","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/unsafe-discipline.md#0070","d":"absorbed","to":{"skill":"execute-rigorously","section":"Wrap once, prove once, test under miri"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0001","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0003","d":"dropped","why":"example-only","note":"runtime builder snippet; rule in row 4"}
+{"id":"omo:programming/references/rust/async-tokio.md#0004","d":"absorbed","to":{"skill":"execute-rigorously","section":"Tokio runtime worker count default"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0005","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0006","d":"absorbed","to":{"skill":"execute-rigorously","section":"Tokio spawn handles and detached tasks"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0007","d":"dropped","why":"example-only","note":"JoinSet fan-out snippet; rule in rows 9-11"}
+{"id":"omo:programming/references/rust/async-tokio.md#0008","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/async-tokio.md#0009","omo:programming/references/rust/async-tokio.md#0011"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Tokio JoinSet for spawned task groups"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0012","d":"absorbed","to":{"skill":"execute-rigorously","section":"Tokio join and select combinators"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0013","d":"dropped","why":"example-only","note":"try_join snippet; rule in row 12"}
+{"id":"omo:programming/references/rust/async-tokio.md#0014","d":"absorbed","to":{"skill":"execute-rigorously","section":"Tokio join and select combinators"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0016","d":"dropped","why":"example-only","note":"select snippet; rule in row 17"}
+{"id":"omo:programming/references/rust/async-tokio.md#0017","d":"absorbed","to":{"skill":"execute-rigorously","section":"Tokio join and select combinators"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0019","d":"absorbed","to":{"skill":"execute-rigorously","section":"Cancellation by dropping futures"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0020","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/async-tokio.md#0021","omo:programming/references/rust/async-tokio.md#0023"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Cancel-safe futures in select"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0024","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/async-tokio.md#0025","omo:programming/references/rust/async-tokio.md#0027"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Cancel-unsafe futures in select"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0028","d":"absorbed","to":{"skill":"execute-rigorously","section":"Check cancel safety per method"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0029","d":"absorbed","to":{"skill":"execute-rigorously","section":"CancellationToken for task trees"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0030","d":"dropped","why":"example-only","note":"CancellationToken snippet; rule in row 31"}
+{"id":"omo:programming/references/rust/async-tokio.md#0031","d":"absorbed","to":{"skill":"execute-rigorously","section":"CancellationToken for task trees"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0033","d":"dropped","why":"example-only","note":"timeout snippet; rule in row 34"}
+{"id":"omo:programming/references/rust/async-tokio.md#0034","d":"absorbed","to":{"skill":"execute-rigorously","section":"Timeouts on every external boundary"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0035","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0036","d":"absorbed","to":{"skill":"execute-rigorously","section":"Never block inside async tasks"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0037","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0038","d":"dropped","why":"example-only","note":"spawn_blocking snippet; rule in row 39"}
+{"id":"omo:programming/references/rust/async-tokio.md#0039","d":"absorbed","to":{"skill":"execute-rigorously","section":"Blocking work via spawn_blocking or rayon"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0040","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0041","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/async-tokio.md#0042","omo:programming/references/rust/async-tokio.md#0047"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Tokio channel selection table"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0048","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0049","d":"dropped","why":"example-only","note":"mpsc producer snippet; rule in row 50"}
+{"id":"omo:programming/references/rust/async-tokio.md#0050","d":"absorbed","to":{"skill":"execute-rigorously","section":"Always bound channels"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0051","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0052","d":"absorbed","to":{"skill":"execute-rigorously","section":"Streams as async iterators"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0053","d":"dropped","why":"example-only","note":"stream combinator snippet; rule in row 54"}
+{"id":"omo:programming/references/rust/async-tokio.md#0054","d":"absorbed","to":{"skill":"execute-rigorously","section":"buffer_unordered as concurrency throttle"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0055","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0056","d":"dropped","why":"example-only","note":"ReceiverStream snippet; no separate rule"}
+{"id":"omo:programming/references/rust/async-tokio.md#0057","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0058","d":"dropped","why":"example-only","note":"graceful shutdown snippet; rule in row 59"}
+{"id":"omo:programming/references/rust/async-tokio.md#0059","d":"absorbed","to":{"skill":"execute-rigorously","section":"Graceful shutdown with cancellation token"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0060","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/async-tokio.md#0061","omo:programming/references/rust/async-tokio.md#0064"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Async mutex and lock guard rules"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0065","d":"absorbed","to":{"skill":"execute-rigorously","section":"Semaphore bounds concurrency"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0066","d":"dropped","why":"example-only","note":"semaphore snippet; rule in row 65"}
+{"id":"omo:programming/references/rust/async-tokio.md#0067","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/async-tokio.md#0068","omo:programming/references/rust/async-tokio.md#0074"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Common Tokio mistakes checklist"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0075","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0076","d":"dropped","why":"example-only","note":"async test snippet; no separate rule"}
+{"id":"omo:programming/references/rust/async-tokio.md#0077","d":"absorbed","to":{"skill":"execute-rigorously","section":"Test runtime and virtual time"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0078","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0079","d":"dropped","why":"example-only","note":"start_paused snippet; rule in row 77"}
+{"id":"omo:programming/references/rust/async-tokio.md#0080","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust/async-tokio.md#0081","d":"absorbed","to":{"skill":"execute-rigorously","section":"Async fn in traits dispatch"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0082","d":"dropped","why":"example-only","note":"async trait snippet; rule in row 81"}
+{"id":"omo:programming/references/rust/async-tokio.md#0083","d":"absorbed","to":{"skill":"execute-rigorously","section":"Async trait Send limits"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0084","d":"absorbed","to":{"skill":"execute-rigorously","section":"Async closures for borrowing callbacks"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0085","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust/async-tokio.md#0086","omo:programming/references/rust/async-tokio.md#0088"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"When not to use async"}}
+{"id":"omo:programming/references/rust/async-tokio.md#0089","d":"absorbed","to":{"skill":"execute-rigorously","section":"When async pays off"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0001","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0003","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0005","omo:programming/references/rust-ub/ub-taxonomy.md#0009"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0010","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0011","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri invocation flags"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0012","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri invocation flags"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0013","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0014","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0015","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0016","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0017","omo:programming/references/rust-ub/ub-taxonomy.md#0020"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0021","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0022","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri invocation flags"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0023","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Complementary sanitizers and loom tools"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0024","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0025","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0026","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0027","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0028","omo:programming/references/rust-ub/ub-taxonomy.md#0031"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0032","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0033","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0035","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0036","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0037","omo:programming/references/rust-ub/ub-taxonomy.md#0041"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0042","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0043","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0044","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0045","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0046","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0047","omo:programming/references/rust-ub/ub-taxonomy.md#0053"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0054","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0055","d":"dropped","why":"omo:programming/references/rust-ub/miri-sanitizers-loom.md#0030"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0056","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0057","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0058","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0059","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0060","omo:programming/references/rust-ub/ub-taxonomy.md#0062"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0063","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0064","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0065","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0066","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0067","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0068","omo:programming/references/rust-ub/ub-taxonomy.md#0070"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0071","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0072","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0073","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0074","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0075","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0076","omo:programming/references/rust-ub/ub-taxonomy.md#0082"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0083","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0084","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Complementary sanitizers and loom tools"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0085","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0086","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0087","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0088","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0089","omo:programming/references/rust-ub/ub-taxonomy.md#0091"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0092","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0093","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0094","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0095","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0096","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0097","omo:programming/references/rust-ub/ub-taxonomy.md#0100"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0101","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0102","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0103","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0104","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0105","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0106","omo:programming/references/rust-ub/ub-taxonomy.md#0108"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0109","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0110","d":"dropped","why":"omo:programming/references/rust-ub/miri-sanitizers-loom.md#0030"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0111","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0112","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0113","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0114","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0115","omo:programming/references/rust-ub/ub-taxonomy.md#0117"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0118","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0119","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0120","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0121","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0122","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0123","omo:programming/references/rust-ub/ub-taxonomy.md#0126"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0127","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0128","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0129","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0130","d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0131","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0132","omo:programming/references/rust-ub/ub-taxonomy.md#0135"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"UB root causes and triggers"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0136","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0137","d":"absorbed","to":{"skill":"execute-rigorously","section":"UB fix patterns per category"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0138","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0139","d":"dropped","why":"boilerplate"}
+{"range":["omo:programming/references/rust-ub/ub-taxonomy.md#0140","omo:programming/references/rust-ub/ub-taxonomy.md#0153"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0154","d":"dropped","why":"boilerplate"}
+{"id":"omo:programming/references/rust-ub/ub-taxonomy.md#0155","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Miri coverage per UB class"}}

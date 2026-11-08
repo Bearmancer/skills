@@ -1,0 +1,12 @@
+{"range":["omo:dag-library/SKILL.md#0000","omo:dag-library/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:dag-library/SKILL.md#0004","d":"absorbed","to":{"skill":"execute-rigorously","section":"Reusable dag definitions and fresh key per run"}}
+{"id":"omo:dag-library/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["omo:dag-library/SKILL.md#0006","omo:dag-library/SKILL.md#0011"],"d":"dropped","why":"runtime","note":"dag library file dirs and placeholders"}
+{"id":"omo:dag-library/SKILL.md#0012","d":"dropped","why":"boilerplate"}
+{"range":["omo:dag-library/SKILL.md#0013","omo:dag-library/SKILL.md#0015"],"d":"dropped","why":"runtime","note":"library.js SDK load and start"}
+{"id":"omo:dag-library/SKILL.md#0016","d":"dropped","why":"boilerplate"}
+{"range":["omo:dag-library/SKILL.md#0017","omo:dag-library/SKILL.md#0020"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Reusable dag definitions and fresh key per run"}}
+{"id":"omo:dag-library/SKILL.md#0021","d":"dropped","why":"boilerplate"}
+{"range":["omo:dag-library/SKILL.md#0022","omo:dag-library/SKILL.md#0023"],"d":"dropped","why":"runtime","note":"python cell library reproduction"}
+{"id":"omo:dag-library/SKILL.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:dag-library/SKILL.md#0025","d":"dropped","why":"runtime","note":"saving definition to HOME/.omo/dags"}

@@ -1,0 +1,57 @@
+{"range":["omo:mass-ulw/SKILL.md#0000","omo:mass-ulw/SKILL.md#0006"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:mass-ulw/SKILL.md#0007","d":"absorbed","to":{"skill":"execute-rigorously","section":"Plan the dag before starting it"}}
+{"id":"omo:mass-ulw/SKILL.md#0008","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/SKILL.md#0009","omo:mass-ulw/SKILL.md#0010"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Dag shape: key, nodes, dependsOn"}}
+{"id":"omo:mass-ulw/SKILL.md#0011","d":"dropped","why":"boilerplate"}
+{"id":"omo:mass-ulw/SKILL.md#0012","d":"absorbed","to":{"skill":"execute-rigorously","section":"Dag run is goal-bound"}}
+{"id":"omo:mass-ulw/SKILL.md#0013","d":"absorbed","to":{"skill":"core","section":"Ask only decisions the user alone can make"}}
+{"id":"omo:mass-ulw/SKILL.md#0014","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/SKILL.md#0015","omo:mass-ulw/SKILL.md#0019"],"d":"dropped","why":"runtime","note":"dag SDK eval cell and tool.workflow proxy"}
+{"id":"omo:mass-ulw/SKILL.md#0020","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/SKILL.md#0021","omo:mass-ulw/SKILL.md#0023"],"d":"dropped","why":"runtime","note":"dag SDK start/attach calls"}
+{"range":["omo:mass-ulw/SKILL.md#0024","omo:mass-ulw/SKILL.md#0025"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Monitor workers to completion, never poll"}}
+{"range":["omo:mass-ulw/SKILL.md#0026","omo:mass-ulw/SKILL.md#0027"],"d":"dropped","why":"runtime","note":"dag wait and cancel verbs"}
+{"id":"omo:mass-ulw/SKILL.md#0028","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/SKILL.md#0029","omo:mass-ulw/SKILL.md#0030"],"d":"dropped","why":"runtime","note":"dag retry/send/amend SDK code"}
+{"range":["omo:mass-ulw/SKILL.md#0031","omo:mass-ulw/SKILL.md#0033"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Recovering failed nodes in place"}}
+{"id":"omo:mass-ulw/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/SKILL.md#0035","omo:mass-ulw/SKILL.md#0036"],"d":"absorbed","to":{"skill":"core","section":"Resuming a paused or interrupted run"}}
+{"id":"omo:mass-ulw/SKILL.md#0037","d":"dropped","why":"boilerplate"}
+{"id":"omo:mass-ulw/SKILL.md#0038","d":"absorbed","to":{"skill":"execute-rigorously","section":"Supervise running workers actively"}}
+{"id":"omo:mass-ulw/SKILL.md#0039","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/SKILL.md#0040","omo:mass-ulw/SKILL.md#0042"],"d":"dropped","why":"runtime","note":"TUI widget, /dag view and RPC channels"}
+{"range":["omo:mass-ulw/references/planning.md#0000","omo:mass-ulw/references/planning.md#0003"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0004","omo:mass-ulw/references/planning.md#0005"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Task breakdown for parallel fan-out"}}
+{"id":"omo:mass-ulw/references/planning.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0007","omo:mass-ulw/references/planning.md#0017"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Task breakdown for parallel fan-out"}}
+{"id":"omo:mass-ulw/references/planning.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0019","omo:mass-ulw/references/planning.md#0024"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Delegation router by category"}}
+{"id":"omo:mass-ulw/references/planning.md#0025","d":"dropped","why":"boilerplate"}
+{"id":"omo:mass-ulw/references/planning.md#0026","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0027","omo:mass-ulw/references/planning.md#0033"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Delegation router by category"}}
+{"id":"omo:mass-ulw/references/planning.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0035","omo:mass-ulw/references/planning.md#0037"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Write-scope and dependency rules for parallel nodes"}}
+{"id":"omo:mass-ulw/references/planning.md#0038","d":"dropped","why":"runtime","note":"per-model slot limiter capacity"}
+{"id":"omo:mass-ulw/references/planning.md#0039","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0040","omo:mass-ulw/references/planning.md#0046"],"d":"dropped","why":"runtime","note":"dag eval orchestration patterns"}
+{"id":"omo:mass-ulw/references/planning.md#0047","d":"absorbed","to":{"skill":"execute-rigorously","section":"Recovering failed nodes in place"}}
+{"id":"omo:mass-ulw/references/planning.md#0048","d":"absorbed","to":{"skill":"execute-rigorously","section":"Monitor workers to completion, never poll"}}
+{"id":"omo:mass-ulw/references/planning.md#0049","d":"dropped","why":"boilerplate"}
+{"id":"omo:mass-ulw/references/planning.md#0050","d":"dropped","why":"runtime","note":"dag node output storage"}
+{"id":"omo:mass-ulw/references/planning.md#0051","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0052","omo:mass-ulw/references/planning.md#0056"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Team mode versus parallel workers"}}
+{"id":"omo:mass-ulw/references/planning.md#0057","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0058","omo:mass-ulw/references/planning.md#0062"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Mass research: over-collect per angle, then reduce"}}
+{"id":"omo:mass-ulw/references/planning.md#0063","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0064","omo:mass-ulw/references/planning.md#0069"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Worker prompt shape"}}
+{"id":"omo:mass-ulw/references/planning.md#0070","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0071","omo:mass-ulw/references/planning.md#0076"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Worker prompt shape"}}
+{"id":"omo:mass-ulw/references/planning.md#0077","d":"dropped","why":"runtime","note":"start result warnings audit"}
+{"id":"omo:mass-ulw/references/planning.md#0078","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0079","omo:mass-ulw/references/planning.md#0081"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Verification wave after producers"}}
+{"id":"omo:mass-ulw/references/planning.md#0082","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Verify paginated deliverables by rendered pages"}}
+{"id":"omo:mass-ulw/references/planning.md#0083","d":"absorbed","to":{"skill":"review-rigorously","section":"Verification wave after producers"}}
+{"id":"omo:mass-ulw/references/planning.md#0084","d":"dropped","why":"boilerplate"}
+{"range":["omo:mass-ulw/references/planning.md#0085","omo:mass-ulw/references/planning.md#0089"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Recovering failed nodes in place"}}
+{"range":["omo:mass-ulw/references/planning.md#0090","omo:mass-ulw/references/planning.md#0091"],"d":"dropped","why":"runtime","note":"dag key reuse and scheduled-node widget"}
+{"range":["omo:mass-ulw/references/planning.md#0092","omo:mass-ulw/references/planning.md#0094"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Recovering failed nodes in place"}}

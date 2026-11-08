@@ -1,0 +1,3 @@
+{"range":["mattpocock:handoff/SKILL.md#0000","mattpocock:handoff/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:handoff/SKILL.md#0004","mattpocock:handoff/SKILL.md#0008"],"d":"absorbed","to":{"skill":"core","section":"Handoff summary for a fresh agent"}}
+{"id":"mattpocock:handoff/agents/openai.yaml#0000","d":"dropped","why":"noise","note":"agent UI metadata"}

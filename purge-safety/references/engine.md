@@ -36,6 +36,7 @@ uv run purge.py --apply --manifest "<manifest>.json"
 | `--max-failures`   | 25                               | failure ceiling                                                                                                              |
 | `--lock-file`      | `%LOCALAPPDATA%\Temp\Purge.lock` | single-instance lock; a live owner blocks a second run                                                                       |
 | `--force`          | off                              | ignores `--max-paths` and manifest freshness                                                                                 |
+| `--skip-fd-check`  | off                              | skips the post-apply `fd -u` zero-count check; the journal records `fd_status: skipped`                                      |
 | `--json`           | off                              | emit the result object as JSON                                                                                               |
 
 ## Exit codes
@@ -44,7 +45,7 @@ uv run purge.py --apply --manifest "<manifest>.json"
 | ---- | ------------------------------------------------------------------------------------------------------------ |
 | 0    | applied and clean, or plan with no refusals                                                                  |
 | 1    | guard or usage error, refused lock, manifest over `--max-paths`, failure ceiling reached, plan with refusals |
-| 2    | residue remained after apply                                                                                 |
+| 2    | residue remained after apply, `fd -u` counted a removed path above 0, or `fd` is missing                     |
 | 3    | applied with refusals or failed deletes; a scan that refused candidates                                      |
 | 4    | aborted by the time budget                                                                                   |
 

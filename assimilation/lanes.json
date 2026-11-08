@@ -1,0 +1,15 @@
+{
+ "skills": [
+  "planning-rigorously",
+  "research-rigorously",
+  "review-rigorously",
+  "debugging-rigorously",
+  "execute-rigorously",
+  "version-control-rigorously",
+  "visualize-rigorously",
+  "sweep-rigorously",
+  "init-rigorously",
+  "core"
+ ],
+ "note": "version-control-rigorously confirmed by user; visualize-rigorously = diagrams, HTML pages and other visuals, not frontend frameworks; sweep-rigorously = all GitHub work (sweeping, PR creation, PR review, issue creation); core = the shared rigor driver. No build/design/ship/frontend/browsing/API/release lanes (user decisions). init-rigorously = preparing a project for agents (AGENTS.md hierarchy, repo conventions); built last, after execute-rigorously."
+}

@@ -1,0 +1,17 @@
+{"range":["omc:external-context/SKILL.md#0000","omc:external-context/SKILL.md#0003"],"d":"dropped","why":"runtime","note":"omc frontmatter: name, description, argument hint, level"}
+{"id":"omc:external-context/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omc:external-context/SKILL.md#0005","d":"absorbed","to":{"skill":"research-rigorously","section":"External context purpose: parallel facet searches"}}
+{"id":"omc:external-context/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"id":"omc:external-context/SKILL.md#0007","d":"dropped","why":"runtime","note":"omc skill invocation syntax"}
+{"id":"omc:external-context/SKILL.md#0008","d":"dropped","why":"boilerplate"}
+{"id":"omc:external-context/SKILL.md#0009","d":"dropped","why":"example-only","note":"usage examples"}
+{"range":["omc:external-context/SKILL.md#0010","omc:external-context/SKILL.md#0011"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:external-context/SKILL.md#0012","omc:external-context/SKILL.md#0013"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Facet decomposition: two to five independent facets"}}
+{"id":"omc:external-context/SKILL.md#0014","d":"dropped","why":"boilerplate"}
+{"id":"omc:external-context/SKILL.md#0015","d":"absorbed","to":{"skill":"research-rigorously","section":"Parallel facet searches with independent agents"}}
+{"id":"omc:external-context/SKILL.md#0016","d":"dropped","why":"runtime","note":"Task tool call syntax for document-specialist agents"}
+{"id":"omc:external-context/SKILL.md#0017","d":"absorbed","to":{"skill":"research-rigorously","section":"Fan-out cap: five parallel agents"}}
+{"id":"omc:external-context/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omc:external-context/SKILL.md#0019","omc:external-context/SKILL.md#0020"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Synthesis output: findings with sources"}}
+{"id":"omc:external-context/SKILL.md#0021","d":"dropped","why":"boilerplate"}
+{"range":["omc:external-context/SKILL.md#0022","omc:external-context/SKILL.md#0023"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Configuration: five-agent cap, explicit invocation only"}}

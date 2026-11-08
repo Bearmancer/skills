@@ -1,0 +1,66 @@
+{"range":["addyosmani:incremental-implementation/SKILL.md#0000","addyosmani:incremental-implementation/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0004","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment cycle: thin verified slices"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0006","addyosmani:incremental-implementation/SKILL.md#0010"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment cycle: thin verified slices"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0011","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0012","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment cycle: thin verified slices"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0013","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0014","addyosmani:incremental-implementation/SKILL.md#0018"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment cycle: thin verified slices"}}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0019","addyosmani:incremental-implementation/SKILL.md#0020"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0021","d":"absorbed","to":{"skill":"execute-rigorously","section":"Slicing strategies"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0022","d":"dropped","why":"example-only","note":"vertical slice sample"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0023","d":"absorbed","to":{"skill":"execute-rigorously","section":"Slicing strategies"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0025","d":"absorbed","to":{"skill":"execute-rigorously","section":"Slicing strategies"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0026","d":"dropped","why":"example-only","note":"contract-first sample"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0028","d":"absorbed","to":{"skill":"execute-rigorously","section":"Slicing strategies"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0029","d":"dropped","why":"example-only","note":"risk-first sample"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0030","d":"absorbed","to":{"skill":"execute-rigorously","section":"Slicing strategies"}}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0031","addyosmani:incremental-implementation/SKILL.md#0032"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0033","addyosmani:incremental-implementation/SKILL.md#0038"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0039","d":"dropped","why":"example-only","note":"simplicity check sample"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0040","d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0041","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0042","d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0043","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0044","addyosmani:incremental-implementation/SKILL.md#0048"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0049","addyosmani:incremental-implementation/SKILL.md#0050"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0051","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0052","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment rules: one thing, compilable, flags, safe defaults, rollback"}}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0053","addyosmani:incremental-implementation/SKILL.md#0054"],"d":"dropped","why":"example-only","note":"bad vs good commit sample"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0055","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0056","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment rules: one thing, compilable, flags, safe defaults, rollback"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0057","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0058","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment rules: one thing, compilable, flags, safe defaults, rollback"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0059","d":"dropped","why":"example-only","note":"feature flag sample"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0060","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment rules: one thing, compilable, flags, safe defaults, rollback"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0061","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0062","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment rules: one thing, compilable, flags, safe defaults, rollback"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0063","d":"dropped","why":"example-only","note":"safe default sample"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0064","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0065","addyosmani:incremental-implementation/SKILL.md#0069"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment rules: one thing, compilable, flags, safe defaults, rollback"}}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0070","addyosmani:incremental-implementation/SKILL.md#0071"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0072","d":"dropped","why":"example-only","note":"agent prompt sample"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0073","d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0074","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0075","addyosmani:incremental-implementation/SKILL.md#0082"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment checklist"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0083","d":"absorbed","to":{"skill":"execute-rigorously","section":"No repeated verification without a change"}}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0084","addyosmani:incremental-implementation/SKILL.md#0085"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0086","addyosmani:incremental-implementation/SKILL.md#0088"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment cycle: thin verified slices"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0089","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment rules: one thing, compilable, flags, safe defaults, rollback"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0090","d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0091","d":"absorbed","to":{"skill":"execute-rigorously","section":"No repeated verification without a change"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0092","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0093","addyosmani:incremental-implementation/SKILL.md#0094"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment cycle: thin verified slices"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0095","d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0096","addyosmani:incremental-implementation/SKILL.md#0097"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment cycle: thin verified slices"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0098","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment checklist"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0099","d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0100","d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0101","d":"absorbed","to":{"skill":"execute-rigorously","section":"Simplicity first and scope discipline"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0102","d":"absorbed","to":{"skill":"execute-rigorously","section":"No repeated verification without a change"}}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0103","addyosmani:incremental-implementation/SKILL.md#0104"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:incremental-implementation/SKILL.md#0105","addyosmani:incremental-implementation/SKILL.md#0109"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment checklist"}}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0110","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:incremental-implementation/SKILL.md#0111","d":"absorbed","to":{"skill":"execute-rigorously","section":"Increment checklist"}}

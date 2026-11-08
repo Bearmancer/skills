@@ -1,0 +1,9 @@
+{"range":["omc:agent-doc-discipline/SKILL.md#0000","omc:agent-doc-discipline/SKILL.md#0002"],"d":"dropped","why":"runtime","note":"omc frontmatter: name, description, level"}
+{"id":"omc:agent-doc-discipline/SKILL.md#0003","d":"dropped","why":"boilerplate"}
+{"range":["omc:agent-doc-discipline/SKILL.md#0004","omc:agent-doc-discipline/SKILL.md#0005"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Agent doc purpose and mandatory triggers"}}
+{"id":"omc:agent-doc-discipline/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"id":"omc:agent-doc-discipline/SKILL.md#0007","d":"absorbed","to":{"skill":"init-rigorously","section":"Scope: human-only docs are excluded"}}
+{"id":"omc:agent-doc-discipline/SKILL.md#0008","d":"dropped","why":"boilerplate"}
+{"range":["omc:agent-doc-discipline/SKILL.md#0009","omc:agent-doc-discipline/SKILL.md#0021"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Agent doc writing rules: self-contained, checkable, one home"}}
+{"id":"omc:agent-doc-discipline/SKILL.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["omc:agent-doc-discipline/SKILL.md#0023","omc:agent-doc-discipline/SKILL.md#0029"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Agent doc verification before reporting done"}}

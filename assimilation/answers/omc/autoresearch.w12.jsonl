@@ -1,0 +1,16 @@
+{"range":["omc:autoresearch/SKILL.md#0000","omc:autoresearch/SKILL.md#0002"],"d":"dropped","why":"runtime","note":"omc skill frontmatter: name, description, level"}
+{"id":"omc:autoresearch/SKILL.md#0003","d":"absorbed","to":{"skill":"core","section":"Purpose: bounded, evaluator-driven single-mission improvement loop"}}
+{"id":"omc:autoresearch/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["omc:autoresearch/SKILL.md#0005","omc:autoresearch/SKILL.md#0008"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Use when: mission and evaluator exist, durable logs, periodic cron rerun"}}
+{"id":"omc:autoresearch/SKILL.md#0009","d":"dropped","why":"boilerplate"}
+{"range":["omc:autoresearch/SKILL.md#0010","omc:autoresearch/SKILL.md#0012"],"d":"absorbed","to":{"skill":"core","section":"Do not use: runtime evaluator generation, multi-mission, deprecated omc CLI"}}
+{"id":"omc:autoresearch/SKILL.md#0013","d":"dropped","why":"boilerplate"}
+{"range":["omc:autoresearch/SKILL.md#0014","omc:autoresearch/SKILL.md#0018"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Contract: single mission, JSON evaluator pass and score, non-pass continues, explicit stops"}}
+{"range":["omc:autoresearch/SKILL.md#0019","omc:autoresearch/SKILL.md#0027"],"d":"absorbed","to":{"skill":"core","section":"Required artifacts: mission spec, evaluator, per-iteration JSON, markdown logs, storage layout, reuse runtime artifacts"}}
+{"id":"omc:autoresearch/SKILL.md#0028","d":"dropped","why":"boilerplate"}
+{"range":["omc:autoresearch/SKILL.md#0029","omc:autoresearch/SKILL.md#0035"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Workflow: confirm mission, record slug, evaluator ref, iteration count, timestamps, max-runtime"}}
+{"range":["omc:autoresearch/SKILL.md#0036","omc:autoresearch/SKILL.md#0041"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Per iteration: one change cycle, run evaluator, persist JSON, append log, continue on fail"}}
+{"range":["omc:autoresearch/SKILL.md#0042","omc:autoresearch/SKILL.md#0045"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stop conditions: max-runtime, user cancel, explicit runtime terminal"}}
+{"range":["omc:autoresearch/SKILL.md#0046","omc:autoresearch/SKILL.md#0050"],"d":"absorbed","to":{"skill":"core","section":"Cron integration: one mission per job, same contract, append run artifacts"}}
+{"id":"omc:autoresearch/SKILL.md#0051","d":"dropped","why":"boilerplate"}
+{"range":["omc:autoresearch/SKILL.md#0052","omc:autoresearch/SKILL.md#0055"],"d":"absorbed","to":{"skill":"core","section":"Execution policy: no omc autoresearch hand-back, no multi-mission, reuse src helpers, human-readable logs"}}

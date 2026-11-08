@@ -1,0 +1,8 @@
+{"range":["mattpocock:implement/SKILL.md#0000","mattpocock:implement/SKILL.md#0002"],"d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:implement/SKILL.md#0003","d":"absorbed","to":{"skill":"execute-rigorously","section":"Implement from a spec or tickets"}}
+{"id":"mattpocock:implement/SKILL.md#0004","d":"absorbed","to":{"skill":"execute-rigorously","section":"Implement from a spec or tickets"}}
+{"id":"mattpocock:implement/SKILL.md#0005","d":"absorbed","to":{"skill":"execute-rigorously","section":"Implement test-first at agreed seams"}}
+{"id":"mattpocock:implement/SKILL.md#0006","d":"absorbed","to":{"skill":"execute-rigorously","section":"Verification cadence while implementing"}}
+{"id":"mattpocock:implement/SKILL.md#0007","d":"absorbed","to":{"skill":"execute-rigorously","section":"Review the integrated result"}}
+{"id":"mattpocock:implement/SKILL.md#0008","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Commit work to the current branch"}}
+{"id":"mattpocock:implement/agents/openai.yaml#0000","d":"dropped","why":"noise","note":"agent UI metadata"}

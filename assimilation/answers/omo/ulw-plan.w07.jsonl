@@ -1,0 +1,122 @@
+{"range":["omo:ulw-plan/SKILL.md#0000","omo:ulw-plan/SKILL.md#0004"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/SKILL.md#0005","omo:ulw-plan/SKILL.md#0013"],"d":"dropped","why":"runtime","note":"Senpi/OpenCode tool compatibility table"}
+{"id":"omo:ulw-plan/SKILL.md#0014","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/SKILL.md#0015","omo:ulw-plan/SKILL.md#0016"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"High-accuracy plan review gate"}}
+{"id":"omo:ulw-plan/SKILL.md#0017","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/SKILL.md#0019","omo:ulw-plan/SKILL.md#0022"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Design consultation: big-picture and detail"}}
+{"range":["omo:ulw-plan/SKILL.md#0023","omo:ulw-plan/SKILL.md#0024"],"d":"dropped","why":"runtime","note":"task category spawn for architect/ultrabrain"}
+{"id":"omo:ulw-plan/SKILL.md#0025","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/SKILL.md#0026","omo:ulw-plan/SKILL.md#0028"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Planner role: plan mode is sticky"}}
+{"id":"omo:ulw-plan/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/SKILL.md#0030","omo:ulw-plan/SKILL.md#0035"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Opening announcement and working contract"}}
+{"id":"omo:ulw-plan/SKILL.md#0036","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/SKILL.md#0037","d":"dropped","why":"example-only","note":"sample opening"}
+{"id":"omo:ulw-plan/SKILL.md#0038","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/SKILL.md#0039","d":"absorbed","to":{"skill":"planning-rigorously","section":"High-accuracy plan review gate"}}
+{"id":"omo:ulw-plan/SKILL.md#0040","d":"absorbed","to":{"skill":"planning-rigorously","section":"Intent routing: clear versus unclear"}}
+{"id":"omo:ulw-plan/SKILL.md#0041","d":"dropped","why":"example-only","note":"sample intent announcement"}
+{"range":["omo:ulw-plan/SKILL.md#0042","omo:ulw-plan/SKILL.md#0045"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Intent routing: clear versus unclear"}}
+{"id":"omo:ulw-plan/SKILL.md#0046","d":"dropped","why":"example-only","note":"worked clear vs unclear"}
+{"id":"omo:ulw-plan/SKILL.md#0047","d":"absorbed","to":{"skill":"planning-rigorously","section":"Intent routing: clear versus unclear"}}
+{"id":"omo:ulw-plan/SKILL.md#0048","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/SKILL.md#0049","d":"absorbed","to":{"skill":"planning-rigorously","section":"Question stance and delivery"}}
+{"id":"omo:ulw-plan/SKILL.md#0050","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/SKILL.md#0051","omo:ulw-plan/SKILL.md#0054"],"d":"dropped","why":"runtime","note":"scaffold-plan.mjs script and .omo/drafts"}
+{"id":"omo:ulw-plan/SKILL.md#0055","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/SKILL.md#0056","d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan document: task rows and template"}}
+{"id":"omo:ulw-plan/SKILL.md#0057","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/SKILL.md#0058","omo:ulw-plan/SKILL.md#0068"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning invariants: ideal state, explore first"}}
+{"id":"omo:ulw-plan/SKILL.md#0069","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/SKILL.md#0070","d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval gate before plan file"}}
+{"id":"omo:ulw-plan/SKILL.md#0071","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/SKILL.md#0072","d":"absorbed","to":{"skill":"planning-rigorously","section":"Research delegation prompt shape"}}
+{"id":"omo:ulw-plan/SKILL.md#0073","d":"dropped","why":"example-only","note":"sample task() call"}
+{"id":"omo:ulw-plan/SKILL.md#0074","d":"dropped","why":"runtime","note":"spawnable subagent roles"}
+{"id":"omo:ulw-plan/SKILL.md#0075","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/SKILL.md#0076","omo:ulw-plan/SKILL.md#0077"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning stop rules"}}
+{"id":"omo:ulw-plan/SKILL.md#0078","d":"dropped","why":"runtime","note":"planning-style memory close step"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0000","omo:ulw-plan/references/full-workflow.md#0003"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0004","omo:ulw-plan/references/full-workflow.md#0011"],"d":"dropped","why":"runtime","note":"Senpi/OpenCode tool compatibility table"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0012","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0014","d":"duplicate","of":"omo:ulw-plan/SKILL.md#0015"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0015","d":"duplicate","of":"omo:ulw-plan/SKILL.md#0016"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0016","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0017","omo:ulw-plan/references/full-workflow.md#0019"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0020","d":"absorbed","to":{"skill":"planning-rigorously","section":"Planner role: plan mode is sticky"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0022","d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning invariants: ideal state, explore first"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0024","d":"absorbed","to":{"skill":"planning-rigorously","section":"Classify: size interview depth"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0025","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0026","d":"absorbed","to":{"skill":"planning-rigorously","section":"Ground: explore before asking"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0028","d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning invariants: ideal state, explore first"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0030","omo:ulw-plan/references/full-workflow.md#0036"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Dynamic workflow: collect, verify, design, adversarial"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0037","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0038","omo:ulw-plan/references/full-workflow.md#0041"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Intent routing: clear versus unclear"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0042","d":"absorbed","to":{"skill":"planning-rigorously","section":"Durable draft as resume point"}}
+{"range":["omo:ulw-plan/references/full-workflow.md#0043","omo:ulw-plan/references/full-workflow.md#0053"],"d":"dropped","why":"runtime","note":"scaffold script and review round state machine"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0054","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0055","d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval gate before plan file"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0056","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0057","omo:ulw-plan/references/full-workflow.md#0058"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval gate before plan file"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0059","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0060","omo:ulw-plan/references/full-workflow.md#0063"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval gate before plan file"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0064","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0065","d":"dropped","why":"runtime","note":"scaffold-plan.mjs rerun"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0066","d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan gap analysis before delivery"}}
+{"range":["omo:ulw-plan/references/full-workflow.md#0067","omo:ulw-plan/references/full-workflow.md#0069"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan document: task rows and template"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0070","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0071","omo:ulw-plan/references/full-workflow.md#0072"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan document: task rows and template"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0073","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0074","d":"duplicate","of":"omo:ulw-plan/SKILL.md#0056"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0075","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0076","d":"absorbed","to":{"skill":"planning-rigorously","section":"Final verification wave in plan"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0077","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0078","omo:ulw-plan/references/full-workflow.md#0080"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Delivery by intent path"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0081","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0082","omo:ulw-plan/references/full-workflow.md#0088"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan summary handoff shape"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0089","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0090","omo:ulw-plan/references/full-workflow.md#0091"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"High-accuracy plan review gate"}}
+{"range":["omo:ulw-plan/references/full-workflow.md#0092","omo:ulw-plan/references/full-workflow.md#0094"],"d":"dropped","why":"runtime","note":"review intake JSON contract and fd traversal"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0095","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0096","d":"absorbed","to":{"skill":"planning-rigorously","section":"Bounded convergence of plan review"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0097","d":"dropped","why":"runtime","note":"contract marker comment"}
+{"range":["omo:ulw-plan/references/full-workflow.md#0098","omo:ulw-plan/references/full-workflow.md#0099"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Bounded convergence of plan review"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0100","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0101","d":"absorbed","to":{"skill":"planning-rigorously","section":"Research delegation prompt shape"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0102","d":"dropped","why":"example-only","note":"sample task() call"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0103","d":"dropped","why":"runtime","note":"spawnable subagent roles"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0104","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0105","d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning stop rules"}}
+{"id":"omo:ulw-plan/references/full-workflow.md#0106","d":"duplicate","of":"omo:ulw-plan/SKILL.md#0077"}
+{"id":"omo:ulw-plan/references/full-workflow.md#0107","d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning stop rules"}}
+{"range":["omo:ulw-plan/references/intent-clear.md#0000","omo:ulw-plan/references/intent-clear.md#0004"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/intent-clear.md#0005","omo:ulw-plan/references/intent-clear.md#0011"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Clear-intent interview path"}}
+{"id":"omo:ulw-plan/references/intent-clear.md#0012","d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval gate before plan file"}}
+{"range":["omo:ulw-plan/references/intent-clear.md#0013","omo:ulw-plan/references/intent-clear.md#0019"],"d":"dropped","why":"example-only","note":"worked rate-limit example"}
+{"range":["omo:ulw-plan/references/intent-unclear.md#0000","omo:ulw-plan/references/intent-unclear.md#0004"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/intent-unclear.md#0005","omo:ulw-plan/references/intent-unclear.md#0011"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Unclear-intent research path"}}
+{"id":"omo:ulw-plan/references/intent-unclear.md#0012","d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval gate before plan file"}}
+{"range":["omo:ulw-plan/references/intent-unclear.md#0013","omo:ulw-plan/references/intent-unclear.md#0017"],"d":"dropped","why":"example-only","note":"worked make-auth-better example"}
+{"range":["omo:ulw-plan/references/stance-calibration.md#0000","omo:ulw-plan/references/stance-calibration.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-plan/references/stance-calibration.md#0004","d":"absorbed","to":{"skill":"planning-rigorously","section":"Question delivery renderers [conflict: one-at-a-time superseded by whole-round-up-front]"}}
+{"id":"omo:ulw-plan/references/stance-calibration.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/stance-calibration.md#0006","omo:ulw-plan/references/stance-calibration.md#0010"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Question delivery renderers [conflict: one-at-a-time superseded by whole-round-up-front]"}}
+{"id":"omo:ulw-plan/references/stance-calibration.md#0011","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/stance-calibration.md#0012","omo:ulw-plan/references/stance-calibration.md#0019"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Opening stance renderer choice [conflict: one-at-a-time superseded by whole-round-up-front]"}}
+{"id":"omo:ulw-plan/references/stance-calibration.md#0020","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/stance-calibration.md#0021","omo:ulw-plan/references/stance-calibration.md#0023"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Fork-reply classification"}}
+{"id":"omo:ulw-plan/references/stance-calibration.md#0024","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/stance-calibration.md#0025","omo:ulw-plan/references/stance-calibration.md#0030"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Fork-reply classification"}}
+{"id":"omo:ulw-plan/references/stance-calibration.md#0031","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/stance-calibration.md#0032","omo:ulw-plan/references/stance-calibration.md#0037"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Override gates for stop-asking phrases"}}
+{"id":"omo:ulw-plan/references/stance-calibration.md#0038","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/stance-calibration.md#0039","omo:ulw-plan/references/stance-calibration.md#0047"],"d":"dropped","why":"runtime","note":"planning-style episode memory file"}
+{"id":"omo:ulw-plan/references/stance-calibration.md#0048","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-plan/references/stance-calibration.md#0049","omo:ulw-plan/references/stance-calibration.md#0053"],"d":"dropped","why":"runtime","note":"onboarding seed entries in memory"}
+{"id":"omo:ulw-plan/scripts/plan-templates.mjs#0000","d":"dropped","why":"runtime","note":"scaffold script plan skeleton text"}
+{"id":"omo:ulw-plan/scripts/scaffold-plan.mjs#0000","d":"dropped","why":"runtime","note":"scaffold-plan.mjs script"}

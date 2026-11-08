@@ -1,0 +1,46 @@
+{"range":["mattpocock:domain-modeling/SKILL.md#0000","mattpocock:domain-modeling/SKILL.md#0002"],"d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/SKILL.md#0003","d":"absorbed","to":{"skill":"planning-rigorously","section":"Domain model: glossary and ADR discipline"}}
+{"id":"mattpocock:domain-modeling/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/SKILL.md#0005","d":"absorbed","to":{"skill":"planning-rigorously","section":"Glossary and ADR file layout"}}
+{"id":"mattpocock:domain-modeling/SKILL.md#0006","d":"dropped","why":"example-only","note":"directory tree sample"}
+{"id":"mattpocock:domain-modeling/SKILL.md#0007","d":"absorbed","to":{"skill":"planning-rigorously","section":"Glossary and ADR file layout"}}
+{"id":"mattpocock:domain-modeling/SKILL.md#0008","d":"dropped","why":"example-only","note":"multi-context directory tree sample"}
+{"id":"mattpocock:domain-modeling/SKILL.md#0009","d":"absorbed","to":{"skill":"planning-rigorously","section":"Glossary and ADR file layout"}}
+{"range":["mattpocock:domain-modeling/SKILL.md#0010","mattpocock:domain-modeling/SKILL.md#0011"],"d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/SKILL.md#0012","d":"absorbed","to":{"skill":"planning-rigorously","section":"Challenge terms against the glossary"}}
+{"id":"mattpocock:domain-modeling/SKILL.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/SKILL.md#0014","d":"absorbed","to":{"skill":"planning-rigorously","section":"Sharpen fuzzy language"}}
+{"id":"mattpocock:domain-modeling/SKILL.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/SKILL.md#0016","d":"absorbed","to":{"skill":"planning-rigorously","section":"Stress-test relationships with concrete scenarios"}}
+{"id":"mattpocock:domain-modeling/SKILL.md#0017","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/SKILL.md#0018","d":"absorbed","to":{"skill":"planning-rigorously","section":"Cross-reference claims with the code"}}
+{"id":"mattpocock:domain-modeling/SKILL.md#0019","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:domain-modeling/SKILL.md#0020","mattpocock:domain-modeling/SKILL.md#0021"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Update glossary inline"}}
+{"id":"mattpocock:domain-modeling/SKILL.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:domain-modeling/SKILL.md#0023","mattpocock:domain-modeling/SKILL.md#0027"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR offer criteria: hard to reverse, surprising, trade-off"}}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:domain-modeling/ADR-FORMAT.md#0001","mattpocock:domain-modeling/ADR-FORMAT.md#0002"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR format and numbering"}}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0003","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0004","d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR format and numbering"}}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0005","d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR format and numbering"}}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:domain-modeling/ADR-FORMAT.md#0007","mattpocock:domain-modeling/ADR-FORMAT.md#0010"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR format and numbering"}}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0011","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0012","d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR format and numbering"}}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0014","d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR offer criteria: hard to reverse, surprising, trade-off"}}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0015","d":"duplicate","of":"mattpocock:domain-modeling/SKILL.md#0024"}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0016","d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR offer criteria: hard to reverse, surprising, trade-off"}}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0017","d":"duplicate","of":"mattpocock:domain-modeling/SKILL.md#0026"}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0018","d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR offer criteria: hard to reverse, surprising, trade-off"}}
+{"id":"mattpocock:domain-modeling/ADR-FORMAT.md#0019","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:domain-modeling/ADR-FORMAT.md#0020","mattpocock:domain-modeling/ADR-FORMAT.md#0026"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR qualifying decisions"}}
+{"range":["mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0000","mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0001"],"d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0002","d":"absorbed","to":{"skill":"planning-rigorously","section":"Glossary format and rules"}}
+{"id":"mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0003","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0004","mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0007"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Glossary format and rules"}}
+{"id":"mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0008","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0009","mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0010"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Single vs multi-context glossary"}}
+{"id":"mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0011","d":"dropped","why":"example-only","note":"glossary map sample"}
+{"range":["mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0012","mattpocock:domain-modeling/GLOSSARY-FORMAT.md#0016"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Single vs multi-context glossary"}}
+{"id":"mattpocock:domain-modeling/agents/openai.yaml#0000","d":"dropped","why":"noise","note":"agent UI metadata"}

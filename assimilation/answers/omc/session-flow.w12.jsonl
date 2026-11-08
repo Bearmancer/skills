@@ -1,0 +1,11 @@
+{"range":["omc:session-flow/SKILL.md#0000","omc:session-flow/SKILL.md#0003"],"d":"dropped","why":"runtime","note":"omc frontmatter: name, description, argument hint, invocation flag"}
+{"id":"omc:session-flow/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omc:session-flow/SKILL.md#0005","d":"absorbed","to":{"skill":"core","section":"Session flow: evidence-backed map of the session"}}
+{"id":"omc:session-flow/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["omc:session-flow/SKILL.md#0007","omc:session-flow/SKILL.md#0009"],"d":"absorbed","to":{"skill":"core","section":"Session flow modes: full, short, reset"}}
+{"id":"omc:session-flow/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omc:session-flow/SKILL.md#0011","omc:session-flow/SKILL.md#0019"],"d":"absorbed","to":{"skill":"core","section":"Map workflow: evidence stages, status markers, length cap"}}
+{"range":["omc:session-flow/SKILL.md#0020","omc:session-flow/SKILL.md#0023"],"d":"dropped","why":"runtime","note":"native Task tools and OMC continuation hook"}
+{"id":"omc:session-flow/SKILL.md#0024","d":"absorbed","to":{"skill":"core","section":"Without native tasks: say the map is not persisted"}}
+{"id":"omc:session-flow/SKILL.md#0025","d":"dropped","why":"boilerplate"}
+{"range":["omc:session-flow/SKILL.md#0026","omc:session-flow/SKILL.md#0028"],"d":"absorbed","to":{"skill":"core","section":"Map output: stable stage order and shape"}}

@@ -1,0 +1,17 @@
+{"range":["omc:wiki/SKILL.md#0000","omc:wiki/SKILL.md#0002"],"d":"dropped","why":"runtime","note":"omc skill frontmatter: name, description, triggers"}
+{"id":"omc:wiki/SKILL.md#0003","d":"dropped","why":"boilerplate"}
+{"id":"omc:wiki/SKILL.md#0004","d":"absorbed","to":{"skill":"core","section":"Purpose: persistent self-maintained markdown knowledge base"}}
+{"range":["omc:wiki/SKILL.md#0005","omc:wiki/SKILL.md#0006"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:wiki/SKILL.md#0007","omc:wiki/SKILL.md#0008"],"d":"absorbed","to":{"skill":"core","section":"Ingest: process knowledge into wiki pages, multi-page touch"}}
+{"range":["omc:wiki/SKILL.md#0009","omc:wiki/SKILL.md#0011"],"d":"absorbed","to":{"skill":"core","section":"Query: keyword and tag search across pages"}}
+{"range":["omc:wiki/SKILL.md#0012","omc:wiki/SKILL.md#0014"],"d":"absorbed","to":{"skill":"core","section":"Lint: orphans, stale content, broken cross-references"}}
+{"range":["omc:wiki/SKILL.md#0015","omc:wiki/SKILL.md#0017"],"d":"absorbed","to":{"skill":"core","section":"Quick add: single page"}}
+{"range":["omc:wiki/SKILL.md#0018","omc:wiki/SKILL.md#0019"],"d":"absorbed","to":{"skill":"core","section":"List, read, delete pages"}}
+{"range":["omc:wiki/SKILL.md#0020","omc:wiki/SKILL.md#0021"],"d":"absorbed","to":{"skill":"core","section":"Log: append-only operation history"}}
+{"id":"omc:wiki/SKILL.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["omc:wiki/SKILL.md#0023","omc:wiki/SKILL.md#0027"],"d":"absorbed","to":{"skill":"core","section":"Categories and storage: pages, auto-maintained index, log"}}
+{"range":["omc:wiki/SKILL.md#0028","omc:wiki/SKILL.md#0029"],"d":"absorbed","to":{"skill":"core","section":"Cross-references via wiki-link syntax"}}
+{"range":["omc:wiki/SKILL.md#0030","omc:wiki/SKILL.md#0031"],"d":"absorbed","to":{"skill":"core","section":"Auto-capture: significant session-end discoveries"}}
+{"range":["omc:wiki/SKILL.md#0032","omc:wiki/SKILL.md#0034"],"d":"absorbed","to":{"skill":"core","section":"Hard constraints: no vector embeddings, keyword and tag only, git-ignored pages"}}
+{"id":"omc:wiki/SKILL.md#0035","d":"dropped","why":"boilerplate"}
+{"range":["omc:wiki/SKILL.md#0036","omc:wiki/SKILL.md#0040"],"d":"absorbed","to":{"skill":"core","section":"Model routing by task weight"}}

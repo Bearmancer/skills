@@ -1,0 +1,31 @@
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0000","addyosmani:debugging-and-error-recovery/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0004","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Stop the line and triage in order"}}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0006","addyosmani:debugging-and-error-recovery/SKILL.md#0011"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging triggers"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0012","addyosmani:debugging-and-error-recovery/SKILL.md#0015"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Stop-the-line rule"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0016","addyosmani:debugging-and-error-recovery/SKILL.md#0017"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Stop the line and triage in order"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0018","addyosmani:debugging-and-error-recovery/SKILL.md#0020"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Reproduce the failure first"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0021","addyosmani:debugging-and-error-recovery/SKILL.md#0022"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Non-reproducible bugs"}}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0023","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Reproduce the failure first"}}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0024","d":"dropped","why":"example-only","note":"test command sample"}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0025","addyosmani:debugging-and-error-recovery/SKILL.md#0027"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Localize the failing layer"}}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0028","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Bisect regressions"}}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0029","d":"dropped","why":"example-only","note":"git bisect command sample"}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0030","addyosmani:debugging-and-error-recovery/SKILL.md#0035"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Reduce to a minimal failing case"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0036","addyosmani:debugging-and-error-recovery/SKILL.md#0037"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Fix the root cause not the symptom"}}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0038","d":"dropped","why":"example-only","note":"symptom fix versus root fix sample"}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0039","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Fix the root cause not the symptom"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0040","addyosmani:debugging-and-error-recovery/SKILL.md#0041"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Regression test guards recurrence"}}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0042","d":"dropped","why":"example-only","note":"regression test sample"}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0043","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Regression test guards recurrence"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0044","addyosmani:debugging-and-error-recovery/SKILL.md#0045"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Verify end to end"}}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0046","d":"dropped","why":"example-only","note":"verification command sample"}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0047","addyosmani:debugging-and-error-recovery/SKILL.md#0053"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Error-specific triage trees"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0054","addyosmani:debugging-and-error-recovery/SKILL.md#0056"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Safe fallbacks under time pressure"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0057","addyosmani:debugging-and-error-recovery/SKILL.md#0070"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Instrumentation: when to add and remove"}}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0071","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:debugging-and-error-recovery/SKILL.md#0072","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0073","addyosmani:debugging-and-error-recovery/SKILL.md#0077"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging rationalizations"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0078","addyosmani:debugging-and-error-recovery/SKILL.md#0083"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Error output is untrusted data"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0084","addyosmani:debugging-and-error-recovery/SKILL.md#0091"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging red flags"}}
+{"range":["addyosmani:debugging-and-error-recovery/SKILL.md#0092","addyosmani:debugging-and-error-recovery/SKILL.md#0099"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debugging verification checklist"}}

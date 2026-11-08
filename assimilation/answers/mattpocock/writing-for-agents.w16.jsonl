@@ -1,0 +1,17 @@
+{"range":["mattpocock:writing-for-agents/SKILL.md#0000","mattpocock:writing-for-agents/SKILL.md#0001"],"d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:writing-for-agents/SKILL.md#0002","mattpocock:writing-for-agents/SKILL.md#0003"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Writing agent-facing documents: scope"}}
+{"id":"mattpocock:writing-for-agents/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:writing-for-agents/SKILL.md#0005","mattpocock:writing-for-agents/SKILL.md#0009"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Context pointers"}}
+{"id":"mattpocock:writing-for-agents/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:writing-for-agents/SKILL.md#0011","mattpocock:writing-for-agents/SKILL.md#0014"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Context load vs cognitive load"}}
+{"id":"mattpocock:writing-for-agents/SKILL.md#0015","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:writing-for-agents/SKILL.md#0016","mattpocock:writing-for-agents/SKILL.md#0023"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Information hierarchy and progressive disclosure"}}
+{"id":"mattpocock:writing-for-agents/SKILL.md#0024","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:writing-for-agents/SKILL.md#0025","mattpocock:writing-for-agents/SKILL.md#0028"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Steps and completion criteria"}}
+{"id":"mattpocock:writing-for-agents/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:writing-for-agents/SKILL.md#0030","mattpocock:writing-for-agents/SKILL.md#0032"],"d":"absorbed","to":{"skill":"init-rigorously","section":"When to split a document"}}
+{"id":"mattpocock:writing-for-agents/SKILL.md#0033","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:writing-for-agents/SKILL.md#0034","mattpocock:writing-for-agents/SKILL.md#0040"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Leading words"}}
+{"id":"mattpocock:writing-for-agents/SKILL.md#0041","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:writing-for-agents/SKILL.md#0042","mattpocock:writing-for-agents/SKILL.md#0045"],"d":"absorbed","to":{"skill":"init-rigorously","section":"Pruning agent documents"}}
+{"id":"mattpocock:writing-for-agents/agents/openai.yaml#0000","d":"dropped","why":"noise","note":"agent UI metadata"}

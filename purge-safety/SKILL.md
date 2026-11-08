@@ -54,6 +54,7 @@ Check each one in the source. The middle column says why it matters; the right c
 | No wildcard targets     | Expansion happens in the script, after the guards, never in the target string                  | `Remove-Item "$root\*" -Recurse`                                                         |
 | Counts before and after | Files, dirs, empty dirs, zero-byte files, bytes: the proof the purge did what it claimed       | "done" with no numbers                                                                   |
 | Residue scan            | Re-run the rules after the purge; non-zero residue means the job is unfinished                 | script exits 0 after deleting half the list                                              |
+| `fd -u` zero count      | `fd -u` (hidden and ignored files included) over each removed path must count 0; the script's own scan is not a second witness | residue check that reuses the delete rules, so it cannot see what they missed |
 | Journal before delete   | Write-ahead record per target: path, counts, verdict, reason, timestamp                        | log written at the end, or only on success                                               |
 | Self-termination        | Time budget, failure ceiling, single-instance lock, explicit exit codes                        | a runaway recursive delete with no ceiling                                               |
 | No silent swallowing    | Failures are counted and surfaced; a locked file is a reported failure, not a skipped line     | `-ErrorAction SilentlyContinue` around a delete                                          |
@@ -121,6 +122,7 @@ Safety of the script is necessary, not sufficient. Before any real `--apply`:
 5. **Set the budget.** `--max-minutes` and `--max-failures` must be plausible for the tree size; an unbounded run is a runaway.
 6. **State the expected residue.** Normally 0. A non-zero residue after apply means the run is unfinished, not "mostly done".
 7. **Re-scan afterwards** and report counts, not adjectives: deleted files/dirs, residue paths, refused rows.
+8. **Run `fd -u` over every removed path** (for a gone path, `fd -u -i -g -d 1 <name> <parent>`) and require a count of 0. Any other count is residue: BLOCK the claim of done. A missing `fd` is UNPROVEN, never PASS. `purge.py` does this itself; run it by hand for any other script.
 
 ## 6. Work-audit handoff
 
@@ -160,6 +162,7 @@ When the engine scans the omo root after apply, it can report residue that its o
 | Reparse points     | `is_reparse`; `measure` counts instead of walking; `remove_tree` unlinks                                   |
 | Counts             | `measure`; `totals`; the `APPLY` summary line                                                              |
 | Residue scan       | `apply_mode` `finally`: `scan_entries` + exit 2 when residue remains                                       |
+| `fd -u` zero count | `fd_residue`: exit 2 on a non-zero count or a missing `fd`; `--skip-fd-check` journals `skipped`          |
 | Journal            | `apply_mode`: `delete` record appended before `remove_tree`, `removed`/`failed`/`prune-empty-parent` after |
 | Self-termination   | `budget`, `--max-failures`, `enter_lock`/`exit_lock`, an explicit exit code from `main`                    |
 | Cascade            | `remove_empty_ancestors`                                                                                   |
