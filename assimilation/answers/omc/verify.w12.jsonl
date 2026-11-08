@@ -1,0 +1,13 @@
+{"range":["omc:verify/SKILL.md#0000","omc:verify/SKILL.md#0001"],"d":"dropped","why":"runtime","note":"omc frontmatter: name, description"}
+{"id":"omc:verify/SKILL.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omc:verify/SKILL.md#0003","d":"absorbed","to":{"skill":"review-rigorously","section":"Verify scope: prove a change works before claiming done"}}
+{"id":"omc:verify/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omc:verify/SKILL.md#0005","d":"absorbed","to":{"skill":"review-rigorously","section":"Verify goal: concrete evidence over claims"}}
+{"id":"omc:verify/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["omc:verify/SKILL.md#0007","omc:verify/SKILL.md#0011"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Verify workflow: existing tests, narrow checks, manual steps"}}
+{"id":"omc:verify/SKILL.md#0012","d":"dropped","why":"boilerplate"}
+{"range":["omc:verify/SKILL.md#0013","omc:verify/SKILL.md#0016"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Verification order: tests, build, direct checks, manual"}}
+{"id":"omc:verify/SKILL.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["omc:verify/SKILL.md#0018","omc:verify/SKILL.md#0021"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Verify rules: no claim without evidence, show failures"}}
+{"id":"omc:verify/SKILL.md#0022","d":"dropped","why":"boilerplate"}
+{"range":["omc:verify/SKILL.md#0023","omc:verify/SKILL.md#0026"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Verify output: verified, commands, passed, unverified"}}

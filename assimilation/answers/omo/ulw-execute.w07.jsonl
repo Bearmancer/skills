@@ -1,0 +1,60 @@
+{"range":["omo:ulw-execute/SKILL.md#0000","omo:ulw-execute/SKILL.md#0002"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-execute/SKILL.md#0003","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0004","omo:ulw-execute/SKILL.md#0015"],"d":"dropped","why":"runtime","note":"Senpi/OpenCode tool compatibility table"}
+{"id":"omo:ulw-execute/SKILL.md#0016","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0017","omo:ulw-execute/SKILL.md#0018"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Conductor role: never the implementer"}}
+{"id":"omo:ulw-execute/SKILL.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-execute/SKILL.md#0020","d":"absorbed","to":{"skill":"execute-rigorously","section":"Execute plan until every checkbox closed"}}
+{"id":"omo:ulw-execute/SKILL.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-execute/SKILL.md#0022","d":"dropped","why":"runtime","note":"slash-command usage line"}
+{"id":"omo:ulw-execute/SKILL.md#0023","d":"absorbed","to":{"skill":"execute-rigorously","section":"Plan selection and resume"}}
+{"id":"omo:ulw-execute/SKILL.md#0024","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Task-owned worktree per phase"}}
+{"id":"omo:ulw-execute/SKILL.md#0027","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0028","omo:ulw-execute/SKILL.md#0031"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Goal and todo mirror of the plan"}}
+{"id":"omo:ulw-execute/SKILL.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-execute/SKILL.md#0033","d":"dropped","why":"runtime","note":"boulder.json state file"}
+{"range":["omo:ulw-execute/SKILL.md#0034","omo:ulw-execute/SKILL.md#0039"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Plan selection and resume"}}
+{"id":"omo:ulw-execute/SKILL.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0041","omo:ulw-execute/SKILL.md#0046"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"No-plan bootstrap through planning"}}
+{"id":"omo:ulw-execute/SKILL.md#0047","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0048","omo:ulw-execute/SKILL.md#0049"],"d":"dropped","why":"runtime","note":"boulder.json state schema"}
+{"id":"omo:ulw-execute/SKILL.md#0050","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Task-owned worktree per phase"}}
+{"id":"omo:ulw-execute/SKILL.md#0051","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0052","omo:ulw-execute/SKILL.md#0055"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Team mode versus parallel workers"}}
+{"id":"omo:ulw-execute/SKILL.md#0056","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Worktree per lane, merge per verified unit"}}
+{"id":"omo:ulw-execute/SKILL.md#0057","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0058","omo:ulw-execute/SKILL.md#0060"],"d":"absorbed","to":{"skill":"version-control-rigorously","section":"Worktree per lane, merge per verified unit"}}
+{"id":"omo:ulw-execute/SKILL.md#0061","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0062","omo:ulw-execute/SKILL.md#0068"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Execute next checkbox: classify, decompose, delegate"}}
+{"id":"omo:ulw-execute/SKILL.md#0069","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0070","omo:ulw-execute/SKILL.md#0074"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Monitor workers to completion, never poll"}}
+{"id":"omo:ulw-execute/SKILL.md#0075","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-execute/SKILL.md#0076","d":"absorbed","to":{"skill":"execute-rigorously","section":"Delegation router by category"}}
+{"id":"omo:ulw-execute/SKILL.md#0077","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0078","omo:ulw-execute/SKILL.md#0085"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Delegation router by category"}}
+{"range":["omo:ulw-execute/SKILL.md#0086","omo:ulw-execute/SKILL.md#0088"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Splittable work splits, cohesive stays whole"}}
+{"id":"omo:ulw-execute/SKILL.md#0089","d":"absorbed","to":{"skill":"execute-rigorously","section":"Delegation router by category"}}
+{"id":"omo:ulw-execute/SKILL.md#0090","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0091","omo:ulw-execute/SKILL.md#0095"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Worker prompt shape"}}
+{"range":["omo:ulw-execute/SKILL.md#0096","omo:ulw-execute/SKILL.md#0099"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Manual-QA channels"}}
+{"id":"omo:ulw-execute/SKILL.md#0100","d":"dropped","why":"runtime","note":"web-terminal visual QA bun script"}
+{"range":["omo:ulw-execute/SKILL.md#0101","omo:ulw-execute/SKILL.md#0103"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Worker prompt shape"}}
+{"id":"omo:ulw-execute/SKILL.md#0104","d":"absorbed","to":{"skill":"execute-rigorously","section":"Adversarial classes probed per criterion"}}
+{"id":"omo:ulw-execute/SKILL.md#0105","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0106","omo:ulw-execute/SKILL.md#0111"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Five verification gates per checkbox"}}
+{"id":"omo:ulw-execute/SKILL.md#0112","d":"absorbed","to":{"skill":"core","section":"Evidence ledger entries"}}
+{"id":"omo:ulw-execute/SKILL.md#0113","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0114","omo:ulw-execute/SKILL.md#0115"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Independent verification of done claims"}}
+{"id":"omo:ulw-execute/SKILL.md#0116","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0117","omo:ulw-execute/SKILL.md#0123"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Independent verification of done claims"}}
+{"range":["omo:ulw-execute/SKILL.md#0124","omo:ulw-execute/SKILL.md#0125"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0126","omo:ulw-execute/SKILL.md#0129"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Mark progress only after verification"}}
+{"range":["omo:ulw-execute/SKILL.md#0130","omo:ulw-execute/SKILL.md#0131"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-execute/SKILL.md#0132","d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion: final verification and report"}}
+{"id":"omo:ulw-execute/SKILL.md#0134","d":"dropped","why":"runtime","note":"Boulder work state"}
+{"id":"omo:ulw-execute/SKILL.md#0135","d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion: final verification and report"}}
+{"id":"omo:ulw-execute/SKILL.md#0136","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-execute/SKILL.md#0137","omo:ulw-execute/SKILL.md#0141"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Hard rules: evidence and no direct implementation"}}
+{"id":"omo:ulw-execute/SKILL.md#0142","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Task-owned worktree per phase"}}
+{"id":"omo:ulw-execute/SKILL.md#0143","d":"dropped","why":"runtime","note":"senpi: session id prefix in Boulder state"}
+{"id":"omo:ulw-execute/SKILL.md#0144","d":"absorbed","to":{"skill":"core","section":"Resuming from durable ledger"}}

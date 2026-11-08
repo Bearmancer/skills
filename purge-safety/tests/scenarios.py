@@ -721,6 +721,8 @@ ADAPTER_SCENARIOS = {
 
 def command(engine, opts):
     flags = []
+    if engine == "engine" and opts.get("apply"):
+        opts = {**opts, "skip-fd-check": True}  # goldens predate the fd -u check; test_engine covers it
     for name, value in opts.items():
         flags += ["--" + name] if value is True else ["--" + name, str(value)]
     script = ENGINE_PY if engine == "engine" else ADAPTER_PY
@@ -799,7 +801,7 @@ def collect(base, proc, spec):
 
 # --- normalizing ------------------------------------------------------------------------------
 
-VOLATILE = {"generated", "utc", "pid", "journal", "started", "source"}
+VOLATILE = {"generated", "utc", "pid", "journal", "started", "source", "fd_status", "fd_checked", "fd_residue"}
 
 
 def scrub(text, base):
@@ -839,6 +841,8 @@ def lines_of(text, base):
     raw = [scrub(line.rstrip(), base) for line in text.splitlines()]
     joined = []
     for line in raw:
+        if line.strip().startswith("fd -u "):
+            continue
         if line.startswith("         reason: ") and joined:
             joined[-1] += " | " + line.strip()
         elif line.startswith("FAILED  "):

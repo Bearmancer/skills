@@ -1,0 +1,11 @@
+{"range":["omc:debug/SKILL.md#0000","omc:debug/SKILL.md#0001"],"d":"dropped","why":"runtime","note":"omc frontmatter: name, description"}
+{"id":"omc:debug/SKILL.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omc:debug/SKILL.md#0003","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debug scope: diagnose a current session or repo"}}
+{"id":"omc:debug/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omc:debug/SKILL.md#0005","d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debug goal: real failure signal, next step"}}
+{"id":"omc:debug/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["omc:debug/SKILL.md#0007","omc:debug/SKILL.md#0015"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debug workflow: evidence, reproduce narrowly, root cause"}}
+{"id":"omc:debug/SKILL.md#0016","d":"dropped","why":"boilerplate"}
+{"range":["omc:debug/SKILL.md#0017","omc:debug/SKILL.md#0023"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debug rules: real evidence, redaction, tags, seams"}}
+{"id":"omc:debug/SKILL.md#0024","d":"dropped","why":"boilerplate"}
+{"range":["omc:debug/SKILL.md#0025","omc:debug/SKILL.md#0028"],"d":"absorbed","to":{"skill":"debugging-rigorously","section":"Debug output: failure, hypothesis, evidence, action"}}

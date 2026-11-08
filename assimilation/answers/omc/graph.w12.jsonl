@@ -1,0 +1,16 @@
+{"range":["omc:graph/SKILL.md#0000","omc:graph/SKILL.md#0004"],"d":"dropped","why":"runtime","note":"omc frontmatter: name, description, aliases, level"}
+{"id":"omc:graph/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"id":"omc:graph/SKILL.md#0006","d":"absorbed","to":{"skill":"core","section":"Graph purpose: deterministic pipeline with resume"}}
+{"id":"omc:graph/SKILL.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"omc:graph/SKILL.md#0008","d":"dropped","why":"example-only","note":"usage examples"}
+{"range":["omc:graph/SKILL.md#0009","omc:graph/SKILL.md#0011"],"d":"dropped","why":"runtime","note":"omc graph run CLI and Bash invocation"}
+{"id":"omc:graph/SKILL.md#0012","d":"dropped","why":"boilerplate"}
+{"range":["omc:graph/SKILL.md#0013","omc:graph/SKILL.md#0016"],"d":"absorbed","to":{"skill":"core","section":"Graph use and non-use: repeatable, interruption-safe, auditable"}}
+{"id":"omc:graph/SKILL.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["omc:graph/SKILL.md#0018","omc:graph/SKILL.md#0023"],"d":"absorbed","to":{"skill":"core","section":"Graph run workflow: approvals, progress, exit codes, resume"}}
+{"id":"omc:graph/SKILL.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omc:graph/SKILL.md#0025","d":"dropped","why":"example-only","note":"descriptor JSON example"}
+{"range":["omc:graph/SKILL.md#0026","omc:graph/SKILL.md#0027"],"d":"absorbed","to":{"skill":"core","section":"Edge kinds and bounded back-edge retries"}}
+{"id":"omc:graph/SKILL.md#0028","d":"dropped","why":"runtime","note":"pointer to schema source file"}
+{"id":"omc:graph/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["omc:graph/SKILL.md#0030","omc:graph/SKILL.md#0033"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Graph capability boundary: crash recovery, trust, authority"}}

@@ -17,6 +17,7 @@ The script terminates itself, it does not rely on the operator:
 
 Deletion is the only destructive path: it needs --apply plus a manifest whose verdict is PURGE or OWNER.
 A protected path is refused unless listed in --override. A reparse point is unlinked, never walked.
+After --apply, `fd -u` (hidden and ignored files included) independently confirms every removed path counts 0.
 """
 
 import argparse
@@ -24,7 +25,9 @@ import fnmatch
 import json
 import os
 import re
+import shutil
 import stat
+import subprocess
 import sys
 import tempfile
 import time
@@ -473,6 +476,42 @@ class Engine:
             except OSError:
                 failures += 1
         return failures
+
+    def fd_residue(self, paths):
+        """(checked, residue) from `fd -u` over every removed path; residue is None when fd cannot answer.
+
+        A path that still exists counts itself plus everything fd lists below it. A path that is gone is
+        looked up by exact name (case-insensitive glob, depth 1) in its parent, so a recreated or
+        half-removed entry is still seen. The engine's own scan is one witness; fd is the independent one.
+        """
+        fd = shutil.which("fd")
+        if not fd:
+            return len(paths), None
+
+        def run(args):
+            return subprocess.run(
+                [fd, *args], capture_output=True, text=True, encoding="utf-8", errors="replace"
+            )
+
+        def count(path):
+            if exists(path):
+                if is_reparse(path):
+                    return 1
+                r = run(["-u", ".", path])
+                return None if r.returncode else 1 + len(r.stdout.splitlines())
+            parent = parent_of(path)
+            if not parent or not exists(parent):
+                return 0
+            name = os.path.basename(path.rstrip("\\/"))
+            glob = "".join(f"[{c}]" if c in "*?[]{}" else c for c in name)
+            r = run(["-u", "-i", "-g", "-d", "1", "--", glob, parent])
+            return None if r.returncode else len(r.stdout.splitlines())
+
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            counts = list(pool.map(count, paths))
+        if any(c is None for c in counts):
+            return len(paths), None
+        return len(paths), sum(counts)
 
     def remove_empty_ancestors(self, path):
         removed = []
@@ -945,6 +984,7 @@ class Engine:
 
         removed = refused = failures = 0
         done = set()
+        gone_paths = []
         before = {"Files": 0, "Dirs": 0, "Bytes": 0, "EmptyDirs": 0, "ZeroFiles": 0}
         abort = None
 
@@ -1020,11 +1060,13 @@ class Engine:
                             raise OSError(f"{bad} entries could not be removed")
                     removed += 1
                     done.add(path.upper())
+                    gone_paths.append(path)
                     for k in before:
                         before[k] += live[k]
                     record(event="removed", path=path)
                     for gone in self.remove_empty_ancestors(path):
                         before["Dirs"] += 1
+                        gone_paths.append(gone)
                         record(event="prune-empty-parent", path=gone)
                 except (
                     Exception
@@ -1050,6 +1092,17 @@ class Engine:
                 else:
                     left.append(e)
             after = self.totals(left)
+            fd_checked, fd_left = 0, 0
+            if not gone_paths:
+                fd_status = "n/a"
+            elif self.args.skip_fd_check:
+                fd_status = "skipped"
+            else:
+                fd_checked, fd_left = self.fd_residue(gone_paths)
+                if fd_left is None:
+                    fd_status, fd_left = "unavailable", 0
+                else:
+                    fd_status = "residue" if fd_left else "ok"
             summary = {
                 "mode": "apply",
                 "root": self.root,
@@ -1065,6 +1118,9 @@ class Engine:
                 "residual_paths": after["Paths"],
                 "residual_files": after["Files"],
                 "residual_dirs": after["Dirs"],
+                "fd_status": fd_status,
+                "fd_checked": fd_checked,
+                "fd_residue": fd_left,
                 "aborted": bool(abort),
                 "abort_reason": abort,
             }
@@ -1081,13 +1137,17 @@ class Engine:
             self.line(
                 f"       residue paths={after['Paths']} files={after['Files']:,} dirs={after['Dirs']:,} (refused candidates: {left_refused})"
             )
+            self.line(
+                f"       fd -u {fd_status}: checked={fd_checked} residue={fd_left}"
+                + (" (install fd or pass --skip-fd-check)" if fd_status == "unavailable" else "")
+            )
             self.line(f"       journal: {journal}")
             if self.json:
                 print(json.dumps(summary, indent=2, ensure_ascii=False))
             if not abort:
                 if failures > 0 or refused > 0:
                     self.exit = 3
-                elif after["Paths"] > 0:
+                elif after["Paths"] > 0 or fd_left > 0 or fd_status == "unavailable":
                     self.exit = 2
                 else:
                     self.exit = 0
@@ -1147,6 +1207,7 @@ def parse_args(argv):
     p.add_argument("--max-failures", type=int, default=25)
     p.add_argument("--lock-file")
     p.add_argument("--force", action="store_true")
+    p.add_argument("--skip-fd-check", action="store_true")
     p.add_argument("--json", action="store_true")
     return p.parse_args(argv)
 

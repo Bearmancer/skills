@@ -1,0 +1,79 @@
+{"range":["omc:plan/SKILL.md#0000","omc:plan/SKILL.md#0001"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0002","d":"dropped","why":"noise","note":"argument-hint display"}
+{"id":"omc:plan/SKILL.md#0003","d":"dropped","why":"noise","note":"pipeline metadata"}
+{"id":"omc:plan/SKILL.md#0004","d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval-gated handoff to execution"}}
+{"id":"omc:plan/SKILL.md#0005","d":"dropped","why":"runtime","note":"omc handoff path metadata"}
+{"id":"omc:plan/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0007","d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan modes: interview, direct, consensus, review"}}
+{"id":"omc:plan/SKILL.md#0008","d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0009","omc:plan/SKILL.md#0013"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"When to plan versus execute directly"}}
+{"id":"omc:plan/SKILL.md#0014","d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0015","omc:plan/SKILL.md#0018"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"When to plan versus execute directly"}}
+{"id":"omc:plan/SKILL.md#0019","d":"absorbed","to":{"skill":"planning-rigorously","section":"When to plan versus execute directly"}}
+{"id":"omc:plan/SKILL.md#0020","d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0021","d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan modes: interview, direct, consensus, review"}}
+{"id":"omc:plan/SKILL.md#0022","d":"absorbed","to":{"skill":"planning-rigorously","section":"Question sweep: one question at a time [conflict: user decided whole-round questions up front]"}}
+{"id":"omc:plan/SKILL.md#0023","d":"absorbed","to":{"skill":"planning-rigorously","section":"Explore codebase before asking"}}
+{"id":"omc:plan/SKILL.md#0024","d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan quality standards: cited claims, testable criteria"}}
+{"id":"omc:plan/SKILL.md#0025","d":"absorbed","to":{"skill":"planning-rigorously","section":"Consensus planning loop: planner, architect, critic"}}
+{"id":"omc:plan/SKILL.md#0026","d":"absorbed","to":{"skill":"planning-rigorously","section":"RALPLAN-DR summary: principles, drivers, options"}}
+{"id":"omc:plan/SKILL.md#0027","d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning never executes before approval"}}
+{"range":["omc:plan/SKILL.md#0028","omc:plan/SKILL.md#0029"],"d":"dropped","why":"runtime","note":"omc goal workflow comparison of /goal, Ralph, Team, Ultragoal and its docs target"}
+{"range":["omc:plan/SKILL.md#0030","omc:plan/SKILL.md#0032"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0033","omc:plan/SKILL.md#0036"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan modes: interview, direct, consensus, review"}}
+{"id":"omc:plan/SKILL.md#0037","d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0038","d":"absorbed","to":{"skill":"planning-rigorously","section":"Interview mode: classify, gather facts, build on answers"}}
+{"id":"omc:plan/SKILL.md#0039","d":"absorbed","to":{"skill":"planning-rigorously","section":"Question sweep: one question at a time [conflict: user decided whole-round questions up front]"}}
+{"range":["omc:plan/SKILL.md#0040","omc:plan/SKILL.md#0043"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Interview mode: classify, gather facts, build on answers"}}
+{"id":"omc:plan/SKILL.md#0044","d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0045","omc:plan/SKILL.md#0047"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan modes: interview, direct, consensus, review"}}
+{"id":"omc:plan/SKILL.md#0048","d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0049","d":"absorbed","to":{"skill":"planning-rigorously","section":"RALPLAN-DR summary: principles, drivers, options"}}
+{"range":["omc:plan/SKILL.md#0050","omc:plan/SKILL.md#0059"],"d":"dropped","why":"runtime","note":"omc provider overrides (codex CLI) and ralplan state lifecycle hooks"}
+{"range":["omc:plan/SKILL.md#0060","omc:plan/SKILL.md#0065"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"RALPLAN-DR summary: principles, drivers, options"}}
+{"range":["omc:plan/SKILL.md#0066","omc:plan/SKILL.md#0069"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Consensus loop: interactive checkpoints"}}
+{"range":["omc:plan/SKILL.md#0070","omc:plan/SKILL.md#0071"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Consensus planning loop: planner, architect, critic"}}
+{"id":"omc:plan/SKILL.md#0072","d":"absorbed","to":{"skill":"planning-rigorously","section":"Review ordering: parallel or sequential reviewers"}}
+{"range":["omc:plan/SKILL.md#0073","omc:plan/SKILL.md#0075"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Consensus planning loop: planner, architect, critic"}}
+{"range":["omc:plan/SKILL.md#0076","omc:plan/SKILL.md#0077"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval-gated handoff to execution"}}
+{"id":"omc:plan/SKILL.md#0078","d":"dropped","why":"runtime","note":"omc compact-then-return option"}
+{"range":["omc:plan/SKILL.md#0079","omc:plan/SKILL.md#0081"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval-gated handoff to execution"}}
+{"id":"omc:plan/SKILL.md#0082","d":"dropped","why":"runtime","note":"omc ralplan state_write on approval"}
+{"range":["omc:plan/SKILL.md#0083","omc:plan/SKILL.md#0084"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval-gated handoff to execution"}}
+{"id":"omc:plan/SKILL.md#0085","d":"dropped","why":"runtime","note":"omc compact skill invocation"}
+{"id":"omc:plan/SKILL.md#0086","d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0087","omc:plan/SKILL.md#0089"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Review mode: critic verdict approve, revise, reject"}}
+{"id":"omc:plan/SKILL.md#0090","d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0091","d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0092","omc:plan/SKILL.md#0099"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan document format"}}
+{"id":"omc:plan/SKILL.md#0100","d":"dropped","why":"runtime","note":"omc .omc/plans and .omc/drafts paths"}
+{"id":"omc:plan/SKILL.md#0101","d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0102","omc:plan/SKILL.md#0107"],"d":"dropped","why":"runtime","note":"omc AskUserQuestion, explore and subagent Task tools"}
+{"id":"omc:plan/SKILL.md#0108","d":"absorbed","to":{"skill":"planning-rigorously","section":"Review ordering: parallel or sequential reviewers"}}
+{"id":"omc:plan/SKILL.md#0109","d":"absorbed","to":{"skill":"planning-rigorously","section":"RALPLAN-DR summary: principles, drivers, options"}}
+{"id":"omc:plan/SKILL.md#0110","d":"dropped","why":"runtime","note":"omc AskUserQuestion in interactive consensus"}
+{"id":"omc:plan/SKILL.md#0111","d":"dropped","why":"runtime","note":"omc Skill invocation on approval"}
+{"id":"omc:plan/SKILL.md#0112","d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning never executes before approval"}}
+{"range":["omc:plan/SKILL.md#0113","omc:plan/SKILL.md#0114"],"d":"dropped","why":"runtime","note":"omc compact option and ralplan state lifecycle"}
+{"range":["omc:plan/SKILL.md#0115","omc:plan/SKILL.md#0129"],"d":"dropped","why":"example-only","note":"sample interview exchanges, good and bad"}
+{"id":"omc:plan/SKILL.md#0130","d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0131","d":"absorbed","to":{"skill":"planning-rigorously","section":"Stop interviewing when requirements are clear"}}
+{"range":["omc:plan/SKILL.md#0132","omc:plan/SKILL.md#0133"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Consensus planning loop: planner, architect, critic"}}
+{"id":"omc:plan/SKILL.md#0134","d":"absorbed","to":{"skill":"planning-rigorously","section":"Approval-gated handoff to execution"}}
+{"id":"omc:plan/SKILL.md#0135","d":"absorbed","to":{"skill":"planning-rigorously","section":"Escalate irreconcilable trade-offs"}}
+{"id":"omc:plan/SKILL.md#0136","d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0137","omc:plan/SKILL.md#0145"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan final checklist"}}
+{"id":"omc:plan/SKILL.md#0146","d":"dropped","why":"runtime","note":"omc ralplan state deactivation on exit paths"}
+{"range":["omc:plan/SKILL.md#0147","omc:plan/SKILL.md#0148"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0149","omc:plan/SKILL.md#0153"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Design options presented one at a time [conflict: user decided whole-round questions up front]"}}
+{"id":"omc:plan/SKILL.md#0154","d":"duplicate","of":"omc:plan/SKILL.md#0152"}
+{"range":["omc:plan/SKILL.md#0155","omc:plan/SKILL.md#0157"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Design options presented one at a time [conflict: user decided whole-round questions up front]"}}
+{"id":"omc:plan/SKILL.md#0158","d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0159","d":"absorbed","to":{"skill":"planning-rigorously","section":"Question classification: fact, preference, scope, requirement"}}
+{"id":"omc:plan/SKILL.md#0160","d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0161","omc:plan/SKILL.md#0164"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Question classification: fact, preference, scope, requirement"}}
+{"id":"omc:plan/SKILL.md#0165","d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0166","d":"dropped","why":"boilerplate"}
+{"range":["omc:plan/SKILL.md#0167","omc:plan/SKILL.md#0170"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Plan review quality criteria"}}
+{"id":"omc:plan/SKILL.md#0171","d":"dropped","why":"boilerplate"}
+{"id":"omc:plan/SKILL.md#0172","d":"dropped","why":"noise","note":"deprecation notice for merged /planner, /ralplan, /review skills"}

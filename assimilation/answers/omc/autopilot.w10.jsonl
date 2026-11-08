@@ -1,0 +1,69 @@
+{"id":"omc:autopilot/SKILL.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omc:autopilot/SKILL.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Autonomous pipeline from idea to working code"}}
+{"range":["omc:autopilot/SKILL.md#0002","omc:autopilot/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:autopilot/SKILL.md#0004","d":"absorbed","to":{"skill":"execute-rigorously","section":"Autonomous pipeline from idea to working code"}}
+{"id":"omc:autopilot/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0006","omc:autopilot/SKILL.md#0009"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"When to use the autonomous pipeline"}}
+{"id":"omc:autopilot/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0011","omc:autopilot/SKILL.md#0015"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"When not to use the autonomous pipeline"}}
+{"id":"omc:autopilot/SKILL.md#0016","d":"absorbed","to":{"skill":"execute-rigorously","section":"Autonomous pipeline from idea to working code"}}
+{"id":"omc:autopilot/SKILL.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0018","omc:autopilot/SKILL.md#0019"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Pipeline phase order and parallelism"}}
+{"id":"omc:autopilot/SKILL.md#0020","d":"absorbed","to":{"skill":"execute-rigorously","section":"QA cycles and repeated-error stop"}}
+{"id":"omc:autopilot/SKILL.md#0021","d":"absorbed","to":{"skill":"execute-rigorously","section":"Validation by all reviewers"}}
+{"range":["omc:autopilot/SKILL.md#0022","omc:autopilot/SKILL.md#0023"],"d":"absorbed","to":{"skill":"core","section":"Stop rule and escalation conditions"}}
+{"range":["omc:autopilot/SKILL.md#0024","omc:autopilot/SKILL.md#0025"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0026","omc:autopilot/SKILL.md#0030"],"d":"dropped","why":"runtime","note":"autopilot --workflow named stage profiles and Linux flock requirement"}
+{"id":"omc:autopilot/SKILL.md#0031","d":"absorbed","to":{"skill":"execute-rigorously","section":"Pipeline phase order and parallelism"}}
+{"range":["omc:autopilot/SKILL.md#0032","omc:autopilot/SKILL.md#0034"],"d":"dropped","why":"runtime","note":"autopilot workflow profile config validation and Stop hook advance"}
+{"id":"omc:autopilot/SKILL.md#0035","d":"dropped","why":"boilerplate"}
+{"id":"omc:autopilot/SKILL.md#0036","d":"dropped","why":"runtime","note":"workflow profile v1 deferrals"}
+{"id":"omc:autopilot/SKILL.md#0037","d":"dropped","why":"boilerplate"}
+{"id":"omc:autopilot/SKILL.md#0038","d":"absorbed","to":{"skill":"planning-rigorously","section":"Expanding a vague idea into a spec"}}
+{"id":"omc:autopilot/SKILL.md#0039","d":"dropped","why":"runtime","note":"company-context call from omc.jsonc"}
+{"range":["omc:autopilot/SKILL.md#0040","omc:autopilot/SKILL.md#0041"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Reuse an existing plan or spec instead of re-expanding"}}
+{"id":"omc:autopilot/SKILL.md#0042","d":"absorbed","to":{"skill":"planning-rigorously","section":"Expanding a vague idea into a spec"}}
+{"id":"omc:autopilot/SKILL.md#0043","d":"absorbed","to":{"skill":"core","section":"Unanswerable items assumed and parked in unattended runs"}}
+{"id":"omc:autopilot/SKILL.md#0044","d":"absorbed","to":{"skill":"planning-rigorously","section":"Expanding a vague idea into a spec"}}
+{"id":"omc:autopilot/SKILL.md#0045","d":"dropped","why":"runtime","note":".omc/autopilot/spec.md output path"}
+{"range":["omc:autopilot/SKILL.md#0046","omc:autopilot/SKILL.md#0049"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Planning phase: architect plan then critic validation"}}
+{"id":"omc:autopilot/SKILL.md#0050","d":"dropped","why":"runtime","note":".omc/plans/autopilot-impl.md output path"}
+{"id":"omc:autopilot/SKILL.md#0051","d":"absorbed","to":{"skill":"execute-rigorously","section":"Subagent per task execution loop"}}
+{"range":["omc:autopilot/SKILL.md#0052","omc:autopilot/SKILL.md#0054"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Model selection by task complexity"}}
+{"id":"omc:autopilot/SKILL.md#0055","d":"absorbed","to":{"skill":"execute-rigorously","section":"Parallel dispatch of independent domains"}}
+{"range":["omc:autopilot/SKILL.md#0056","omc:autopilot/SKILL.md#0059"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"QA cycles and repeated-error stop"}}
+{"range":["omc:autopilot/SKILL.md#0060","omc:autopilot/SKILL.md#0064"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Multi-perspective validation reviewers"}}
+{"range":["omc:autopilot/SKILL.md#0065","omc:autopilot/SKILL.md#0066"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Closeout notes before cleanup"}}
+{"range":["omc:autopilot/SKILL.md#0068","omc:autopilot/SKILL.md#0070"],"d":"dropped","why":"runtime","note":"deleting autopilot state files and cancel command"}
+{"id":"omc:autopilot/SKILL.md#0071","d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0072","omc:autopilot/SKILL.md#0074"],"d":"dropped","why":"runtime","note":"Task subagent calls for phase 4 validators"}
+{"range":["omc:autopilot/SKILL.md#0075","omc:autopilot/SKILL.md#0076"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Pipeline phase order and parallelism"}}
+{"range":["omc:autopilot/SKILL.md#0077","omc:autopilot/SKILL.md#0080"],"d":"dropped","why":"example-only","note":"good and bad autopilot invocation examples"}
+{"id":"omc:autopilot/SKILL.md#0081","d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0082","omc:autopilot/SKILL.md#0085"],"d":"absorbed","to":{"skill":"core","section":"Stop rule and escalation conditions"}}
+{"id":"omc:autopilot/SKILL.md#0086","d":"absorbed","to":{"skill":"core","section":"Unanswerable items assumed and parked in unattended runs"}}
+{"id":"omc:autopilot/SKILL.md#0087","d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0088","omc:autopilot/SKILL.md#0091"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion checklist with fresh evidence"}}
+{"id":"omc:autopilot/SKILL.md#0092","d":"dropped","why":"runtime","note":"state files cleanup"}
+{"id":"omc:autopilot/SKILL.md#0093","d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion checklist with fresh evidence"}}
+{"id":"omc:autopilot/SKILL.md#0094","d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0095","omc:autopilot/SKILL.md#0098"],"d":"dropped","why":"runtime","note":"parallel session caveats (workspace marker, session id, state scoping)"}
+{"range":["omc:autopilot/SKILL.md#0099","omc:autopilot/SKILL.md#0100"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0101","omc:autopilot/SKILL.md#0106"],"d":"dropped","why":"runtime","note":"omc.jsonc autopilot configuration and omc team cursor execution"}
+{"id":"omc:autopilot/SKILL.md#0107","d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0108","omc:autopilot/SKILL.md#0109"],"d":"dropped","why":"runtime","note":"cursor-agent worker limitations"}
+{"id":"omc:autopilot/SKILL.md#0110","d":"dropped","why":"boilerplate"}
+{"id":"omc:autopilot/SKILL.md#0111","d":"absorbed","to":{"skill":"core","section":"Resuming an interrupted run without duplicating work"}}
+{"id":"omc:autopilot/SKILL.md#0112","d":"dropped","why":"boilerplate"}
+{"range":["omc:autopilot/SKILL.md#0113","omc:autopilot/SKILL.md#0116"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Input quality: be specific about domain, features, constraints"}}
+{"id":"omc:autopilot/SKILL.md#0117","d":"dropped","why":"boilerplate"}
+{"id":"omc:autopilot/SKILL.md#0118","d":"dropped","why":"runtime","note":"Troubleshooting via .omc state file"}
+{"range":["omc:autopilot/SKILL.md#0119","omc:autopilot/SKILL.md#0120"],"d":"absorbed","to":{"skill":"core","section":"Stop rule and escalation conditions"}}
+{"id":"omc:autopilot/SKILL.md#0121","d":"dropped","why":"boilerplate"}
+{"id":"omc:autopilot/SKILL.md#0122","d":"absorbed","to":{"skill":"planning-rigorously","section":"Expanding a vague idea into a spec"}}
+{"id":"omc:autopilot/SKILL.md#0123","d":"dropped","why":"example-only","note":"sample deep-interview redirect dialogue"}
+{"id":"omc:autopilot/SKILL.md#0124","d":"absorbed","to":{"skill":"planning-rigorously","section":"Reuse an existing plan or spec instead of re-expanding"}}
+{"id":"omc:autopilot/SKILL.md#0125","d":"absorbed","to":{"skill":"core","section":"Unanswerable items assumed and parked in unattended runs"}}
+{"range":["omc:autopilot/SKILL.md#0126","omc:autopilot/SKILL.md#0127"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:autopilot/SKILL.md#0128","d":"absorbed","to":{"skill":"planning-rigorously","section":"Pipeline: interview, then plan, then execute"}}
+{"range":["omc:autopilot/SKILL.md#0129","omc:autopilot/SKILL.md#0133"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Pipeline: interview, then plan, then execute"}}

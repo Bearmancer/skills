@@ -1,0 +1,14 @@
+{"range":["omc:architecture-survey/SKILL.md#0000","omc:architecture-survey/SKILL.md#0004"],"d":"dropped","why":"runtime","note":"omc frontmatter: name, description, argument hint, level, invocation flag"}
+{"id":"omc:architecture-survey/SKILL.md#0005","d":"absorbed","to":{"skill":"planning-rigorously","section":"Survey principle: surveyor reports, captain decides"}}
+{"id":"omc:architecture-survey/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["omc:architecture-survey/SKILL.md#0007","omc:architecture-survey/SKILL.md#0009"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"When to survey and optional area argument"}}
+{"id":"omc:architecture-survey/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omc:architecture-survey/SKILL.md#0011","omc:architecture-survey/SKILL.md#0017"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Survey procedure: walk graph, three finding classes, demolition test"}}
+{"id":"omc:architecture-survey/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omc:architecture-survey/SKILL.md#0019","omc:architecture-survey/SKILL.md#0025"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Survey report: ranked candidates with evidence and risk"}}
+{"id":"omc:architecture-survey/SKILL.md#0026","d":"dropped","why":"boilerplate"}
+{"range":["omc:architecture-survey/SKILL.md#0027","omc:architecture-survey/SKILL.md#0029"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Survey handoff: decision input, grill top, ADR declines"}}
+{"id":"omc:architecture-survey/SKILL.md#0030","d":"dropped","why":"boilerplate"}
+{"range":["omc:architecture-survey/SKILL.md#0031","omc:architecture-survey/SKILL.md#0033"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Survey non-goals: no edits, not a gate"}}
+{"id":"omc:architecture-survey/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omc:architecture-survey/SKILL.md#0035","d":"absorbed","to":{"skill":"planning-rigorously","section":"Survey completion: evidence, rankings, risk notes"}}

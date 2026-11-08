@@ -1,0 +1,67 @@
+{"id":"omc:ralph/SKILL.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omc:ralph/SKILL.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Persistence loop until verified completion"}}
+{"range":["omc:ralph/SKILL.md#0002","omc:ralph/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:ralph/SKILL.md#0004","d":"dropped","why":"noise","note":"ralph iteration banner display"}
+{"id":"omc:ralph/SKILL.md#0005","d":"dropped","why":"runtime","note":"stop-hook completion promise reminder"}
+{"id":"omc:ralph/SKILL.md#0006","d":"absorbed","to":{"skill":"execute-rigorously","section":"Persistence loop until verified completion"}}
+{"range":["omc:ralph/SKILL.md#0007","omc:ralph/SKILL.md#0009"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Baseline-diff verification gates"}}
+{"id":"omc:ralph/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0011","omc:ralph/SKILL.md#0014"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"When to use the persistence loop"}}
+{"id":"omc:ralph/SKILL.md#0015","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0016","omc:ralph/SKILL.md#0019"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"When not to use the persistence loop"}}
+{"id":"omc:ralph/SKILL.md#0020","d":"dropped","why":"runtime","note":"Claude Code /goal native loop handoff"}
+{"range":["omc:ralph/SKILL.md#0021","omc:ralph/SKILL.md#0025"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Persistence loop until verified completion"}}
+{"id":"omc:ralph/SKILL.md#0026","d":"absorbed","to":{"skill":"execute-rigorously","section":"Story-by-story persistence loop with testable criteria"}}
+{"id":"omc:ralph/SKILL.md#0027","d":"dropped","why":"runtime","note":"prd.json startup gate and legacy --no-prd sanitizing"}
+{"id":"omc:ralph/SKILL.md#0028","d":"absorbed","to":{"skill":"review-rigorously","section":"Deslop pass after reviewer approval"}}
+{"id":"omc:ralph/SKILL.md#0029","d":"absorbed","to":{"skill":"execute-rigorously","section":"Reviewer verification tiers against acceptance criteria"}}
+{"id":"omc:ralph/SKILL.md#0030","d":"absorbed","to":{"skill":"core","section":"Stale-state reconciliation against observable checks"}}
+{"id":"omc:ralph/SKILL.md#0031","d":"dropped","why":"example-only","note":"sample reconciliation config JSON"}
+{"id":"omc:ralph/SKILL.md#0032","d":"absorbed","to":{"skill":"core","section":"Stale-state reconciliation against observable checks"}}
+{"id":"omc:ralph/SKILL.md#0033","d":"absorbed","to":{"skill":"execute-rigorously","section":"Repo quality class sets rigor"}}
+{"id":"omc:ralph/SKILL.md#0034","d":"absorbed","to":{"skill":"execute-rigorously","section":"Baseline-diff verification gates"}}
+{"range":["omc:ralph/SKILL.md#0035","omc:ralph/SKILL.md#0046"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Amending refuted acceptance criteria with evidence"}}
+{"id":"omc:ralph/SKILL.md#0047","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0048","omc:ralph/SKILL.md#0052"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Amending refuted acceptance criteria with evidence"}}
+{"id":"omc:ralph/SKILL.md#0053","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0054","omc:ralph/SKILL.md#0056"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Execution policy: parallel, background, no scope reduction"}}
+{"id":"omc:ralph/SKILL.md#0057","d":"dropped","why":"runtime","note":"docs/shared/agent-tiers.md read"}
+{"id":"omc:ralph/SKILL.md#0058","d":"absorbed","to":{"skill":"execute-rigorously","section":"Execution policy: parallel, background, no scope reduction"}}
+{"id":"omc:ralph/SKILL.md#0059","d":"dropped","why":"runtime","note":"Claude Code /goal native loop handoff"}
+{"id":"omc:ralph/SKILL.md#0060","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0061","omc:ralph/SKILL.md#0067"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Story-by-story persistence loop with testable criteria"}}
+{"id":"omc:ralph/SKILL.md#0068","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0069","omc:ralph/SKILL.md#0072"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Model selection by task complexity"}}
+{"range":["omc:ralph/SKILL.md#0073","omc:ralph/SKILL.md#0077"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Story-by-story persistence loop with testable criteria"}}
+{"id":"omc:ralph/SKILL.md#0078","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0079","omc:ralph/SKILL.md#0082"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Reviewer verification tiers against acceptance criteria"}}
+{"id":"omc:ralph/SKILL.md#0083","d":"dropped","why":"runtime","note":"omc ask codex critic command"}
+{"range":["omc:ralph/SKILL.md#0084","omc:ralph/SKILL.md#0090"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Reviewer verification tiers against acceptance criteria"}}
+{"id":"omc:ralph/SKILL.md#0091","d":"absorbed","to":{"skill":"review-rigorously","section":"Deslop pass after reviewer approval"}}
+{"range":["omc:ralph/SKILL.md#0092","omc:ralph/SKILL.md#0097"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Deslop pass after reviewer approval"}}
+{"id":"omc:ralph/SKILL.md#0098","d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion checklist with fresh evidence"}}
+{"id":"omc:ralph/SKILL.md#0099","d":"absorbed","to":{"skill":"execute-rigorously","section":"On reviewer rejection fix and re-verify"}}
+{"id":"omc:ralph/SKILL.md#0100","d":"absorbed","to":{"skill":"core","section":"Stop rule and escalation conditions"}}
+{"id":"omc:ralph/SKILL.md#0101","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0102","omc:ralph/SKILL.md#0104"],"d":"dropped","why":"runtime","note":"Task subagent and omc ask calls for architect and critic"}
+{"range":["omc:ralph/SKILL.md#0105","omc:ralph/SKILL.md#0106"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Reviewer verification tiers against acceptance criteria"}}
+{"range":["omc:ralph/SKILL.md#0107","omc:ralph/SKILL.md#0108"],"d":"dropped","why":"runtime","note":"state_write persistence and Skill tool invocation"}
+{"id":"omc:ralph/SKILL.md#0109","d":"dropped","why":"boilerplate"}
+{"id":"omc:ralph/SKILL.md#0110","d":"dropped","why":"example-only","note":"sample PRD refinement"}
+{"range":["omc:ralph/SKILL.md#0111","omc:ralph/SKILL.md#0124"],"d":"dropped","why":"example-only","note":"good and bad ralph usage examples"}
+{"id":"omc:ralph/SKILL.md#0125","d":"dropped","why":"boilerplate"}
+{"id":"omc:ralph/SKILL.md#0126","d":"absorbed","to":{"skill":"core","section":"Stop rule and escalation conditions"}}
+{"id":"omc:ralph/SKILL.md#0127","d":"absorbed","to":{"skill":"core","section":"Stop rule and escalation conditions"}}
+{"id":"omc:ralph/SKILL.md#0128","d":"dropped","why":"runtime","note":"hook message the boulder never stops"}
+{"range":["omc:ralph/SKILL.md#0129","omc:ralph/SKILL.md#0132"],"d":"absorbed","to":{"skill":"core","section":"Stop rule and escalation conditions"}}
+{"id":"omc:ralph/SKILL.md#0133","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0134","omc:ralph/SKILL.md#0145"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion checklist with fresh evidence"}}
+{"id":"omc:ralph/SKILL.md#0146","d":"dropped","why":"runtime","note":"cancel command for state cleanup"}
+{"id":"omc:ralph/SKILL.md#0147","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0148","omc:ralph/SKILL.md#0151"],"d":"dropped","why":"runtime","note":"parallel session caveats (workspace marker, session id, prd.json conflicts)"}
+{"range":["omc:ralph/SKILL.md#0152","omc:ralph/SKILL.md#0154"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0155","omc:ralph/SKILL.md#0158"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Background versus foreground execution rules"}}
+{"id":"omc:ralph/SKILL.md#0159","d":"dropped","why":"boilerplate"}
+{"range":["omc:ralph/SKILL.md#0160","omc:ralph/SKILL.md#0162"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Background versus foreground execution rules"}}
+{"id":"omc:ralph/SKILL.md#0163","d":"dropped","why":"runtime","note":"original task prompt placeholder"}
+{"id":"omc:ralph/SKILL.md#0164","d":"dropped","why":"boilerplate"}

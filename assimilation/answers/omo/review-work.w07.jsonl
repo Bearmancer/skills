@@ -1,0 +1,31 @@
+{"range":["omo:review-work/SKILL.md#0000","omo:review-work/SKILL.md#0002"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:review-work/SKILL.md#0003","omo:review-work/SKILL.md#0014"],"d":"dropped","why":"runtime","note":"Senpi/OpenCode tool compatibility table"}
+{"id":"omo:review-work/SKILL.md#0015","d":"dropped","why":"boilerplate"}
+{"range":["omo:review-work/SKILL.md#0016","omo:review-work/SKILL.md#0017"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Gate review: manual QA plus one reviewer"}}
+{"id":"omo:review-work/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"range":["omo:review-work/SKILL.md#0019","omo:review-work/SKILL.md#0020"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Gate review: manual QA plus one reviewer"}}
+{"id":"omo:review-work/SKILL.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omo:review-work/SKILL.md#0022","d":"absorbed","to":{"skill":"review-rigorously","section":"Gather review context first"}}
+{"id":"omo:review-work/SKILL.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["omo:review-work/SKILL.md#0024","omo:review-work/SKILL.md#0031"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Gather review context first"}}
+{"id":"omo:review-work/SKILL.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"omo:review-work/SKILL.md#0033","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Review from a dedicated worktree"}}
+{"id":"omo:review-work/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omo:review-work/SKILL.md#0035","d":"absorbed","to":{"skill":"review-rigorously","section":"Gather review context first"}}
+{"range":["omo:review-work/SKILL.md#0036","omo:review-work/SKILL.md#0037"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Gather review context first"}}
+{"id":"omo:review-work/SKILL.md#0038","d":"dropped","why":"boilerplate"}
+{"range":["omo:review-work/SKILL.md#0039","omo:review-work/SKILL.md#0048"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Orchestrator runs manual QA matrix"}}
+{"id":"omo:review-work/SKILL.md#0049","d":"dropped","why":"boilerplate"}
+{"range":["omo:review-work/SKILL.md#0050","omo:review-work/SKILL.md#0052"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Orchestrator runs manual QA matrix"}}
+{"id":"omo:review-work/SKILL.md#0053","d":"dropped","why":"boilerplate"}
+{"range":["omo:review-work/SKILL.md#0054","omo:review-work/SKILL.md#0056"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Gate review: manual QA plus one reviewer"}}
+{"id":"omo:review-work/SKILL.md#0057","d":"dropped","why":"boilerplate"}
+{"id":"omo:review-work/SKILL.md#0058","d":"absorbed","to":{"skill":"review-rigorously","section":"Wait for reviewer and store lane verdicts"}}
+{"range":["omo:review-work/SKILL.md#0059","omo:review-work/SKILL.md#0060"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:review-work/SKILL.md#0061","omo:review-work/SKILL.md#0063"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Wait for reviewer and store lane verdicts"}}
+{"id":"omo:review-work/SKILL.md#0064","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Review from a dedicated worktree"}}
+{"id":"omo:review-work/SKILL.md#0065","d":"absorbed","to":{"skill":"review-rigorously","section":"Wait for reviewer and store lane verdicts"}}
+{"range":["omo:review-work/SKILL.md#0066","omo:review-work/SKILL.md#0067"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:review-work/SKILL.md#0068","d":"absorbed","to":{"skill":"review-rigorously","section":"Verdict logic and final report"}}
+{"range":["omo:review-work/SKILL.md#0069","omo:review-work/SKILL.md#0070"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:review-work/SKILL.md#0071","omo:review-work/SKILL.md#0073"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Verdict logic and final report"}}

@@ -6,6 +6,7 @@ largest first, long and non-ASCII paths are deleted, and a dead lock owner does 
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 from datetime import timezone
@@ -200,6 +201,54 @@ def test_override_accepts_several_paths(tmp_path):
         tmp_path,
     )
     assert proc.returncode == 0 and "refused=0" in proc.stdout
+
+
+def _apply_args(r, m, tmp_path, *extra):
+    return [
+        "--root",
+        r,
+        "--manifest",
+        m,
+        "--apply",
+        "--out-dir",
+        tmp_path / "out",
+        "--lock-file",
+        tmp_path / "p.lock",
+        *extra,
+    ]
+
+
+@pytest.mark.skipif(shutil.which("fd") is None, reason="fd is not installed")
+def test_fd_counts_zero_where_the_target_was(tmp_path):
+    r = tmp_path / "r"
+    sc.write(r / "a/.hidden/deep.bak", "x")
+    sc.write(r / "b.bak", "x")
+    m = sc.manifest(tmp_path / "m.json", [sc.row(r, "a"), sc.row(r, "b.bak")], r)
+    proc = run(_apply_args(r, m, tmp_path, "--json"), sc.empty_home(tmp_path), tmp_path)
+    summary = json.loads(proc.stdout[proc.stdout.index("{") :])
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert (summary["fd_status"], summary["fd_residue"]) == ("ok", 0)
+    assert summary["fd_checked"] >= 2
+
+
+def test_missing_fd_is_residue_exit_2_unless_skipped(tmp_path, monkeypatch):
+    r = tmp_path / "r"
+    sc.write(r / "a.bak", "x")
+    m = sc.manifest(tmp_path / "m.json", [sc.row(r, "a.bak")], r)
+    no_fd = os.pathsep.join(
+        d
+        for d in os.environ.get("PATH", "").split(os.pathsep)
+        if not (shutil.which("fd", path=d) or shutil.which("fd.exe", path=d))
+    )
+    monkeypatch.setenv("PATH", no_fd)
+    proc = run(_apply_args(r, m, tmp_path), sc.empty_home(tmp_path), tmp_path)
+    assert proc.returncode == 2 and "fd -u unavailable" in proc.stdout
+    sc.write(r / "a.bak", "x")
+    m2 = sc.manifest(tmp_path / "m2.json", [sc.row(r, "a.bak")], r)
+    skipped = run(
+        _apply_args(r, m2, tmp_path, "--skip-fd-check"), sc.empty_home(tmp_path), tmp_path
+    )
+    assert skipped.returncode == 0 and "fd -u skipped" in skipped.stdout
 
 
 def test_usage_errors_exit_1_not_2(tmp_path):

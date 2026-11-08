@@ -1,0 +1,230 @@
+{"range":["omc:team/SKILL.md#0000","omc:team/SKILL.md#0005"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0006","d":"absorbed","to":{"skill":"execute-rigorously","section":"Parallel workers on a shared task list"}}
+{"id":"omc:team/SKILL.md#0007","d":"dropped","why":"noise","note":"swarm alias removal note"}
+{"id":"omc:team/SKILL.md#0008","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0009","d":"dropped","why":"runtime","note":"/team slash command usage"}
+{"id":"omc:team/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0011","d":"absorbed","to":{"skill":"execute-rigorously","section":"Team sizing and decomposition"}}
+{"id":"omc:team/SKILL.md#0012","d":"dropped","why":"runtime","note":"agent-type parameter of /team command"}
+{"id":"omc:team/SKILL.md#0013","d":"absorbed","to":{"skill":"execute-rigorously","section":"Team sizing and decomposition"}}
+{"id":"omc:team/SKILL.md#0014","d":"absorbed","to":{"skill":"execute-rigorously","section":"Team plus persistence loop composition"}}
+{"id":"omc:team/SKILL.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0016","d":"dropped","why":"example-only","note":"sample /team invocations"}
+{"id":"omc:team/SKILL.md#0017","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0018","d":"absorbed","to":{"skill":"execute-rigorously","section":"Parallel workers on a shared task list"}}
+{"range":["omc:team/SKILL.md#0019","omc:team/SKILL.md#0020"],"d":"dropped","why":"runtime","note":"Claude Code native team model internals (TeamCreate, directories)"}
+{"id":"omc:team/SKILL.md#0021","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0022","d":"absorbed","to":{"skill":"execute-rigorously","section":"Parallel workers on a shared task list"}}
+{"id":"omc:team/SKILL.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0024","omc:team/SKILL.md#0025"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Staged team pipeline plan, prd, exec, verify, fix"}}
+{"id":"omc:team/SKILL.md#0026","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0027","d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage agent routing by role"}}
+{"id":"omc:team/SKILL.md#0028","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0029","omc:team/SKILL.md#0033"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage agent routing by role"}}
+{"id":"omc:team/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0035","omc:team/SKILL.md#0038"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage agent routing by role"}}
+{"id":"omc:team/SKILL.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0041","omc:team/SKILL.md#0043"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage entry and exit criteria"}}
+{"id":"omc:team/SKILL.md#0044","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0045","omc:team/SKILL.md#0047"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage entry and exit criteria"}}
+{"id":"omc:team/SKILL.md#0048","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0049","omc:team/SKILL.md#0051"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage entry and exit criteria"}}
+{"id":"omc:team/SKILL.md#0052","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0053","omc:team/SKILL.md#0056"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage entry and exit criteria"}}
+{"id":"omc:team/SKILL.md#0057","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0058","omc:team/SKILL.md#0060"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage entry and exit criteria"}}
+{"range":["omc:team/SKILL.md#0061","omc:team/SKILL.md#0062"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0063","omc:team/SKILL.md#0065"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Verify/fix loop and stop conditions"}}
+{"id":"omc:team/SKILL.md#0066","d":"absorbed","to":{"skill":"execute-rigorously","section":"Verify/fix loop and stop conditions"}}
+{"id":"omc:team/SKILL.md#0067","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0068","omc:team/SKILL.md#0069"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage handoffs between stages"}}
+{"id":"omc:team/SKILL.md#0070","d":"dropped","why":"runtime","note":".omc/handoffs state folder path"}
+{"id":"omc:team/SKILL.md#0071","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0072","d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage handoffs between stages"}}
+{"id":"omc:team/SKILL.md#0073","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0074","omc:team/SKILL.md#0077"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Stage handoffs between stages"}}
+{"id":"omc:team/SKILL.md#0078","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0079","d":"dropped","why":"example-only","note":"sample handoff document"}
+{"id":"omc:team/SKILL.md#0080","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0081","d":"absorbed","to":{"skill":"core","section":"Resuming an interrupted run without duplicating work"}}
+{"id":"omc:team/SKILL.md#0082","d":"dropped","why":"runtime","note":"cancel skill flow"}
+{"id":"omc:team/SKILL.md#0083","d":"absorbed","to":{"skill":"execute-rigorously","section":"Verify/fix loop and stop conditions"}}
+{"id":"omc:team/SKILL.md#0084","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0085","omc:team/SKILL.md#0090"],"d":"dropped","why":"runtime","note":"Windows psmux tmux availability gate"}
+{"range":["omc:team/SKILL.md#0091","omc:team/SKILL.md#0092"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0093","d":"absorbed","to":{"skill":"core","section":"Resuming an interrupted run without duplicating work"}}
+{"id":"omc:team/SKILL.md#0094","d":"dropped","why":"runtime","note":"state_read MCP call"}
+{"range":["omc:team/SKILL.md#0095","omc:team/SKILL.md#0097"],"d":"absorbed","to":{"skill":"core","section":"Resuming an interrupted run without duplicating work"}}
+{"id":"omc:team/SKILL.md#0098","d":"absorbed","to":{"skill":"core","section":"Resuming an interrupted run without duplicating work"}}
+{"id":"omc:team/SKILL.md#0099","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0100","omc:team/SKILL.md#0102"],"d":"dropped","why":"runtime","note":"parse /team input N and agent-type"}
+{"id":"omc:team/SKILL.md#0103","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0104","omc:team/SKILL.md#0108"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Team sizing and decomposition"}}
+{"id":"omc:team/SKILL.md#0109","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0110","omc:team/SKILL.md#0115"],"d":"dropped","why":"runtime","note":"TeamCreate and state_write initialization"}
+{"range":["omc:team/SKILL.md#0116","omc:team/SKILL.md#0117"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0118","omc:team/SKILL.md#0127"],"d":"dropped","why":"runtime","note":"team state schema fields stored via state_write"}
+{"range":["omc:team/SKILL.md#0128","omc:team/SKILL.md#0129"],"d":"dropped","why":"runtime","note":"state_write on stage transition"}
+{"id":"omc:team/SKILL.md#0130","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0131","d":"absorbed","to":{"skill":"execute-rigorously","section":"Task list with owners and dependencies"}}
+{"id":"omc:team/SKILL.md#0132","d":"dropped","why":"example-only","note":"sample task-list entry"}
+{"range":["omc:team/SKILL.md#0133","omc:team/SKILL.md#0134"],"d":"dropped","why":"runtime","note":"task-list tool response files"}
+{"id":"omc:team/SKILL.md#0135","d":"absorbed","to":{"skill":"execute-rigorously","section":"Task list with owners and dependencies"}}
+{"id":"omc:team/SKILL.md#0136","d":"dropped","why":"example-only","note":"sample blockedBy update"}
+{"id":"omc:team/SKILL.md#0137","d":"absorbed","to":{"skill":"execute-rigorously","section":"Task list with owners and dependencies"}}
+{"id":"omc:team/SKILL.md#0138","d":"dropped","why":"example-only","note":"sample owner assignment"}
+{"id":"omc:team/SKILL.md#0139","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0140","omc:team/SKILL.md#0141"],"d":"dropped","why":"runtime","note":"Agent/Task tool spawn call"}
+{"id":"omc:team/SKILL.md#0142","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0143","d":"dropped","why":"runtime","note":"Agent spawn response"}
+{"id":"omc:team/SKILL.md#0144","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0145","omc:team/SKILL.md#0147"],"d":"dropped","why":"runtime","note":"internal lifecycle tasks side effects"}
+{"id":"omc:team/SKILL.md#0148","d":"absorbed","to":{"skill":"execute-rigorously","section":"Spawn all workers in parallel"}}
+{"id":"omc:team/SKILL.md#0149","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0150","omc:team/SKILL.md#0152"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Monitoring workers and coordination actions"}}
+{"id":"omc:team/SKILL.md#0153","d":"dropped","why":"example-only","note":"sample task status listing"}
+{"id":"omc:team/SKILL.md#0154","d":"dropped","why":"noise","note":"status line display format"}
+{"id":"omc:team/SKILL.md#0155","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0156","omc:team/SKILL.md#0158"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Monitoring workers and coordination actions"}}
+{"range":["omc:team/SKILL.md#0159","omc:team/SKILL.md#0160"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0161","omc:team/SKILL.md#0163"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Watchdog for stuck or failed workers"}}
+{"id":"omc:team/SKILL.md#0164","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0165","omc:team/SKILL.md#0170"],"d":"dropped","why":"runtime","note":"state_write on stage transitions and cancel skill linkage"}
+{"id":"omc:team/SKILL.md#0171","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0172","omc:team/SKILL.md#0173"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Team completion checks"}}
+{"id":"omc:team/SKILL.md#0174","d":"absorbed","to":{"skill":"execute-rigorously","section":"Teammate shutdown protocol"}}
+{"id":"omc:team/SKILL.md#0175","d":"dropped","why":"runtime","note":"shutdown_request message JSON"}
+{"id":"omc:team/SKILL.md#0176","d":"absorbed","to":{"skill":"execute-rigorously","section":"Teammate shutdown protocol"}}
+{"id":"omc:team/SKILL.md#0177","d":"dropped","why":"runtime","note":"cancel skill cleanup of team state"}
+{"id":"omc:team/SKILL.md#0178","d":"absorbed","to":{"skill":"execute-rigorously","section":"Team completion checks"}}
+{"id":"omc:team/SKILL.md#0179","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0180","omc:team/SKILL.md#0181"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Worker preamble: workers are executors only"}}
+{"id":"omc:team/SKILL.md#0182","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0183","d":"absorbed","to":{"skill":"execute-rigorously","section":"Worker preamble: workers are executors only"}}
+{"range":["omc:team/SKILL.md#0184","omc:team/SKILL.md#0187"],"d":"dropped","why":"runtime","note":"provider-specific worker prompt addenda (codex/gemini CLI)"}
+{"id":"omc:team/SKILL.md#0188","d":"absorbed","to":{"skill":"execute-rigorously","section":"Worker preamble: workers are executors only"}}
+{"range":["omc:team/SKILL.md#0189","omc:team/SKILL.md#0190"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0191","d":"dropped","why":"example-only","note":"sample teammate completion message"}
+{"id":"omc:team/SKILL.md#0192","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0193","d":"dropped","why":"example-only","note":"sample lead reassignment message"}
+{"id":"omc:team/SKILL.md#0194","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0195","d":"dropped","why":"example-only","note":"sample broadcast message"}
+{"id":"omc:team/SKILL.md#0196","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0197","d":"absorbed","to":{"skill":"execute-rigorously","section":"Teammate shutdown protocol"}}
+{"id":"omc:team/SKILL.md#0198","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0199","d":"dropped","why":"runtime","note":"TodoWrite completion check call"}
+{"range":["omc:team/SKILL.md#0200","omc:team/SKILL.md#0201"],"d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0202","d":"dropped","why":"runtime","note":"shutdown_request message JSON"}
+{"id":"omc:team/SKILL.md#0203","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0204","omc:team/SKILL.md#0206"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Teammate shutdown protocol"}}
+{"id":"omc:team/SKILL.md#0207","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0208","d":"dropped","why":"example-only","note":"sample shutdown_response message"}
+{"id":"omc:team/SKILL.md#0209","d":"dropped","why":"runtime","note":"Claude Code teammate termination mechanics"}
+{"id":"omc:team/SKILL.md#0210","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0211","d":"dropped","why":"runtime","note":"cancel skill protected cleanup"}
+{"id":"omc:team/SKILL.md#0212","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0213","omc:team/SKILL.md#0215"],"d":"dropped","why":"runtime","note":"omc tmux orphan scan script"}
+{"id":"omc:team/SKILL.md#0216","d":"absorbed","to":{"skill":"execute-rigorously","section":"Teammate shutdown protocol"}}
+{"id":"omc:team/SKILL.md#0217","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0218","d":"dropped","why":"runtime","note":"hybrid Codex/Gemini CLI workers via tmux"}
+{"id":"omc:team/SKILL.md#0219","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0220","d":"dropped","why":"runtime","note":"tmux CLI worker execution modes"}
+{"id":"omc:team/SKILL.md#0221","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0222","omc:team/SKILL.md#0225"],"d":"dropped","why":"runtime","note":"tmux CLI worker execution modes"}
+{"id":"omc:team/SKILL.md#0226","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0227","omc:team/SKILL.md#0238"],"d":"dropped","why":"runtime","note":"tmux CLI worker lifecycle"}
+{"id":"omc:team/SKILL.md#0239","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0240","omc:team/SKILL.md#0241"],"d":"dropped","why":"runtime","note":"CLI worker startup evidence timeouts"}
+{"range":["omc:team/SKILL.md#0242","omc:team/SKILL.md#0243"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0244","omc:team/SKILL.md#0247"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Routing work to agent types by task type"}}
+{"id":"omc:team/SKILL.md#0248","d":"dropped","why":"out-of-scope","note":"user: dropped frontend frameworks and UI building"}
+{"range":["omc:team/SKILL.md#0249","omc:team/SKILL.md#0251"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Routing work to agent types by task type"}}
+{"id":"omc:team/SKILL.md#0252","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0253","d":"dropped","why":"example-only","note":"sample hybrid team decomposition"}
+{"id":"omc:team/SKILL.md#0254","d":"dropped","why":"example-only","note":"sample hybrid team execution narrative"}
+{"id":"omc:team/SKILL.md#0255","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0256","omc:team/SKILL.md#0260"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Pre-flight analysis for ambiguous tasks"}}
+{"id":"omc:team/SKILL.md#0261","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0262","omc:team/SKILL.md#0266"],"d":"dropped","why":"runtime","note":"CLI worker outbox reader functions"}
+{"id":"omc:team/SKILL.md#0267","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0268","omc:team/SKILL.md#0275"],"d":"dropped","why":"runtime","note":"getTeamStatus snapshot function and outbox monitor"}
+{"range":["omc:team/SKILL.md#0276","omc:team/SKILL.md#0277"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0278","omc:team/SKILL.md#0280"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Task failure handling: retry, reassign, skip"}}
+{"range":["omc:team/SKILL.md#0281","omc:team/SKILL.md#0284"],"d":"dropped","why":"runtime","note":"outbox message types handled by MCP worker bridge"}
+{"range":["omc:team/SKILL.md#0285","omc:team/SKILL.md#0286"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0287","omc:team/SKILL.md#0289"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Task failure handling: retry, reassign, skip"}}
+{"id":"omc:team/SKILL.md#0290","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0291","omc:team/SKILL.md#0294"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Watchdog for stuck or failed workers"}}
+{"id":"omc:team/SKILL.md#0295","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0296","omc:team/SKILL.md#0300"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Dependency blocked: retry, unblock, or skip"}}
+{"id":"omc:team/SKILL.md#0301","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0302","omc:team/SKILL.md#0304"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Task failure handling: retry, reassign, skip"}}
+{"id":"omc:team/SKILL.md#0305","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0306","omc:team/SKILL.md#0308"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Team plus persistence loop composition"}}
+{"id":"omc:team/SKILL.md#0309","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0310","omc:team/SKILL.md#0313"],"d":"dropped","why":"runtime","note":"team ralph keyword activation by hook and detector"}
+{"id":"omc:team/SKILL.md#0314","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0315","omc:team/SKILL.md#0316"],"d":"dropped","why":"runtime","note":"team and ralph state linkage via state_write"}
+{"id":"omc:team/SKILL.md#0317","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0318","omc:team/SKILL.md#0324"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Team plus persistence loop composition"}}
+{"id":"omc:team/SKILL.md#0325","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0326","d":"absorbed","to":{"skill":"core","section":"Resuming an interrupted run without duplicating work"}}
+{"id":"omc:team/SKILL.md#0327","d":"dropped","why":"runtime","note":"state_read recovery call"}
+{"range":["omc:team/SKILL.md#0328","omc:team/SKILL.md#0331"],"d":"absorbed","to":{"skill":"core","section":"Resuming an interrupted run without duplicating work"}}
+{"range":["omc:team/SKILL.md#0332","omc:team/SKILL.md#0333"],"d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0334","omc:team/SKILL.md#0347"],"d":"dropped","why":"superseded","note":"legacy swarm comparison, native team model replaced it"}
+{"id":"omc:team/SKILL.md#0348","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0349","d":"dropped","why":"runtime","note":"cancel skill flow for team"}
+{"id":"omc:team/SKILL.md#0350","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0351","d":"dropped","why":"runtime","note":"cancel skill linked ralph flow"}
+{"id":"omc:team/SKILL.md#0352","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0353","omc:team/SKILL.md#0357"],"d":"dropped","why":"runtime","note":"runtime v2 event log and status files"}
+{"id":"omc:team/SKILL.md#0358","d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion gate and dead-worker circuit breaker"}}
+{"id":"omc:team/SKILL.md#0359","d":"dropped","why":"runtime","note":"runtime v2 environment toggles"}
+{"id":"omc:team/SKILL.md#0360","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0361","omc:team/SKILL.md#0365"],"d":"dropped","why":"runtime","note":"dynamic scaling of team workers via env flag"}
+{"id":"omc:team/SKILL.md#0366","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0367","omc:team/SKILL.md#0373"],"d":"dropped","why":"runtime","note":"omc.jsonc configuration of team ops"}
+{"id":"omc:team/SKILL.md#0374","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0375","omc:team/SKILL.md#0376"],"d":"dropped","why":"runtime","note":"per-role provider and model routing config"}
+{"id":"omc:team/SKILL.md#0377","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0378","d":"dropped","why":"example-only","note":"sample roleRouting config"}
+{"id":"omc:team/SKILL.md#0379","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0380","omc:team/SKILL.md#0387"],"d":"dropped","why":"runtime","note":"per-role provider and model routing table"}
+{"id":"omc:team/SKILL.md#0388","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0389","omc:team/SKILL.md#0390"],"d":"dropped","why":"runtime","note":"canonical roles and alias normalization"}
+{"id":"omc:team/SKILL.md#0391","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0392","omc:team/SKILL.md#0396"],"d":"dropped","why":"runtime","note":"TeamRoleAssignmentSpec fields"}
+{"id":"omc:team/SKILL.md#0397","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0398","d":"dropped","why":"runtime","note":"OMC_TEAM_ROLE_OVERRIDES env var"}
+{"id":"omc:team/SKILL.md#0399","d":"dropped","why":"runtime","note":"routing precedence of config sources"}
+{"id":"omc:team/SKILL.md#0400","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0401","d":"dropped","why":"runtime","note":"missing CLI preflight"}
+{"id":"omc:team/SKILL.md#0402","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0403","d":"dropped","why":"runtime","note":"routing stickiness per team"}
+{"id":"omc:team/SKILL.md#0404","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0405","d":"dropped","why":"runtime","note":"zero-config routing behaviour"}
+{"id":"omc:team/SKILL.md#0406","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0407","d":"dropped","why":"runtime","note":"state cleanup via cancel skill"}
+{"id":"omc:team/SKILL.md#0408","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0409","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Worktree per parallel worker"}}
+{"id":"omc:team/SKILL.md#0410","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0411","omc:team/SKILL.md#0414"],"d":"absorbed","to":{"skill":"version-control-rigorously","section":"Worktree per parallel worker"}}
+{"id":"omc:team/SKILL.md#0415","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0416","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0417","omc:team/SKILL.md#0423"],"d":"dropped","why":"runtime","note":"worktree helper API functions"}
+{"id":"omc:team/SKILL.md#0424","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0425","d":"dropped","why":"runtime","note":"tmux-session createSession worktree note"}
+{"id":"omc:team/SKILL.md#0426","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Worktree per parallel worker"}}
+{"range":["omc:team/SKILL.md#0427","omc:team/SKILL.md#0428"],"d":"dropped","why":"runtime","note":"branch name sanitization and path validation"}
+{"id":"omc:team/SKILL.md#0429","d":"dropped","why":"boilerplate"}
+{"id":"omc:team/SKILL.md#0430","d":"dropped","why":"runtime","note":"internal lifecycle tasks in task-list output"}
+{"id":"omc:team/SKILL.md#0431","d":"absorbed","to":{"skill":"execute-rigorously","section":"Task list with owners and dependencies"}}
+{"range":["omc:team/SKILL.md#0432","omc:team/SKILL.md#0434"],"d":"dropped","why":"runtime","note":"Claude Code task-list tool quirks"}
+{"id":"omc:team/SKILL.md#0435","d":"absorbed","to":{"skill":"execute-rigorously","section":"No secrets in worker prompts"}}
+{"range":["omc:team/SKILL.md#0436","omc:team/SKILL.md#0438"],"d":"dropped","why":"runtime","note":"team shutdown and slug mechanics"}
+{"id":"omc:team/SKILL.md#0439","d":"absorbed","to":{"skill":"execute-rigorously","section":"Prefer direct messages over broadcast"}}
+{"id":"omc:team/SKILL.md#0440","d":"dropped","why":"runtime","note":"CLI worker lifetime follows provider"}
+{"id":"omc:team/SKILL.md#0441","d":"dropped","why":"boilerplate"}
+{"range":["omc:team/SKILL.md#0442","omc:team/SKILL.md#0445"],"d":"dropped","why":"runtime","note":"parallel session caveats (workspace marker, session id source, state scoping)"}

@@ -1,0 +1,29 @@
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0000","addyosmani:documentation-and-adrs/SKILL.md#0003"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0004","d":"absorbed","to":{"skill":"planning-rigorously","section":"Decision records: document the why"}}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0006","addyosmani:documentation-and-adrs/SKILL.md#0012"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Decision records: when to document"}}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0014","d":"absorbed","to":{"skill":"planning-rigorously","section":"Decision records: document the why"}}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0015","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0016","addyosmani:documentation-and-adrs/SKILL.md#0021"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR triggers"}}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0022","addyosmani:documentation-and-adrs/SKILL.md#0027"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR: match the existing convention first"}}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0028","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0029","addyosmani:documentation-and-adrs/SKILL.md#0030"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR template and location"}}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0031","addyosmani:documentation-and-adrs/SKILL.md#0034"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"ADR lifecycle: supersede, never delete"}}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0035","addyosmani:documentation-and-adrs/SKILL.md#0036"],"d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0037","d":"absorbed","to":{"skill":"execute-rigorously","section":"Comments explain why not what"}}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0038","d":"dropped","why":"example-only","note":"comment sample"}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0040","d":"dropped","why":"example-only","note":"comment sample"}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0041","d":"absorbed","to":{"skill":"execute-rigorously","section":"Document known gotchas inline"}}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0042","d":"dropped","why":"example-only","note":"gotcha comment sample"}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0043","addyosmani:documentation-and-adrs/SKILL.md#0048"],"d":"dropped","why":"out-of-scope","note":"user: dropped API design"}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0049","addyosmani:documentation-and-adrs/SKILL.md#0051"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"README and agent rules files stay current"}}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0052","addyosmani:documentation-and-adrs/SKILL.md#0054"],"d":"dropped","why":"out-of-scope","note":"user: dropped release and launch"}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0055","addyosmani:documentation-and-adrs/SKILL.md#0060"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"README and agent rules files stay current"}}
+{"id":"addyosmani:documentation-and-adrs/SKILL.md#0061","d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0062","addyosmani:documentation-and-adrs/SKILL.md#0065"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Prose review preserving source details"}}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0066","addyosmani:documentation-and-adrs/SKILL.md#0067"],"d":"dropped","why":"boilerplate"}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0068","addyosmani:documentation-and-adrs/SKILL.md#0072"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Documentation and ADR rationalizations"}}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0073","addyosmani:documentation-and-adrs/SKILL.md#0080"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Documentation and ADR red flags"}}
+{"range":["addyosmani:documentation-and-adrs/SKILL.md#0081","addyosmani:documentation-and-adrs/SKILL.md#0089"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Documentation and ADR verification"}}

@@ -1,0 +1,41 @@
+{"id":"superpowers:executing-plans/SKILL.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:executing-plans/SKILL.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Choosing subagent versus inline execution"}}
+{"id":"superpowers:executing-plans/SKILL.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:executing-plans/SKILL.md#0003","superpowers:executing-plans/SKILL.md#0005"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Inline plan execution loop"}}
+{"id":"superpowers:executing-plans/SKILL.md#0006","d":"absorbed","to":{"skill":"execute-rigorously","section":"Narration and continuous execution"}}
+{"range":["superpowers:executing-plans/SKILL.md#0007","superpowers:executing-plans/SKILL.md#0008"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Continuous execution: rulings not stalls"}}
+{"id":"superpowers:executing-plans/SKILL.md#0009","d":"absorbed","to":{"skill":"execute-rigorously","section":"Stop conditions: four hard stops"}}
+{"id":"superpowers:executing-plans/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:executing-plans/SKILL.md#0011","superpowers:executing-plans/SKILL.md#0015"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Choosing subagent versus inline execution"}}
+{"id":"superpowers:executing-plans/SKILL.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:executing-plans/SKILL.md#0017","d":"absorbed","to":{"skill":"execute-rigorously","section":"Inline plan execution loop"}}
+{"id":"superpowers:executing-plans/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:executing-plans/SKILL.md#0019","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Isolated workspace for plan execution"}}
+{"range":["superpowers:executing-plans/SKILL.md#0020","superpowers:executing-plans/SKILL.md#0025"],"d":"absorbed","to":{"skill":"core","section":"Ledger and resuming after compaction"}}
+{"id":"superpowers:executing-plans/SKILL.md#0026","d":"absorbed","to":{"skill":"execute-rigorously","section":"Plan intake and todo per task"}}
+{"id":"superpowers:executing-plans/SKILL.md#0027","d":"absorbed","to":{"skill":"planning-rigorously","section":"Test-first planning: TDD on by default"}}
+{"id":"superpowers:executing-plans/SKILL.md#0028","d":"absorbed","to":{"skill":"execute-rigorously","section":"Pre-flight conflict scan"}}
+{"id":"superpowers:executing-plans/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:executing-plans/SKILL.md#0030","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context hygiene in dispatch prompts"}}
+{"id":"superpowers:executing-plans/SKILL.md#0031","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:executing-plans/SKILL.md#0032","superpowers:executing-plans/SKILL.md#0033"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Taking and starting a task"}}
+{"id":"superpowers:executing-plans/SKILL.md#0034","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context hygiene in dispatch prompts"}}
+{"id":"superpowers:executing-plans/SKILL.md#0035","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:executing-plans/SKILL.md#0036","superpowers:executing-plans/SKILL.md#0041"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Working plan steps against Expected lines"}}
+{"id":"superpowers:executing-plans/SKILL.md#0042","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:executing-plans/SKILL.md#0043","superpowers:executing-plans/SKILL.md#0048"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion contract and evidence"}}
+{"id":"superpowers:executing-plans/SKILL.md#0049","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:executing-plans/SKILL.md#0050","superpowers:executing-plans/SKILL.md#0052"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Task completion and ledger line"}}
+{"id":"superpowers:executing-plans/SKILL.md#0053","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:executing-plans/SKILL.md#0054","superpowers:executing-plans/SKILL.md#0057"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Final whole-branch review"}}
+{"range":["superpowers:executing-plans/SKILL.md#0058","superpowers:executing-plans/SKILL.md#0061"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Final review findings triage"}}
+{"id":"superpowers:executing-plans/SKILL.md#0062","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:executing-plans/SKILL.md#0063","superpowers:executing-plans/SKILL.md#0064"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Finish: collect rulings then clean up"}}
+{"id":"superpowers:executing-plans/SKILL.md#0065","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Finishing a branch after final review"}}
+{"id":"superpowers:executing-plans/SKILL.md#0066","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:executing-plans/SKILL.md#0067","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:executing-plans/SKILL.md#0068","superpowers:executing-plans/SKILL.md#0079"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Rationalizations to refuse in execution"}}
+{"id":"superpowers:executing-plans/scripts/task-done#0000","d":"dropped","why":"runtime","note":"inline-execution helper script (task-start/task-done)"}
+{"id":"superpowers:executing-plans/scripts/task-start#0000","d":"dropped","why":"runtime","note":"inline-execution helper script (task-start/task-done)"}
+{"id":"superpowers:executing-plans/scripts/task-done#0000","d":"dropped","why":"runtime","note":"helper shell script for plan workspace and review package, ideas kept from SKILL.md prose"}
+{"id":"superpowers:executing-plans/scripts/task-start#0000","d":"dropped","why":"runtime","note":"helper shell script for plan workspace and review package, ideas kept from SKILL.md prose"}

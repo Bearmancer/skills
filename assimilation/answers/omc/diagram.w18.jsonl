@@ -1,0 +1,33 @@
+{"id":"omc:diagram/SKILL.md#0000","d":"dropped","why":"boilerplate","note":"frontmatter name field only"}
+{"id":"omc:diagram/SKILL.md#0001","d":"absorbed","to":{"skill":"visualize-rigorously","section":"smallest visual when prose fails"}}
+{"id":"omc:diagram/SKILL.md#0002","d":"dropped","why":"boilerplate","note":"frontmatter level field only"}
+{"id":"omc:diagram/SKILL.md#0003","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagrams load-bearing rule"}}
+{"id":"omc:diagram/SKILL.md#0004","d":"dropped","why":"boilerplate","note":"heading only"}
+{"id":"omc:diagram/SKILL.md#0005","d":"absorbed","to":{"skill":"visualize-rigorously","section":"one view two at most"}}
+{"id":"omc:diagram/SKILL.md#0006","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagram view vocabulary"}}
+{"id":"omc:diagram/SKILL.md#0007","d":"dropped","why":"example-only","note":"pseudocode sample; rule in unit 6"}
+{"id":"omc:diagram/SKILL.md#0008","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagram view vocabulary"}}
+{"id":"omc:diagram/SKILL.md#0009","d":"dropped","why":"example-only","note":"call tree sample; rule in unit 8"}
+{"id":"omc:diagram/SKILL.md#0010","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagram view vocabulary"}}
+{"id":"omc:diagram/SKILL.md#0011","d":"dropped","why":"example-only","note":"component tree sample; rule in unit 10"}
+{"id":"omc:diagram/SKILL.md#0012","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagram view vocabulary"}}
+{"id":"omc:diagram/SKILL.md#0013","d":"dropped","why":"example-only","note":"file tree sample; rule in unit 12"}
+{"id":"omc:diagram/SKILL.md#0014","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagram view vocabulary"}}
+{"id":"omc:diagram/SKILL.md#0015","d":"dropped","why":"example-only","note":"mermaid sample; rule in unit 14"}
+{"id":"omc:diagram/SKILL.md#0016","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagram view vocabulary"}}
+{"id":"omc:diagram/SKILL.md#0017","d":"dropped","why":"boilerplate","note":"lead-in label only"}
+{"id":"omc:diagram/SKILL.md#0018","d":"dropped","why":"example-only","note":"component diff sample; rule in unit 16"}
+{"id":"omc:diagram/SKILL.md#0019","d":"dropped","why":"boilerplate","note":"lead-in label only"}
+{"id":"omc:diagram/SKILL.md#0020","d":"dropped","why":"example-only","note":"file-layout diff sample; rule in unit 16"}
+{"id":"omc:diagram/SKILL.md#0021","d":"dropped","why":"boilerplate","note":"lead-in label only"}
+{"id":"omc:diagram/SKILL.md#0022","d":"dropped","why":"example-only","note":"control-flow diff sample; rule in unit 16"}
+{"id":"omc:diagram/SKILL.md#0023","d":"dropped","why":"boilerplate","note":"lead-in label only"}
+{"id":"omc:diagram/SKILL.md#0024","d":"dropped","why":"example-only","note":"state-machine diff sample; rule in unit 16"}
+{"id":"omc:diagram/SKILL.md#0025","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagram view vocabulary"}}
+{"id":"omc:diagram/SKILL.md#0026","d":"dropped","why":"example-only","note":"whole-block code sample; rule in unit 25"}
+{"id":"omc:diagram/SKILL.md#0027","d":"dropped","why":"boilerplate","note":"heading only"}
+{"id":"omc:diagram/SKILL.md#0028","d":"absorbed","to":{"skill":"visualize-rigorously","section":"text runs out fallback"}}
+{"id":"omc:diagram/SKILL.md#0029","d":"dropped","why":"boilerplate","note":"heading only"}
+{"id":"omc:diagram/SKILL.md#0030","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagram discipline"}}
+{"id":"omc:diagram/SKILL.md#0031","d":"absorbed","to":{"skill":"visualize-rigorously","section":"diagram discipline"}}
+{"id":"omc:diagram/SKILL.md#0032","d":"absorbed","to":{"skill":"visualize-rigorously","section":"smallest visual when prose fails"}}

@@ -1,0 +1,76 @@
+{"id":"superpowers:subagent-driven-development/SKILL.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0001","d":"absorbed","to":{"skill":"execute-rigorously","section":"Choosing subagent versus inline execution"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0003","superpowers:subagent-driven-development/SKILL.md#0005"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Subagent per task execution loop"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0006","d":"absorbed","to":{"skill":"execute-rigorously","section":"Narration and continuous execution"}}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0007","superpowers:subagent-driven-development/SKILL.md#0008"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Continuous execution: rulings not stalls"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0009","d":"absorbed","to":{"skill":"execute-rigorously","section":"Stop conditions: four hard stops"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0011","d":"absorbed","to":{"skill":"execute-rigorously","section":"Choosing subagent versus inline execution"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0012","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0013","superpowers:subagent-driven-development/SKILL.md#0016"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Choosing subagent versus inline execution"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0017","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0018","d":"absorbed","to":{"skill":"execute-rigorously","section":"Subagent per task execution loop"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0020","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Isolated workspace for plan execution"}}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0021","superpowers:subagent-driven-development/SKILL.md#0026"],"d":"absorbed","to":{"skill":"core","section":"Ledger and resuming after compaction"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0027","d":"absorbed","to":{"skill":"execute-rigorously","section":"Plan intake and todo per task"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0028","d":"absorbed","to":{"skill":"execute-rigorously","section":"Pre-flight conflict scan"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0030","superpowers:subagent-driven-development/SKILL.md#0037"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Model selection by task complexity"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0038","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0039","superpowers:subagent-driven-development/SKILL.md#0041"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Model selection by task complexity"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0042","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0043","d":"absorbed","to":{"skill":"execute-rigorously","section":"Batching small same-shape work"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0044","d":"absorbed","to":{"skill":"execute-rigorously","section":"Context hygiene in dispatch prompts"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0045","d":"absorbed","to":{"skill":"execute-rigorously","section":"Waiting on dispatched subagents"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0046","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0047","superpowers:subagent-driven-development/SKILL.md#0054"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Dispatching the implementer"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0055","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0056","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0057","superpowers:subagent-driven-development/SKILL.md#0060"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Handling implementer reports"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0061","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0062","superpowers:subagent-driven-development/SKILL.md#0068"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Task review gate and reviewer inputs"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0069","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0070","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0071","superpowers:subagent-driven-development/SKILL.md#0072"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Fix loop and breaker"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0073","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0074","superpowers:subagent-driven-development/SKILL.md#0077"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Task completion and ledger line"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0078","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0079","d":"absorbed","to":{"skill":"execute-rigorously","section":"Final whole-branch review"}}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0080","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/SKILL.md#0081","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/SKILL.md#0082","superpowers:subagent-driven-development/SKILL.md#0090"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Rationalizations to refuse in execution"}}
+{"range":["superpowers:subagent-driven-development/implementer-prompt.md#0000","superpowers:subagent-driven-development/implementer-prompt.md#0001"],"d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/implementer-prompt.md#0002","d":"absorbed","to":{"skill":"execute-rigorously","section":"Implementer prompt template"}}
+{"id":"superpowers:subagent-driven-development/re-review-prompt.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/re-review-prompt.md#0001","superpowers:subagent-driven-development/re-review-prompt.md#0003"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Scoped re-review after a fix round"}}
+{"id":"superpowers:subagent-driven-development/re-review-prompt.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/re-review-prompt.md#0005","superpowers:subagent-driven-development/re-review-prompt.md#0012"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Scoped re-review after a fix round"}}
+{"range":["superpowers:subagent-driven-development/references/batching.md#0000","superpowers:subagent-driven-development/references/batching.md#0001"],"d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/references/batching.md#0002","d":"absorbed","to":{"skill":"execute-rigorously","section":"Batching small same-shape work"}}
+{"range":["superpowers:subagent-driven-development/references/cannot-verify.md#0000","superpowers:subagent-driven-development/references/cannot-verify.md#0001"],"d":"dropped","why":"boilerplate"}
+{"id":"superpowers:subagent-driven-development/references/cannot-verify.md#0002","d":"absorbed","to":{"skill":"review-rigorously","section":"Cannot verify from diff items"}}
+{"range":["superpowers:subagent-driven-development/references/final-review.md#0000","superpowers:subagent-driven-development/references/final-review.md#0001"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/references/final-review.md#0002","superpowers:subagent-driven-development/references/final-review.md#0003"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Final whole-branch review"}}
+{"id":"superpowers:subagent-driven-development/references/final-review.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/references/final-review.md#0005","superpowers:subagent-driven-development/references/final-review.md#0006"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Finish: collect rulings then clean up"}}
+{"id":"superpowers:subagent-driven-development/references/final-review.md#0007","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Finishing a branch after final review"}}
+{"id":"superpowers:subagent-driven-development/references/fix-loop.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/references/fix-loop.md#0001","superpowers:subagent-driven-development/references/fix-loop.md#0015"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Fix loop and breaker"}}
+{"range":["superpowers:subagent-driven-development/references/handling-reports.md#0000","superpowers:subagent-driven-development/references/handling-reports.md#0001"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/references/handling-reports.md#0002","superpowers:subagent-driven-development/references/handling-reports.md#0009"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Handling implementer reports"}}
+{"id":"superpowers:subagent-driven-development/references/preflight.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/references/preflight.md#0001","superpowers:subagent-driven-development/references/preflight.md#0006"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Pre-flight conflict scan"}}
+{"id":"superpowers:subagent-driven-development/references/resuming.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/references/resuming.md#0001","superpowers:subagent-driven-development/references/resuming.md#0002"],"d":"absorbed","to":{"skill":"core","section":"Ledger and resuming after compaction"}}
+{"id":"superpowers:subagent-driven-development/scripts/review-package#0000","d":"dropped","why":"runtime","note":"SDD helper script (review package, workspace, brief extraction)"}
+{"id":"superpowers:subagent-driven-development/scripts/sdd-workspace#0000","d":"dropped","why":"runtime","note":"SDD helper script (review package, workspace, brief extraction)"}
+{"id":"superpowers:subagent-driven-development/scripts/task-brief#0000","d":"dropped","why":"runtime","note":"SDD helper script (review package, workspace, brief extraction)"}
+{"id":"superpowers:subagent-driven-development/task-reviewer-prompt.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/task-reviewer-prompt.md#0001","superpowers:subagent-driven-development/task-reviewer-prompt.md#0003"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Task review gate and reviewer inputs"}}
+{"id":"superpowers:subagent-driven-development/task-reviewer-prompt.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:subagent-driven-development/task-reviewer-prompt.md#0005","superpowers:subagent-driven-development/task-reviewer-prompt.md#0012"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Task review gate and reviewer inputs"}}
+{"id":"superpowers:subagent-driven-development/scripts/review-package#0000","d":"dropped","why":"runtime","note":"helper shell script for plan workspace and review package, ideas kept from SKILL.md prose"}
+{"id":"superpowers:subagent-driven-development/scripts/sdd-workspace#0000","d":"dropped","why":"runtime","note":"helper shell script for plan workspace and review package, ideas kept from SKILL.md prose"}
+{"id":"superpowers:subagent-driven-development/scripts/task-brief#0000","d":"dropped","why":"runtime","note":"helper shell script for plan workspace and review package, ideas kept from SKILL.md prose"}

@@ -1,0 +1,15 @@
+{"range":["mattpocock:implement-spec/SKILL.md#0000","mattpocock:implement-spec/SKILL.md#0002"],"d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:implement-spec/SKILL.md#0003","d":"absorbed","to":{"skill":"execute-rigorously","section":"Spec implementation on an integration branch"}}
+{"id":"mattpocock:implement-spec/SKILL.md#0004","d":"dropped","why":"noise","note":"plugin setup skill"}
+{"range":["mattpocock:implement-spec/SKILL.md#0005","mattpocock:implement-spec/SKILL.md#0006"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Spec implementation on an integration branch"}}
+{"range":["mattpocock:implement-spec/SKILL.md#0007","mattpocock:implement-spec/SKILL.md#0009"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Subagent dispatch: fresh context, sparse comms"}}
+{"id":"mattpocock:implement-spec/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:implement-spec/SKILL.md#0011","mattpocock:implement-spec/SKILL.md#0012"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Task graph execution by frontier"}}
+{"id":"mattpocock:implement-spec/SKILL.md#0013","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Integration branch and draft PR"}}
+{"range":["mattpocock:implement-spec/SKILL.md#0014","mattpocock:implement-spec/SKILL.md#0017"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Per-ticket implementer subagents in worktrees"}}
+{"id":"mattpocock:implement-spec/SKILL.md#0018","d":"absorbed","to":{"skill":"execute-rigorously","section":"Task graph execution by frontier"}}
+{"id":"mattpocock:implement-spec/SKILL.md#0019","d":"absorbed","to":{"skill":"execute-rigorously","section":"Task graph execution by frontier"}}
+{"id":"mattpocock:implement-spec/SKILL.md#0020","d":"absorbed","to":{"skill":"execute-rigorously","section":"Review the integrated result"}}
+{"id":"mattpocock:implement-spec/SKILL.md#0021","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Integration branch and draft PR"}}
+{"id":"mattpocock:implement-spec/SKILL.md#0022","d":"absorbed","to":{"skill":"version-control-rigorously","section":"Worktree cleanup"}}
+{"id":"mattpocock:implement-spec/agents/openai.yaml#0000","d":"dropped","why":"noise","note":"agent UI metadata"}

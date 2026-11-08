@@ -1,0 +1,462 @@
+{"id":"omo:ulw-research/references/research-collection.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-collection.md#0001","d":"absorbed","to":{"skill":"research-rigorously","section":"Scope solo first, then brief"}}
+{"id":"omo:ulw-research/references/research-collection.md#0002","d":"absorbed","to":{"skill":"research-rigorously","section":"Scope solo first, then brief: analysis block"}}
+{"id":"omo:ulw-research/references/research-collection.md#0003","d":"absorbed","to":{"skill":"research-rigorously","section":"Scope solo first, then brief: search-only vs browser"}}
+{"id":"omo:ulw-research/references/research-collection.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-collection.md#0005","d":"dropped","why":"runtime","note":"session directory under .omo/ulw-research"}
+{"id":"omo:ulw-research/references/research-collection.md#0006","d":"absorbed","to":{"skill":"research-rigorously","section":"Brief file contents and axis owners"}}
+{"id":"omo:ulw-research/references/research-collection.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-collection.md#0008","d":"absorbed","to":{"skill":"research-rigorously","section":"Journal findings the instant they land"}}
+{"id":"omo:ulw-research/references/research-collection.md#0009","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-collection.md#0010","d":"absorbed","to":{"skill":"research-rigorously","section":"Deliverable lane and format: derive first"}}
+{"range":["omo:ulw-research/references/research-collection.md#0011","omo:ulw-research/references/research-collection.md#0012"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Deliverable lane and format: derive first"}}
+{"id":"omo:ulw-research/references/research-collection.md#0013","d":"absorbed","to":{"skill":"research-rigorously","section":"Format interview: ask without blocking collection [conflict: non-blocking ask, not one up-front round]"}}
+{"range":["omo:ulw-research/references/research-collection.md#0014","omo:ulw-research/references/research-collection.md#0021"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Source fidelity fields inferred from request"}}
+{"id":"omo:ulw-research/references/research-collection.md#0022","d":"absorbed","to":{"skill":"research-rigorously","section":"Format interview: ask without blocking collection [conflict: non-blocking ask, not one up-front round]"}}
+{"id":"omo:ulw-research/references/research-collection.md#0023","d":"absorbed","to":{"skill":"research-rigorously","section":"Brief file contents and axis owners"}}
+{"id":"omo:ulw-research/references/research-collection.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-collection.md#0025","d":"absorbed","to":{"skill":"research-rigorously","section":"Source fidelity questions and options"}}
+{"range":["omo:ulw-research/references/research-collection.md#0026","omo:ulw-research/references/research-collection.md#0029"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Source fidelity questions and options"}}
+{"range":["omo:ulw-research/references/research-collection.md#0030","omo:ulw-research/references/research-collection.md#0033"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Source fidelity questions and options"}}
+{"id":"omo:ulw-research/references/research-collection.md#0034","d":"duplicate","of":"omo:ulw-research/references/research-collection.md#0029"}
+{"range":["omo:ulw-research/references/research-collection.md#0035","omo:ulw-research/references/research-collection.md#0039"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Source fidelity questions and options"}}
+{"id":"omo:ulw-research/references/research-collection.md#0040","d":"duplicate","of":"omo:ulw-research/references/research-collection.md#0029"}
+{"range":["omo:ulw-research/references/research-collection.md#0041","omo:ulw-research/references/research-collection.md#0044"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Source fidelity questions and options"}}
+{"id":"omo:ulw-research/references/research-collection.md#0045","d":"duplicate","of":"omo:ulw-research/references/research-collection.md#0029"}
+{"id":"omo:ulw-research/references/research-collection.md#0046","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-collection.md#0047","d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity block recorded in the brief"}}
+{"id":"omo:ulw-research/references/research-collection.md#0048","d":"duplicate","of":"omo:ulw-research/references/deliverable-phase.md#0051"}
+{"id":"omo:ulw-research/references/research-collection.md#0049","d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity block recorded in the brief"}}
+{"id":"omo:ulw-research/references/research-collection.md#0050","d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity block re-entry for older sessions"}}
+{"id":"omo:ulw-research/references/research-collection.md#0051","d":"dropped","why":"runtime","note":"fidelity-calibration.jsonl log files and promotion bookkeeping"}
+{"id":"omo:ulw-research/references/research-collection.md#0052","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-collection.md#0053","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-collection.md#0054","d":"dropped","why":"runtime","note":"mass-ulw dag collection mode"}
+{"id":"omo:ulw-research/references/research-collection.md#0055","d":"absorbed","to":{"skill":"research-rigorously","section":"Research team composition and dispatch"}}
+{"id":"omo:ulw-research/references/research-collection.md#0056","d":"dropped","why":"runtime","note":"team_create call"}
+{"range":["omo:ulw-research/references/research-collection.md#0057","omo:ulw-research/references/research-collection.md#0059"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Research team composition and dispatch"}}
+{"id":"omo:ulw-research/references/research-collection.md#0060","d":"absorbed","to":{"skill":"research-rigorously","section":"Routing words from the user are literal"}}
+{"id":"omo:ulw-research/references/research-collection.md#0061","d":"absorbed","to":{"skill":"research-rigorously","section":"Skeptic and attack members"}}
+{"id":"omo:ulw-research/references/research-collection.md#0062","d":"absorbed","to":{"skill":"research-rigorously","section":"Raise law: broadcast every lead at once"}}
+{"id":"omo:ulw-research/references/research-collection.md#0063","d":"dropped","why":"runtime","note":"team tasklist (task_create/task_update)"}
+{"id":"omo:ulw-research/references/research-collection.md#0064","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-collection.md#0065","d":"absorbed","to":{"skill":"research-rigorously","section":"Team lifecycle: research team then refinement-debate team"}}
+{"id":"omo:ulw-research/references/research-collection.md#0066","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-collection.md#0067","omo:ulw-research/references/research-collection.md#0070"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Team lifecycle: research team then refinement-debate team"}}
+{"range":["omo:ulw-research/references/research-collection.md#0071","omo:ulw-research/references/research-collection.md#0072"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-collection.md#0073","omo:ulw-research/references/research-collection.md#0077"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Member brief contract"}}
+{"range":["omo:ulw-research/references/research-collection.md#0078","omo:ulw-research/references/research-collection.md#0079"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Member brief contract: EXPAND tail"}}
+{"id":"omo:ulw-research/references/research-collection.md#0080","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-collection.md#0081","omo:ulw-research/references/research-collection.md#0082"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Saturation wave: launch all angles in one turn"}}
+{"id":"omo:ulw-research/references/research-collection.md#0083","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-collection.md#0084","omo:ulw-research/references/research-collection.md#0088"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Scaling floor by query scope"}}
+{"id":"omo:ulw-research/references/research-collection.md#0089","d":"absorbed","to":{"skill":"research-rigorously","section":"Scaling floor by query scope"}}
+{"id":"omo:ulw-research/references/research-collection.md#0090","d":"absorbed","to":{"skill":"research-rigorously","section":"Disambiguate the entity before expanding"}}
+{"id":"omo:ulw-research/references/research-collection.md#0091","d":"absorbed","to":{"skill":"research-rigorously","section":"Role protocols per source type"}}
+{"range":["omo:ulw-research/references/research-collection.md#0092","omo:ulw-research/references/research-collection.md#0094"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Role protocols per source type"}}
+{"id":"omo:ulw-research/references/research-collection.md#0095","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-collection.md#0096","omo:ulw-research/references/research-collection.md#0098"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Worker ground rules: read-only, no recursion, lift budgets"}}
+{"id":"omo:ulw-research/references/research-collection.md#0099","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-collection.md#0100","omo:ulw-research/references/research-collection.md#0103"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Expand and debate loop"}}
+{"id":"omo:ulw-research/references/research-collection.md#0104","d":"dropped","why":"runtime","note":"task spawn call template for expansion lane"}
+{"range":["omo:ulw-research/references/research-collection.md#0105","omo:ulw-research/references/research-collection.md#0106"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Expand and debate loop"}}
+{"id":"omo:ulw-research/references/research-collection.md#0107","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-collection.md#0108","omo:ulw-research/references/research-collection.md#0123"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Excursions: enter on trigger, budget, exit, fold back"}}
+{"range":["omo:ulw-research/references/research-collection.md#0124","omo:ulw-research/references/research-collection.md#0128"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Convergence stop rules"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-delivery.md#0001","omo:ulw-research/references/research-delivery.md#0003"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Verify contested claims by executed code"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-delivery.md#0005","omo:ulw-research/references/research-delivery.md#0007"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Claim graph gate for non-code claims"}}
+{"range":["omo:ulw-research/references/research-delivery.md#0008","omo:ulw-research/references/research-delivery.md#0013"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Claim graph gate: high-risk claim clearance"}}
+{"range":["omo:ulw-research/references/research-delivery.md#0014","omo:ulw-research/references/research-delivery.md#0015"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Claim graph gate for non-code claims"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0016","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-delivery.md#0017","omo:ulw-research/references/research-delivery.md#0019"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Synthesis document structure and citations"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0020","d":"absorbed","to":{"skill":"research-rigorously","section":"Numbers and quotes traced to a fact ledger"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0021","d":"absorbed","to":{"skill":"research-rigorously","section":"Draft skeleton written early"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0022","d":"absorbed","to":{"skill":"research-rigorously","section":"Lineage: measured, assumed, derived"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0023","d":"absorbed","to":{"skill":"research-rigorously","section":"Search in English, deliver in the user language"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/research-delivery.md#0025","d":"absorbed","to":{"skill":"research-rigorously","section":"Deliverable formats and rendering"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0026","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-delivery.md#0027","omo:ulw-research/references/research-delivery.md#0031"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Deliverable formats and rendering"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0032","d":"absorbed","to":{"skill":"research-rigorously","section":"Every reader-facing edition is filled and verified"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0033","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report design spec before asset lanes"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0034","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report figure standard"}}
+{"range":["omo:ulw-research/references/research-delivery.md#0035","omo:ulw-research/references/research-delivery.md#0039"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report asset lanes: charts, diagrams, visuals, screenshots"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0040","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Every final report carries visuals"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0041","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Visual reproduction compared to source frames"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0042","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Asset manifest verified before rendering"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0043","d":"absorbed","to":{"skill":"research-rigorously","section":"Report assembly from placeholder source"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0044","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-delivery.md#0045","omo:ulw-research/references/research-delivery.md#0051"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0052","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Visual QA of rendered artifact"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0053","d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order: proofread"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0054","d":"absorbed","to":{"skill":"research-rigorously","section":"Bounded repair loop"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0055","d":"absorbed","to":{"skill":"research-rigorously","section":"Deliver: resolve every promised row, show report inline"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0056","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-delivery.md#0057","omo:ulw-research/references/research-delivery.md#0060"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Closing briefing"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0061","d":"absorbed","to":{"skill":"research-rigorously","section":"Report-format memory episodes"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0062","d":"absorbed","to":{"skill":"research-rigorously","section":"Teardown before the final answer"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0063","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-delivery.md#0064","omo:ulw-research/references/research-delivery.md#0065"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Search craft"}}
+{"id":"omo:ulw-research/references/research-delivery.md#0066","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-delivery.md#0067","omo:ulw-research/references/research-delivery.md#0074"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Search craft"}}
+{"range":["omo:ulw-research/references/research-delivery.md#0075","omo:ulw-research/references/research-delivery.md#0076"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/research-delivery.md#0077","omo:ulw-research/references/research-delivery.md#0117"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Failure modes and corrections"}}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0000","omo:ulw-research/references/deliverable-phase.md#0001"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0002","omo:ulw-research/references/deliverable-phase.md#0004"],"d":"dropped","why":"runtime","note":"report-tools.mjs dispatcher CLI"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0005","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0006","d":"absorbed","to":{"skill":"research-rigorously","section":"Deliverable lanes"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0007","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0008","omo:ulw-research/references/deliverable-phase.md#0011"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Deliverable lanes"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0012","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0013","d":"absorbed","to":{"skill":"research-rigorously","section":"Deliverable state: none, partial, complete"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0014","d":"dropped","why":"runtime","note":"outcome state command"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0015","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0016","omo:ulw-research/references/deliverable-phase.md#0018"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Deliverable state: none, partial, complete"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0020","d":"absorbed","to":{"skill":"research-rigorously","section":"Destination-derived format defaults"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0021","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0022","omo:ulw-research/references/deliverable-phase.md#0029"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Destination-derived format defaults"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0030","d":"absorbed","to":{"skill":"research-rigorously","section":"QA tiers: light and full"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0031","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0032","omo:ulw-research/references/deliverable-phase.md#0036"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Format interview: ask without blocking collection [conflict: non-blocking ask, not one up-front round]"}}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0037","omo:ulw-research/references/deliverable-phase.md#0039"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Brief file contents and axis owners"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0040","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0041","omo:ulw-research/references/deliverable-phase.md#0042"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity fields: values, defaults, and lock"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0043","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0044","omo:ulw-research/references/deliverable-phase.md#0050"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity fields: values, defaults, and lock"}}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0051","omo:ulw-research/references/deliverable-phase.md#0052"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity block recorded in the brief"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0053","d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity fields: values, defaults, and lock"}}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0054","omo:ulw-research/references/deliverable-phase.md#0059"],"d":"absorbed","to":{"skill":"research-rigorously","section":"What fill and verify enforce from the fidelity block"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0060","d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity block re-entry for older sessions"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0061","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0062","omo:ulw-research/references/deliverable-phase.md#0068"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Report-format memory episodes"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0069","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0070","omo:ulw-research/references/deliverable-phase.md#0071"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report design spec before asset lanes"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0072","d":"dropped","why":"runtime","note":"format-extract command"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0073","omo:ulw-research/references/deliverable-phase.md#0074"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report design spec before asset lanes"}}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0075","omo:ulw-research/references/deliverable-phase.md#0079"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report figure standard"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0080","d":"absorbed","to":{"skill":"research-rigorously","section":"Report assembly from placeholder source"}}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0081","omo:ulw-research/references/deliverable-phase.md#0083"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Lineage: measured, assumed, derived"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0084","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0085","omo:ulw-research/references/deliverable-phase.md#0086"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0087","d":"dropped","why":"runtime","note":"check command invocation"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0088","omo:ulw-research/references/deliverable-phase.md#0089"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0090","d":"dropped","why":"runtime","note":"fact verify command invocation"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0091","omo:ulw-research/references/deliverable-phase.md#0092"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0093","d":"dropped","why":"runtime","note":"layout-probe command invocation"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0094","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Visual QA of rendered artifact"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0095","d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order: proofread"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0096","d":"dropped","why":"runtime","note":"fact polish-apply command invocation"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0097","omo:ulw-research/references/deliverable-phase.md#0098"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Every reader-facing edition is filled and verified"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0099","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0100","d":"absorbed","to":{"skill":"research-rigorously","section":"Bounded repair loop"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0101","d":"dropped","why":"runtime","note":"repair decide command invocation"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0102","omo:ulw-research/references/deliverable-phase.md#0108"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Bounded repair loop"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0109","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0110","d":"absorbed","to":{"skill":"research-rigorously","section":"Outcome manifest: every promise resolved before delivery"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0111","d":"dropped","why":"runtime","note":"outcome init command invocation"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0112","omo:ulw-research/references/deliverable-phase.md#0117"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Outcome manifest: every promise resolved before delivery"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0118","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0119","omo:ulw-research/references/deliverable-phase.md#0124"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Deliver: resolve every promised row, show report inline"}}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0125","omo:ulw-research/references/deliverable-phase.md#0127"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0128","omo:ulw-research/references/deliverable-phase.md#0155"],"d":"dropped","why":"runtime","note":"report-tools CLI command reference rows"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0156","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0157","d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity gate: snapshot, register, fill, verify"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0158","d":"dropped","why":"runtime","note":"source snapshot/fact command sequence"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0159","omo:ulw-research/references/deliverable-phase.md#0165"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Fidelity gate: snapshot, register, fill, verify"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0166","d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0167","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/deliverable-phase.md#0168","omo:ulw-research/references/deliverable-phase.md#0174"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"id":"omo:ulw-research/references/deliverable-phase.md#0175","d":"dropped","why":"runtime","note":"report-tools exit codes"}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0001","d":"absorbed","to":{"skill":"research-rigorously","section":"Fact ledger: append-only, retract with reason"}}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0002","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0003","d":"dropped","why":"runtime","note":"fact-ledger.json row schema"}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0004","d":"absorbed","to":{"skill":"research-rigorously","section":"Fact ledger: append-only, retract with reason"}}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger-grammar.md#0006","omo:ulw-research/references/fact-ledger-grammar.md#0007"],"d":"dropped","why":"runtime","note":"fact id format and nextId"}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0008","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger-grammar.md#0009","omo:ulw-research/references/fact-ledger-grammar.md#0032"],"d":"dropped","why":"runtime","note":"fact-ledger.json row schema fields, kind table, exact rationals, legacy loading"}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0034","d":"absorbed","to":{"skill":"research-rigorously","section":"Fact ledger: unique labels and provenance"}}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0035","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0036","d":"absorbed","to":{"skill":"research-rigorously","section":"Fact ledger: unique labels and provenance"}}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0037","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger-grammar.md#0038","omo:ulw-research/references/fact-ledger-grammar.md#0039"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Fact ledger: append-only, retract with reason"}}
+{"range":["omo:ulw-research/references/fact-ledger-grammar.md#0040","omo:ulw-research/references/fact-ledger-grammar.md#0041"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger-grammar.md#0042","omo:ulw-research/references/fact-ledger-grammar.md#0049"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Fact ledger: append-only, retract with reason"}}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0050","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger-grammar.md#0051","omo:ulw-research/references/fact-ledger-grammar.md#0054"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Fact ledger: append-only, retract with reason"}}
+{"id":"omo:ulw-research/references/fact-ledger-grammar.md#0055","d":"dropped","why":"runtime","note":"ledger validation error text"}
+{"id":"omo:ulw-research/references/fact-ledger.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/fact-ledger.md#0001","d":"absorbed","to":{"skill":"research-rigorously","section":"Fact ledger: append-only, retract with reason"}}
+{"id":"omo:ulw-research/references/fact-ledger.md#0002","d":"dropped","why":"runtime","note":"report-tools CLI invocation form"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0003","omo:ulw-research/references/fact-ledger.md#0004"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0005","omo:ulw-research/references/fact-ledger.md#0014"],"d":"dropped","why":"runtime","note":"session file layout table"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0015","omo:ulw-research/references/fact-ledger.md#0016"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Source snapshots: immutable, locator contract"}}
+{"id":"omo:ulw-research/references/fact-ledger.md#0017","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/fact-ledger.md#0018","d":"dropped","why":"runtime","note":"conversion probe guaranteed converter outputs"}
+{"id":"omo:ulw-research/references/fact-ledger.md#0019","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0020","omo:ulw-research/references/fact-ledger.md#0024"],"d":"dropped","why":"runtime","note":"conversion probe declared out-of-scope list"}
+{"id":"omo:ulw-research/references/fact-ledger.md#0025","d":"absorbed","to":{"skill":"research-rigorously","section":"Source snapshots: immutable, locator contract"}}
+{"id":"omo:ulw-research/references/fact-ledger.md#0026","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0027","omo:ulw-research/references/fact-ledger.md#0033"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Source snapshots: immutable, locator contract"}}
+{"range":["omo:ulw-research/references/fact-ledger.md#0034","omo:ulw-research/references/fact-ledger.md#0035"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0036","omo:ulw-research/references/fact-ledger.md#0050"],"d":"dropped","why":"runtime","note":"ledger row field table"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0051","omo:ulw-research/references/fact-ledger.md#0052"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0053","omo:ulw-research/references/fact-ledger.md#0056"],"d":"dropped","why":"runtime","note":"locator flag table"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0057","omo:ulw-research/references/fact-ledger.md#0059"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Source snapshots: immutable, locator contract"}}
+{"id":"omo:ulw-research/references/fact-ledger.md#0060","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/fact-ledger.md#0061","d":"absorbed","to":{"skill":"research-rigorously","section":"Meaning verdicts: drift kinds and fail-closed coverage"}}
+{"id":"omo:ulw-research/references/fact-ledger.md#0062","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0063","omo:ulw-research/references/fact-ledger.md#0066"],"d":"dropped","why":"runtime","note":"meaning record fields"}
+{"id":"omo:ulw-research/references/fact-ledger.md#0067","d":"absorbed","to":{"skill":"research-rigorously","section":"Meaning verdicts: drift kinds and fail-closed coverage"}}
+{"id":"omo:ulw-research/references/fact-ledger.md#0068","d":"dropped","why":"runtime","note":"meaning record writing"}
+{"id":"omo:ulw-research/references/fact-ledger.md#0069","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0070","omo:ulw-research/references/fact-ledger.md#0076"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Ledger operations: add, quote, derive, retract, export, fill"}}
+{"id":"omo:ulw-research/references/fact-ledger.md#0077","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0078","omo:ulw-research/references/fact-ledger.md#0079"],"d":"dropped","why":"runtime","note":"pairs.json and verdict file schema"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0080","omo:ulw-research/references/fact-ledger.md#0082"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fact-ledger.md#0083","omo:ulw-research/references/fact-ledger.md#0085"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Meaning verdicts: drift kinds and fail-closed coverage"}}
+{"id":"omo:ulw-research/references/fact-ledger.md#0086","d":"dropped","why":"runtime","note":"verdict explanation field"}
+{"id":"omo:ulw-research/references/fact-ledger.md#0087","d":"absorbed","to":{"skill":"research-rigorously","section":"Meaning verdicts: drift kinds and fail-closed coverage"}}
+{"id":"omo:ulw-research/references/fact-ledger.md#0088","d":"dropped","why":"runtime","note":"fidelity-calibration.jsonl header"}
+{"id":"omo:ulw-research/references/fidelity-claim-kinds.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fidelity-claim-kinds.md#0001","omo:ulw-research/references/fidelity-claim-kinds.md#0003"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Claim kinds and per-fact bindings"}}
+{"range":["omo:ulw-research/references/fidelity-claim-kinds.md#0004","omo:ulw-research/references/fidelity-claim-kinds.md#0005"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/fidelity-claim-kinds.md#0006","omo:ulw-research/references/fidelity-claim-kinds.md#0010"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Claim kinds and per-fact bindings"}}
+{"id":"omo:ulw-research/references/fidelity-claim-kinds.md#0011","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/fidelity-claim-kinds.md#0012","d":"dropped","why":"runtime","note":"claim-kinds.mjs table regeneration"}
+{"range":["omo:ulw-research/references/latex-report.md#0000","omo:ulw-research/references/latex-report.md#0002"],"d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/latex-report.md#0003","d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX report route"}}
+{"id":"omo:ulw-research/references/latex-report.md#0004","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/latex-report.md#0005","omo:ulw-research/references/latex-report.md#0009"],"d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX toolchain detection, no silent downgrade"}}
+{"id":"omo:ulw-research/references/latex-report.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/latex-report.md#0011","omo:ulw-research/references/latex-report.md#0012"],"d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX engine choice"}}
+{"range":["omo:ulw-research/references/latex-report.md#0013","omo:ulw-research/references/latex-report.md#0014"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/latex-report.md#0015","omo:ulw-research/references/latex-report.md#0018"],"d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX compile loop"}}
+{"range":["omo:ulw-research/references/latex-report.md#0019","omo:ulw-research/references/latex-report.md#0021"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Visual QA of rendered artifact"}}
+{"id":"omo:ulw-research/references/latex-report.md#0022","d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX compile loop"}}
+{"id":"omo:ulw-research/references/latex-report.md#0023","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/latex-report.md#0024","d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX report route"}}
+{"id":"omo:ulw-research/references/latex-report.md#0025","d":"dropped","why":"example-only","note":"LaTeX preamble template"}
+{"id":"omo:ulw-research/references/latex-report.md#0026","d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX engine choice"}}
+{"id":"omo:ulw-research/references/latex-report.md#0027","d":"dropped","why":"example-only","note":"CJK font block template"}
+{"id":"omo:ulw-research/references/latex-report.md#0028","d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX report route"}}
+{"id":"omo:ulw-research/references/latex-report.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/latex-report.md#0030","d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX report skeleton written first"}}
+{"id":"omo:ulw-research/references/latex-report.md#0031","d":"dropped","why":"example-only","note":"LaTeX section skeleton template"}
+{"id":"omo:ulw-research/references/latex-report.md#0032","d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX report skeleton written first"}}
+{"id":"omo:ulw-research/references/latex-report.md#0033","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/latex-report.md#0034","omo:ulw-research/references/latex-report.md#0037"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Verified citations only in bibliography"}}
+{"id":"omo:ulw-research/references/latex-report.md#0038","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/latex-report.md#0039","omo:ulw-research/references/latex-report.md#0044"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"LaTeX figures, tables, code"}}
+{"id":"omo:ulw-research/references/latex-report.md#0045","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/latex-report.md#0046","omo:ulw-research/references/latex-report.md#0049"],"d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX long reports: split, scale, compile per section"}}
+{"id":"omo:ulw-research/references/latex-report.md#0050","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/latex-report.md#0051","omo:ulw-research/references/latex-report.md#0057"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Citation-preserving polish pass"}}
+{"range":["omo:ulw-research/references/latex-report.md#0058","omo:ulw-research/references/latex-report.md#0059"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/latex-report.md#0060","omo:ulw-research/references/latex-report.md#0069"],"d":"absorbed","to":{"skill":"research-rigorously","section":"LaTeX compile pitfalls"}}
+{"range":["omo:ulw-research/references/report-gates.md#0000","omo:ulw-research/references/report-gates.md#0004"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-gates.md#0005","omo:ulw-research/references/report-gates.md#0024"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Report gate defect codes: static"}}
+{"id":"omo:ulw-research/references/report-gates.md#0025","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-gates.md#0026","d":"absorbed","to":{"skill":"review-rigorously","section":"Report gate defect codes: fidelity"}}
+{"id":"omo:ulw-research/references/report-gates.md#0027","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-gates.md#0028","omo:ulw-research/references/report-gates.md#0079"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Report gate defect codes: fidelity"}}
+{"range":["omo:ulw-research/references/report-gates.md#0080","omo:ulw-research/references/report-gates.md#0081"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-gates.md#0082","omo:ulw-research/references/report-gates.md#0086"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report gate defect codes: layout"}}
+{"id":"omo:ulw-research/references/report-gates.md#0087","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-gates.md#0088","d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order"}}
+{"id":"omo:ulw-research/references/report-gates.md#0089","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-gates.md#0090","omo:ulw-research/references/report-gates.md#0092"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order"}}
+{"id":"omo:ulw-research/references/report-gates.md#0093","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-gates.md#0094","d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order"}}
+{"id":"omo:ulw-research/references/report-gates.md#0095","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-gates.md#0096","omo:ulw-research/references/report-gates.md#0101"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Delivery gates in order: proofread"}}
+{"id":"omo:ulw-research/references/report-gates.md#0102","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-gates.md#0103","omo:ulw-research/references/report-gates.md#0105"],"d":"dropped","why":"runtime","note":"defect record code/message fields in the outcome manifest"}
+{"range":["omo:ulw-research/references/report-gates.md#0106","omo:ulw-research/references/report-gates.md#0109"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Citation lineage modes: inline or section"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-visualization.md#0001","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report visual minimum"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-visualization.md#0003","omo:ulw-research/references/report-visualization.md#0008"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report visual minimum"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0009","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-visualization.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-visualization.md#0011","omo:ulw-research/references/report-visualization.md#0021"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Which visual tool for which finding"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0022","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-visualization.md#0023","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Report asset production: save under assets, confirm exists"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0024","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-visualization.md#0025","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Charts from data"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0026","d":"dropped","why":"example-only","note":"chart plotting command"}
+{"range":["omo:ulw-research/references/report-visualization.md#0027","omo:ulw-research/references/report-visualization.md#0033"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Charts from data"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-visualization.md#0035","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Mermaid diagrams"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0036","d":"dropped","why":"example-only","note":"mermaid config and render command"}
+{"range":["omo:ulw-research/references/report-visualization.md#0037","omo:ulw-research/references/report-visualization.md#0042"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Mermaid diagrams"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0043","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-visualization.md#0044","d":"absorbed","to":{"skill":"visualize-rigorously","section":"PlotNeuralNet for paper-format reports"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0045","d":"dropped","why":"example-only","note":"PlotNeuralNet clone and build command"}
+{"range":["omo:ulw-research/references/report-visualization.md#0046","omo:ulw-research/references/report-visualization.md#0048"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"PlotNeuralNet for paper-format reports"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0049","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-visualization.md#0050","omo:ulw-research/references/report-visualization.md#0051"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Screenshots and video"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0052","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-visualization.md#0053","omo:ulw-research/references/report-visualization.md#0055"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Reference compare for visual reproductions"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0056","d":"dropped","why":"example-only","note":"yt-dlp frame extraction command"}
+{"range":["omo:ulw-research/references/report-visualization.md#0057","omo:ulw-research/references/report-visualization.md#0059"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Reference compare for visual reproductions"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0060","d":"dropped","why":"example-only","note":"ffmpeg side-by-side compose command"}
+{"range":["omo:ulw-research/references/report-visualization.md#0061","omo:ulw-research/references/report-visualization.md#0063"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Reference compare for visual reproductions"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0064","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-visualization.md#0065","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Generated illustrations"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0066","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-visualization.md#0067","omo:ulw-research/references/report-visualization.md#0071"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Choosing the output format"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0072","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-visualization.md#0073","omo:ulw-research/references/report-visualization.md#0077"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Visual quality bar"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0078","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/report-visualization.md#0079","d":"absorbed","to":{"skill":"visualize-rigorously","section":"Visual QA checklist"}}
+{"id":"omo:ulw-research/references/report-visualization.md#0080","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/report-visualization.md#0081","omo:ulw-research/references/report-visualization.md#0092"],"d":"absorbed","to":{"skill":"visualize-rigorously","section":"Visual QA checklist"}}
+{"id":"omo:ulw-research/references/unit-rules.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/unit-rules.md#0001","d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"id":"omo:ulw-research/references/unit-rules.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/unit-rules.md#0003","omo:ulw-research/references/unit-rules.md#0008"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: unit rules"}}
+{"id":"omo:ulw-research/references/unit-rules.md#0009","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/unit-rules.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/unit-rules.md#0011","omo:ulw-research/references/unit-rules.md#0017"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"id":"omo:ulw-research/references/unit-rules.md#0018","d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"id":"omo:ulw-research/references/unit-rules.md#0019","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/unit-rules.md#0020","omo:ulw-research/references/unit-rules.md#0022"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operand identity"}}
+{"id":"omo:ulw-research/references/unit-rules.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/unit-rules.md#0024","omo:ulw-research/references/unit-rules.md#0028"],"d":"dropped","why":"runtime","note":"unit-rules property-test invariants and render precision function"}
+{"id":"omo:ulw-research/references/unit-rules.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/unit-rules.md#0030","omo:ulw-research/references/unit-rules.md#0033"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: unit rules"}}
+{"id":"omo:ulw-research/references/unit-rules.md#0034","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/unit-rules.md#0035","d":"dropped","why":"runtime","note":"unit-rules follow-up list"}
+{"id":"omo:ulw-research/references/unit-rules.md#0036","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/unit-rules.md#0037","d":"dropped","why":"runtime","note":"unit-rules dimension 1 enforcement"}
+{"range":["omo:ulw-research/references/unit-rules.md#0038","omo:ulw-research/references/unit-rules.md#0039"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"range":["omo:ulw-research/references/unit-rules.md#0040","omo:ulw-research/references/unit-rules.md#0046"],"d":"dropped","why":"runtime","note":"unit-rules dimensions 4-10 enforcement"}
+{"id":"omo:ulw-research/references/unit-rules.md#0047","d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"range":["omo:ulw-research/references/unit-rules.md#0048","omo:ulw-research/references/unit-rules.md#0050"],"d":"dropped","why":"runtime","note":"unit-rules dimensions 12-14 enforcement"}
+{"range":["omo:ulw-research/references/unit-rules.md#0051","omo:ulw-research/references/unit-rules.md#0052"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"range":["omo:ulw-research/references/unit-rules.md#0053","omo:ulw-research/references/unit-rules.md#0060"],"d":"dropped","why":"runtime","note":"unit-rules dimensions 17-24 enforcement"}
+{"range":["omo:ulw-research/references/unit-rules.md#0061","omo:ulw-research/references/unit-rules.md#0062"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"range":["omo:ulw-research/references/unit-rules.md#0063","omo:ulw-research/references/unit-rules.md#0064"],"d":"dropped","why":"runtime","note":"unit-rules dimensions 27-28 enforcement"}
+{"id":"omo:ulw-research/references/unit-rules.md#0065","d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: operations and checks"}}
+{"range":["omo:ulw-research/references/unit-rules.md#0066","omo:ulw-research/references/unit-rules.md#0068"],"d":"dropped","why":"runtime","note":"unit-rules dimensions 30-32 enforcement"}
+{"id":"omo:ulw-research/references/unit-rules.md#0069","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/unit-rules.md#0071","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/references/unit-rules.md#0070","d":"dropped","why":"runtime","note":"legacy ledger read precedence"}
+{"range":["omo:ulw-research/references/unit-rules.md#0072","omo:ulw-research/references/unit-rules.md#0073"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Derived numbers: trust boundary of recomputation"}}
+{"id":"omo:ulw-research/references/unit-rules.md#0074","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/references/unit-rules.md#0075","omo:ulw-research/references/unit-rules.md#0081"],"d":"dropped","why":"runtime","note":"unit-rules implementation notes"}
+{"range":["omo:ulw-research/SKILL.md#0000","omo:ulw-research/SKILL.md#0003"],"d":"dropped","why":"noise"}
+{"id":"omo:ulw-research/SKILL.md#0004","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/SKILL.md#0005","d":"absorbed","to":{"skill":"research-rigorously","section":"Research stance: exhaustive coverage is the assignment"}}
+{"id":"omo:ulw-research/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/SKILL.md#0007","d":"absorbed","to":{"skill":"research-rigorously","section":"Activation: explicit opt-in only"}}
+{"id":"omo:ulw-research/SKILL.md#0008","d":"dropped","why":"noise"}
+{"id":"omo:ulw-research/SKILL.md#0009","d":"absorbed","to":{"skill":"research-rigorously","section":"What a shortened run still owes"}}
+{"range":["omo:ulw-research/SKILL.md#0010","omo:ulw-research/SKILL.md#0012"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/SKILL.md#0013","omo:ulw-research/SKILL.md#0020"],"d":"dropped","why":"runtime","note":"team_create, task_send, task_create, task, task_output, task_cancel, team_delete tool table"}
+{"id":"omo:ulw-research/SKILL.md#0021","d":"absorbed","to":{"skill":"research-rigorously","section":"Research team composition and dispatch"}}
+{"id":"omo:ulw-research/SKILL.md#0022","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/SKILL.md#0023","d":"absorbed","to":{"skill":"research-rigorously","section":"Authority while active: exploration limits lifted"}}
+{"id":"omo:ulw-research/SKILL.md#0024","d":"absorbed","to":{"skill":"research-rigorously","section":"Findings are the deliverable; code-style TDD not applied"}}
+{"range":["omo:ulw-research/SKILL.md#0025","omo:ulw-research/SKILL.md#0026"],"d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/SKILL.md#0027","omo:ulw-research/SKILL.md#0040"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Research success criteria"}}
+{"id":"omo:ulw-research/SKILL.md#0041","d":"dropped","why":"boilerplate"}
+{"range":["omo:ulw-research/SKILL.md#0042","omo:ulw-research/SKILL.md#0051"],"d":"absorbed","to":{"skill":"research-rigorously","section":"Epistemic instrumentation: journal artifacts"}}
+{"id":"omo:ulw-research/SKILL.md#0052","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/SKILL.md#0053","d":"absorbed","to":{"skill":"research-rigorously","section":"Role protocols per source type"}}
+{"id":"omo:ulw-research/SKILL.md#0054","d":"dropped","why":"boilerplate"}
+{"id":"omo:ulw-research/SKILL.md#0055","d":"absorbed","to":{"skill":"research-rigorously","section":"Source snapshots: immutable, locator contract"}}
+{"range":["omo:ulw-research/ATTRIBUTION.md#0000","omo:ulw-research/ATTRIBUTION.md#0017"],"d":"dropped","why":"noise","note":"license and attribution notices"}
+{"id":"omo:ulw-research/scripts/claim-kinds.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/cli-support.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/claims-index.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/css-hiding.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/contracts.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/conversion-probe.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-commands-polish.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/design-spec.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/entry-guard.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/css-lite.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-commands-verify.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-derive.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-commands-fill.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-lexicon.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-binding.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-commands.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-ledger-schema.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-expr.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-state.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-commands-meaning.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-values.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-snapshot-readability.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-sources.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-fill.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/gates-structure.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/particles-ko.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/layout-probe.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-csv.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-pairs.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/number-grammar.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-records.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-policy.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/gates-figures.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/html-text-map.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-ledger-kinds.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-brief.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/gates-text.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/gates-layout.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-trace.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-claims.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/raw-decode.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/unit-errors.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-value-unit.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-recompute.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/format-extract.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/placeholder.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/entities.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/polish-apply.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/polish-rules.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/sources-citation.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/lexicon.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/report-tools.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/source-commands.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/unit-precision.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/unit-rules.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/unit-pairs.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/source-snapshot.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/outcome-start.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/gates-static.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/source-view.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/format-extract-css.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/gates-fidelity.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/html-lite.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/polish-diff.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/text-normalize.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/source-refresh.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/text-similarity.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-locate.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fidelity-originals.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/repair-tracker.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/html-markup.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/unit-rules-shapes.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/rational.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/unit-algebra.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/numerals.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/fact-ledger.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/md-lite.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/meaning-check.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/markdown-closers.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/outcome.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/unit-metadata.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/raw-locator.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/sentence-split.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/html-foreign-object.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/polish-project.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/units.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}
+{"id":"omo:ulw-research/scripts/report-tools-commands.mjs#0000","d":"dropped","why":"runtime","note":"report-tools CLI implementation script"}

@@ -1,0 +1,27 @@
+{"range":["mattpocock:to-spec/SKILL.md#0000","mattpocock:to-spec/SKILL.md#0002"],"d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:to-spec/SKILL.md#0003","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec from conversation without interview"}}
+{"id":"mattpocock:to-spec/SKILL.md#0005","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec process"}}
+{"id":"mattpocock:to-spec/SKILL.md#0006","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec process"}}
+{"range":["mattpocock:to-spec/SKILL.md#0007","mattpocock:to-spec/SKILL.md#0008"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Test seams in the spec"}}
+{"id":"mattpocock:to-spec/SKILL.md#0009","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec process"}}
+{"range":["mattpocock:to-spec/SKILL.md#0010","mattpocock:to-spec/SKILL.md#0011"],"d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:to-spec/SKILL.md#0012","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template"}}
+{"id":"mattpocock:to-spec/SKILL.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:to-spec/SKILL.md#0014","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template"}}
+{"id":"mattpocock:to-spec/SKILL.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:to-spec/SKILL.md#0016","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template: user stories"}}
+{"id":"mattpocock:to-spec/SKILL.md#0017","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template: user stories"}}
+{"id":"mattpocock:to-spec/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:to-spec/SKILL.md#0019","d":"dropped","why":"example-only","note":"user story sample"}
+{"id":"mattpocock:to-spec/SKILL.md#0020","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template: user stories"}}
+{"id":"mattpocock:to-spec/SKILL.md#0021","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:to-spec/SKILL.md#0022","mattpocock:to-spec/SKILL.md#0029"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template: implementation decisions"}}
+{"range":["mattpocock:to-spec/SKILL.md#0030","mattpocock:to-spec/SKILL.md#0031"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template: no file paths or snippets"}}
+{"id":"mattpocock:to-spec/SKILL.md#0032","d":"dropped","why":"boilerplate"}
+{"range":["mattpocock:to-spec/SKILL.md#0033","mattpocock:to-spec/SKILL.md#0036"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template: testing decisions"}}
+{"id":"mattpocock:to-spec/SKILL.md#0037","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:to-spec/SKILL.md#0038","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template"}}
+{"id":"mattpocock:to-spec/SKILL.md#0039","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:to-spec/SKILL.md#0040","d":"absorbed","to":{"skill":"planning-rigorously","section":"Spec template"}}
+{"id":"mattpocock:to-spec/SKILL.md#0041","d":"dropped","why":"boilerplate"}
+{"id":"mattpocock:to-spec/agents/openai.yaml#0000","d":"dropped","why":"noise","note":"agent UI metadata"}

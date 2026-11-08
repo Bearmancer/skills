@@ -1,0 +1,40 @@
+{"range":["omc:ask-navigator/SKILL.md#0000","omc:ask-navigator/SKILL.md#0005"],"d":"dropped","why":"runtime","note":"omc skill frontmatter: argument hint, level, pipeline metadata"}
+{"id":"omc:ask-navigator/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"range":["omc:ask-navigator/SKILL.md#0007","omc:ask-navigator/SKILL.md#0012"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Navigator: fog test and both-yes routing to launch"}}
+{"id":"omc:ask-navigator/SKILL.md#0013","d":"dropped","why":"boilerplate"}
+{"id":"omc:ask-navigator/SKILL.md#0017","d":"absorbed","to":{"skill":"planning-rigorously","section":"Map is an index; a decision lives in its ticket"}}
+{"id":"omc:ask-navigator/SKILL.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"omc:ask-navigator/SKILL.md#0020","d":"dropped","why":"boilerplate"}
+{"id":"omc:ask-navigator/SKILL.md#0021","d":"absorbed","to":{"skill":"planning-rigorously","section":"Charting input: loose idea or residual questions"}}
+{"id":"omc:ask-navigator/SKILL.md#0022","d":"dropped","why":"runtime","note":"yard audit --check report-only machinery"}
+{"range":["omc:ask-navigator/SKILL.md#0023","omc:ask-navigator/SKILL.md#0025"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Charting: destination, frontier rounds, captain signs chart"}}
+{"id":"omc:ask-navigator/SKILL.md#0027","d":"dropped","why":"runtime","note":"background research subagent spawning"}
+{"id":"omc:ask-navigator/SKILL.md#0028","d":"absorbed","to":{"skill":"core","section":"Stop with session-close pointer"}}
+{"id":"omc:ask-navigator/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"omc:ask-navigator/SKILL.md#0030","d":"absorbed","to":{"skill":"planning-rigorously","section":"Work-through entry: map link, number, or no argument"}}
+{"id":"omc:ask-navigator/SKILL.md#0031","d":"absorbed","to":{"skill":"core","section":"Load the map low-res view first"}}
+{"id":"omc:ask-navigator/SKILL.md#0033","d":"absorbed","to":{"skill":"planning-rigorously","section":"Resolve ticket by type"}}
+{"id":"omc:ask-navigator/SKILL.md#0035","d":"absorbed","to":{"skill":"planning-rigorously","section":"Advance frontier: graduate fog made specifiable"}}
+{"id":"omc:ask-navigator/SKILL.md#0036","d":"absorbed","to":{"skill":"review-rigorously","section":"Sediment: route resolutions to glossary, ADR, business docs"}}
+{"id":"omc:ask-navigator/SKILL.md#0037","d":"absorbed","to":{"skill":"core","section":"One ticket per session cadence"}}
+{"id":"omc:ask-navigator/SKILL.md#0038","d":"dropped","why":"boilerplate"}
+{"range":["omc:ask-navigator/SKILL.md#0039","omc:ask-navigator/SKILL.md#0040"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Large efforts: map outlives session, vessels"}}
+{"range":["omc:ask-navigator/SKILL.md#0042","omc:ask-navigator/SKILL.md#0043"],"d":"absorbed","to":{"skill":"core","section":"Ticket budget across vessels; long-lived map property"}}
+{"id":"omc:ask-navigator/SKILL.md#0044","d":"dropped","why":"boilerplate"}
+{"range":["omc:ask-navigator/SKILL.md#0045","omc:ask-navigator/SKILL.md#0053"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Ticket types and resolution rules"}}
+{"id":"omc:ask-navigator/SKILL.md#0054","d":"dropped","why":"boilerplate"}
+{"range":["omc:ask-navigator/SKILL.md#0055","omc:ask-navigator/SKILL.md#0056"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Map body sections and fog-or-ticket test"}}
+{"id":"omc:ask-navigator/SKILL.md#0057","d":"dropped","why":"boilerplate"}
+{"range":["omc:ask-navigator/SKILL.md#0058","omc:ask-navigator/SKILL.md#0063"],"d":"absorbed","to":{"skill":"review-rigorously","section":"Sediment slots: glossary, ADR, business docs, legacy CONTEXT.md, defer when yard not laid"}}
+{"id":"omc:ask-navigator/SKILL.md#0064","d":"dropped","why":"boilerplate"}
+{"range":["omc:ask-navigator/SKILL.md#0065","omc:ask-navigator/SKILL.md#0066"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Exit: map done when no open tickets; mission brief"}}
+{"id":"omc:ask-navigator/SKILL.md#0067","d":"absorbed","to":{"skill":"core","section":"Recommend launch with map as mission brief"}}
+{"id":"omc:ask-navigator/SKILL.md#0068","d":"absorbed","to":{"skill":"planning-rigorously","section":"Default entry is launch Phase 1"}}
+{"id":"omc:ask-navigator/SKILL.md#0069","d":"dropped","why":"boilerplate"}
+{"id":"omc:ask-navigator/SKILL.md#0070","d":"dropped","why":"runtime","note":"no daemon, mode, or runtime state machine"}
+{"id":"omc:ask-navigator/SKILL.md#0071","d":"absorbed","to":{"skill":"core","section":"Fog requests routed by the harbor"}}
+{"id":"omc:ask-navigator/SKILL.md#0072","d":"dropped","why":"runtime","note":"never mutates Team lifecycle or task statuses"}
+{"id":"omc:ask-navigator/SKILL.md#0073","d":"absorbed","to":{"skill":"core","section":"Never executes a decision beyond recording it"}}
+{"id":"omc:ask-navigator/SKILL.md#0074","d":"absorbed","to":{"skill":"planning-rigorously","section":"Decisions index; one place per decision"}}
+{"id":"omc:ask-navigator/SKILL.md#0075","d":"dropped","why":"boilerplate"}
+{"id":"omc:ask-navigator/SKILL.md#0076","d":"absorbed","to":{"skill":"planning-rigorously","section":"Charting completion: signed map and fired research tickets"}}

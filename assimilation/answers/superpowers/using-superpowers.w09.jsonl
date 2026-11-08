@@ -1,0 +1,97 @@
+{"id":"superpowers:using-superpowers/SKILL.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/SKILL.md#0001","d":"dropped","why":"noise","note":"trigger description of the plugin"}
+{"id":"superpowers:using-superpowers/SKILL.md#0002","d":"dropped","why":"noise","note":"subagent exemption of the plugin"}
+{"range":["superpowers:using-superpowers/SKILL.md#0003","superpowers:using-superpowers/SKILL.md#0005"],"d":"absorbed","to":{"skill":"core","section":"Check applicable skills before acting"}}
+{"id":"superpowers:using-superpowers/SKILL.md#0006","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/SKILL.md#0007","d":"absorbed","to":{"skill":"core","section":"Check applicable skills before acting"}}
+{"id":"superpowers:using-superpowers/SKILL.md#0008","d":"absorbed","to":{"skill":"planning-rigorously","section":"Brainstorm before entering plan mode"}}
+{"id":"superpowers:using-superpowers/SKILL.md#0009","d":"absorbed","to":{"skill":"core","section":"Check applicable skills before acting"}}
+{"id":"superpowers:using-superpowers/SKILL.md#0010","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/SKILL.md#0011","superpowers:using-superpowers/SKILL.md#0013"],"d":"absorbed","to":{"skill":"core","section":"Skill priority: process before implementation"}}
+{"id":"superpowers:using-superpowers/SKILL.md#0014","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/SKILL.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/SKILL.md#0016","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/SKILL.md#0017","superpowers:using-superpowers/SKILL.md#0028"],"d":"absorbed","to":{"skill":"core","section":"Red flags: rationalizing away skill checks"}}
+{"id":"superpowers:using-superpowers/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/SKILL.md#0030","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/SKILL.md#0031","superpowers:using-superpowers/SKILL.md#0036"],"d":"dropped","why":"noise","note":"list of harness reference files"}
+{"id":"superpowers:using-superpowers/SKILL.md#0037","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/SKILL.md#0038","d":"absorbed","to":{"skill":"core","section":"User instructions outrank skills"}}
+{"id":"superpowers:using-superpowers/references/antigravity-tools.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/antigravity-tools.md#0001","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/antigravity-tools.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/antigravity-tools.md#0003","superpowers:using-superpowers/references/antigravity-tools.md#0004"],"d":"dropped","why":"noise","note":"tool-name mapping for Antigravity"}
+{"id":"superpowers:using-superpowers/references/antigravity-tools.md#0005","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/antigravity-tools.md#0006","superpowers:using-superpowers/references/antigravity-tools.md#0007"],"d":"dropped","why":"noise","note":"Antigravity task-artifact todo substitute"}
+{"id":"superpowers:using-superpowers/references/claude-code-tools.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/claude-code-tools.md#0001","d":"dropped","why":"noise","note":"harness vocabulary note"}
+{"id":"superpowers:using-superpowers/references/claude-code-tools.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/claude-code-tools.md#0003","superpowers:using-superpowers/references/claude-code-tools.md#0005"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Dispatch: one cheaper orchestrator for plans"}}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0000","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/codex-tools.md#0001","superpowers:using-superpowers/references/codex-tools.md#0003"],"d":"dropped","why":"noise","note":"Codex multi-agent config"}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0004","d":"absorbed","to":{"skill":"execute-rigorously","section":"Dispatch: clean context for children"}}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0005","d":"absorbed","to":{"skill":"execute-rigorously","section":"Dispatch: resume implementer for fix rounds"}}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0006","d":"dropped","why":"noise","note":"Codex agent lifecycle detail"}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0007","d":"absorbed","to":{"skill":"execute-rigorously","section":"Dispatch: verify model names against allowlist"}}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0008","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/codex-tools.md#0009","superpowers:using-superpowers/references/codex-tools.md#0012"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Waiting on children: bounded, no polling"}}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0013","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/codex-tools.md#0014","superpowers:using-superpowers/references/codex-tools.md#0015"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Dispatch: set model and effort explicitly"}}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0016","d":"dropped","why":"noise","note":"Codex config snippet"}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/codex-tools.md#0018","superpowers:using-superpowers/references/codex-tools.md#0022"],"d":"absorbed","to":{"skill":"version-control-rigorously","section":"Detect worktree environment with read-only git"}}
+{"id":"superpowers:using-superpowers/references/codex-tools.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/codex-tools.md#0024","superpowers:using-superpowers/references/codex-tools.md#0027"],"d":"absorbed","to":{"skill":"version-control-rigorously","section":"Sandboxed detached HEAD: hand off branch"}}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0001","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/gemini-tools.md#0003","superpowers:using-superpowers/references/gemini-tools.md#0016"],"d":"dropped","why":"noise","note":"tool-name mapping for Gemini CLI"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0017","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0018","d":"dropped","why":"noise","note":"Gemini instructions file name"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0019","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0020","d":"dropped","why":"noise","note":"Gemini personal skills directory"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0021","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/gemini-tools.md#0022","superpowers:using-superpowers/references/gemini-tools.md#0023"],"d":"dropped","why":"noise","note":"Gemini subagent tool mapping"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0024","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/gemini-tools.md#0025","superpowers:using-superpowers/references/gemini-tools.md#0027"],"d":"dropped","why":"noise","note":"Gemini subagent tool mapping"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0028","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0029","d":"absorbed","to":{"skill":"execute-rigorously","section":"Fill every template placeholder"}}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0030","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0031","d":"absorbed","to":{"skill":"execute-rigorously","section":"Parallel dispatch of independent work"}}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0032","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0033","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/gemini-tools.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/gemini-tools.md#0035","superpowers:using-superpowers/references/gemini-tools.md#0042"],"d":"dropped","why":"noise","note":"Gemini-only tools"}
+{"id":"superpowers:using-superpowers/references/hermes-tools.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/hermes-tools.md#0001","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/hermes-tools.md#0002","superpowers:using-superpowers/references/hermes-tools.md#0003"],"d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/hermes-tools.md#0004","superpowers:using-superpowers/references/hermes-tools.md#0014"],"d":"dropped","why":"noise","note":"tool-name mapping for Hermes"}
+{"id":"superpowers:using-superpowers/references/hermes-tools.md#0015","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/hermes-tools.md#0016","d":"dropped","why":"noise","note":"Hermes instructions file name"}
+{"id":"superpowers:using-superpowers/references/hermes-tools.md#0017","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/hermes-tools.md#0018","superpowers:using-superpowers/references/hermes-tools.md#0022"],"d":"dropped","why":"noise","note":"Hermes skill invocation"}
+{"id":"superpowers:using-superpowers/references/hermes-tools.md#0023","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/hermes-tools.md#0024","superpowers:using-superpowers/references/hermes-tools.md#0025"],"d":"dropped","why":"noise","note":"Hermes delegate_task usage"}
+{"id":"superpowers:using-superpowers/references/hermes-tools.md#0026","d":"absorbed","to":{"skill":"core","section":"Missing tool: work inline, never invent calls"}}
+{"id":"superpowers:using-superpowers/references/hermes-tools.md#0027","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/hermes-tools.md#0028","d":"dropped","why":"noise","note":"Hermes todo tool"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0001","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/muse-tools.md#0003","superpowers:using-superpowers/references/muse-tools.md#0015"],"d":"dropped","why":"noise","note":"tool-name mapping for Muse"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0016","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0017","d":"dropped","why":"noise","note":"Muse instructions file name"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0018","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0019","d":"dropped","why":"noise","note":"Muse skill invocation"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0020","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0021","d":"dropped","why":"noise","note":"Muse subagent tool"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0022","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/muse-tools.md#0023","d":"dropped","why":"noise","note":"Muse todo tool"}
+{"id":"superpowers:using-superpowers/references/pi-tools.md#0000","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/pi-tools.md#0001","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/pi-tools.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["superpowers:using-superpowers/references/pi-tools.md#0003","superpowers:using-superpowers/references/pi-tools.md#0004"],"d":"dropped","why":"noise","note":"tool-name mapping for Pi"}
+{"id":"superpowers:using-superpowers/references/pi-tools.md#0005","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/pi-tools.md#0006","d":"dropped","why":"noise","note":"Pi subagent package note"}
+{"id":"superpowers:using-superpowers/references/pi-tools.md#0007","d":"dropped","why":"boilerplate"}
+{"id":"superpowers:using-superpowers/references/pi-tools.md#0008","d":"dropped","why":"noise","note":"Pi todo extension note"}

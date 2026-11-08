@@ -1,0 +1,12 @@
+{"range":["omc:execute/SKILL.md#0000","omc:execute/SKILL.md#0001"],"d":"dropped","why":"runtime","note":"omc skill frontmatter: name, description"}
+{"id":"omc:execute/SKILL.md#0002","d":"dropped","why":"boilerplate"}
+{"range":["omc:execute/SKILL.md#0003","omc:execute/SKILL.md#0004"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"When to use: understood task to build; canonical execution workflow"}}
+{"range":["omc:execute/SKILL.md#0005","omc:execute/SKILL.md#0006"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Goal: agreed intent to working code with evidence"}}
+{"range":["omc:execute/SKILL.md#0007","omc:execute/SKILL.md#0012"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Workflow: confirm clarity, split units, smallest change, verify as you go, report"}}
+{"range":["omc:execute/SKILL.md#0013","omc:execute/SKILL.md#0019"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Scale: single unit, executor fan-out, long-running task list, team"}}
+{"id":"omc:execute/SKILL.md#0020","d":"dropped","why":"boilerplate"}
+{"range":["omc:execute/SKILL.md#0021","omc:execute/SKILL.md#0028"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Rules: prefer deletion, no new dependencies, small reversible diffs, no workarounds, no placeholder tests, separate authoring and approval"}}
+{"id":"omc:execute/SKILL.md#0029","d":"dropped","why":"boilerplate"}
+{"range":["omc:execute/SKILL.md#0030","omc:execute/SKILL.md#0033"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Completion: no pending tasks, tests pass or failures reported, evidence collected"}}
+{"id":"omc:execute/SKILL.md#0034","d":"dropped","why":"boilerplate"}
+{"range":["omc:execute/SKILL.md#0035","omc:execute/SKILL.md#0038"],"d":"absorbed","to":{"skill":"execute-rigorously","section":"Output: files changed, implemented, evidence, open items"}}
