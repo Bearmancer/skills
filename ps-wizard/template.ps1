@@ -37,7 +37,13 @@ $script:WrittenSecrets = @()
 $script:Skipped = @()
 $script:InstalledSoftware = @()
 $script:DesktopPath = [Environment]::GetFolderPath('Desktop')
-$script:WizardOutputDir = Join-Path -Path $script:DesktopPath -ChildPath 'WizardOutput'
+$script:WizardName = 'wizard'
+if (-not [string]::IsNullOrEmpty($PSCommandPath)) {
+    $script:WizardName = [System.IO.Path]::GetFileNameWithoutExtension($PSCommandPath)
+}
+$script:WizardRoot = Join-Path -Path $script:DesktopPath -ChildPath (Join-Path -Path 'ps-wizard' -ChildPath $script:WizardName)
+$script:RunRoot = ''
+$script:WizardOutputDir = ''
 $script:LogFilePath = ''
 $script:TranscriptPath = ''
 $script:BackupPath = ''
@@ -156,22 +162,26 @@ function Write-WizardLog {
 
 <#
 .SYNOPSIS
-    Starts the transcript plus the explicit log file, both on the Desktop.
+    Starts the transcript plus the explicit log file, both under the wizard's single Desktop root.
 .DESCRIPTION
-    Each run writes into its own WizardOutput\<stamp> folder, so a file left
-    by an earlier run can never satisfy this run's verification.
+    Every run writes into one root, Desktop\ps-wizard\<script name>\<stamp>\, holding
+    wizard.log, transcript.log, backup\ and output\. A file left by an earlier run can
+    never satisfy this run's verification, and nothing lands loose on the Desktop.
 #>
 function Start-WizardLogging {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param()
     $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
-    $script:LogFilePath = Join-Path -Path $script:DesktopPath -ChildPath "wizard-$stamp.log"
-    $script:TranscriptPath = Join-Path -Path $script:DesktopPath -ChildPath "wizard-$stamp-transcript.log"
-    $script:WizardOutputDir = Join-Path -Path $script:WizardOutputDir -ChildPath $stamp
+    $script:RunRoot = Join-Path -Path $script:WizardRoot -ChildPath $stamp
+    $script:LogFilePath = Join-Path -Path $script:RunRoot -ChildPath 'wizard.log'
+    $script:TranscriptPath = Join-Path -Path $script:RunRoot -ChildPath 'transcript.log'
+    $script:WizardOutputDir = Join-Path -Path $script:RunRoot -ChildPath 'output'
+    [void](New-Item -Path $script:RunRoot -ItemType Directory -Force -ErrorAction Stop)
     [void](New-Item -Path $script:LogFilePath -ItemType File -ErrorAction Stop)
     [void](New-Item -Path $script:WizardOutputDir -ItemType Directory -Force -ErrorAction Stop)
     Start-Transcript -Path $script:TranscriptPath -ErrorAction Stop
     Write-WizardLog -Message 'Wizard started.'
+    Write-Verbose "Run root: $script:RunRoot"
     Write-Verbose "Logging to transcript: $script:TranscriptPath"
     Write-Verbose "Logging to log file: $script:LogFilePath"
     Write-Debug "Wizard output directory: $($script:WizardOutputDir | ConvertTo-Json)"
@@ -684,10 +694,11 @@ function Close-BlockingProcess {
 
 <#
 .SYNOPSIS
-    Copies the given paths to one timestamped backup folder on the Desktop.
+    Copies the given paths to this run's backup folder.
 .DESCRIPTION
-    The single quick backup step of a wizard. Missing sources are warned
-    about and skipped, never fatal.
+    The single quick backup step of a wizard. It writes into the current run
+    root, so every run's artifacts stay in one Desktop folder. Missing sources
+    are warned about and skipped, never fatal.
 #>
 function Invoke-QuickBackup {
     [CmdletBinding()]
@@ -695,9 +706,11 @@ function Invoke-QuickBackup {
         [Parameter(Mandatory = $true)]
         [string[]]$Paths
     )
-    $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
-    $dest = Join-Path -Path $script:DesktopPath -ChildPath "wizard-backup-$stamp"
-    [void](New-Item -Path $dest -ItemType Directory -ErrorAction Stop)
+    if ([string]::IsNullOrEmpty($script:RunRoot)) {
+        throw 'The run root is not set; Start-WizardLogging runs before any backup.'
+    }
+    $dest = Join-Path -Path $script:RunRoot -ChildPath 'backup'
+    [void](New-Item -Path $dest -ItemType Directory -Force -ErrorAction Stop)
     foreach ($source in $Paths) {
         if (Test-Path -Path $source) {
             Copy-Item -Path $source -Destination $dest -Recurse -Force -ErrorAction Stop
@@ -732,7 +745,9 @@ function Invoke-NativeProcess {
         [ValidateRange(1, 86400)]
         [int]$TimeoutSeconds = 900,
         [Parameter()]
-        [switch]$CaptureOutput
+        [switch]$CaptureOutput,
+        [Parameter()]
+        [string]$WorkingDirectory = ''
     )
     $psi = [System.Diagnostics.ProcessStartInfo]::new($FilePath)
     foreach ($arg in $ArgumentList) {
@@ -740,6 +755,17 @@ function Invoke-NativeProcess {
     }
     $psi.UseShellExecute = $false
     $psi.RedirectStandardOutput = [bool]$CaptureOutput
+    $resolvedWorkingDirectory = $WorkingDirectory
+    if (-not $resolvedWorkingDirectory) {
+        $currentLocation = Get-Location
+        if ($currentLocation.Provider.Name -eq 'FileSystem') {
+            $resolvedWorkingDirectory = $currentLocation.ProviderPath
+        }
+    }
+    if ($resolvedWorkingDirectory) {
+        $psi.WorkingDirectory = $resolvedWorkingDirectory
+    }
+    Write-WizardLog -Message "Working directory: $(if ($resolvedWorkingDirectory) { $resolvedWorkingDirectory } else { 'inherited from host' })"
     Write-WizardLog -Message "Running: $FilePath (timeout $TimeoutSeconds s)"
     $proc = [System.Diagnostics.Process]::Start($psi)
     $stdout = if ($CaptureOutput) { $proc.StandardOutput.ReadToEndAsync() } else { $null }
@@ -931,6 +957,9 @@ function Show-Summary {
         foreach ($item in $script:Skipped) {
             Write-Say -Message "By hand: $item"
         }
+    }
+    if ($script:RunRoot -ne '') {
+        Write-Say -Message "Everything from this run: $script:RunRoot"
     }
     if ($script:BackupPath -ne '') {
         Write-Say -Message "Backup kept at: $script:BackupPath"
