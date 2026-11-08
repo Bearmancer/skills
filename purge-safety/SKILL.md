@@ -14,26 +14,6 @@ A purge script is safe when four things hold. Not when it looks careful, not whe
 
 Your job is a verdict backed by evidence. "Looks fine" is not a verdict. A PASS names the probe that proved each invariant; a BLOCK names the line that breaks it.
 
-## Purpose, and how it differs from work-audit
-
-The two skills answer different questions and never substitute for each other.
-
-| | work-audit | purge-safety |
-| --- | --- | --- |
-| Question | What is left, stale or unfinished in the repos this task touched? | Is it safe to delete this, and did the delete do what it claimed? |
-| Runs | Every task end, before "done", committing or pushing | Only when something is about to be deleted, or a delete script is written or reviewed |
-| Acts on | Repos the session touched | A script and the tree it targets |
-| Output | 21-index report and fixes | PASS / BLOCK / UNPROVEN verdict, then a journalled apply |
-| Deletes | Never. Indices 4, 15 and 16 only *nominate* candidates | Only through `scripts/purge.py` after the run gate |
-
-work-audit is a finder: broad, cheap, runs every time, and its candidates are
-claims. purge-safety is a gatekeeper: narrow, runs on demand, and demands proof
-before any claim becomes a delete. Keeping them apart means a routine audit
-can never remove data, and a deletion can never skip its guards because a
-report called the file stale. Use purge-safety directly, with no audit, to
-vet any cleanup script, uninstall or reset; use work-audit alone when nothing
-needs to be deleted. The handoff between them is §6.
-
 ## Ownership
 
 This skill is the single owner of deletion policy: explicit targets, root
@@ -74,6 +54,7 @@ Check each one in the source. The middle column says why it matters; the right c
 | No wildcard targets     | Expansion happens in the script, after the guards, never in the target string                  | `Remove-Item "$root\*" -Recurse`                                                         |
 | Counts before and after | Files, dirs, empty dirs, zero-byte files, bytes: the proof the purge did what it claimed       | "done" with no numbers                                                                   |
 | Residue scan            | Re-run the rules after the purge; non-zero residue means the job is unfinished                 | script exits 0 after deleting half the list                                              |
+| `fd -u` zero count      | `fd -u` (hidden and ignored files included) over each removed path must count 0; the script's own scan is not a second witness | residue check that reuses the delete rules, so it cannot see what they missed |
 | Journal before delete   | Write-ahead record per target: path, counts, verdict, reason, timestamp                        | log written at the end, or only on success                                               |
 | Self-termination        | Time budget, failure ceiling, single-instance lock, explicit exit codes                        | a runaway recursive delete with no ceiling                                               |
 | No silent swallowing    | Failures are counted and surfaced; a locked file is a reported failure, not a skipped line     | `-ErrorAction SilentlyContinue` around a delete                                          |
@@ -141,6 +122,7 @@ Safety of the script is necessary, not sufficient. Before any real `--apply`:
 5. **Set the budget.** `--max-minutes` and `--max-failures` must be plausible for the tree size; an unbounded run is a runaway.
 6. **State the expected residue.** Normally 0. A non-zero residue after apply means the run is unfinished, not "mostly done".
 7. **Re-scan afterwards** and report counts, not adjectives: deleted files/dirs, residue paths, refused rows.
+8. **Run `fd -u` over every removed path** (for a gone path, `fd -u -i -g -d 1 <name> <parent>`) and require a count of 0. Any other count is residue: BLOCK the claim of done. A missing `fd` is UNPROVEN, never PASS. `purge.py` does this itself; run it by hand for any other script.
 
 ## 6. Work-audit handoff
 
@@ -180,6 +162,7 @@ When the engine scans the omo root after apply, it can report residue that its o
 | Reparse points     | `is_reparse`; `measure` counts instead of walking; `remove_tree` unlinks                                   |
 | Counts             | `measure`; `totals`; the `APPLY` summary line                                                              |
 | Residue scan       | `apply_mode` `finally`: `scan_entries` + exit 2 when residue remains                                       |
+| `fd -u` zero count | `fd_residue`: exit 2 on a non-zero count or a missing `fd`; `--skip-fd-check` journals `skipped`          |
 | Journal            | `apply_mode`: `delete` record appended before `remove_tree`, `removed`/`failed`/`prune-empty-parent` after |
 | Self-termination   | `budget`, `--max-failures`, `enter_lock`/`exit_lock`, an explicit exit code from `main`                    |
 | Cascade            | `remove_empty_ancestors`                                                                                   |
