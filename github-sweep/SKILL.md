@@ -1,13 +1,13 @@
 ---
 name: github-sweep
-description: "Use when auditing, sweeping or triaging open PRs, issues, review requests and fork branches on third-party repos. Runs unattended, excludes personal non-fork repos, prints triage tables."
+description: "Use when auditing, sweeping or triaging open PRs, issues, review requests and fork branches on third-party repos. Fully autonomous: never asks, never stops or defers until no action is left. Excludes personal non-fork repos, prints triage tables."
 ---
 
 # GitHub Sweep (Unattended Third-Party Audit & Update Protocol)
 
 Autonomous, account-wide audit, triage, update, and branch-purge protocol across all third-party GitHub repositories and forks associated with the authenticated account.
 
-The run is **fully unattended and maximal**: all permissions are granted up-front; never stop to prompt or ask the user. Stops are strictly mechanical and fail closed. A mutation (code push, branch deletion, thread closure) carries primary-source proof or is not executed.
+The run is **fully autonomous and maximal**: all permissions are granted up-front. Never ask the user, never stop for input, never defer work (no "next run", wakeup, schedule, background job left running or follow-up note in place of doing it). The run ends only when no possible action is left (§0). A mutation (code push, branch deletion, thread closure) carries primary-source proof; one that lacks proof is skipped alone and the run continues with everything else.
 
 Companions:
 
@@ -17,6 +17,17 @@ Companions:
 - `scripts/purge_branches.py`: GitHub branch purge adapter; generic deletion policy lives in `purge-safety`.
 - `scripts/rebase.py`: CodeGraph-backed isolated PR rebase and push runner.
 - `scripts/ci_status.py`: Detailed CI check analyzer and error parser.
+
+---
+
+## 0. Run Until Exhausted
+
+Repeat passes (census → act → re-census) until one full pass executes zero actions. An action is any permitted mutation or fix: rebase, conflict resolution, review-item fix, red-CI fix, push, PR comment, branch purge, workspace teardown, or a retry of a failed one.
+
+- **Decide, never ask.** Pick the option that preserves the PR's approved intent and the safety invariants, record the choice in the ledger, continue.
+- **Failures are work.** Diagnose a failed command, test or push and retry with a different approach. After 3 distinct attempts at the same item, mark it `BLOCKED` with the reason and move to the next item; a blocked item is not a stop.
+- **No possible action** means every remaining item is waiting on someone else (maintainer review, upstream CI queue, missing permission) or forbidden by an invariant below. Only then print the final report and end.
+- **In-turn only.** Wait on CI or long commands in the same turn (poll the checks until they finish); never hand work to a later session.
 
 ---
 
@@ -46,8 +57,8 @@ All mechanical discovery, branch auditing, and rebasing operations are encapsula
    - Only third-party upstream repos and user forks of third-party repos (`isFork == true`) are swept.
 2. **Comprehensive Census ("Check All"):**
    - Sweeps all authored PRs, all authored/assigned issues, all review requests, and all fork branches.
-3. **No Interactive Permission Stops:**
-   - No interactive confirmation dialogs. Purge merged, closed, and stale branches maximally.
+3. **No Questions, No Stops:**
+   - No confirmation dialogs, no question tool, no pause for a decision. Purge merged, closed, and stale branches maximally.
 4. **CodeGraph First for Changes:**
    - When any PR or issue requires code evaluation, rebase, or changes: establish ground truth on upstream default-branch HEAD with CodeGraph (`codegraph init -y`) before touching branches or editing files.
 5. **Latest Upstream Alignment:**
@@ -57,7 +68,7 @@ All mechanical discovery, branch auditing, and rebasing operations are encapsula
 7. **Clean Teardown:**
    <!-- CODEGRAPH-TEARDOWN v1 -->
    - Workspaces and merged/closed branches are deleted upon completion; final status table printed post-updates.
-   - A scratch datedir that outlives its run is a leak: delete the whole datedir when the run completes. Exception: conflict-retained workspaces (unpushed commits or a dirty working tree) are quarantined and escalated to the owner — never auto-deleted.
+   - A scratch datedir that outlives its run is a leak: delete the whole datedir when the run completes. Exception: a conflict-retained workspace (unpushed commits or a dirty working tree) is first resolved: commit, rebase and push with `--force-with-lease`. If that still fails after 3 attempts, quarantine it (never auto-delete) and list its path and reason in the final report as `BLOCKED`.
 
 ---
 
@@ -67,7 +78,7 @@ All mechanical discovery, branch auditing, and rebasing operations are encapsula
 [Phase 1: Fast Account Census] ──► gh-sweep or scripts/sweep.py
          │
          ├──► If no items need updates & no stale branches:
-         │      Print initial census table ➔ Done.
+         │      Print census table ➔ end of run.
          │
          └──► If updates needed (review feedback, merge conflicts, red CI) OR stale branches exist:
                 │
@@ -83,6 +94,9 @@ All mechanical discovery, branch auditing, and rebasing operations are encapsula
          ▼
 [Phase 4: Maximal Branch Purge]
          │ Delete remote fork branches for merged, closed, or obsolete PRs
+         ▼
+[Re-census] ──► any action left? yes ➔ back to Phase 1 (§0)
+         │ no
          ▼
 [Phase 5: Final Post-Update Audit Table]
          Print conclusive before/after status ledger
@@ -104,7 +118,7 @@ All mechanical discovery, branch auditing, and rebasing operations are encapsula
 
 3. **Branch Decision Gate:**
    - If all open PRs are green, mergeable, and awaiting maintainer review, with zero failing CI, zero unaddressed review comments, and zero merged/closed branches on remote forks:
-     - Print the structured Markdown triage table and exit cleanly.
+     - Print the structured Markdown triage table and end the run.
    - If any PR has merge conflicts, unaddressed review comments, failing tests, or stale branches to purge: proceed immediately to Phase 2.
 
 ---
@@ -206,4 +220,5 @@ Print the conclusive triage ledger at the end of the run:
 - PRs updated / rebased: `<count>`
 - PRs awaiting maintainer review: `<count>`
 - Remote fork branches purged: `<count>`
+- `BLOCKED` items (item, reason, attempts made): `<count>`
 - Personal non-fork repositories excluded: `<count>`
