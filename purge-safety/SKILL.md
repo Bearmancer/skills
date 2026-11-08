@@ -14,6 +14,26 @@ A purge script is safe when four things hold. Not when it looks careful, not whe
 
 Your job is a verdict backed by evidence. "Looks fine" is not a verdict. A PASS names the probe that proved each invariant; a BLOCK names the line that breaks it.
 
+## Purpose, and how it differs from work-audit
+
+The two skills answer different questions and never substitute for each other.
+
+| | work-audit | purge-safety |
+| --- | --- | --- |
+| Question | What is left, stale or unfinished in the repos this task touched? | Is it safe to delete this, and did the delete do what it claimed? |
+| Runs | Every task end, before "done", committing or pushing | Only when something is about to be deleted, or a delete script is written or reviewed |
+| Acts on | Repos the session touched | A script and the tree it targets |
+| Output | 21-index report and fixes | PASS / BLOCK / UNPROVEN verdict, then a journalled apply |
+| Deletes | Never. Indices 4, 15 and 16 only *nominate* candidates | Only through `scripts/purge.py` after the run gate |
+
+work-audit is a finder: broad, cheap, runs every time, and its candidates are
+claims. purge-safety is a gatekeeper: narrow, runs on demand, and demands proof
+before any claim becomes a delete. Keeping them apart means a routine audit
+can never remove data, and a deletion can never skip its guards because a
+report called the file stale. Use purge-safety directly, with no audit, to
+vet any cleanup script, uninstall or reset; use work-audit alone when nothing
+needs to be deleted. The handoff between them is §6.
+
 ## Ownership
 
 This skill is the single owner of deletion policy: explicit targets, root
