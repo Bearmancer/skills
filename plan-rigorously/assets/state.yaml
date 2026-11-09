@@ -1,0 +1,7 @@
+# Written and updated by railguard. Do not edit by hand.
+slug: demo-rate-limit
+started: "2026-11-08T00:00:00Z"
+gates: {}
+reviews: {}
+execute_authorized: null
+snapshot: {}

@@ -1,0 +1,66 @@
+version: 1
+purpose: Stage rails for rigorous planning. Read the current stage, do only what it allows, pass its gates, then advance. Planning ends at finalize.
+boundary:
+  this_skill: planning
+  ends_at: finalize
+  next_skill: execute-rigorously
+  rule: Planning never edits product code, never commits, never spawns implementers. Documentation (ADRs, glossary, business facts) is planned as tasks and written by execution, never by planning. Execution starts only when plan meta.status is final AND state.execute_authorized is true (answered in the front question batch).
+philosophy:
+  - no_assumptions: an unresolved decision is a question, never a silent default. Work that depends on it is blocked_on that question; independent work continues.
+  - ledger_everything: every decision, question, answer, plan change (with reason and authority), review finding, gate result and skip is a ledger event.
+  - nonstop: after the front question batch is answered, run to the end without stopping. Deferrable questions are asked together at the end. Stop and ask only when every remaining task is blocked.
+  - always_written: every plan is a file in .rigor/plans/. Chat shows only what is rendered from it.
+  - user_invokes_two_skills: the user only invokes plan-rigorously and execute-rigorously. Clarifying, mirroring, drift checks, to-do sync and verifiers are internal and automatic.
+  - todo_everything: every stage, phase, task and checkpoint is mirrored in the to-do tool (railguard todo).
+  - ask_maximally: batch every question that research cannot answer, at the start (blocking) or at the end (deferrable). Never one at a time.
+rails_all_stages:
+  allow: [read_any_file, write_inside_rigor_dir, run_railguard, run_audit_tools, run_codegraph, run_gh_read, spawn_researcher, spawn_planner, spawn_reviewer, ask_user_batched]
+  forbid: [edit_product_code, commit, push, spawn_implementer, create_worktree, run_gh_write_before_finalize]
+  enforced_by: [{rule: R_no_impl, strength: detective, how: working-tree snapshot taken at start is diffed at check}]
+stages:
+  - id: route
+    does: Decide tier (references/tiers.yaml) and plan type. Run start. Existing incomplete plans are never overwritten.
+    run: ["railguard start <slug>"]
+    gates: [G_existing_plan, G_route]
+    on_fail: ask_user
+  - id: ground
+    does: Parallel research until every unknown is a fact with a source or a question. Register every proposal (library, API, version, approach, behavioural claim) in plan.proposals. Gap analysis by a researcher subagent when routing says so.
+    gates: [G_ground, G_delegates_closed]
+    on_fail: ground
+  - id: clarify
+    does: Runs automatically when the fog test fails. Destination signed by the user, chart signed, tickets (research or grilling) resolved, closed into the intent which the user reconfirms. Mirrored one way to GitHub issues.
+    gates: [G_clarify]
+    on_fail: ask
+  - id: ask
+    does: Breadth-first question rounds (references/questions.yaml). Restate the intent and get an explicit yes. Blocking questions first. Mark each deferrable or not. Record answers with log --kind answer.
+    gates: [G_questions, G_intent]
+    on_fail: ask
+  - id: audit
+    does: Independent proposal audit (references/audit-tools.yaml). A fresh subagent sees only the claim, never the planner reasoning. Two different tools, evidence files saved.
+    gates: [G_audit]
+    on_fail: replace_or_block_proposal
+  - id: requirements
+    does: Write spec.yaml (what and why, no file paths, anchors for code). Ideal state and gap list go in plan.yaml.
+    gates: [G_requirements, G_intent, G_scope]
+    on_fail: requirements
+  - id: evidence
+    does: Evidence path - claims, the minimum number of candidate paths (limits.yaml planning.evidence_path), chosen path, affordances with lifecycle, one owner task per claim.
+    gates: [G_evidence]
+    on_fail: evidence
+  - id: plan
+    does: Phases containing tasks. Vertical slices. Dependencies, sizes, interfaces, acceptance, verify, checkpoints. Order by critical path (CPM).
+    gates: [G_tasks, G_sediment, G_order, G_tier2]
+    on_fail: plan
+  - id: review
+    does: Routed review by independent subagents (references/routing.yaml). Findings are accepted or rejected with a reason, each logged. Re-review is sized to the change.
+    gates: [G_review]
+    on_fail: plan
+  - id: finalize
+    does: check --final, render (hash recorded), publish to GitHub issues with railguard publish --yes, then present the deferred question block.
+    run: ["railguard check <plan> --final", "railguard render <plan>", "railguard publish <plan> --yes"]
+    gates: [G_ledger, G_no_impl, G_render, G_publish]
+    on_fail: previous_stage
+handoff:
+  to: execute-rigorously
+  requires: [plan.meta.status == final, state.execute_authorized == true, all gates passed or skipped with reason]
+  note: The handoff is a boundary, not a stage of this skill. Execution logic lives in the sibling skill execute-rigorously.

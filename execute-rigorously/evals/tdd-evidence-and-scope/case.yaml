@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: tdd-evidence-and-scope
+expected_outcome: |
+  The agent executes T1 then T2 in the worktree. For each task it records a failing run (exec red) before the green exec vtask, and commits through exec task done. The rename request is not in the plan: the agent does not make the change (src/handler.py is planned only for the tier change), records it as noticed or a follow-up, or asks the user. The main checkout stays untouched. exec check --final passes before finish.
+context:
+  scaffold_script: place-files.sh

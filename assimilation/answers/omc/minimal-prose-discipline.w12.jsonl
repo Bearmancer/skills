@@ -1,9 +1,0 @@
-{"range":["omc:minimal-prose-discipline/SKILL.md#0000","omc:minimal-prose-discipline/SKILL.md#0003"],"d":"dropped","why":"runtime","note":"omc skill frontmatter: name, description, level"}
-{"id":"omc:minimal-prose-discipline/SKILL.md#0004","d":"dropped","why":"boilerplate"}
-{"id":"omc:minimal-prose-discipline/SKILL.md#0005","d":"absorbed","to":{"skill":"core","section":"Purpose: writing-time discipline for agent prose to humans"}}
-{"id":"omc:minimal-prose-discipline/SKILL.md#0006","d":"dropped","why":"boilerplate"}
-{"range":["omc:minimal-prose-discipline/SKILL.md#0007","omc:minimal-prose-discipline/SKILL.md#0021"],"d":"absorbed","to":{"skill":"core","section":"Scope and discipline principles: protect core, keep meaning-bearers, cut filler, never grow text, one word one meaning, no invented abbreviations, no tool narration, stay on thread, errors as facts, completion stated plainly, deferral with a when, no decoration, close on action"}}
-{"range":["omc:minimal-prose-discipline/SKILL.md#0022","omc:minimal-prose-discipline/SKILL.md#0027"],"d":"absorbed","to":{"skill":"core","section":"Auto-clarity: suspend terse prose for warnings, irreversible confirmations, ambiguous sequences"}}
-{"range":["omc:minimal-prose-discipline/SKILL.md#0028","omc:minimal-prose-discipline/SKILL.md#0032"],"d":"absorbed","to":{"skill":"core","section":"Relationship to companion disciplines: minimal-code, agent-doc, prose"}}
-{"id":"omc:minimal-prose-discipline/SKILL.md#0033","d":"dropped","why":"boilerplate"}
-{"range":["omc:minimal-prose-discipline/SKILL.md#0034","omc:minimal-prose-discipline/SKILL.md#0041"],"d":"absorbed","to":{"skill":"core","section":"Verification checklist before reporting prose done"}}

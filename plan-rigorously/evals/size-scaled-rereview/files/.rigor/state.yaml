@@ -1,0 +1,90 @@
+slug: demo-rate-limit
+started: "2026-11-08T10:28:40Z"
+gates:
+  G_existing_plan:
+    status: passed
+    reason: no incomplete plan found
+    authority: system
+  G_route:
+    status: passed
+    reason: ""
+    authority: rule
+  G_questions:
+    status: passed
+    reason: ""
+    authority: rule
+  G_audit:
+    status: passed
+    reason: ""
+    authority: rule
+  G_requirements:
+    status: passed
+    reason: ""
+    authority: rule
+  G_scope:
+    status: passed
+    reason: ""
+    authority: rule
+  G_evidence:
+    status: passed
+    reason: ""
+    authority: rule
+  G_tasks:
+    status: passed
+    reason: ""
+    authority: rule
+  G_order:
+    status: passed
+    reason: ""
+    authority: rule
+  G_tier2:
+    status: skipped
+    reason: "skipped by tier 1: not tier 2"
+    authority: "rule:tiers"
+  G_review:
+    status: passed
+    reason: ""
+    authority: rule
+  G_ledger:
+    status: passed
+    reason: ""
+    authority: rule
+  G_no_impl:
+    status: passed
+    reason: ""
+    authority: rule
+  G_render:
+    status: passed
+    reason: ""
+    authority: rule
+  G_publish:
+    status: skipped
+    reason: skip publish
+    authority: user
+  G_ground:
+    status: passed
+    reason: ok
+    authority: system
+  G_delegates_closed:
+    status: passed
+    reason: ok
+    authority: system
+reviews:
+  critic:
+    plan_hash: 7bf0158973692bf66369afb95d927ff5b0c20e558448a535dc4c41c1d38747c9
+    ts: "2026-11-08T10:29:01Z"
+execute_authorized: null
+snapshot:
+  kind: walk
+last_plan_hash: 7bf0158973692bf66369afb95d927ff5b0c20e558448a535dc4c41c1d38747c9
+render_hash: ee810e1a6927c9b85aad61e5b36422432526b1e17bc9a17dbee8dd162d6aa379
+review_baseline:
+  plan_hash: 7bf0158973692bf66369afb95d927ff5b0c20e558448a535dc4c41c1d38747c9
+  tasks:
+    T1: 00abe4c75b71e9ce6e1055a9b1cea44f6d79bf13b911c6fa1e130c3e87754a00
+    T2: ecbe247a9d9e42226d61d701052554724ab6b8288cb148c57bc20959564baaba
+  critical:
+    - T1
+    - T2
+  phases:
+    - PH1

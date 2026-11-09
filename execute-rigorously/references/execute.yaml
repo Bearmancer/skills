@@ -1,0 +1,110 @@
+version: 2
+status: built
+purpose: "Stage rails for rigorous execution of a final plan. Same method as plan-rigorously - read the stage, do only what it allows, pass its gates, advance. Execution ends at finish."
+boundary:
+  this_skill: execution
+  starts_at: exec start
+  previous_skill: plan-rigorously
+  rule: "Execution never edits the plan. A needed change to the plan is a question to the user and a logged plan_change. Execution runs only in its own git worktree; the main checkout stays untouched."
+start_conditions:
+  - plan.meta.status is final
+  - state.execute_authorized is true (answered in the planning front batch)
+  - "railguard check <plan> --final exits 0"
+  - state.render_plan_hash equals the current plan hash
+  - main checkout has no uncommitted changes outside .rigor (or the user said --allow-dirty)
+  - feedback commands are given explicitly by the user (detected ones are only proposals)
+  - delivery mode is given explicitly by the user
+start_conditions_on_not_met: "Stop and say which condition failed. Never plan here; send the user back to plan-rigorously."
+philosophy:
+  inherited:
+    - no_assumptions
+    - ledger_everything
+    - nonstop
+    - ask_maximally
+    - always_written
+  no_assumptions: "A ruling is allowed only where the spec or plan already decides the answer. Anything else is a question; independent tasks continue and dependent ones are blocked."
+  nonstop: "After the front question batch, run to finish without check-ins. Only the owner-decision stops in exec-questions.yaml stop the run."
+rails_all_stages:
+  allow:
+    - read_any_file
+    - write_inside_worktree
+    - write_inside_rigor_dir
+    - run_railguard
+    - run_feedback_commands
+    - spawn_implementer
+    - spawn_verifier
+    - spawn_reviewer
+    - ask_user_batched
+  forbid:
+    - edit_main_checkout
+    - edit_plan_files
+    - push_without_authorization
+    - merge_without_authorization
+    - delete_tests_to_pass
+    - mark_done_without_evidence
+  enforced_by:
+    - rule: X_main_untouched
+      strength: detective
+    - rule: X_deviation
+      strength: detective
+    - rule: X_scope
+      strength: detective
+single_loop_authority:
+  rule: Exactly one live loop drives a plan at a time.
+  run: "One attempt to execute the plan. States are finished, interrupted and live."
+  lock: The run holds a heartbeat timestamp in .rigor/exec/run.yaml. Every exec command refreshes it. A heartbeat older than stale_minutes marks the run interrupted.
+  on_start_with_existing_run:
+    finished: report that the plan is already executed and stop
+    interrupted: "resume the same run (same worktree, branch and per-task attempt counts) from the first unfinished task"
+    live: refuse and report the heartbeat age
+    plan_changed: "refuse; the user discards the old run explicitly with exec discard"
+  decided_by_user: "resume if stopped, refuse if live"
+  dropped:
+    - artifact_only
+    - adopt_existing_while_live
+stages:
+  - id: prepare
+    does: "Front question batch (feedback commands, delivery mode, topology confirmation). Detect the stack and versions. exec start creates the run, the worktree and branch, and the root snapshot. Record a feedback baseline."
+    run:
+      - "railguard exec start <plan> --feedback CMD --delivery MODE"
+      - railguard exec verify --baseline
+    gates:
+      - GX_start
+      - GX_run
+  - id: implement
+    does: "Loop exec next, dispatch the ready tasks, record exec red then implement then exec vtask then exec task done. Commit per task. Stop conditions are scripted."
+    gates:
+      - GX_tasks
+      - GX_scope
+  - id: checkpoint
+    does: At every phase end and plan checkpoint run exec checkpoint. Later tasks are held until it passes.
+    gates:
+      - GX_checkpoints
+  - id: review
+    does: "Independent whole-branch review at the end, routed like planning. Fix pass, then re-review sized to the change."
+    gates:
+      - GX_review
+  - id: close
+    does: "Final verification items, evidence-path claims closed as established, limited or refuted, follow-ups and amendments settled."
+    gates:
+      - GX_close
+  - id: finish
+    does: "exec check --final then exec finish. Present rulings, noticed items and follow-ups, then perform exactly the delivery the user chose in the front batch (push + PR + squash merge + delete branches when authorized, otherwise branch only)."
+    run:
+      - railguard exec check --final
+      - railguard exec finish
+    gates:
+      - GX_ledger
+decisions_by_user:
+  topology: "inline within the limits.yaml execution.delegation.inline task and surface counts, otherwise one fresh subagent per task, one at a time"
+  worktrees: one per plan
+  rulings: only where spec or plan decides
+  verifier: "a fresh independent verifier at each phase-end checkpoint (next phase waits) and on the whole branch (finish waits); engine-enforced by exec verifier"
+  away: "front batch asks if the user will be away; then a limit hit blocks the task and dependents, independent work continues, the question is queued and finish waits for the answer"
+  time_cap: none
+  surfaces_per_task_warning: 2
+  re_review_cutoffs: "thresholds in limits.yaml execution.review.re_review, confirmed by the user"
+  retries: see limits.yaml execution.retries
+  re_review: "sized to the change; rounds in limits.yaml execution.review"
+  plan_defects: "block affected tasks and ask; execution never edits the plan"
+  delivery: "commit, push, squash merge, delete local and remote branch, authorized in the front batch"

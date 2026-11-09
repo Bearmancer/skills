@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: refuses-draft-plan
+expected_outcome: |
+  The plan's status is draft, not final. exec start (or the agent's own pre-check) refuses with the reason. The agent tells the user the plan must be finished with plan-rigorously first. It writes no product code and creates no worktree.
+context:
+  scaffold_script: place-files.sh

@@ -1,7 +1,0 @@
-{"range":["mattpocock:grilling/SKILL.md#0000","mattpocock:grilling/SKILL.md#0001"],"d":"dropped","why":"boilerplate"}
-{"range":["mattpocock:grilling/SKILL.md#0002","mattpocock:grilling/SKILL.md#0005"],"d":"absorbed","to":{"skill":"planning-rigorously","section":"Question sweep: design-tree rounds"}}
-{"id":"mattpocock:grilling/SKILL.md#0006","d":"absorbed","to":{"skill":"planning-rigorously","section":"Question sweep: recommended answer, yes accepts"}}
-{"id":"mattpocock:grilling/SKILL.md#0007","d":"absorbed","to":{"skill":"planning-rigorously","section":"Question sweep: design-tree rounds"}}
-{"id":"mattpocock:grilling/SKILL.md#0008","d":"absorbed","to":{"skill":"planning-rigorously","section":"Question sweep: find facts yourself"}}
-{"id":"mattpocock:grilling/SKILL.md#0009","d":"absorbed","to":{"skill":"planning-rigorously","section":"Question sweep: done when frontier is empty"}}
-{"id":"mattpocock:grilling/agents/openai.yaml#0000","d":"dropped","why":"noise","note":"agent UI metadata"}

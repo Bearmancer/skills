@@ -1,0 +1,67 @@
+version: 1
+purpose: Named exit gates for execution. Script gates are evaluated by railguard exec check from exec-lint-rules.yaml (and the shared ledger rules from plan-rigorously lint-rules.yaml).
+statuses:
+  - passed
+  - failed
+  - pending
+gates:
+  - id: GX_start
+    stage: prepare
+    rules:
+      - X_start
+      - X_feedback
+    what: "plan final, authorized, hash unchanged; feedback commands and baseline recorded"
+  - id: GX_run
+    stage: prepare
+    rules:
+      - X_run_state
+      - X_worktree
+      - X_main_untouched
+    what: "one live run; isolated worktree on its own branch; main checkout untouched"
+  - id: GX_tasks
+    stage: implement
+    rules:
+      - X_tasks_done
+      - X_blocked
+      - X_order
+      - X_evidence
+      - X_attempts
+    what: "every task done with evidence or blocked with a reason; dependency order held; retry cap respected"
+  - id: GX_scope
+    stage: implement
+    rules:
+      - X_scope
+      - X_placeholders
+      - X_debug_output
+      - X_deviation
+    what: "only planned files changed; no placeholders; plan not silently changed"
+  - id: GX_checkpoints
+    stage: checkpoint
+    rules:
+      - X_checkpoints
+      - X_verifiers
+      - X_regression
+    what: "every checkpoint passed, and each phase-end checkpoint verified by a fresh agent, before later phases; no new feedback failures against the baseline"
+  - id: GX_review
+    stage: review
+    rules:
+      - X_review
+      - X_review_rounds
+    what: "required reviewers approved the head, within the round cap per role (limits.yaml execution.review)"
+  - id: GX_close
+    stage: close
+    rules:
+      - X_final_verification
+      - X_verifier_branch
+      - X_clean_tree
+      - X_queue
+      - X_claims
+      - X_followups
+      - X_amendments
+    what: "final verification passed; every claim closed; follow-ups and amendments settled"
+  - id: GX_ledger
+    stage: finish
+    rules:
+      - R_ledger_chain
+      - R_ledger_reasons
+    what: "ledger chain intact; every change has a reason and authority"

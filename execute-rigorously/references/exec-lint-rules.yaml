@@ -1,0 +1,159 @@
+version: 1
+purpose: Declarative execution rules evaluated by railguard exec check. Each id has a Python implementation of the same name. final_only rules are pending until check --final.
+rules:
+  - id: X_start
+    sev: error
+    final_only: false
+    gate: GX_start
+    check: "plan.meta.status is final, state.execute_authorized is true, state.render_plan_hash equals the plan hash, and the run was started on that same hash"
+    fix: "return to plan-rigorously, or ask the user"
+  - id: X_feedback
+    sev: error
+    final_only: false
+    gate: GX_start
+    check: feedback commands are recorded and a baseline of their failures exists
+    fix: "exec start --feedback CMD, then exec verify --baseline"
+  - id: X_run_state
+    sev: error
+    final_only: false
+    gate: GX_run
+    check: "run state is live, interrupted or finished, never stopped"
+    fix: "exec discard with a reason, then start again"
+  - id: X_worktree
+    sev: error
+    final_only: false
+    gate: GX_run
+    check: "the run worktree exists, is not the main checkout, and sits on its own branch"
+    fix: restore the worktree with git worktree add
+  - id: X_main_untouched
+    sev: error
+    final_only: false
+    gate: GX_run
+    check: no file outside .rigor changed in the main checkout since exec start
+    fix: "revert the stray change; all edits belong in the worktree"
+  - id: X_tasks_done
+    sev: error
+    final_only: true
+    gate: GX_tasks
+    check: "every task is done, or blocked with a reason"
+    fix: finish the task or block it with exec task --status blocked --reason
+  - id: X_blocked
+    sev: error
+    final_only: false
+    gate: GX_tasks
+    check: blocked tasks carry a reason and every dependent of a blocked task is blocked too
+    fix: "block the dependents with the reason blocked by <id>"
+  - id: X_order
+    sev: error
+    final_only: false
+    gate: GX_tasks
+    check: each done task completed after all its dependencies
+    fix: redo the task after its dependencies
+  - id: X_evidence
+    sev: error
+    final_only: false
+    gate: GX_tasks
+    check: "each done task has green verify evidence at a commit and, for tdd, a recorded red failure before the green"
+    fix: exec red then implement then exec vtask
+  - id: X_attempts
+    sev: error
+    final_only: false
+    gate: GX_tasks
+    check: no task reached the retry cap without being blocked
+    fix: block the task and report the gap
+  - id: X_scope
+    sev: error
+    final_only: false
+    gate: GX_scope
+    check: "every file changed in the worktree since the base is a file some task plans, or a declared follow-up file"
+    fix: "revert the change, or exec followup it"
+  - id: X_placeholders
+    sev: error
+    final_only: false
+    gate: GX_scope
+    check: "no added line contains test.skip, xit, skip markers, TODO, FIXME or NotImplemented"
+    fix: implement it or block the task
+  - id: X_debug_output
+    sev: warn
+    final_only: false
+    gate: GX_scope
+    check: "no added console.log, debugger, pdb or breakpoint lines"
+    fix: remove debug output
+  - id: X_deviation
+    sev: error
+    final_only: false
+    gate: GX_scope
+    check: "the plan hash equals the run's hash, or a plan_change event records the new hash with a reason and authority"
+    fix: revert the plan edit or log it as a plan_change
+  - id: X_checkpoints
+    sev: error
+    final_only: false
+    gate: GX_checkpoints
+    check: "every checkpoint whose task is done has passed, and later tasks finished only after it passed"
+    fix: run exec checkpoint and redo anything that skipped it
+  - id: X_verifiers
+    sev: error
+    final_only: false
+    gate: GX_checkpoints
+    check: "a phase-end checkpoint has a fresh independent verifier pass at its content before tasks of a later phase finish, and before finish"
+    fix: "spawn a fresh verifier, then exec verifier <checkpoint> pass --agent NAME"
+  - id: X_verifier_branch
+    sev: error
+    final_only: true
+    gate: GX_close
+    check: "a fresh independent verifier passed the whole branch at the current content"
+    fix: "run the final verification, then exec verifier branch pass --agent NAME"
+  - id: X_queue
+    sev: error
+    final_only: true
+    gate: GX_close
+    check: "no question queued while the user was away is still unanswered"
+    fix: "ask the user and record the answer with exec answer"
+  - id: X_clean_tree
+    sev: error
+    final_only: true
+    gate: GX_close
+    check: "the worktree has no uncommitted changes, so what was verified and reviewed is what gets delivered"
+    fix: "commit the change through a task, or revert it"
+  - id: X_regression
+    sev: error
+    final_only: true
+    gate: GX_checkpoints
+    check: the last feedback verify at the current head introduced no failures beyond the baseline
+    fix: "fix the new failures, then exec verify"
+  - id: X_review
+    sev: error
+    final_only: true
+    gate: GX_review
+    check: "required reviewers approved the current head, at the level (none, lint-only, targeted, full) the change since their review requires"
+    fix: run the independent review and exec review
+  - id: X_final_verification
+    sev: error
+    final_only: true
+    gate: GX_close
+    check: every final verification item passed at the current head
+    fix: "exec final <id>"
+  - id: X_claims
+    sev: error
+    final_only: true
+    gate: GX_close
+    check: "every evidence-path claim is closed as established or limited, none refuted"
+    fix: "exec claim <id> --status ... --note ..."
+  - id: X_followups
+    sev: error
+    final_only: true
+    gate: GX_close
+    check: every follow-up is done or reported with a reason
+    fix: do it or exec followup --status reported
+  - id: X_amendments
+    sev: error
+    final_only: false
+    gate: GX_close
+    check: "every acceptance amendment keeps the original verbatim and carries reason, evidence, authority and a timestamp"
+    fix: re-record the amendment with all fields
+  - id: X_review_rounds
+    sev: error
+    final_only: false
+    gate: GX_review
+    check: a reviewer who used the round cap without approval is accepted by the user (exec review --accept-best)
+    fix: "present the best version, record non-consensus as a deviation, ask the user"

@@ -1,0 +1,471 @@
+events:
+  - n: 1
+    ts: "2026-11-08T10:28:40Z"
+    kind: note
+    subject: start
+    reason: run started for demo-rate-limit
+    authority: system
+    before: null
+    after: null
+    prev: genesis
+    hash: 732421f18b5b96182fb98099aa4acfa072e6028fd4b6e0534421eb6adab041f7
+  - n: 2
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_route
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 732421f18b5b96182fb98099aa4acfa072e6028fd4b6e0534421eb6adab041f7
+    hash: 4a6650f7a6feacbfa922e4f918fea563ea13519b07bb9499e1845ce584926ee0
+  - n: 3
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_questions
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 4a6650f7a6feacbfa922e4f918fea563ea13519b07bb9499e1845ce584926ee0
+    hash: e43133c5fc3d3e8aaa1341e81821dfa2c4ef6463ba1bf31a45d488c184a7377c
+  - n: 4
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_audit
+    reason: "None -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: e43133c5fc3d3e8aaa1341e81821dfa2c4ef6463ba1bf31a45d488c184a7377c
+    hash: a3d74b783ec2a9bd18277f9284378c097550845488a231ef78e91300781ceaf5
+  - n: 5
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_requirements
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: a3d74b783ec2a9bd18277f9284378c097550845488a231ef78e91300781ceaf5
+    hash: b2073eebdfcf36bdb475ad8e0c2a82cfcb9b88113da766db1d3ef4c85ace933f
+  - n: 6
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_scope
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: b2073eebdfcf36bdb475ad8e0c2a82cfcb9b88113da766db1d3ef4c85ace933f
+    hash: f5550b6acee92699c650a864ed3ea2a382b1b9a0bd25bd9f4a3acf14b090490d
+  - n: 7
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_evidence
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: f5550b6acee92699c650a864ed3ea2a382b1b9a0bd25bd9f4a3acf14b090490d
+    hash: 87d5dee057eb96708de4a12271b85768596dc16696181b74837f611f58b9f5b7
+  - n: 8
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_tasks
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 87d5dee057eb96708de4a12271b85768596dc16696181b74837f611f58b9f5b7
+    hash: f156ae9b9d294481f2c34bb0a7ea9f04bbf39f65c35d87f82e2fb3e61f748d4c
+  - n: 9
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_order
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: f156ae9b9d294481f2c34bb0a7ea9f04bbf39f65c35d87f82e2fb3e61f748d4c
+    hash: 76ed9b617d31ed3833f18aa565d3ec70ff34653f7104032cc58bcbb64ab56581
+  - n: 10
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_tier2
+    reason: "None -> skipped"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 76ed9b617d31ed3833f18aa565d3ec70ff34653f7104032cc58bcbb64ab56581
+    hash: 9d51ba55de1a197bf7a0426d59ce64d490178919827580ddb6a4ef7f758a65b8
+  - n: 11
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_review
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 9d51ba55de1a197bf7a0426d59ce64d490178919827580ddb6a4ef7f758a65b8
+    hash: 4cf59deea59ccd975ab3f0d65a5c753ca98a82add8fab67258a2edcdf6338f6a
+  - n: 12
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_ledger
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 4cf59deea59ccd975ab3f0d65a5c753ca98a82add8fab67258a2edcdf6338f6a
+    hash: ebfedcf9c37daa5dc86fa627bee0118cd4df75a78d52300564d8cfe10acc9903
+  - n: 13
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_no_impl
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: ebfedcf9c37daa5dc86fa627bee0118cd4df75a78d52300564d8cfe10acc9903
+    hash: 8f97d8da3eaad637edc7d348de6d96b7c8e7ec64430876e6c3fa11de03050905
+  - n: 14
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_render
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 8f97d8da3eaad637edc7d348de6d96b7c8e7ec64430876e6c3fa11de03050905
+    hash: 179083b9db364d6f4e2e5566177213452a72efe310db362ef2a0eb6aa576d2ab
+  - n: 15
+    ts: "2026-11-08T10:28:40Z"
+    kind: gate
+    subject: G_publish
+    reason: "None -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 179083b9db364d6f4e2e5566177213452a72efe310db362ef2a0eb6aa576d2ab
+    hash: 84250dd92484c360e30b7a563fe0344d618549e54a4832dbb06bfcc728c1463c
+  - n: 16
+    ts: "2026-11-08T10:28:48Z"
+    kind: gate
+    subject: G_audit
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 84250dd92484c360e30b7a563fe0344d618549e54a4832dbb06bfcc728c1463c
+    hash: f83a170a6d5ef084ef36776ce6250e9f8418f0c15d92770cd16f34a9c97a7d45
+  - n: 17
+    ts: "2026-11-08T10:28:48Z"
+    kind: gate
+    subject: G_ground
+    reason: ok
+    authority: system
+    before: null
+    after: null
+    prev: f83a170a6d5ef084ef36776ce6250e9f8418f0c15d92770cd16f34a9c97a7d45
+    hash: 90e0e7121d28decb70844555caa8b1850b34ca78dfb15773ff0cecd59904f0c3
+  - n: 18
+    ts: "2026-11-08T10:28:48Z"
+    kind: gate
+    subject: G_delegates_closed
+    reason: ok
+    authority: system
+    before: null
+    after: null
+    prev: 90e0e7121d28decb70844555caa8b1850b34ca78dfb15773ff0cecd59904f0c3
+    hash: 61ff8f95c5fb328a9729a3dfcb6c40199bd4d46dc89ab5f64bfd0436df77dd87
+  - n: 19
+    ts: "2026-11-08T10:28:48Z"
+    kind: plan_change
+    subject: T1
+    reason: added test
+    authority: user
+    before: null
+    after: 7bf0158973692bf66369afb95d927ff5b0c20e558448a535dc4c41c1d38747c9
+    prev: 61ff8f95c5fb328a9729a3dfcb6c40199bd4d46dc89ab5f64bfd0436df77dd87
+    hash: b9b906ddba5a9db93e9356e5205bd53034a5c37021da0d4dba2818242ab36e0d
+  - n: 20
+    ts: "2026-11-08T10:28:48Z"
+    kind: gate
+    subject: G_review
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: b9b906ddba5a9db93e9356e5205bd53034a5c37021da0d4dba2818242ab36e0d
+    hash: 573a8954216d0e1ff47959255bdd2d8fa95b7d10892e060fa0f8a5300ef991f7
+  - n: 21
+    ts: "2026-11-08T10:29:01Z"
+    kind: review_complete
+    subject: critic
+    reason: critic approved
+    authority: system
+    before: 7bf0158973692bf66369afb95d927ff5b0c20e558448a535dc4c41c1d38747c9
+    after: 7bf0158973692bf66369afb95d927ff5b0c20e558448a535dc4c41c1d38747c9
+    prev: 573a8954216d0e1ff47959255bdd2d8fa95b7d10892e060fa0f8a5300ef991f7
+    hash: 7a1c70e30467edbd63ea3244057ebbf6f70dac03e94070f4b2f4affceb1bd5ed
+  - n: 22
+    ts: "2026-11-08T10:29:01Z"
+    kind: gate
+    subject: G_publish
+    reason: skip publish
+    authority: user
+    before: null
+    after: null
+    prev: 7a1c70e30467edbd63ea3244057ebbf6f70dac03e94070f4b2f4affceb1bd5ed
+    hash: 327eae00abd81c383bff8f98d082b8ce95146228d65b8a102155730abd4c0a61
+  - n: 23
+    ts: "2026-11-08T10:29:01Z"
+    kind: gate
+    subject: G_review
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 327eae00abd81c383bff8f98d082b8ce95146228d65b8a102155730abd4c0a61
+    hash: a9503494d20fb90769f2029f4e28bbe49cd3d8487a4eb90dc38be756f6e3073c
+  - n: 24
+    ts: "2026-11-08T10:29:01Z"
+    kind: gate
+    subject: G_no_impl
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: a9503494d20fb90769f2029f4e28bbe49cd3d8487a4eb90dc38be756f6e3073c
+    hash: a2bf064d13fa19b1d313f0155876391336db2f8ad1f6a245654aca8424545677
+  - n: 25
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_scope
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: a2bf064d13fa19b1d313f0155876391336db2f8ad1f6a245654aca8424545677
+    hash: a738a0a86aa090ad672e5c832bc0bef904a013b99d1bcdc5c9b1a12da44948c2
+  - n: 26
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_render
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: a738a0a86aa090ad672e5c832bc0bef904a013b99d1bcdc5c9b1a12da44948c2
+    hash: 323d46993584aa0ccb00a0b8da5ffba5ad845aa594cbfea3d9b4ebfef8a563dd
+  - n: 27
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_scope
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 323d46993584aa0ccb00a0b8da5ffba5ad845aa594cbfea3d9b4ebfef8a563dd
+    hash: 3de7d34c30db037613f60168999269f7f5e7a8e4c7c9e822788ae580d6804f50
+  - n: 28
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_order
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 3de7d34c30db037613f60168999269f7f5e7a8e4c7c9e822788ae580d6804f50
+    hash: 09d89ee6080c8b428090690b5ab2b35e91313766de90a1e7187ad0c683a0f504
+  - n: 29
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_tasks
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 09d89ee6080c8b428090690b5ab2b35e91313766de90a1e7187ad0c683a0f504
+    hash: 2743312ba5d2beb82fd171ec0bc3213cee65904597d462d8ca7a3d51bb2314c1
+  - n: 30
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_order
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 2743312ba5d2beb82fd171ec0bc3213cee65904597d462d8ca7a3d51bb2314c1
+    hash: d0a2a2d95b41356d85910c5c28f28d4ac2b9b4fd7e0bd77da07bd92e56b2eca5
+  - n: 31
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_tasks
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: d0a2a2d95b41356d85910c5c28f28d4ac2b9b4fd7e0bd77da07bd92e56b2eca5
+    hash: 7672b74fbb561625a841f95de9533dadd176c6900481e7def384394f058c8df3
+  - n: 32
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_order
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 7672b74fbb561625a841f95de9533dadd176c6900481e7def384394f058c8df3
+    hash: 4d9e7817321055165de06d2fa4aaa42a169bec8ac880a3255f5035136d569dd0
+  - n: 33
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_tasks
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 4d9e7817321055165de06d2fa4aaa42a169bec8ac880a3255f5035136d569dd0
+    hash: c43a571263dd22ae069d3d5ef0edf508ee77d666586ad7ad254ac6124eb548c7
+  - n: 34
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_order
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: c43a571263dd22ae069d3d5ef0edf508ee77d666586ad7ad254ac6124eb548c7
+    hash: fc8cdc6740104852fcc2ec6b1c67917211fef72ac492604e79ad30d324d07a12
+  - n: 35
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_render
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: fc8cdc6740104852fcc2ec6b1c67917211fef72ac492604e79ad30d324d07a12
+    hash: 401074ef99c8d114f5aec9fe84983a701297eda3c07d41657d2943b6baf7b620
+  - n: 36
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_questions
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 401074ef99c8d114f5aec9fe84983a701297eda3c07d41657d2943b6baf7b620
+    hash: 2d6528c9a56754527c2394bb92e03fffadfe18d1e7494db42d3b83419bcd7a55
+  - n: 37
+    ts: "2026-11-08T10:29:02Z"
+    kind: gate
+    subject: G_tasks
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 2d6528c9a56754527c2394bb92e03fffadfe18d1e7494db42d3b83419bcd7a55
+    hash: abfad9e077048e447a149a1bde482b9a10c58a8e5629f5d017aaff034be1d9aa
+  - n: 38
+    ts: "2026-11-08T10:29:03Z"
+    kind: gate
+    subject: G_render
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: abfad9e077048e447a149a1bde482b9a10c58a8e5629f5d017aaff034be1d9aa
+    hash: a3640a72fd89cd9fb3f16f3a6adb362306d1f5d76e97744b1d88d7d729abcfce
+  - n: 39
+    ts: "2026-11-08T10:29:03Z"
+    kind: gate
+    subject: G_questions
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: a3640a72fd89cd9fb3f16f3a6adb362306d1f5d76e97744b1d88d7d729abcfce
+    hash: 04f5c63e9141822a102147fc22ba871c8f01aa7132b4690586b3fe20526900ea
+  - n: 40
+    ts: "2026-11-08T10:29:03Z"
+    kind: gate
+    subject: G_audit
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 04f5c63e9141822a102147fc22ba871c8f01aa7132b4690586b3fe20526900ea
+    hash: 95286d5bd25b4d084c058fa73e30b340cdcbfc23f6c66b06583315360ad1a466
+  - n: 41
+    ts: "2026-11-08T10:29:03Z"
+    kind: gate
+    subject: G_render
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 95286d5bd25b4d084c058fa73e30b340cdcbfc23f6c66b06583315360ad1a466
+    hash: 898aa7254cd14677ceaa0702d8fc7fd656ce40444fedbb3fa6168c5040e5d493
+  - n: 42
+    ts: "2026-11-08T10:29:03Z"
+    kind: gate
+    subject: G_audit
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 898aa7254cd14677ceaa0702d8fc7fd656ce40444fedbb3fa6168c5040e5d493
+    hash: 5fc26f207df469020e2af29b5c8bd12530b6d939170ef7ed7405c74cbb4f869e
+  - n: 43
+    ts: "2026-11-08T10:29:03Z"
+    kind: gate
+    subject: G_requirements
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 5fc26f207df469020e2af29b5c8bd12530b6d939170ef7ed7405c74cbb4f869e
+    hash: 6926be1306298e2cac7d3b64940d78e8e99ee16ed8ac8dc9cbd85764b15267d6
+  - n: 44
+    ts: "2026-11-08T10:29:03Z"
+    kind: gate
+    subject: G_tier2
+    reason: "skipped -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 6926be1306298e2cac7d3b64940d78e8e99ee16ed8ac8dc9cbd85764b15267d6
+    hash: ecc0f8f8ac72a7df4b0254426be4e869261de150de7f32b00b7fd226d8b5a542
+  - n: 45
+    ts: "2026-11-08T10:29:03Z"
+    kind: gate
+    subject: G_render
+    reason: "passed -> failed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: ecc0f8f8ac72a7df4b0254426be4e869261de150de7f32b00b7fd226d8b5a542
+    hash: 10e21d1ef9fdee0a699810229b30f47d53a95c9fbfc2812e30a178525077eb88
+  - n: 46
+    ts: "2026-11-08T10:29:14Z"
+    kind: publish
+    subject: acme/widgets
+    reason: "dry run: 2 task issue(s)"
+    authority: system
+    before: null
+    after: null
+    prev: 10e21d1ef9fdee0a699810229b30f47d53a95c9fbfc2812e30a178525077eb88
+    hash: 6c1713196b767e7c473118f1288a6bdc4b22f8939fefbdfc357fcbc06835b5f5
+  - n: 47
+    ts: "2026-11-08T10:29:21Z"
+    kind: gate
+    subject: G_ledger
+    reason: "failed -> passed"
+    authority: "rule:check"
+    before: null
+    after: null
+    prev: 6c1713196b767e7c473118f1288a6bdc4b22f8939fefbdfc357fcbc06835b5f5
+    hash: a09377444dae5a520e841ce524eda0fd1e8361018528050a77814b1e20681956

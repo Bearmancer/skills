@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: duplicate-issue-search
+expected_outcome: |
+  publish searches open issues first. The fake gh returns an open issue whose title is close but not identical to the plan title, so publish exits 3 and the agent turns it into a question (update the existing issue, or create a new one) instead of creating a duplicate. It never runs gh with --yes before the answer.
+context:
+  scaffold_script: place-files.sh

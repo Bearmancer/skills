@@ -5,214 +5,95 @@ description: "Use when auditing, sweeping or triaging open PRs, issues, review r
 
 # GitHub Sweep (Unattended Third-Party Audit & Update Protocol)
 
-Autonomous, account-wide audit, triage, update, and branch-purge protocol across all third-party GitHub repositories and forks associated with the authenticated account.
+Autonomous, account-wide audit, triage, update, and branch-purge protocol
+across third-party GitHub repos and forks for the authenticated account.
 
-The run is **fully autonomous and maximal**: all permissions are granted up-front. Never ask the user, never stop for input, never defer work (no "next run", wakeup, schedule, background job left running or follow-up note in place of doing it). The run ends only when no possible action is left (§0). A mutation (code push, branch deletion, thread closure) carries primary-source proof; one that lacks proof is skipped alone and the run continues with everything else.
+The run is **fully autonomous and maximal**: all permissions granted
+up-front. Never ask, stop, or defer work. It ends only when no possible
+action is left (§0). A mutation carries primary-source proof; lacking proof,
+skip it alone and continue.
 
 Companions:
-
-- `references/sweep-pipeline.md`: Discovery mechanics, CodeGraph setup, triage states.
-- `references/branch-hygiene.md`: Branch selection and fail-closed criteria; generic deletion policy lives in `purge-safety`.
-- `scripts/sweep.py`: Account-wide census CLI (PRs, issues, forks, CI states).
-- `scripts/purge_branches.py`: GitHub branch purge adapter; generic deletion policy lives in `purge-safety`.
-- `scripts/rebase.py`: CodeGraph-backed isolated PR rebase and push runner.
-- `scripts/ci_status.py`: Detailed CI check analyzer and error parser.
-
----
+- `references/sweep-pipeline.md`: discovery, CodeGraph setup, triage states.
+- `references/branch-hygiene.md`: branch selection, fail-closed criteria; purge policy in `purge-safety`.
+- `references/scripts.md`: bundled scripts and flags.
+- `references/invariants.md`: non-negotiable directives.
+- `references/execution-flow.md`: phases 1–5 and re-census loop.
 
 ## 0. Run Until Exhausted
 
-Repeat passes (census → act → re-census) until one full pass executes zero actions. An action is any permitted mutation or fix: rebase, conflict resolution, review-item fix, red-CI fix, push, PR comment, branch purge, workspace teardown, or a retry of a failed one.
+Repeat passes (census → act → re-census) until one full pass has zero
+actions. An action is any permitted mutation or fix.
 
-- **Decide, never ask.** Pick the option that preserves the PR's approved intent and the safety invariants, record the choice in the ledger, continue.
-- **Failures are work.** Diagnose a failed command, test or push and retry with a different approach. After 3 distinct attempts at the same item, mark it `BLOCKED` with the reason and move to the next item; a blocked item is not a stop.
-- **No possible action** means every remaining item is waiting on someone else (maintainer review, upstream CI queue, missing permission) or forbidden by an invariant below. Only then print the final report and end.
-- **In-turn only.** Wait on CI or long commands in the same turn (poll the checks until they finish); never hand work to a later session.
+- **Decide, never ask.** Preserve approved PR intent and invariants; record the choice; continue.
+- **Failures are work.** Diagnose and retry differently. After 3 distinct attempts at one item, mark `BLOCKED` and move on.
+- **No possible action**: every remaining item waits on someone else or is forbidden by an invariant. Then print the final report and end.
+- **In-turn only.** Poll CI/long commands in the same turn; never hand work to a later session.
 
----
+## Commands
 
-## Bundled Scripts Inventory (`scripts/`)
+Commands that may run 60 s or more: tee output to a log, end the log with a
+`DONE` line, run detached with `Start-Process pwsh -WindowStyle Hidden
+-PassThru`, then read the log with `Get-Content`. Discover by reading whole
+files or search tools; `head` and `tail` are denied.
 
-All mechanical discovery, branch auditing, and rebasing operations are encapsulated in the skill's `scripts/` directory—**never hand-create or re-derive ad-hoc scripts in chat**:
+## Safety invariants
 
-1. **`python scripts/sweep.py`** (or system `gh-sweep`):
-   - Fast account-wide census across third-party repos.
-   - Flags: `--open-only`, `--json`, `--prs-only`, `--issues-only`, `--forks-only`, `--out <file>`.
-2. **`python scripts/purge_branches.py`**:
-   - Maximal remote fork branch purger (adapter; policy: purge-safety).
-   - Deletes merged/closed/stale branches across all forks without interactive stops.
-   - Flags: `--dry-run`, `--verbose`.
-3. **`python scripts/rebase.py <repo> <pr_number>`**:
-   - Clones target repo into temporary scratch workspace, initializes CodeGraph on upstream base, rebases PR branch, and optionally pushes with `--push` (`--force-with-lease`).
-4. **`python scripts/ci_status.py <repo> <pr_number>`**:
-   - Detailed check-run analyzer reporting failed jobs, error logs, and pending states. Flags: `--json`.
+Personal repo exclusion, comprehensive census, no questions/stops, CodeGraph
+first, latest upstream, isolated branch, clean teardown:
+`references/invariants.md` (read before any mutation).
 
----
+## Execution flow
 
-## Non-Negotiable Directives & Safety Invariants
-
-1. **Strict Personal Repository Exclusion:**
-   - Identity is resolved dynamically: `CURRENT_USER=$(gh api user --jq .login)`.
-   - Never touch personal, non-fork repositories (`owner == CURRENT_USER and isFork == false`).
-   - Only third-party upstream repos and user forks of third-party repos (`isFork == true`) are swept.
-2. **Comprehensive Census ("Check All"):**
-   - Sweeps all authored PRs, all authored/assigned issues, all review requests, and all fork branches.
-3. **No Questions, No Stops:**
-   - No confirmation dialogs, no question tool, no pause for a decision. Purge merged, closed, and stale branches maximally.
-4. **CodeGraph First for Changes:**
-   - When any PR or issue requires code evaluation, rebase, or changes: establish ground truth on upstream default-branch HEAD with CodeGraph (`codegraph init -y`) before touching branches or editing files.
-5. **Latest Upstream Alignment:**
-   - Always pull and align against latest upstream base (`dev` or `main`) before applying changes.
-6. **Isolated Branch per Work Item:**
-   - Every fix, rebase, or asset update runs in an isolated task branch and temporary scratch workspace.
-7. **Clean Teardown:**
-   <!-- CODEGRAPH-TEARDOWN v1 -->
-   - Workspaces and merged/closed branches are deleted upon completion; final status table printed post-updates.
-   - A scratch datedir that outlives its run is a leak: delete the whole datedir when the run completes. Exception: a conflict-retained workspace (unpushed commits or a dirty working tree) is first resolved: commit, rebase and push with `--force-with-lease`. If that still fails after 3 attempts, quarantine it (never auto-delete) and list its path and reason in the final report as `BLOCKED`.
-
----
-
-## Execution Flow
-
-```
-[Phase 1: Fast Account Census] ──► gh-sweep or scripts/sweep.py
-         │
-         ├──► If no items need updates & no stale branches:
-         │      Print census table ➔ end of run.
-         │
-         └──► If updates needed (review feedback, merge conflicts, red CI) OR stale branches exist:
-                │
-                ▼
-[Phase 2: CodeGraph-Backed Triage & Workspace Setup]
-         │ (Per target repository: clone upstream default branch -> codegraph init -y)
-         ▼
-[Phase 3: Autonomous Change Execution]
-         │ 1. Pull latest upstream base (dev/main)
-         │ 2. Create isolated task branch (fix/...)
-         │ 3. Execute requested maintainer changes & run local test gates
-         │ 4. Push with --force-with-lease & comment resolution on PR
-         ▼
-[Phase 4: Maximal Branch Purge]
-         │ Delete remote fork branches for merged, closed, or obsolete PRs
-         ▼
-[Re-census] ──► any action left? yes ➔ back to Phase 1 (§0)
-         │ no
-         ▼
-[Phase 5: Final Post-Update Audit Table]
-         Print conclusive before/after status ledger
-```
-
----
+Census → CodeGraph setup → execute/rebase → branch purge → re-census → final
+audit: `references/execution-flow.md`.
 
 ## 1. Fast Account Discovery
 
-1. Resolve authenticated identity:
-   ```bash
-   CURRENT_USER=$(gh api user --jq .login)
-   ```
-2. Run the sweep engine:
-   ```bash
-   gh-sweep --json
-   ```
-   _Fallback if `gh-sweep` CLI is unavailable:_ run `python scripts/sweep.py --json`.
-
-3. **Branch Decision Gate:**
-   - If all open PRs are green, mergeable, and awaiting maintainer review, with zero failing CI, zero unaddressed review comments, and zero merged/closed branches on remote forks:
-     - Print the structured Markdown triage table and end the run.
-   - If any PR has merge conflicts, unaddressed review comments, failing tests, or stale branches to purge: proceed immediately to Phase 2.
-
----
+1. `CURRENT_USER=$(gh api user --jq .login)`.
+2. `gh-sweep --json` (fallback `python scripts/sweep.py --json`).
+3. Branch Decision Gate: if all open PRs are green, mergeable, awaiting
+   maintainer review, with zero failing CI, zero unaddressed comments, and
+   zero merged/closed fork branches: print the triage table and end. Otherwise
+   proceed to Phase 2.
 
 ## 2. CodeGraph Setup & Upstream Base Pull
 
-For each target repository requiring triage or code modification:
-
-1. **Isolated Workspace:**
-   ```bash
-   d=$(mktemp -d -t gh-sweep-<repo-slug>-XXXXXX)
-   ```
-2. **Clone Upstream Default Branch:**
-   ```bash
-   gh repo clone <target-owner>/<target-repo> "$d/repo" -- --filter=blob:none
-   ```
-3. **Initialize CodeGraph Immediately (size-gated, worker-capped):**
-   <!-- CODEGRAPH-TEARDOWN v1 -->
-   ```bash
-   cd "$d/repo"
-   if [ "$(git ls-files | wc -l)" -gt 150000 ]; then echo "codegraph: skipped (size)"; else CODEGRAPH_PARSE_WORKERS=2 codegraph init -y; fi
-   ```
-   Confirm with `codegraph status`. All mechanism investigations, symbol lookups, and blast-radius tracing run against this indexed default-branch HEAD.
-4. **Ensure Latest Base:**
-   Fetch latest upstream refs (`git fetch origin <default-branch>`).
-
----
+Per target repo needing triage or changes:
+1. `d=$(mktemp -d -t gh-sweep-<repo-slug>-XXXXXX)`.
+2. `gh repo clone <target-owner>/<target-repo> "$d/repo" -- --filter=blob:none`.
+3. `cd "$d/repo"`; if over 150000 tracked files, skip CodeGraph; else
+   `CODEGRAPH_PARSE_WORKERS=2 codegraph init -y`; confirm with `codegraph status`.
+4. `git fetch origin <default-branch>`.
 
 ## 3. Autonomous Execution & Rebase Pipeline
 
-For each pull request requiring changes:
+Per PR requiring changes:
+1. `git fetch fork <branch-name>`; `git checkout -b <branch-name> fork/<branch-name>`.
+2. `git rebase origin/<default-branch>`; resolve conflicts preserving approved intent; rerun required generators.
+3. Address review items from `gh pr view <pr> --json reviews,comments,latestReviews`; run local tests.
+4. `git push --force-with-lease fork <branch-name>` (never bare `--force`).
+5. Post a concise PR comment with the new SHA and points addressed.
 
-1. **Checkout & Branch Isolation:**
-   Fetch the PR branch from the user's fork into an isolated worktree or branch:
-   ```bash
-   git fetch fork <branch-name>
-   git checkout -b <branch-name> fork/<branch-name>
-   ```
-2. **Rebase on Upstream Base:**
-   ```bash
-   git rebase origin/<default-branch>
-   ```
-   - Resolve conflicts preserving the PR's approved functional intent.
-   - Re-run any repository-mandated asset/code generators (e.g. `bun run build:senpi-plugin`, prelude generators, model catalog scripts).
-3. **Address Maintainer Review Items:**
-   - Inspect maintainer review comments in full (`gh pr view <pr> --json reviews,comments,latestReviews`).
-   - Implement required test adjustments, mock fixes, error handling, or documentation updates.
-   - Run localized unit and integration tests locally before pushing.
-4. **Push with Lease Protection:**
-   ```bash
-   git push --force-with-lease fork <branch-name>
-   ```
-   _Never use bare `git push --force`._ `--force-with-lease` guards against overwriting upstream maintainer tweaks.
-5. **Maintainer Communication:**
-   Post a concise, objective summary on the PR thread referencing the new commit SHA and specific points addressed.
+## 4. Maximal Branch Purge
 
----
-
-## 4. Maximal Branch Purge (No Permission Asks)
-
-Audit remote branches across all user forks:
-
-```bash
-gh repo list --fork --json nameWithOwner,name,parent --limit 100
-```
-
-For each fork:
-
-1. List remote branches: `gh api repos/<user>/<fork>/branches --jq '.[].name'`.
-2. Compare each non-default branch against the PR census:
-   - If the branch belongs to a **MERGED** PR: **PURGE IMMEDIATELY**.
-   - If the branch belongs to a **CLOSED** PR: **PURGE IMMEDIATELY**.
-   - If the branch is an orphan with zero unmerged commits (`ahead_by == 0` vs upstream): **PURGE IMMEDIATELY**.
-3. **Execution Command:**
-   ```bash
-   gh api -X DELETE repos/<user>/<fork>/git/refs/heads/<branch-name>
-   ```
-4. **Safety Exclusions (Fail Closed):**
-   - Never delete default branches (`main`, `master`, `dev`).
-   - Never delete branches associated with active **OPEN** PRs.
-   - Never delete branches with unmerged unique commits (`ahead_by > 0`).
-
----
+`gh repo list --fork --json nameWithOwner,name,parent --limit 100`. For each
+fork, list branches, then purge immediately when the branch belongs to a
+MERGED or CLOSED PR, or is an orphan with `ahead_by == 0`. Delete with
+`gh api -X DELETE repos/<user>/<fork>/git/refs/heads/<branch-name>`. Never
+delete default branches, active OPEN PR branches, or branches with
+`ahead_by > 0`.
 
 ## 5. Final Post-Update Audit Report
 
-Print the conclusive triage ledger at the end of the run:
+Print the ledger and totals.
 
 ### A. Execution Ledger
 
-| Repository       | Item / Branch           | Status      | Actions Executed                                                        |
-| :--------------- | :---------------------- | :---------- | :---------------------------------------------------------------------- |
-| `<owner>/<repo>` | PR #`<num>` (`<title>`) | `MERGEABLE` | Addressed review feedback in `<sha>`, rebased on `<base>`, tests passed |
-| `<user>/<fork>`  | Branch `<name>`         | `PURGED`    | Merged in PR #`<num>`; remote ref deleted                               |
+| Repository | Item / Branch | Status | Actions Executed |
+| :--- | :--- | :--- | :--- |
+| `<owner>/<repo>` | PR #`<num>` | `MERGEABLE` | feedback addressed in `<sha>`, rebased, tests passed |
+| `<user>/<fork>` | Branch `<name>` | `PURGED` | merged in PR #`<num>`; ref deleted |
 
 ### B. Summary Totals
 
@@ -220,5 +101,6 @@ Print the conclusive triage ledger at the end of the run:
 - PRs updated / rebased: `<count>`
 - PRs awaiting maintainer review: `<count>`
 - Remote fork branches purged: `<count>`
-- `BLOCKED` items (item, reason, attempts made): `<count>`
-- Personal non-fork repositories excluded: `<count>`
+- `BLOCKED` items: `<count>`
+- Personal non-fork repos excluded: `<count>`
+PY
