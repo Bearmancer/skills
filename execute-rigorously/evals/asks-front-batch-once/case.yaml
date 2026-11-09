@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: asks-front-batch-once
+expected_outcome: |
+  The plan is final and authorized. The agent asks the execution front questions in ONE batched question call: the feedback commands, what happens to the finished branch (branch only, draft pull request, merge), and the topology if it differs from the default. It does not ask things the repo or plan answers. It never pushes or opens a pull request.
+context:
+  scaffold_script: place-files.sh

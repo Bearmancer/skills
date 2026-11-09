@@ -1,0 +1,66 @@
+version: 1
+purpose: "Who implements and who verifies, scaled by size and risk. Mirrors planning routing. Verification and review are always a different context from the author."
+executor:
+  note: "Surfaces are the distinct names the plan declares on its tasks. In inline mode the same context implements, but verification and review still use fresh subagents."
+  orchestrator_rule: "With subagent implementers the orchestrator never edits product files; it dispatches, records evidence and decides."
+  thresholds_note: "inline or one subagent per task: thresholds in plan-rigorously limits.yaml execution.delegation"
+  parallelism_note: "subagents run one at a time (limits.yaml execution.delegation.subagent.parallel); the orchestrator alone commits"
+implementer_brief:
+  pointers_only: "pass the task id, the plan path and the spec path; do not paste what a pointer reaches"
+  must_state:
+    - goal
+    - files in scope
+    - tests to read first
+    - constraints
+    - verify commands
+    - one manual check with exact invocation
+    - adversarial classes that apply
+    - report path
+  rules:
+    - "ask every question before starting; never guess"
+    - "implement exactly the task; follow existing patterns; touch only planned files"
+    - do not dispatch subagents and do not spawn reviewers
+    - "stop and report BLOCKED or NEEDS_CONTEXT when the task needs an architectural decision, restructuring the plan did not anticipate, or you cannot find clarity"
+    - self-review by reading your own diff before reporting
+  report_status:
+    - DONE
+    - DONE_WITH_CONCERNS
+    - BLOCKED
+    - NEEDS_CONTEXT
+  report_max_lines_note: limits.yaml execution.report
+verifier:
+  rule: "The verifier is a different context from the implementer and probes the claim rather than reading the report. Its verdict is confirmed, false-positive, needs-fix or needs-human-review; only confirmed passes."
+  scale: "one verifier pass per wave or phase, never per task"
+retry:
+  note: "caps and stops: limits.yaml execution.retries"
+  stop_on:
+    - same failure signature on consecutive attempts
+    - third failed attempt
+  harness_failures: one free repair per task when the runner or environment failed and the product was never exercised
+reviewers:
+  roles_from: ../plan-rigorously/references/routing.yaml
+  rule: Whole-branch review at the end and at phase boundaries. Re-review after a fix pass is sized to the change since the reviewed head.
+  limits_note: "rounds and re-review ratios: limits.yaml execution.review"
+adversarial_classes:
+  - id: malformed_input
+    when: new input parsing
+  - id: prompt_injection
+    when: untrusted external text is read
+  - id: cancel_resume
+    when: resumable or long-running flow
+  - id: stale_state
+    when: generated or cached artifacts
+  - id: dirty_worktree
+    when: uncommitted user files in scope
+  - id: hung_commands
+    when: long external commands
+  - id: flaky_tests
+    when: new or timing-sensitive tests
+  - id: misleading_success_output
+    when: success is claimed from logs
+  - id: repeated_interruptions
+    when: mid-operation interrupts
+worktrees:
+  granularity: per plan
+  rule: "One worktree and branch (rigor/<slug>) for the whole plan. Phases are checkpoints inside it, not branches. No lane worktrees."
+  decided_by: user

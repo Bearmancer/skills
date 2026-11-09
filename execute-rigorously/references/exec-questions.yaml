@@ -1,0 +1,43 @@
+version: 1
+purpose: "The execution front question batch and the only stops. Ask once, batched, with the question tool."
+front_batch:
+  - id: XQ1
+    text: "Which commands verify this repository (build, tests, lint, typecheck)?"
+    why_not_discoverable: "Detected commands are proposals; the user confirms or corrects them"
+    recommended: use the detected commands when any were found; when none were found ask with no recommendation and never invent a command
+  - id: XQ2
+    text: "Do you authorize delivery: commit, push, open a pull request, squash-merge it, and delete the local and remote branch?"
+    options:
+      - "Yes, authorize all of it (Recommended)"
+      - "No, leave the finished branch local and unpushed"
+    why_not_discoverable: "Push, PR, merge and branch deletion are outside the worktree; this answer is the only authorization finish has. Yes starts with --delivery squash-merge, No with --delivery branch."
+  - id: XQ3
+    text: "Who implements: inline, or one subagent per task?"
+    why_not_discoverable: "Defaults come from exec-routing.yaml; the user may override"
+    recommended: the routing default for this plan
+  - id: XQ5
+    text: "Will you be away while this runs?"
+    options:
+      - "Yes: when a limit is hit, block that task and its dependents, keep independent work going, and queue the question for me"
+      - "No: stop and ask me the moment a limit is hit"
+    why_not_discoverable: "Only the user knows whether anyone can answer during the run. Yes starts with --away."
+  - id: XQ4
+    text: "Is a dirty main checkout acceptable, and how should its uncommitted work be treated?"
+    when: main checkout has uncommitted changes
+stops:
+  note: "Only these stop a running execution. Everything else is a ruling the spec or plan already decides, or a blocked task."
+  items:
+    - an irreversible or destructive operation
+    - a security-sensitive action
+    - "a side effect outside the worktree (push, merge, publish, external service)"
+    - a plan so broken that every path forward is a guess
+    - "a decision the spec and plan leave open (it becomes a question, dependent tasks block)"
+rulings:
+  rule: "A ruling resolves a conflict the spec or plan already answers. Log it with log --kind decision, reason starting Ruling and authority finding:<id> or rule:<id>. A choice the spec and plan do not answer is a question, never a ruling."
+  cost_note: Each ruling states what it costs if wrong.
+deferred:
+  - "noticed items outside the task scope are recorded, never edited"
+  - "minor review findings are recorded, never fixed in the fix pass"
+  - questions that arise during execution and do not block independent tasks are asked together at finish
+questionnaire:
+  rule: A question only someone other than the user can answer is rendered with render --questionnaire into a Markdown questionnaire the user can send.

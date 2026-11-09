@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: proposal-audit-too-few-tools
+expected_outcome: |
+  The plan proposes a library and version, which is an external claim. The auditor can use only one external tool, so G_audit cannot pass. The agent does not downgrade to a single-tool audit. It records a blocking question (install another tool or accept an unverified proposal) and marks dependent tasks blocked_on it.

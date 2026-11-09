@@ -1,0 +1,91 @@
+version: 2
+purpose: Every number either skill uses, in one place. Nested by scope. A bound is a flow map holding min, max or exact; a unit is written beside it only when the measure is not a plain count. Defaults are repo values; change one by editing and committing, with the reason in the commit message.
+planning:
+  tier:
+    t0: {tasks: {max: 3}, surfaces: {max: 1}}
+  user_stories:
+    tier_0: {min: 0}
+    tier_1: {min: 3}
+    tier_2: {min: 8}
+  task_size:
+    XS: {duration: {max: 0.5, unit: hours}, files: {max: 1}}
+    S:  {duration: {max: 1, unit: hours},   files: {max: 2}}
+    M:  {duration: {max: 2, unit: hours},   files: {max: 5}}
+    L:  {duration: {max: 4, unit: hours}}
+    XL: {duration: {max: 8, unit: hours}}
+  task:
+    files: {max: 5}
+    acceptance_bullets: {max: 3}
+    surfaces: {max: 2}
+  checkpoint:
+    tasks_between: {max: 3}
+  test_seams: {max: 3}
+  review_focus: {min: 1, max: 5}
+  evidence_path:
+    candidate_paths: {min: 2}
+  question:
+    options: {min: 2}
+    stalled_rounds: {max: 3}
+  clarify:
+    heartbeat_stale: {max: 30, unit: minutes}
+  drift:
+    note_only: {max: 0.10, unit: share}
+    ask: {max: 0.30, unit: share}
+  evidence_facts:
+    with_source: {min: 0.8, unit: share}
+  acceptance_bullets:
+    proved: {min: 0.9, unit: share}
+  plan_size:
+    spec_factor: {max: 8, unit: times}
+    spec_slack: {max: 4000, unit: characters}
+  tier2:
+    principles: {min: 3, max: 5}
+    drivers: {exact: 3}
+    options: {min: 2}
+    premortem_scenarios: {exact: 3}
+  audit:
+    external_tools: {min: 2}
+    evidence: {min: 300, unit: characters}
+  delegation:
+    inline: {tasks: {max: 3}, surfaces: {max: 2}}
+    subagent: {tasks: {min: 4}, surfaces: {min: 3}}
+  review:
+    rounds_per_role: {max: 3}
+    re_review:
+      diff_only: {max: 0.10, unit: share}
+      touched_files: {max: 0.30, unit: share}
+  publish:
+    duplicate_similarity: {min: 0.6, unit: share}
+  engine:
+    command_timeout: {max: 120, unit: seconds}
+    snapshot_walk: {max: 50000, unit: files}
+    ledger_output_tail: {max: 200, unit: characters}
+execution:
+  delegation:
+    inline: {tasks: {max: 3}, surfaces: {max: 2}}
+    subagent: {parallel: {exact: 1}}
+  worktree:
+    per_plan: {exact: 1}
+  retries:
+    attempts: {max: 3}
+    same_failure: {max: 2}
+    harness_repairs: {max: 1}
+  review:
+    rounds_per_role: {max: 3}
+    re_review:
+      diff_only: {max: 0.10, unit: share}
+      touched_files: {max: 0.30, unit: share}
+  report:
+    lines: {max: 15, unit: lines}
+  heartbeat:
+    stale: {max: 30, unit: minutes}
+  red:
+    exit_code: {exact: 1}
+  engine:
+    command_timeout: {max: 900, unit: seconds}
+    git_timeout: {max: 120, unit: seconds}
+    delivery_timeout: {max: 300, unit: seconds}
+    signature_lines: {max: 5, unit: lines}
+    signature_chars: {max: 300, unit: characters}
+    failure_item: {max: 160, unit: characters}
+    output_tail: {max: 400, unit: characters}

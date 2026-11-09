@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+cd "$(git rev-parse --show-toplevel)"
+
+if command -v uv >/dev/null 2>&1; then
+  exec uv run --no-dev --project . python scripts/sync-skills.py --check
+fi
+
+exec python scripts/sync-skills.py --check
