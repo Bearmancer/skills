@@ -4,21 +4,21 @@ Read this only when the code targets JS, Wasm, Native, or multiplatform. Tier ke
 
 ## Kotlin/JS
 
-| Superseded | Modern | Since / tier |
-|---|---|---|
-| `@JsExport @JsName("default ") class X` (trailing space hack) | `@JsExport.Default class X` | S 2.3.0 (ES modules emit `export default`) |
-| Hand-wrapping each `suspend fun` for JS callers | `@JsExport` directly on suspend functions (consumed as `async`) | E 2.3.0, `-Xenable-suspend-function-exporting` |
-| Exporting suspending lambdas through wrappers | Export as async functions | E 2.4.20 |
-| Calling companions of exported interfaces as `Foo.getInstance().bar()` (ES modules) vs `Foo.bar()` (others) | `Foo.Companion.bar()` everywhere, or `@JsStatic` on the member and `Foo.bar()` | S 2.3.0 |
-| `@JsQualifier` only at file level, forcing separate files for externals | `@JsQualifier("pkg")` directly on `external` functions and classes | S 2.3.0 |
-| Reimplementing Kotlin interfaces in TS impossible/forbidden | Implement exported interfaces from TS with `[Iface.Symbol] = true`; reuse defaults via `Iface.DefaultImpls` | E 2.3.20, `-Xenable-implementing-interfaces-from-typescript` |
-| `LongArray` as `Array<bigint>` | `BigInt64Array` | E 2.3.0, `-Xes-long-as-bigint` |
-| ES5-only inline JS | ES2015 syntax inside inlined JS | S 2.4.0 |
-| Value classes unexportable | Value class export to JS/TS | S 2.4.0 |
-| Targeting only `es5`/`es2015`, enabling BigInt separately | `target.set("es2020")` | 2.5.0-Beta2 |
-| Custom browser-test plumbing | New browser testing DSL | E 2.4.20 |
-| `useEsModules()` missing when webpack 5.108+ sees `import.meta` | Configure ES modules | 2.4.20 note |
-| `js(IR)` / compiler-type argument | `js { }` | Removed 2.4.0 |
+| Superseded                                                                                                  | Modern                                                                                                      | Since / tier                                                 |
+| ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `@JsExport @JsName("default ") class X` (trailing space hack)                                               | `@JsExport.Default class X`                                                                                 | S 2.3.0 (ES modules emit `export default`)                   |
+| Hand-wrapping each `suspend fun` for JS callers                                                             | `@JsExport` directly on suspend functions (consumed as `async`)                                             | E 2.3.0, `-Xenable-suspend-function-exporting`               |
+| Exporting suspending lambdas through wrappers                                                               | Export as async functions                                                                                   | E 2.4.20                                                     |
+| Calling companions of exported interfaces as `Foo.getInstance().bar()` (ES modules) vs `Foo.bar()` (others) | `Foo.Companion.bar()` everywhere, or `@JsStatic` on the member and `Foo.bar()`                              | S 2.3.0                                                      |
+| `@JsQualifier` only at file level, forcing separate files for externals                                     | `@JsQualifier("pkg")` directly on `external` functions and classes                                          | S 2.3.0                                                      |
+| Reimplementing Kotlin interfaces in TS impossible/forbidden                                                 | Implement exported interfaces from TS with `[Iface.Symbol] = true`; reuse defaults via `Iface.DefaultImpls` | E 2.3.20, `-Xenable-implementing-interfaces-from-typescript` |
+| `LongArray` as `Array<bigint>`                                                                              | `BigInt64Array`                                                                                             | E 2.3.0, `-Xes-long-as-bigint`                               |
+| ES5-only inline JS                                                                                          | ES2015 syntax inside inlined JS                                                                             | S 2.4.0                                                      |
+| Value classes unexportable                                                                                  | Value class export to JS/TS                                                                                 | S 2.4.0                                                      |
+| Targeting only `es5`/`es2015`, enabling BigInt separately                                                   | `target.set("es2020")`                                                                                      | 2.5.0-Beta2                                                  |
+| Custom browser-test plumbing                                                                                | New browser testing DSL                                                                                     | E 2.4.20                                                     |
+| `useEsModules()` missing when webpack 5.108+ sees `import.meta`                                             | Configure ES modules                                                                                        | 2.4.20 note                                                  |
+| `js(IR)` / compiler-type argument                                                                           | `js { }`                                                                                                    | Removed 2.4.0                                                |
 
 ## Kotlin/Wasm
 

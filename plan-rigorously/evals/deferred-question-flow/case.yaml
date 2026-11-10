@@ -1,6 +1,0 @@
-schema_version: "1.1"
-name: deferred-question-flow
-expected_outcome: |
-  The agent researches the repo first, then asks every open question in ONE batched question call (storage location, sharing). It does not ask things the repo answers. After the answers (or if deferrable questions remain) it keeps working: tasks depending on an unanswered question carry blocked_on, independent tasks are planned. It finishes with a final plan file and a deferred question block listing each open question, its options, a recommendation and the tasks it blocks.
-context:
-  scaffold_script: place-files.sh

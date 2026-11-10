@@ -52,14 +52,14 @@ Exit codes: 0 ok, 1 gate or verify failed, 2 refused. `RG check --pack` also val
 
 A stage is done when its gates show `passed` in `railguard check` output.
 
-| Stage | Do | Gates |
-|---|---|---|
-| prepare | front batch, `exec start`, `exec verify --baseline` | GX_start, GX_run |
-| implement | loop `next`, dispatch (`references/exec-routing.yaml`), `red`, implement, `vtask`, `task done` | GX_tasks, GX_scope |
-| checkpoint | `exec verify` (feedback commands) then `exec checkpoint` at every phase end, then a fresh verifier subagent re-runs the checks and `exec verifier <CP> pass`; later phases wait for both | GX_checkpoints |
-| review | independent whole-branch review, one fix pass, re-review sized to the change | GX_review |
-| close | `final` items, a fresh verifier on the whole branch (`exec verifier branch pass`), close every claim, settle follow-ups and amendments, answer queued questions | GX_close |
-| finish | `check --final`, `finish`, then any authorized delivery | GX_ledger |
+| Stage      | Do                                                                                                                                                                                       | Gates              |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| prepare    | front batch, `exec start`, `exec verify --baseline`                                                                                                                                      | GX_start, GX_run   |
+| implement  | loop `next`, dispatch (`references/exec-routing.yaml`), `red`, implement, `vtask`, `task done`                                                                                           | GX_tasks, GX_scope |
+| checkpoint | `exec verify` (feedback commands) then `exec checkpoint` at every phase end, then a fresh verifier subagent re-runs the checks and `exec verifier <CP> pass`; later phases wait for both | GX_checkpoints     |
+| review     | independent whole-branch review, one fix pass, re-review sized to the change                                                                                                             | GX_review          |
+| close      | `final` items, a fresh verifier on the whole branch (`exec verifier branch pass`), close every claim, settle follow-ups and amendments, answer queued questions                          | GX_close           |
+| finish     | `check --final`, `finish`, then any authorized delivery                                                                                                                                  | GX_ledger          |
 
 ## Rules that bite
 
