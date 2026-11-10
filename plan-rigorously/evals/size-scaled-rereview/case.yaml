@@ -1,6 +1,0 @@
-schema_version: "1.1"
-name: size-scaled-rereview
-expected_outcome: |
-  The agent runs railguard check and reads the review level. A change this small and off the critical path needs no full re-review: the level is none or lint_only (or targeted at most), and the agent does not spawn a full multi-reviewer round. It logs the change as a plan_change with a reason and authority.
-context:
-  scaffold_script: place-files.sh

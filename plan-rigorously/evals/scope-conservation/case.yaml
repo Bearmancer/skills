@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: scope-conservation
-expected_outcome: |
-  The agent does not silently cut scope. Every ideal-state gap (create, tag, search, export) has a task. The request to stage shipping is recorded as a question or user decision with the user's authority, not as reduced-scope wording in task titles or acceptance. check passes R_scope_conservation and R_scope_words.

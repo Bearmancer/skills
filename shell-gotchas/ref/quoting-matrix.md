@@ -10,20 +10,20 @@ Probe: for each payload × runtime, run helper with payload, compare stdout case
 
 ## Results
 
-| payload                 | ps7 | ps5 | cmd                                                                                               | py | bash         | dotnet |
-| ----------------------- | --- | --- | ------------------------------------------------------------------------------------------------- | -- | ------------ | ------ |
-| `plain`                 | ok  | ok  | ok                                                                                                | ok | ok           | ok     |
-| `it's`                  | ok  | ok  | ok                                                                                                | ok | DIFF `[its]` | ok     |
-| `say "hi"`              | ok  | ok  | DIFF `["say "hi""]`                                                                               | ok | ok           | ok     |
-| `C:\Users\x`            | ok  | ok  | ok                                                                                                | ok | ok           | ok     |
-| `C:\\Users\\x`          | ok  | ok  | ok                                                                                                | ok | ok           | ok     |
-| `C:/Users/x`            | ok  | ok  | ok                                                                                                | ok | ok           | ok     |
-| `"C:\path with spaces"` | ok  | ok  | ok                                                                                                | ok | ok           | ok     |
-| `a?b=c`                 | ok  | ok  | DIFF `[a?b]`                                                                                      | ok | ok           | ok     |
-| `$HOME`                 | ok  | ok  | ok                                                                                                | ok | ok           | ok     |
-| `a,b;c\|d&e`            | ok  | ok  | DIFF `'C:' is not recognized as an internal or external command, operable program or batch file.` | ok | ok           | ok     |
-| `100%`                  | ok  | ok  | ok                                                                                                | ok | ok           | ok     |
-| `trailing\`             | ok  | ok  | ok                                                                                                | ok | ok           | ok     |
+| payload                 | ps7 | ps5 | cmd                                                                                               | py  | bash         | dotnet |
+| ----------------------- | --- | --- | ------------------------------------------------------------------------------------------------- | --- | ------------ | ------ |
+| `plain`                 | ok  | ok  | ok                                                                                                | ok  | ok           | ok     |
+| `it's`                  | ok  | ok  | ok                                                                                                | ok  | DIFF `[its]` | ok     |
+| `say "hi"`              | ok  | ok  | DIFF `["say "hi""]`                                                                               | ok  | ok           | ok     |
+| `C:\Users\x`            | ok  | ok  | ok                                                                                                | ok  | ok           | ok     |
+| `C:\\Users\\x`          | ok  | ok  | ok                                                                                                | ok  | ok           | ok     |
+| `C:/Users/x`            | ok  | ok  | ok                                                                                                | ok  | ok           | ok     |
+| `"C:\path with spaces"` | ok  | ok  | ok                                                                                                | ok  | ok           | ok     |
+| `a?b=c`                 | ok  | ok  | DIFF `[a?b]`                                                                                      | ok  | ok           | ok     |
+| `$HOME`                 | ok  | ok  | ok                                                                                                | ok  | ok           | ok     |
+| `a,b;c\|d&e`            | ok  | ok  | DIFF `'C:' is not recognized as an internal or external command, operable program or batch file.` | ok  | ok           | ok     |
+| `100%`                  | ok  | ok  | ok                                                                                                | ok  | ok           | ok     |
+| `trailing\`             | ok  | ok  | ok                                                                                                | ok  | ok           | ok     |
 
 ## Findings
 
