@@ -1,6 +1,0 @@
-schema_version: "1.1"
-name: does-not-trigger-on-implement
-expected_outcome: |
-  This is an ordinary fix request without an explicit planning request. The plan-rigorously skill is not used: no .rigor directory is created, and the agent simply fixes the bug.
-context:
-  scaffold_script: place-files.sh

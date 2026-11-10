@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: cpm-ordering
-expected_outcome: |
-  The plan contains phases with tasks and correct dependencies. Parse precedes validate; run and report depend on validate and not on each other, so they are in the same wave. The rendered plan lists the critical path with ES/EF/LS/LF/slack and waves, and every phase ends with a checkpoint with no more than 3 tasks between checkpoints.

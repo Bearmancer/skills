@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-if [ "$1 $2" = "issue list" ]; then echo '[{"number":7,"title":"plan: demo rate limit work","url":"https://github.com/acme/widgets/issues/7"}]'; exit 0; fi
-exit 0

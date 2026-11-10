@@ -5,6 +5,8 @@ description: "Use when a task ends, before reporting done, committing or pushing
 
 # Work audit
 
+Shell commands failing, hanging, or quoting wrong (PowerShell, git-bash, Bun.$): see the `shell-gotchas` skill before debugging from scratch.
+
 End-of-task audit. Resolve every finding in the same turn: fix the mechanical ones, ask the decisions. Decisions go ONLY through the question tool (`AskUserQuestion`), never prose: 2-4 options, recommended first, each naming the goal, problem, and trade-offs. Before proposing any deletion, state the folder's `safety` facts (the purge indices in the canonical index table; index 11 `counts` for a whole repo); describe it from those facts.
 
 `$SKILL_DIR` is the directory holding this SKILL.md. Scripts in `$SKILL_DIR/scripts/` run only through `uv run`, enforced by `scripts\uv-guard.py` (register `uv run <skill dir>\scripts\uv-guard.py` as a PreToolUse hook). They need Python 3.12+, git and nothing else; `gh` is used only when present and authenticated (`WORK_AUDIT_NO_GH` turns it off).

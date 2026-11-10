@@ -90,10 +90,10 @@ Print the ledger and totals.
 
 ### A. Execution Ledger
 
-| Repository | Item / Branch | Status | Actions Executed |
-| :--- | :--- | :--- | :--- |
-| `<owner>/<repo>` | PR #`<num>` | `MERGEABLE` | feedback addressed in `<sha>`, rebased, tests passed |
-| `<user>/<fork>` | Branch `<name>` | `PURGED` | merged in PR #`<num>`; ref deleted |
+| Repository       | Item / Branch   | Status      | Actions Executed                                     |
+| :--------------- | :-------------- | :---------- | :--------------------------------------------------- |
+| `<owner>/<repo>` | PR #`<num>`     | `MERGEABLE` | feedback addressed in `<sha>`, rebased, tests passed |
+| `<user>/<fork>`  | Branch `<name>` | `PURGED`    | merged in PR #`<num>`; ref deleted                   |
 
 ### B. Summary Totals
 

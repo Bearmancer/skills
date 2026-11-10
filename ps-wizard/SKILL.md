@@ -5,6 +5,8 @@ description: "Use when the user asks for a Windows setup, install, migration or 
 
 # PS-Wizard
 
+Shell commands failing, hanging, or quoting wrong (PowerShell, git-bash, Bun.$): see the `shell-gotchas` skill before debugging from scratch.
+
 A **ps-wizard** is a single `.ps1` script, run under **pwsh**, that walks a human step by step through a one-shot Windows admin procedure the agent cannot perform itself: installs, setup, migrations, cutovers, dashboard steps only a human can click through. It self-elevates to admin, checks goal sufficiency before starting, force-closes apps that block its task, logs to screen and to a file, drops its output on the Desktop, takes one quick backup first, auto-uninstalls anything it newly installed, and traces maximally so any failure is diagnosable after the fact.
 
 The delightful UX is already solved by `template.ps1`: stage framing with progress counters (`Invoke-Step`), colored instruction lines (`Write-Say` / `Write-Step` / `Write-Note` / `Write-Warn`), URL opening (`Open-Url`), human-action gates (`Wait-HumanAction`, `Confirm-Choice`), visible and secret prompts (`Read-PlainValue`, `Read-SecretValue`), persisted-value writes (`Write-PersistedValue`), native programs with a timeout and exit code (`Invoke-NativeProcess`), Windows optional features through `dism.exe` (`Get-OptionalFeatureState`, `Disable-OptionalFeature`), isolated goal checks (`Test-WizardGoal`), and a closing summary that reports failures (`Show-Summary`). **Your job is only to scope the procedure and author its stages.** The library above the `STAGES` marker is identical in every wizard; that consistency is the point: never hand-edit it.

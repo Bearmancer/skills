@@ -16,16 +16,16 @@ Register-ScheduledTask -TaskName 'My Task' -Action $action -Trigger $trigger -Se
 
 ## The traps, each measured
 
-| Trap | What happens | Do this instead |
-| --- | --- | --- |
-| `-ExecutionTimeLimit 'PT0S'` | `Cannot convert value "PT0S" to type System.TimeSpan` — the parameter is a `TimeSpan` | `-ExecutionTimeLimit ([TimeSpan]::Zero)`, which registers as `PT0S` = no limit |
-| Assigning `''` to `$settings.ExecutionTimeLimit` after creation | Reads back as the `PT72H` default; the assignment does not stick | Pass the `TimeSpan` to `New-ScheduledTaskSettingsSet` |
-| `$settings.AllowStartIfOnBatteries` | Property does not exist; the switches set `DisallowStartIfOnBatteries` and `StopIfGoingOnBatteries` (both `$false`) | Assert the two `Disallow*`/`StopIfGoing*` properties |
-| `$settings.MultipleInstances` | Enum printing `Parallel` | Compare with `'Parallel'` |
-| `$task.Principal.Id` | Reads back as the literal `Author`, never the username or SID | Prove the run-as user from `Export-ScheduledTask` XML `<UserId>S-1-5-...</UserId>` against `[Security.Principal.WindowsIdentity]::GetCurrent().User.Value` |
-| `-At '09:00AM'`, then matching `StartBoundary` as text | In memory it is `...T03:30:00Z`; once registered it is `...T09:00:00+05:30` on a UTC+5:30 host | Parse `[DateTimeOffset]` and compare `.ToLocalTime().ToString('HH:mm')` |
-| `Get-ScheduledTask` for a task that is not there | Throws a CIM error containing `No MSFT_ScheduledTask objects` | Catch it and report "not registered"; do not let the raw CIM text stand in for the reason |
-| `New-ScheduledTaskPrincipal -UserId X` in memory | `Id` and `Name` are empty before registration | Register first, then prove identity from the exported XML |
+| Trap                                                            | What happens                                                                                                        | Do this instead                                                                                                                                            |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-ExecutionTimeLimit 'PT0S'`                                    | `Cannot convert value "PT0S" to type System.TimeSpan` — the parameter is a `TimeSpan`                               | `-ExecutionTimeLimit ([TimeSpan]::Zero)`, which registers as `PT0S` = no limit                                                                             |
+| Assigning `''` to `$settings.ExecutionTimeLimit` after creation | Reads back as the `PT72H` default; the assignment does not stick                                                    | Pass the `TimeSpan` to `New-ScheduledTaskSettingsSet`                                                                                                      |
+| `$settings.AllowStartIfOnBatteries`                             | Property does not exist; the switches set `DisallowStartIfOnBatteries` and `StopIfGoingOnBatteries` (both `$false`) | Assert the two `Disallow*`/`StopIfGoing*` properties                                                                                                       |
+| `$settings.MultipleInstances`                                   | Enum printing `Parallel`                                                                                            | Compare with `'Parallel'`                                                                                                                                  |
+| `$task.Principal.Id`                                            | Reads back as the literal `Author`, never the username or SID                                                       | Prove the run-as user from `Export-ScheduledTask` XML `<UserId>S-1-5-...</UserId>` against `[Security.Principal.WindowsIdentity]::GetCurrent().User.Value` |
+| `-At '09:00AM'`, then matching `StartBoundary` as text          | In memory it is `...T03:30:00Z`; once registered it is `...T09:00:00+05:30` on a UTC+5:30 host                      | Parse `[DateTimeOffset]` and compare `.ToLocalTime().ToString('HH:mm')`                                                                                    |
+| `Get-ScheduledTask` for a task that is not there                | Throws a CIM error containing `No MSFT_ScheduledTask objects`                                                       | Catch it and report "not registered"; do not let the raw CIM text stand in for the reason                                                                  |
+| `New-ScheduledTaskPrincipal -UserId X` in memory                | `Id` and `Name` are empty before registration                                                                       | Register first, then prove identity from the exported XML                                                                                                  |
 
 ## Read back what was registered
 

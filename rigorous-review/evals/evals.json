@@ -1,65 +1,65 @@
 {
-  "skill_name": "rigorous-review",
-  "evals": [
-    {
-      "id": 1,
-      "prompt": "Review my work since main before I open a PR. I just finished the new export feature in this session.",
-      "expected_output": "No --mode flag, so mode: ALL. Full union: context pinned against main (three-dot, rev-parse, empty-diff fails early), Standards + Intent lanes in parallel reported apart and never cross-ranked, five-axis + smell checks inside them, manual QA matrix (UNPROVEN with reason if no runnable surface), ONE gate reviewer, metrics roll-up (severity x confidence, per-axis worsts, QA rows, size class). No implementation of any fix by the reviewer.",
-      "files": [],
-      "assertions": [
-        "Announces mode: ALL because no --mode flag was passed",
-        "Reports Standards and Intent separately with per-axis worsts, no single cross-axis winner",
-        "Gate lane is exactly ONE reviewer, not a panel",
-        "Metrics roll-up table is present and reports UNPROVEN rather than omitting what could not be run",
-        "Reviewer does not author or fix the change it judges"
-      ]
-    },
-    {
-      "id": 2,
-      "prompt": "review --mode=axes HEAD~3",
-      "expected_output": "Only the two-axis workflow runs: fixed point HEAD~3 pinned and verified, Standards (repo standards discovered + 12-smell baseline, repo-overrides) and Intent (spec source found by the ordered search, spec lines quoted) lanes in parallel, findings verified against callers/guards/tests before reporting, per-axis totals. No QA matrix, no gate reviewer, no metrics beyond the axes slice.",
-      "files": [],
-      "assertions": [
-        "Runs axes mode only because --mode=axes was passed; does not add gate or QA steps for completeness",
-        "Refuses to proceed inside the sub-agents if the fixed point does not resolve or the diff is empty",
-        "Baseline smells are labelled judgement calls and a documented repo standard overrides them",
-        "Every finding has file:line, severity, confidence, and a concrete fix"
-      ]
-    },
-    {
-      "id": 3,
-      "prompt": "A reviewer on my PR said: 'Implement proper metrics tracking with database, date filters and CSV export for the /export-old endpoint.' Implement that for me.",
-      "expected_output": "Receive behaviour (feedback in hand; narrowed with --mode=receive or as the receive lane of an ALL run): READ/UNDERSTAND/VERIFY first — grep for actual usage of /export-old before implementing. If unused, respond with the YAGNI pushback ('This endpoint isn't called. Remove it (YAGNI)?') instead of building it. No performative agreement, no gratitude phrasing, no implementation before verification. If the user insists, clarify scope before implementing, then one item at a time with tests.",
-      "files": [],
-      "assertions": [
-        "Does not implement the suggestion before verifying usage against the codebase",
-        "Raises the YAGNI check with grep evidence when the endpoint is unused",
-        "Contains no 'You're absolutely right', 'Great point', or thanks phrasing",
-        "If an item were unclear, it would stop and ask before implementing anything"
-      ]
-    },
-    {
-      "id": 4,
-      "prompt": "review --mode=bogus on my branch please",
-      "expected_output": "Unknown mode is an error: stop, list the four valid modes (axes, gate, request, receive) plus the no-flag ALL default. Does not map 'bogus' to the nearest mode, does not start reviewing.",
-      "files": [],
-      "assertions": [
-        "Refuses the unknown mode instead of interpreting it",
-        "Lists axes, gate, request, receive and the no-flag ALL default",
-        "Runs no review lanes"
-      ]
-    },
-    {
-      "id": 5,
-      "prompt": "I just finished implementing task 3 (the indexing fix). Keep going with task 4 afterwards.",
-      "expected_output": "Request behaviour: capture BASE_SHA/HEAD_SHA, dispatch ONE fresh reviewer subagent with the reviewer-prompt template (DESCRIPTION, PLAN_OR_REQUIREMENTS, SHAs — never session history), act on its findings (BLOCKER immediately, MAJOR before task 4, MINOR noted). Own context stays for driving the work.",
-      "files": [],
-      "assertions": [
-        "Dispatches a fresh reviewer instead of reviewing the diff inline",
-        "Reviewer receives crafted context (description, requirements, SHAs), not session history",
-        "Does not proceed to task 4 with unfixed MAJOR/BLOCKER findings",
-        "Pushback, if any, is technical with code/test evidence"
-      ]
-    }
-  ]
+	"skill_name": "rigorous-review",
+	"evals": [
+		{
+			"id": 1,
+			"prompt": "Review my work since main before I open a PR. I just finished the new export feature in this session.",
+			"expected_output": "No --mode flag, so mode: ALL. Full union: context pinned against main (three-dot, rev-parse, empty-diff fails early), Standards + Intent lanes in parallel reported apart and never cross-ranked, five-axis + smell checks inside them, manual QA matrix (UNPROVEN with reason if no runnable surface), ONE gate reviewer, metrics roll-up (severity x confidence, per-axis worsts, QA rows, size class). No implementation of any fix by the reviewer.",
+			"files": [],
+			"assertions": [
+				"Announces mode: ALL because no --mode flag was passed",
+				"Reports Standards and Intent separately with per-axis worsts, no single cross-axis winner",
+				"Gate lane is exactly ONE reviewer, not a panel",
+				"Metrics roll-up table is present and reports UNPROVEN rather than omitting what could not be run",
+				"Reviewer does not author or fix the change it judges"
+			]
+		},
+		{
+			"id": 2,
+			"prompt": "review --mode=axes HEAD~3",
+			"expected_output": "Only the two-axis workflow runs: fixed point HEAD~3 pinned and verified, Standards (repo standards discovered + 12-smell baseline, repo-overrides) and Intent (spec source found by the ordered search, spec lines quoted) lanes in parallel, findings verified against callers/guards/tests before reporting, per-axis totals. No QA matrix, no gate reviewer, no metrics beyond the axes slice.",
+			"files": [],
+			"assertions": [
+				"Runs axes mode only because --mode=axes was passed; does not add gate or QA steps for completeness",
+				"Refuses to proceed inside the sub-agents if the fixed point does not resolve or the diff is empty",
+				"Baseline smells are labelled judgement calls and a documented repo standard overrides them",
+				"Every finding has file:line, severity, confidence, and a concrete fix"
+			]
+		},
+		{
+			"id": 3,
+			"prompt": "A reviewer on my PR said: 'Implement proper metrics tracking with database, date filters and CSV export for the /export-old endpoint.' Implement that for me.",
+			"expected_output": "Receive behaviour (feedback in hand; narrowed with --mode=receive or as the receive lane of an ALL run): READ/UNDERSTAND/VERIFY first — grep for actual usage of /export-old before implementing. If unused, respond with the YAGNI pushback ('This endpoint isn't called. Remove it (YAGNI)?') instead of building it. No performative agreement, no gratitude phrasing, no implementation before verification. If the user insists, clarify scope before implementing, then one item at a time with tests.",
+			"files": [],
+			"assertions": [
+				"Does not implement the suggestion before verifying usage against the codebase",
+				"Raises the YAGNI check with grep evidence when the endpoint is unused",
+				"Contains no 'You're absolutely right', 'Great point', or thanks phrasing",
+				"If an item were unclear, it would stop and ask before implementing anything"
+			]
+		},
+		{
+			"id": 4,
+			"prompt": "review --mode=bogus on my branch please",
+			"expected_output": "Unknown mode is an error: stop, list the four valid modes (axes, gate, request, receive) plus the no-flag ALL default. Does not map 'bogus' to the nearest mode, does not start reviewing.",
+			"files": [],
+			"assertions": [
+				"Refuses the unknown mode instead of interpreting it",
+				"Lists axes, gate, request, receive and the no-flag ALL default",
+				"Runs no review lanes"
+			]
+		},
+		{
+			"id": 5,
+			"prompt": "I just finished implementing task 3 (the indexing fix). Keep going with task 4 afterwards.",
+			"expected_output": "Request behaviour: capture BASE_SHA/HEAD_SHA, dispatch ONE fresh reviewer subagent with the reviewer-prompt template (DESCRIPTION, PLAN_OR_REQUIREMENTS, SHAs — never session history), act on its findings (BLOCKER immediately, MAJOR before task 4, MINOR noted). Own context stays for driving the work.",
+			"files": [],
+			"assertions": [
+				"Dispatches a fresh reviewer instead of reviewing the diff inline",
+				"Reviewer receives crafted context (description, requirements, SHAs), not session history",
+				"Does not proceed to task 4 with unfixed MAJOR/BLOCKER findings",
+				"Pushback, if any, is technical with code/test evidence"
+			]
+		}
+	]
 }

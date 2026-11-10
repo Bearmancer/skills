@@ -44,60 +44,60 @@ old form no longer compiles at that version.
 
 ### Language
 
-| Superseded | Modern | Since / status |
-|---|---|---|
-| `private val _x = MutableStateFlow(..)` plus `val x: StateFlow<T> get() = _x` (or `= _x.asStateFlow()`) | `val x: StateFlow<T>` then `field = MutableStateFlow(..)` on the next line | S 2.4.0 (E 2.3.0, `-Xexplicit-backing-fields`) |
-| Context receivers `context(Logger)` | Context parameters `context(logger: Logger)` | Receivers dead 2.3.20; params S 2.4.0 |
-| Overloads that differ only by context parameters | Distinct names, or explicit context arguments `f(emailSender = s)` | Ambiguity error 2.3.20; explicit args E 2.4.0 |
-| `fun f() = ... return ...` with no declared return type | Declare the return type (then `return` in an expression body is allowed) or drop the `return` | Dead 2.4.0; allowed with explicit type by default 2.3.0 |
-| `[a, b]` array literal outside annotations | `arrayOf(a, b)` (or `listOf`) | Dead 2.4.0. Collection literals `[..]` build `List` etc. but are E (`-Xcollection-literals`) |
-| `::javaClass` property reference | `x.javaClass` or `X::class.java` | Warn 2.4.0 |
-| `@file:Suppress("DEPRECATION")` or `import a.b.*` just to silence a deprecated import | Import the symbol explicitly | No import-site warning since 2.4.0 |
-| `@JvmOverloads` to grow a published API | `@IntroducedAt("1.2")` on each new optional parameter | S-next 2.5.0-Beta2 (E in 2.4.0 with `@OptIn(ExperimentalVersionOverloading::class)`) |
-| Unmarked single-field `value class Id(val v: Long)` | `@JvmInline value class Id(val v: Long)` | Warn planned 2.5.20, error 2.6/2.7 |
-| Position-based destructuring where variable names differ from property names (silent swap) | Name-based `(val email, val username) = user` or `(val mail = email, val name = username) = user` | S-next 2.5.0-Beta2 (`only-syntax` default); E since 2.3.20 |
-| Discarding non-`Unit` results (`list.map { sideEffect(it) }`, ignored `String` builders) | `forEach` for effects; keep results; `val _ = call()` to ignore deliberately; `@IgnorableReturnValue` on helpers | S-next 2.5.0-Beta2, on by default; E since 2.3.0 |
-| `@BuilderInference` | Plain inference | Deprecated `[changelog]` |
-| `-language-version` 1.8/1.9, K1 | Language 2.0+ | Dead: 1.8 and non-JVM 1.9 in 2.3.0; JVM 1.9 and K1 in 2.4.0. Language 2.1 deprecated 2.4.0, 2.2 in 2.5.0-Beta1 `[changelog]` |
-| Hand-written `companion object { @JvmStatic ... }` for statics, `Foo.Companion` shims | `companion { }` blocks and `companion val Type.X` extensions | P, 2.5.0-Beta2 only |
+| Superseded                                                                                              | Modern                                                                                                           | Since / status                                                                                                               |
+| ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `private val _x = MutableStateFlow(..)` plus `val x: StateFlow<T> get() = _x` (or `= _x.asStateFlow()`) | `val x: StateFlow<T>` then `field = MutableStateFlow(..)` on the next line                                       | S 2.4.0 (E 2.3.0, `-Xexplicit-backing-fields`)                                                                               |
+| Context receivers `context(Logger)`                                                                     | Context parameters `context(logger: Logger)`                                                                     | Receivers dead 2.3.20; params S 2.4.0                                                                                        |
+| Overloads that differ only by context parameters                                                        | Distinct names, or explicit context arguments `f(emailSender = s)`                                               | Ambiguity error 2.3.20; explicit args E 2.4.0                                                                                |
+| `fun f() = ... return ...` with no declared return type                                                 | Declare the return type (then `return` in an expression body is allowed) or drop the `return`                    | Dead 2.4.0; allowed with explicit type by default 2.3.0                                                                      |
+| `[a, b]` array literal outside annotations                                                              | `arrayOf(a, b)` (or `listOf`)                                                                                    | Dead 2.4.0. Collection literals `[..]` build `List` etc. but are E (`-Xcollection-literals`)                                 |
+| `::javaClass` property reference                                                                        | `x.javaClass` or `X::class.java`                                                                                 | Warn 2.4.0                                                                                                                   |
+| `@file:Suppress("DEPRECATION")` or `import a.b.*` just to silence a deprecated import                   | Import the symbol explicitly                                                                                     | No import-site warning since 2.4.0                                                                                           |
+| `@JvmOverloads` to grow a published API                                                                 | `@IntroducedAt("1.2")` on each new optional parameter                                                            | S-next 2.5.0-Beta2 (E in 2.4.0 with `@OptIn(ExperimentalVersionOverloading::class)`)                                         |
+| Unmarked single-field `value class Id(val v: Long)`                                                     | `@JvmInline value class Id(val v: Long)`                                                                         | Warn planned 2.5.20, error 2.6/2.7                                                                                           |
+| Position-based destructuring where variable names differ from property names (silent swap)              | Name-based `(val email, val username) = user` or `(val mail = email, val name = username) = user`                | S-next 2.5.0-Beta2 (`only-syntax` default); E since 2.3.20                                                                   |
+| Discarding non-`Unit` results (`list.map { sideEffect(it) }`, ignored `String` builders)                | `forEach` for effects; keep results; `val _ = call()` to ignore deliberately; `@IgnorableReturnValue` on helpers | S-next 2.5.0-Beta2, on by default; E since 2.3.0                                                                             |
+| `@BuilderInference`                                                                                     | Plain inference                                                                                                  | Deprecated `[changelog]`                                                                                                     |
+| `-language-version` 1.8/1.9, K1                                                                         | Language 2.0+                                                                                                    | Dead: 1.8 and non-JVM 1.9 in 2.3.0; JVM 1.9 and K1 in 2.4.0. Language 2.1 deprecated 2.4.0, 2.2 in 2.5.0-Beta1 `[changelog]` |
+| Hand-written `companion object { @JvmStatic ... }` for statics, `Foo.Companion` shims                   | `companion { }` blocks and `companion val Type.X` extensions                                                     | P, 2.5.0-Beta2 only                                                                                                          |
 
 ### Standard library
 
-| Superseded | Modern | Since / status |
-|---|---|---|
-| `readLine()`, `readLine()!!` | `readlnOrNull()`, `readln()` | Warn 2.4.0 |
-| `c.toInt()`, `n.toChar()` on `Char`/`Number` | `c.code`, `Char(code)`, `c.digitToInt()`, `c.digitToIntOrNull()` | Dead 2.3.0 |
-| `s.subSequence(start = a, end = b)` | `s.subSequence(startIndex = a, endIndex = b)` | Dead 2.3.0 |
-| `kotlin.io.createTempFile/createTempDirectory` | `kotlin.io.path.createTempFile/createTempDirectory` | Dead 2.3.0 |
-| `InputStream.readBytes(estimatedSize)` | `readBytes()` | Hidden 2.3.0 |
-| `AbstractCoroutineContextKey`, `getPolymorphicElement`, `minusPolymorphicKey` | Plain `CoroutineContext.Key` | Warn 2.4.0 |
-| `java.util.UUID` and `try { Uuid.parse(..) } catch` in common code | `kotlin.uuid.Uuid`, `Uuid.parseOrNull(..)`, `Uuid.random()` | S 2.4.0 (`generateV4()/generateV7()` stay E, `@OptIn(ExperimentalUuidApi::class)`) |
-| `xs == xs.sorted()`, `zipWithNext().all { a, b -> a <= b }` | `xs.isSorted()`, `isSortedBy`, `isSortedDescending`, `isSortedWith` | S 2.4.0 |
-| `xs.distinct().size == xs.size`, `xs.distinct().size <= 1` | `allDistinct()`, `allDistinctBy {}`, `allEqual()`, `allEqualBy {}` | E 2.4.20 (`ExperimentalStdlibApi`) |
-| `getOrPut` on maps with nullable values (null treated as missing, silently) | `getOrPutIfMissing` / `getOrPutIfNull` (and `getOrElse...`) | E 2.4.0 (`ExperimentalStdlibApi`) |
-| `assertEquals(a, b, "msg $expensive")` eager messages | `assertEquals(a, b) { "msg $expensive" }` | E 2.4.20 (`ExperimentalKotlinTestApi`) |
-| `Enum.values()`, `enumValues<T>()` | `Enum.entries`, `enumEntries<T>()` | `[baseline]` |
-| `if (flag) value else null` | `ifOrNull(flag) { value }`; `.onTrue {}` / `.onFalse {}` | P, 2.5.0-Beta2 (`ExperimentalStdlibApi`) |
-| `StringBuilder.append(obj: Any?)` | Typed overloads or a string template | Error `[changelog]` 2.5.0-Beta2 |
-| Assigning a Java `@Unmodifiable` collection to `MutableList` | Keep it read-only, copy with `toMutableList()` | Warn 2.3.20, error planned 2.5.0 |
-| `toUpperCase()/toLowerCase()/capitalize()/decapitalize()`, `appendln`, `sumBy` | `uppercase()/lowercase()`, `replaceFirstChar { it.titlecase() }`, `appendLine`, `sumOf` | `[baseline]` |
+| Superseded                                                                     | Modern                                                                                  | Since / status                                                                     |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `readLine()`, `readLine()!!`                                                   | `readlnOrNull()`, `readln()`                                                            | Warn 2.4.0                                                                         |
+| `c.toInt()`, `n.toChar()` on `Char`/`Number`                                   | `c.code`, `Char(code)`, `c.digitToInt()`, `c.digitToIntOrNull()`                        | Dead 2.3.0                                                                         |
+| `s.subSequence(start = a, end = b)`                                            | `s.subSequence(startIndex = a, endIndex = b)`                                           | Dead 2.3.0                                                                         |
+| `kotlin.io.createTempFile/createTempDirectory`                                 | `kotlin.io.path.createTempFile/createTempDirectory`                                     | Dead 2.3.0                                                                         |
+| `InputStream.readBytes(estimatedSize)`                                         | `readBytes()`                                                                           | Hidden 2.3.0                                                                       |
+| `AbstractCoroutineContextKey`, `getPolymorphicElement`, `minusPolymorphicKey`  | Plain `CoroutineContext.Key`                                                            | Warn 2.4.0                                                                         |
+| `java.util.UUID` and `try { Uuid.parse(..) } catch` in common code             | `kotlin.uuid.Uuid`, `Uuid.parseOrNull(..)`, `Uuid.random()`                             | S 2.4.0 (`generateV4()/generateV7()` stay E, `@OptIn(ExperimentalUuidApi::class)`) |
+| `xs == xs.sorted()`, `zipWithNext().all { a, b -> a <= b }`                    | `xs.isSorted()`, `isSortedBy`, `isSortedDescending`, `isSortedWith`                     | S 2.4.0                                                                            |
+| `xs.distinct().size == xs.size`, `xs.distinct().size <= 1`                     | `allDistinct()`, `allDistinctBy {}`, `allEqual()`, `allEqualBy {}`                      | E 2.4.20 (`ExperimentalStdlibApi`)                                                 |
+| `getOrPut` on maps with nullable values (null treated as missing, silently)    | `getOrPutIfMissing` / `getOrPutIfNull` (and `getOrElse...`)                             | E 2.4.0 (`ExperimentalStdlibApi`)                                                  |
+| `assertEquals(a, b, "msg $expensive")` eager messages                          | `assertEquals(a, b) { "msg $expensive" }`                                               | E 2.4.20 (`ExperimentalKotlinTestApi`)                                             |
+| `Enum.values()`, `enumValues<T>()`                                             | `Enum.entries`, `enumEntries<T>()`                                                      | `[baseline]`                                                                       |
+| `if (flag) value else null`                                                    | `ifOrNull(flag) { value }`; `.onTrue {}` / `.onFalse {}`                                | P, 2.5.0-Beta2 (`ExperimentalStdlibApi`)                                           |
+| `StringBuilder.append(obj: Any?)`                                              | Typed overloads or a string template                                                    | Error `[changelog]` 2.5.0-Beta2                                                    |
+| Assigning a Java `@Unmodifiable` collection to `MutableList`                   | Keep it read-only, copy with `toMutableList()`                                          | Warn 2.3.20, error planned 2.5.0                                                   |
+| `toUpperCase()/toLowerCase()/capitalize()/decapitalize()`, `appendln`, `sumBy` | `uppercase()/lowercase()`, `replaceFirstChar { it.titlecase() }`, `appendLine`, `sumOf` | `[baseline]`                                                                       |
 
 ### Build and tooling
 
-| Superseded | Modern | Since |
-|---|---|---|
-| `kotlinOptions { jvmTarget = ".." }` | `compilerOptions { jvmTarget.set(JvmTarget.JVM_21) }` | Dead 2.3.0 |
-| `testApi(..)` | `testImplementation(..)` | Warn 2.3.0 |
-| `org.jetbrains.kotlin.android` with AGP 9+; `androidTarget {}` in KMP | AGP built-in Kotlin; `com.android.kotlin.multiplatform.library` and `android {}` | Config error 2.3.0 |
-| Maven: hand-listed source roots and `kotlin-stdlib` dependency; explicit `kotlin-maven-allopen` for JPA | `<extensions>true</extensions>` on `kotlin-maven-plugin`; `kotlin-maven-noarg` already pulls in all-open | S 2.3.20 |
-| `kotlin.native.cacheKind` property | `disableNativeCache(version = .., reason = .., issue = ..)` | Deprecated 2.3.20 |
-| ABI tasks `checkLegacyAbi`/`updateLegacyAbi`; `abiValidation { legacyDump {} }`, `klib { enabled }` | `checkKotlinAbi`/`updateKotlinAbi`; settings directly in `abiValidation {}` | 2.3.20 / 2.4.0 |
-| Compose plugin `enableStrongSkippingMode`, `enableIntrinsicRemember`, `enableNonSkippingGroupOptimization`, `stabilityConfigurationFile` | `featureFlags`, `stabilityConfigurationFiles` | Error 2.4.0 |
-| `kotlin { sourceSets }` on the Android extension | `android { sourceSets { .. } }` in the AGP block | Warn 2.4.0, error `[changelog]` 2.5.0 |
-| `withJava()` in KMP | Follow the compiler's deprecation hint (no replacement named in the notes) | Error `[changelog]` 2.5.0-Beta2 |
-| `js(IR)`, `js(LEGACY)`, `kotlinArtifacts {}`, `targetHierarchy`, "out of process" compiler strategy | `js { }`, current binaries DSL, the default hierarchy template, daemon or in-process strategy | Removed 2.4.0 |
-| Running the compiler on JDK < 17 | JDK 17+ | Error 2.5.0-Beta2 (`-Xallow-pre-17-runtime-jdk` opt-out) |
-| `kotlin` runner command | `kotlinr` | 2.4.20 |
+| Superseded                                                                                                                               | Modern                                                                                                   | Since                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `kotlinOptions { jvmTarget = ".." }`                                                                                                     | `compilerOptions { jvmTarget.set(JvmTarget.JVM_21) }`                                                    | Dead 2.3.0                                               |
+| `testApi(..)`                                                                                                                            | `testImplementation(..)`                                                                                 | Warn 2.3.0                                               |
+| `org.jetbrains.kotlin.android` with AGP 9+; `androidTarget {}` in KMP                                                                    | AGP built-in Kotlin; `com.android.kotlin.multiplatform.library` and `android {}`                         | Config error 2.3.0                                       |
+| Maven: hand-listed source roots and `kotlin-stdlib` dependency; explicit `kotlin-maven-allopen` for JPA                                  | `<extensions>true</extensions>` on `kotlin-maven-plugin`; `kotlin-maven-noarg` already pulls in all-open | S 2.3.20                                                 |
+| `kotlin.native.cacheKind` property                                                                                                       | `disableNativeCache(version = .., reason = .., issue = ..)`                                              | Deprecated 2.3.20                                        |
+| ABI tasks `checkLegacyAbi`/`updateLegacyAbi`; `abiValidation { legacyDump {} }`, `klib { enabled }`                                      | `checkKotlinAbi`/`updateKotlinAbi`; settings directly in `abiValidation {}`                              | 2.3.20 / 2.4.0                                           |
+| Compose plugin `enableStrongSkippingMode`, `enableIntrinsicRemember`, `enableNonSkippingGroupOptimization`, `stabilityConfigurationFile` | `featureFlags`, `stabilityConfigurationFiles`                                                            | Error 2.4.0                                              |
+| `kotlin { sourceSets }` on the Android extension                                                                                         | `android { sourceSets { .. } }` in the AGP block                                                         | Warn 2.4.0, error `[changelog]` 2.5.0                    |
+| `withJava()` in KMP                                                                                                                      | Follow the compiler's deprecation hint (no replacement named in the notes)                               | Error `[changelog]` 2.5.0-Beta2                          |
+| `js(IR)`, `js(LEGACY)`, `kotlinArtifacts {}`, `targetHierarchy`, "out of process" compiler strategy                                      | `js { }`, current binaries DSL, the default hierarchy template, daemon or in-process strategy            | Removed 2.4.0                                            |
+| Running the compiler on JDK < 17                                                                                                         | JDK 17+                                                                                                  | Error 2.5.0-Beta2 (`-Xallow-pre-17-runtime-jdk` opt-out) |
+| `kotlin` runner command                                                                                                                  | `kotlinr`                                                                                                | 2.4.20                                                   |
 
 Full detail, Bad/Good code and edge cases: `references/language.md`, `references/stdlib.md`,
 `references/build-tooling.md`, `references/web-wasm-native.md`.
@@ -116,9 +116,9 @@ Full detail, Bad/Good code and edge cases: `references/language.md`, `references
 ```
 Target: Kotlin 2.4.21 (assumed: no version found)
 
-| # | Where | Antipattern | Replace with | Why / since |
-|---|-------|-------------|--------------|-------------|
-| 1 | Foo.kt:12 | context receiver `context(Logger)` | `context(logger: Logger)` | removed 2.3.20 |
+| #   | Where     | Antipattern                        | Replace with              | Why / since    |
+| --- | --------- | ---------------------------------- | ------------------------- | -------------- |
+| 1   | Foo.kt:12 | context receiver `context(Logger)` | `context(logger: Logger)` | removed 2.3.20 |
 
 <corrected code>
 

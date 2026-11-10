@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: proposal-audit-contradicted
-expected_outcome: |
-  The auditor is a fresh subagent given only the claim text, not the planner's reasoning. Evidence from two different tools is saved under .rigor/evidence/. If the evidence refutes the claim the verdict is contradicted, the gate fails, and the plan is rewritten without relying on it; the correction is recorded in the ledger.

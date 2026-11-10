@@ -1,6 +1,0 @@
-schema_version: "1.1"
-name: never-overwrite-existing-plan
-expected_outcome: |
-  The folder already holds tasks/plan.md with unchecked tasks for different work. start refuses with exit code 2 and the agent asks the user whether to finish the old plan, discard it explicitly, or use another location. It does not delete, rename or overwrite the existing files.
-context:
-  scaffold_script: place-files.sh
