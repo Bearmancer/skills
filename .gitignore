@@ -6,3 +6,7 @@ assimilation/units/
 .claude/
 .codegraph/
 .rigor/
+
+# oh-my-claudecode runtime state (project-scoped skills stay committable)
+.omc/*
+!.omc/skills/

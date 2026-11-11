@@ -1,0 +1,29 @@
+{
+  "reviewer": {
+    "model": "sonnet"
+  },
+  "light": {
+    "maxFiles": 3,
+    "riskPatterns": [
+      "(^|[/._-])auth(n|z|entication|orization|0)?([/._-]|$)",
+      "(^|[/._-])(security|secrets?|credentials?)([/._-]|$)",
+      "(^|/)\\.env(\\..*)?$",
+      "(^|/)migrations?(/|$)",
+      "(^|/)\\.github/workflows/",
+      "(^|/)(\\.gitlab-ci\\.ya?ml|azure-pipelines\\.ya?ml|Jenkinsfile|\\.travis\\.yml)$",
+      "(^|/)(package-lock\\.json|npm-shrinkwrap\\.json|yarn\\.lock|pnpm-lock\\.yaml|bun\\.lockb?|Cargo\\.lock|poetry\\.lock|Pipfile\\.lock|Gemfile\\.lock|composer\\.lock|go\\.sum)$",
+      "(^|/)(infra|infrastructure|terraform|k8s|kubernetes|helm|ansible|deploy)(/|$)|\\.tf$|(^|/)Dockerfile",
+      "(^|[/._-])(payments?|billing|checkout|stripe)([/._-]|$)",
+      "(^|/)\\.(claude|git|rigor|githooks|husky)(/|$)",
+      "(^|/)(CLAUDE|AGENTS)\\.md$"
+    ]
+  },
+  "rounds": {
+    "soft": 10,
+    "hard": 20,
+    "stall": 3
+  },
+  "review": {
+    "maxRounds": 3
+  }
+}
