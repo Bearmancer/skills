@@ -57,6 +57,7 @@ The issue pipeline uses steps 1-2 to make the repro credible; the PR pipeline ru
 - Smallest diff, one hunk per mechanism, at the existing seam and idiom. No new abstraction for one caller, no drive-by refactor, no format churn.
 - Regression test at the seam where the real bug pattern occurs. Only a too-shallow seam exists → say so in the body; no false-confidence test.
 - Red before green: watch it fail on base, then pass with the fix. Expected values are independent literals, never recomputed the way the code computes them. Assert through the public interface; mock only system boundaries. The output shows the test name and a run count: a skipped test (gitignored fixtures skip silently) is unverified.
+- A maintainer change request or request-changes review on our PR: each point earns a new test that fails at the pre-fix head and passes once addressed, run and captured before any push. A point answered in prose alone stays open; an addressed point without a test is an unexecuted fix.
 - Each acceptance item and claim names the observation that would show it false, and that observation fails at base.
 - Run the repo's own checks on the changed paths (the CI `run:` lines `contract` lists, package scripts). Never pass --no-verify. Match the `git log` style for commits, `-s` when DCO or CLA is flagged.
 - Self-review in a fresh context on two axes, then stop (not looped until clean). **Standards:** upstream's documented rules; baseline smells as judgment calls (Duplicated Code, Speculative Generality, Shotgun Surgery, Mysterious Name, Message Chains, Middle Man), the repo's rules override. **Spec:** the linked issue's lines; anything beyond them is scope creep. Every finding cites a rule, a hunk or a spec line.
@@ -78,7 +79,7 @@ A bot-applied `not_planned` is the stale default, not a rejection: read the time
 | thread                                                                                   | action                                                                                                                          |
 | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | open issue, same mechanism, sound                                                        | adopt it; comment only with new evidence; no duplicate issue                                                                    |
-| open PR, same mechanism, sound                                                           | comment new evidence or update that PR; ends the issue pipeline; no duplicate                                                   |
+| open PR, same mechanism, sound                                                           | comment new evidence or update that PR; ends the issue pipeline; no duplicate. When an issue covers the same mechanism, its body names that PR (`Linked PR #<n>`): edit with permission, else a banner comment with the link |
 | open issue or PR, same mechanism, thin                                                   | update in place: `gh issue edit`/`gh pr edit` the body and title, push the missing commits if the branch is yours; no duplicate |
 | open PR by another author, thin                                                          | comment the missing evidence, or a competing PR only with a materially stronger case; never push to their branch                |
 | open issue, no PR, fix confirmed                                                         | file the PR and link it; update the issue only if the fix direction is missing                                                  |
@@ -88,7 +89,7 @@ A bot-applied `not_planned` is the stale default, not a rejection: read the time
 | CONTRIBUTING says issue-only or proposals-only                                           | issue only, say why                                                                                                             |
 | CONTRIBUTING says PR-only                                                                | skip the issue, file the PR, record the exception                                                                               |
 | `gh repo view --json viewerPermission` is READ, TRIAGE or none                           | fork path; WRITE or above → own branch, still never the base                                                                    |
-| base moved                                                                               | rebase on `origin/HEAD`, retest. Run the rebase gate: `rebase-gate check-rebase <repo> <base-ref> --allow ...`.                 |
+| base moved                                                                               | rebase on `origin/HEAD` only inside the push that lands an executed fix — never a bare freshness rebase; conflict resolution counts as that fix only with the repo's full local test gate green. Retest, then run the rebase gate: `rebase-gate check-rebase <repo> <base-ref> --allow ...`. |
 
 ## Corrections
 

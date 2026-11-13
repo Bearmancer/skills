@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
-sweep.py: Bundled execution engine for the github-sweep skill.
+sweep.py: Bundled census engine for the github-create skill (housekeeping mode).
 Autonomous account-wide discovery, third-party triage, and branch status checks.
+Census limits are 1000 (the GitHub search API ceiling); hitting a limit emits a
+truncation warning so an incomplete census is never mistaken for a complete one.
 """
 
 import argparse
@@ -10,6 +12,8 @@ from pathlib import Path
 import subprocess
 import sys
 from collections import defaultdict
+
+CENSUS_LIMIT = 1000
 
 
 def run_cmd(cmd):
@@ -41,7 +45,7 @@ def is_personal_repo(name_with_owner, current_user, forks_set):
     return False
 
 
-def sweep_prs(current_user, forks_set, fetch_details=True):
+def sweep_prs(current_user, forks_set, warnings, fetch_details=True):
     raw = run_cmd(
         [
             "gh",
@@ -50,17 +54,23 @@ def sweep_prs(current_user, forks_set, fetch_details=True):
             "--author",
             "@me",
             "--limit",
-            "100",
+            str(CENSUS_LIMIT),
             "--json",
             "repository,number,title,state,url,createdAt,updatedAt,closedAt",
         ]
     )
     if not raw:
+        warnings.append("PR census failed (gh search prs returned nothing).")
         return []
     try:
         items = json.loads(raw)
     except Exception:
+        warnings.append("PR census unparseable; treat as incomplete.")
         return []
+    if len(items) >= CENSUS_LIMIT:
+        warnings.append(
+            f"PR census hit the {CENSUS_LIMIT}-result search ceiling; older PRs are missing."
+        )
 
     third_party = []
     for item in items:
@@ -115,7 +125,7 @@ def sweep_prs(current_user, forks_set, fetch_details=True):
     return third_party
 
 
-def sweep_issues(current_user, forks_set):
+def sweep_issues(current_user, forks_set, warnings):
     raw = run_cmd(
         [
             "gh",
@@ -124,17 +134,23 @@ def sweep_issues(current_user, forks_set):
             "--author",
             "@me",
             "--limit",
-            "200",
+            str(CENSUS_LIMIT),
             "--json",
             "repository,number,title,state,url,createdAt,updatedAt,closedAt",
         ]
     )
     if not raw:
+        warnings.append("Issue census failed (gh search issues returned nothing).")
         return []
     try:
         items = json.loads(raw)
     except Exception:
+        warnings.append("Issue census unparseable; treat as incomplete.")
         return []
+    if len(items) >= CENSUS_LIMIT:
+        warnings.append(
+            f"Issue census hit the {CENSUS_LIMIT}-result search ceiling; older issues are missing."
+        )
 
     third_party = []
     for item in items:
@@ -145,7 +161,7 @@ def sweep_issues(current_user, forks_set):
     return third_party
 
 
-def sweep_forks(current_user):
+def sweep_forks(current_user, warnings):
     raw = run_cmd(
         [
             "gh",
@@ -155,15 +171,20 @@ def sweep_forks(current_user):
             "--json",
             "nameWithOwner,name,parent,defaultBranchRef",
             "--limit",
-            "100",
+            str(CENSUS_LIMIT),
         ]
     )
     if not raw:
+        warnings.append("Fork census failed (gh repo list returned nothing).")
         return []
     try:
-        return json.loads(raw)
+        forks = json.loads(raw)
     except Exception:
+        warnings.append("Fork census unparseable; treat as incomplete.")
         return []
+    if len(forks) >= CENSUS_LIMIT:
+        warnings.append(f"Fork census hit the {CENSUS_LIMIT}-repo ceiling; forks are missing.")
+    return forks
 
 
 def main():
@@ -181,15 +202,16 @@ def main():
     args = parser.parse_args()
 
     current_user = get_current_user()
-    forks = sweep_forks(current_user)
+    warnings = []
+    forks = sweep_forks(current_user, warnings)
     forks_set = {f["nameWithOwner"].lower() for f in forks}
 
     report = {"user": current_user, "forks": forks}
 
     if not args.issues_only and not args.forks_only:
-        report["prs"] = sweep_prs(current_user, forks_set)
+        report["prs"] = sweep_prs(current_user, forks_set, warnings)
     if not args.prs_only and not args.forks_only:
-        report["issues"] = sweep_issues(current_user, forks_set)
+        report["issues"] = sweep_issues(current_user, forks_set, warnings)
 
     summary = {}
     if "prs" in report:
@@ -216,6 +238,7 @@ def main():
         }
     summary["forks"] = len(forks)
     report["summary"] = summary
+    report["warnings"] = warnings
 
     if args.json:
         output_str = json.dumps(report, indent=2)
@@ -227,6 +250,10 @@ def main():
 
     lines = []
     lines.append(f"# Third-Party GitHub Sweep Report (@{current_user})\n")
+    for w in warnings:
+        lines.append(f"**WARNING:** {w}")
+    if warnings:
+        lines.append("")
     if "prs" in summary:
         p = summary["prs"]
         lines.append(
