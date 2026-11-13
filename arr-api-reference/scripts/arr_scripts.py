@@ -9,7 +9,8 @@ from pathlib import Path
 
 import requests
 
-HOST = "100.86.121.94"
+# Keys are read from this machine's own config files, so every call targets this machine.
+HOST = "localhost"
 ARR_PORTS = {"Sonarr": 8989, "Radarr": 7878, "Prowlarr": 9696}
 ARR_API_VER = {"Sonarr": "v3", "Radarr": "v3", "Prowlarr": "v1"}
 SAB_URL = f"http://{HOST}:8080/api"
@@ -29,6 +30,42 @@ def get_sab_api_key():
         if m:
             return m.group(1).strip()
     raise ValueError(f"api_key not found in {ini_path}")
+
+
+def _reachable_bind(addr):
+    """Address to call for a bind value: a wildcard bind is reached on loopback."""
+    return "127.0.0.1" if addr in ("", "*", "0.0.0.0", "::", "[::]") else addr
+
+
+def qbt_base():
+    """WebUI base URL from this machine's qBittorrent.ini.
+
+    qBittorrent writes either `WebUI\\Port=` under [Preferences] or `Port=` under [WebUI],
+    depending on version; the WebUI may be bound to one address (lance binds its
+    Tailscale IP, so localhost is refused there).
+    """
+    text = (Path.home() / "AppData" / "Roaming" / "qBittorrent" / "qBittorrent.ini").read_text()
+    web = re.search(r"^\[WebUI\]\n((?:(?!\[).*\n?)*)", text, re.MULTILINE)
+    section = web.group(1) if web else ""
+
+    def key(name):
+        m = re.search(rf"^{name}=(.*)$", section, re.MULTILINE) or re.search(
+            rf"^WebUI\\{name}=(.*)$", text, re.MULTILINE
+        )
+        return m.group(1).strip() if m else ""
+
+    return f"http://{_reachable_bind(key('Address'))}:{key('Port') or 8080}"
+
+
+def bazarr_base():
+    """Bazarr base URL from `general.ip`/`general.port` in its config.yaml."""
+    text = Path(r"C:\ProgramData\Bazarr\config\config.yaml").read_text()
+    general = re.search(r"^general:\n((?:  .*\n)*)", text, re.MULTILINE)
+    block = general.group(1) if general else ""
+    ip = re.search(r"^  ip: (\S+)", block, re.MULTILINE)
+    port = re.search(r"^  port: (\d+)", block, re.MULTILINE)
+    addr = _reachable_bind(ip.group(1).strip("'\"") if ip else "")
+    return f"http://{addr}:{port.group(1) if port else 6767}"
 
 
 def arr_base_and_headers(app):
@@ -142,7 +179,7 @@ def remove_sab_category(category):
 
 def set_qbt_category_dir(category, dir_):
     resp = requests.post(
-        f"http://{HOST}:8088/api/v2/torrents/editCategory",
+        f"{qbt_base()}/api/v2/torrents/editCategory",
         data={"category": category, "savePath": dir_},
         timeout=10,
     )
@@ -176,32 +213,25 @@ def qbt_info_hash(data):
     return hashlib.sha1(data[span[0] : span[1]]).hexdigest()
 
 
-# qBittorrent's host-header validation answers 401 when the Host header does not match
-# the port it listens on, which is exactly what an `ssh -L <other port>` tunnel sends.
-# Pin the Host to the server's own address; the tunnel then works.
-QBT_HEADERS = {"Host": "localhost:8080"}
-
-
 def _qbt_torrents(base):
     # A 401/403 comes back as a plain-text body; check status first so it surfaces as
     # that, not a JSONDecodeError.
-    resp = requests.get(f"{base}/api/v2/torrents/info", headers=QBT_HEADERS, timeout=30)
+    resp = requests.get(f"{base}/api/v2/torrents/info", timeout=30)
     if resp.status_code != 200:
         raise RuntimeError(f"qBittorrent {base}: HTTP {resp.status_code} {resp.text!r}")
     return resp.json()
 
 
-def add_qbt_torrents(paths, base=f"http://{HOST}:8088", save_path=None, category=None):
+def add_qbt_torrents(paths, base=None, save_path=None, category=None):
     """Upload .torrent files to qBittorrent, skipping ones it already has.
 
-    Dedupes by infohash against /torrents/info (re-adding a known hash is a silent
-    no-op, so counting is the only way to see what landed). Sends no login: needs
-    "Bypass authentication for clients on localhost" or a whitelisted subnet, else
-    /torrents/add returns 403 (log in via /api/v2/auth/login and reuse the session
-    cookie instead). Works through `ssh -L` too (e.g. base="http://localhost:38080"): the
-    Host header is pinned to the server's port, see QBT_HEADERS.
+    base defaults to this machine's WebUI (qbt_base()); pass another machine's tailnet
+    URL to target it. Dedupes by infohash against /torrents/info (re-adding a known hash
+    is a silent no-op, so counting is the only way to see what landed). Sends no login:
+    needs the localhost bypass or a whitelisted subnet, else /torrents/add returns 403.
     Returns (added, skipped, count_after).
     """
+    base = base or qbt_base()
     have = {t["hash"] for t in _qbt_torrents(base)}
     paths = [Path(p) for p in paths]
     todo = []
@@ -214,7 +244,6 @@ def add_qbt_torrents(paths, base=f"http://{HOST}:8088", save_path=None, category
         resp = requests.post(
             f"{base}/api/v2/torrents/add",
             data=data,
-            headers=QBT_HEADERS,
             files=[("torrents", (n, b, "application/x-bittorrent")) for n, b in todo],
             timeout=120,
         )
@@ -280,12 +309,13 @@ def get_bazarr_api_key():
     return m.group(1)
 
 
-def wire_bazarr(bazarr="http://127.0.0.1:6767"):
+def wire_bazarr(bazarr=None):
     """Point Bazarr at Sonarr + Radarr. Returns {app: wired?} read back from Bazarr.
 
     The endpoint takes form-encoded `settings-<section>-<key>` fields, not JSON (JSON is
     silently ignored); it saves partial updates, answers 204, and needs no restart.
     """
+    bazarr = bazarr or bazarr_base()
     headers = {"X-API-KEY": get_bazarr_api_key()}
     form = {}
     for app in ("Sonarr", "Radarr"):
