@@ -16,6 +16,7 @@ Every shape carries a **Counterfactual ledger** and an **Environment** block:
 - Repro: numbered, minimal, replayable.
 - Evidence: verbatim command output, side-by-side values, never a log summary.
 - Fix direction: the function and what a correct fix needs.
+- Linked PR: `Linked PR #<n>` on its own line for every existing PR covering the mechanism — required whenever one exists, even when this run files nothing; an issue body that hides its PR is a defect.
 
 ## Feature issue
 
@@ -38,7 +39,7 @@ Every PR body also carries:
 
 ## Update
 
-Append; never rewrite the reporter's words. Add the missing material under the template's own heading — minimal repro, mechanism with a SHA-pinned permalink, verbatim evidence, environment. No matching heading → append `## Update (<date>)` with the new material, keeping the original body intact. For a PR, add commits and update Evidence and Test evidence to the new head; keep `Fixes #<n>`. Re-run `preflight.py check` on the edited body before `gh issue edit`/`gh pr edit`.
+Append; never rewrite the reporter's words. Add the missing material under the template's own heading — minimal repro, mechanism with a SHA-pinned permalink, verbatim evidence, environment. No matching heading → append `## Update (<date>)` with the new material, keeping the original body intact. For a PR, add commits and update Evidence and Test evidence to the new head; keep `Fixes #<n>`. Where an issue covers the same mechanism and a PR exists either way, the issue body gains or keeps `Linked PR #<n>` in the same pass — existing issues always link existing PRs. Re-run `preflight.py check` on the edited body before `gh issue edit`/`gh pr edit`.
 
 ## Environment
 
