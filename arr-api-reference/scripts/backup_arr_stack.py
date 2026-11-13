@@ -16,22 +16,55 @@ import requests
 sys.dont_write_bytecode = True
 from arr_scripts import arr_base_and_headers, sab_api
 
-GOOGLE_DRIVE_FS_EXE = Path(
-    r"C:\Program Files\Google\Drive File Stream\130.0.2.0\GoogleDriveFS.exe"
-)
+DRIVE_FS_DIR = Path(r"C:\Program Files\Google\Drive File Stream")
+CONFIGS_SUBPATH = Path("My Drive") / "Computer" / "Configs"
+
+
+def find_configs_dir():
+    """`<letter>:\\My Drive\\Computer\\Configs` on whichever letter holds it.
+
+    Streamed Drive shows up as its own letter only while GoogleDriveFS runs; mirrored Drive
+    (home: G:\\My Drive on a local disk) is always present but uploads only while it runs.
+    """
+    for letter in "DEFGHIJKLMNOPQRSTUVWXYZ":
+        candidate = Path(f"{letter}:\\") / CONFIGS_SUBPATH
+        if candidate.exists():
+            return candidate
+    return None
+
+
+def drive_running():
+    out = subprocess.run(
+        ["tasklist", "/FI", "IMAGENAME eq GoogleDriveFS.exe", "/NH"],
+        capture_output=True,
+        text=True,
+    ).stdout
+    return "GoogleDriveFS.exe" in out
+
+
+def start_drive():
+    # Each Drive update installs a new version folder; launch the newest.
+    exes = sorted(
+        DRIVE_FS_DIR.glob("*/GoogleDriveFS.exe"),
+        key=lambda p: tuple(int(x) for x in p.parent.name.split(".") if x.isdigit()),
+    )
+    if not exes:
+        raise FileNotFoundError(f"No GoogleDriveFS.exe under {DRIVE_FS_DIR}")
+    subprocess.Popen([str(exes[-1])])
 
 
 def backup_arr_stack():
-    configs = Path(r"D:\My Drive\Computer\Configs")
-
-    if not configs.exists():
-        subprocess.Popen([str(GOOGLE_DRIVE_FS_EXE)])
-        for _ in range(20):
+    if not drive_running():
+        start_drive()
+    configs = find_configs_dir()
+    if configs is None:
+        for _ in range(30):
             time.sleep(1)
-            if configs.exists():
+            configs = find_configs_dir()
+            if configs:
                 break
-    if not configs.exists():
-        raise FileNotFoundError(f"Path not found, not creating it: {configs}")
+    if configs is None:
+        raise FileNotFoundError(f"No drive letter has {CONFIGS_SUBPATH}; not creating it")
 
     date = datetime.now().strftime("%Y-%m-%d")
 

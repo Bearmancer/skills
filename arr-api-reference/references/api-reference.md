@@ -1,6 +1,6 @@
 # Arr-stack + Emby API reference
 
-Facts that cannot be looked up. Code lives in `scripts/` (`arr_scripts.py` functions named below; `qbt_remote_add.sh`); read the function instead of re-deriving the call. Keys: `get_arr_api_key(app)`, `get_sab_api_key()`, `get_bazarr_api_key()` read each app's own config file; Emby has no key on disk (mint one in Dashboard → Advanced → API Keys, or `POST /Users/AuthenticateByName`).
+Facts that cannot be looked up. Code lives in `scripts/` (`arr_scripts.py` functions named below; `qbt_remote_add.py`); read the function instead of re-deriving the call. Keys: `get_arr_api_key(app)`, `get_sab_api_key()`, `get_bazarr_api_key()` read each app's own config file on this machine; Emby keys are in its `authentication.db` (Emby section). Per-machine values (ports, binds, logins, `allowedHosts`, paths) live in `stack-state.md`.
 
 ## Host config (login, launch-browser)
 
@@ -9,8 +9,9 @@ Facts that cannot be looked up. Code lives in `scripts/` (`arr_scripts.py` funct
 - **Usernames:** Sonarr/Radarr/Prowlarr lowercase `username` server-side (send `"Lance"`, stored `"lance"`). qBittorrent's `web_ui_username` keeps case (`POST /api/v2/app/setPreferences`, body `json={"web_ui_username":"<name>"}`, URL-encoded).
 - **Change a username without the password:** `GET`, change only `username`, `PUT` the whole object back with `password` as `GET` returned it (the backend compares the hash byte-for-byte). Sending plaintext double-hashes it and breaks login.
 - **SABnzbd** web login is `[misc] username/password` in `sabnzbd.ini`; `[[servers]]` blocks are Usenet provider accounts, not the app login. **Emby** auth is per user via `/Users`, nothing to rotate here.
-- **`allowedHosts`** (same resource) on all three: `localhost,127.0.0.1,100.86.121.94,lance.tail2e6179.ts.net` (2026-10-17). `PUT` the whole object, re-`GET`, probe `/health` over the Tailscale IP to prove no lockout. Host filtering reloads only at service restart: `/health` clears at once, but a foreign `Host` is still accepted until then.
-- **Login state (2026-10-17):** Sonarr/Radarr/Prowlarr `lance`, `forms`, `disabledForLocalAddresses`; qBittorrent WebUI `Lance`. SABnzbd and Bazarr have no web login (`[misc] username = ""`, `auth.type: null`). `lordlance` in `sabnzbd.ini` `[[news.bulknews.eu]]` and Bazarr `opensubtitlescom.username` are external provider accounts; never "fix" those.
+- **`allowedHosts`** (same resource) on all three holds the machine's own identity (values per machine in `stack-state.md`); a value copied from the other machine 400s every tailnet request. `PUT` the whole object, re-`GET`, probe `/health` over the Tailscale IP to prove no lockout. Host filtering reloads only at service restart: `/health` clears at once, but a foreign `Host` is still accepted until then.
+- **No login at all (`External`):** `disabledForLocalAddresses` does not count Tailscale's `100.64.0.0/10` as local (IPv6 ULA does), so tailnet IPv4 clients still get the login page. To drop the login, stop the service, set `<AuthenticationMethod>External</AuthenticationMethod>` in `C:\ProgramData\<App>\config.xml`, start it again; the firewall is then the only gate, and the API still requires the key.
+- `lordlance` in `sabnzbd.ini` `[[news.bulknews.eu]]` and Bazarr `opensubtitlescom.username` are external provider accounts, not app logins; leave them alone.
 
 ## Sonarr / Radarr (v3) and Prowlarr (v1)
 
@@ -23,7 +24,8 @@ Header `X-Api-Key`; base `http://<host>:<port>/api/v3` (Prowlarr `/api/v1`). Plu
 | Backup                                                          | `POST /command {"name":"Backup"}`                                                                                                                 |
 | Re-search one series (clears stale `downloadClientUnavailable`) | `POST /command {"name":"SeriesSearch","seriesId":<id>}`                                                                                           |
 | Prowlarr applications                                           | `GET`/`POST /applications`, `GET /applications/schema`                                                                                            |
-| Prowlarr force indexer→app sync                                 | `POST /command {"name":"ApplicationIndexerSync"}`                                                                                                 |
+| Prowlarr force indexer→app sync                                 | `POST /command {"name":"ApplicationIndexerSync","forceSync":true}`, poll `GET /command/{id}` until `completed`                                  |
+| Prowlarr indexer health                                         | `GET /indexerstatus` (`disabledTill` = backoff), `POST /indexer/test` with the full indexer object (gives the site's own error)                   |
 | Prowlarr client                                                 | `GET`/`PUT /downloadclient/{id}`: send `.fields` **and** `.categories`                                                                            |
 
 Code: `add_arr_download_client`, `set_prowlarr_category_map`. `testall` / health-recheck sequence and why `SeriesSearch` replaces `queue/grab` (405): `triage.md`.
@@ -32,6 +34,10 @@ Code: `add_arr_download_client`, `set_prowlarr_category_map`. `testall` / health
 - **Prowlarr category mapping** is a separate top-level `categories` array (`[{clientCategory, categories:[codes]}]`), not in `.fields`; unmapped codes fall to the client's default `category` field. `set_prowlarr_category_map` sets it.
 - **PUT duplicates fields:** re-`PUT`ting an object fetched with `GET .../{id}` can duplicate a `.fields` entry (seen: `category` twice, different values). `merge_arr_fields` dedupes by name; the functions call it.
 - **Applications** use `configContract` `SonarrSettings`/`RadarrSettings` and fields prowlarrUrl, `baseUrl`, `apiKey`, `syncCategories`, `syncLevel: "fullSync"`.
+- **Application `enable` is not writable via PUT:** `ApplicationResourceMapper.ToModel` maps `syncLevel` but drops `enable` (derived: `disabled` → false). Enable/disable by PUTting top-level `syncLevel` (`disabled`/`addOnly`/`fullSync`); `PUT /applications/bulk` only changes syncLevel/tags. Verified 2026-11-13: PUT `enable=true` alone is silently ignored (202, no change).
+- **429 from `http://localhost:9696/<id>/api` is Prowlarr's own backoff, not the site:** after a failure Prowlarr disables the indexer until `indexerstatus.disabledTill` and answers 429 to the apps, so every app-side test of it fails. `POST /indexer/test` shows the real upstream cause (bad key, 403, ban, DNS). Repeated syncs against a bad key can get the network banned by the site (Digital Carnage: 7 days), so disable (`enable=false`) indexers with dead keys instead of re-syncing.
+- **Mapping collision:** Prowlarr's `ApplicationIndexerMapping` table can map two Prowlarr indexers to one app indexer id; each sync then overwrites one with the other, and one indexer keeps vanishing from the app. Fix: `DELETE` that indexer in the app, sync again; Prowlarr re-creates both with their own ids. Check with a read-only query on `C:\ProgramData\Prowlarr\prowlarr.db` (`GROUP BY AppId, RemoteIndexerId HAVING count(*) > 1`).
+- **Secrets come back masked** (`"********"`) from every `GET`, so an indexer or client cannot be copied between machines through the API. The clear values are in each app's SQLite DB (`Indexers.Settings` JSON, `apiKey` field): copy the DB (plus `-wal`) and read it read-only (`bun:sqlite` or `sqlite3`), then `PUT` the key into the target. Delete the copy afterwards; it holds every secret.
 - **400 on `/rootfolder`** returns `[{propertyName,errorMessage,attemptedValue}]`; "Path already configured as a root folder" means it exists, so check state instead of retrying.
 - **Post-restart race:** a `GET` seconds after a restart can be empty though the DB has the row; wait about 5 s and recheck.
 - **Windowless exe:** each app ships `<App>.exe` (windowless) and `<App>.Console.exe` (visible); use the non-`.Console` one for anything unwatched.
@@ -53,6 +59,8 @@ Code: `add_arr_download_client`, `set_prowlarr_category_map`. `testall` / health
 
 Header `X-Emby-Token` or query `api_key`; base `http://<host>:<port>` (no `/api`, no version). `GET /Library/VirtualFolders` → per library `Name`, `Locations`, `CollectionType`, `ItemId`, `Guid`.
 
+- **Keys:** in `%AppData%\Emby-Server\programdata\data\authentication.db`, table `Tokens_2` (`AccessToken`, `AppName`, `UserId`; rows with a `UserId` are user sessions). Mint a named key with an admin token: `POST /emby/Auth/Keys?App=<name>`, then `GET /emby/Auth/Keys` for its token. Sonarr and Radarr each get their own key.
+- **Arr → Emby rescan:** a Sonarr/Radarr notification with implementation `MediaBrowser` (name it `Emby`): fields `host` `localhost`, `port`, `apiKey`, `updateLibrary` true, `notify` false; events on download, upgrade, rename and deletes. `POST /notification/test` first. Emby does not log these API calls, so the proof is a test that returns 200 and a key that answers `GET /emby/System/Info`.
 - **The id gotcha:** `POST /Library/VirtualFolders/Paths` takes `id=<Guid>` (32-hex, no dashes). `name=` and the decimal `ItemId` both give HTTP 500 `System.FormatException: Unrecognized Guid format`, with no other hint. Resolve the library by `Name` first. Code: `add_emby_library_path`.
 - Config dir `%AppData%\Emby-Server\programdata\config\system.xml` (no secrets). On any 500, tail the log before guessing again: the .NET stack trace names the failing call.
 
@@ -74,23 +82,28 @@ Code: `sab_api`, `set_sab_category_dir`, `remove_sab_category`, `find_arr_job`.
 - **`mode=set_cat` does not reliably update an existing category's dir**; use `set_config` on `categories`.
 - **Category ids are force-lowercased** (`keyword=TV` stores `tv`); `dir` keeps its casing. Keep every app's category string (Sonarr `tvCategory`, Radarr `movieCategory`, Prowlarr `clientCategory`) lowercase.
 - **Rename** a category = delete the old keyword, `set_config` the new one. The fallback category is literal `*`, URL-encoded `%2A` in a query string.
+- **Web exposure:** non-IP Host headers 403 unless listed in `[misc] host_whitelist` (lowercase; API-settable via `set_config`, applied live). `local_ranges` and `inet_exposure` are API-protected (`protect=True`) — disk edit with SAB stopped only. `host = ::` binds dual-stack on Windows (verified 2026-11-13: IPv4, IPv6 and localhost all pass); under `inet_exposure = 0` add the tailnet IPv6 range `fd7a:115c:a1e0::/48` to `local_ranges` so IPv6 tailnet peers count as local. `mode=shutdown`/`mode=restart` exist; relaunch a user-process SAB via `explorer.exe <exe>` to keep the interactive user's integrity level.
 
 ## qBittorrent (v2 WebUI)
 
-Windows stack `http://100.86.121.94:8088`; the Ubuntu box (`ssh oci`, WebUI `:8080`) is a separate instance. No API key: either "Bypass authentication for clients on localhost" is on (it is on the Ubuntu box) or log in with `POST /api/v2/auth/login` and reuse the `SID` cookie; otherwise 403.
+Each machine's WebUI address and port are in `stack-state.md`; `qbt_base()` reads them from this machine's `qBittorrent.ini` (older builds write `WebUI\Port=` under `[Preferences]`, newer ones `Port=` under `[WebUI]`). The Ubuntu box (alias `oci`, WebUI `localhost:8080` **on that box**) is a separate instance. No API key: either the localhost bypass or a whitelisted subnet (`bypass_auth_subnet_whitelist` with `bypass_auth_subnet_whitelist_enabled`; an enabled but empty list bypasses nothing) lets you in, or log in with `POST /api/v2/auth/login` and reuse the `SID` cookie; otherwise 403.
 
 - **Add:** `POST /api/v2/torrents/add`, multipart, one `torrents` part per file, optional `savepath`, `category`, `paused`. A known hash is a silent no-op, so judge success by the torrent count (`GET /api/v2/torrents/info`), never by the HTTP code (`000` = transport failure, 405 = empty request).
-- **Local or tunnelled WebUI:** `add_qbt_torrents(paths, base, save_path, category)` dedupes by infohash (`qbt_info_hash`) and returns `(added, skipped, count_after)`.
-- **Over ssh, no Python on the box:** `scripts/qbt_remote_add.sh <ssh-host> <dir> [port]` (about 8 s for 300 files).
-- **401 through `ssh -L`:** host-header validation rejects a `Host` that does not match qBittorrent's port. Pin `Host: localhost:8080` (`QBT_HEADERS` does).
-- **Other calls:** `GET /api/v2/app/preferences`, `POST /api/v2/torrents/editCategory` (`set_qbt_category_dir`).
+- **Local or tailnet WebUI:** `add_qbt_torrents(paths, base=None, save_path, category)` defaults to `qbt_base()`, dedupes by infohash (`qbt_info_hash`) and returns `(added, skipped, count_after)`.
+- **Ubuntu box (WebUI bound to its own localhost):** `uv run --no-project --with paramiko "C:\Users\Lance\.agents\skills\arr-api-reference\scripts\qbt_remote_add.py" oci <dir> 8080` — one SFTP upload session, curl batches of 25, staging removed only when every batch returned 200 (about 8 s for 300 files). The `ssh` CLI it replaced is blocked host-wide.
+- **Other calls:** `GET /api/v2/app/preferences`, `POST /api/v2/app/setPreferences` (form field `json=`), `POST /api/v2/torrents/createCategory` / `editCategory` (`set_qbt_category_dir`).
 
-### Working on the Ubuntu box over ssh
+### Working on the Ubuntu box with paramiko
 
-- Read `~/.ssh/config` before guessing what an alias is: `oci` is an SSH host (ubuntu@oci-vnic), not Oracle Object Storage.
-- A non-interactive `ssh host 'cmd'` has a bare `PATH`: `npm` needs `. ~/.nvm/nvm.sh`; `uv` is in `~/.local/bin`.
-- Ship multi-step remote work as a script (`scp` + `bash`), not a quoted one-liner. Ship files as one `tar` stream with bare names, never one `scp` per file (105 handshakes timed out).
-- `pkill -f "a|b"` inside the ssh command matches the remote shell itself and kills the session (exit 255); use `pkill -x <name>` or kill by PID.
+The `ssh`, `scp`, `sftp` and `tar` command-line binaries are blocked host-wide by the `ssh-paramiko-only` plugin; every remote call goes through Python `paramiko` (`SSHClient.exec_command` for commands, `open_sftp()` for files).
+
+- Read `~/.ssh/config` before guessing what an alias is: `oci` is an SSH host (ubuntu@oci-vnic), not Oracle Object Storage. Resolve it with `paramiko.SSHConfig().lookup(alias)` instead of re-implementing it.
+- Host keys are strict: `RejectPolicy` plus `~/.ssh/known_hosts`, fail closed. Recording an unknown key is the user's step: they run `uv run --no-project --with paramiko ~/.agents/scripts/paramiko-run.py <alias> --trust` in a real terminal after checking the fingerprint. Keys come from the config's `identityfile`, then `~/.ssh/id_*`; use the alias that carries the `identityfile` (`laptop`, not `lance`).
+- `paramiko-run.py` covers most one-offs: `--command` (repeatable, one connection), `--script` (local file to remote `bash -s`), `--put local:remote`, `--get remote:local`. Remote paths must have no drive colon (the pair splits on `:`); on Windows targets, give them relative to the user's home (`AppData/Local/Temp/x.ps1`).
+- The laptop's remote shell is Windows PowerShell 5.1: `curl.exe -o NUL` inside `--command` gets parsed as a PowerShell parameter and fails. Ship a `.ps1` with `--put` and run `powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:USERPROFILE AppData\Local\Temp\x.ps1)`, then delete it.
+- A non-interactive `exec_command` gets a bare `PATH` (no login shell): `npm` needs `. ~/.nvm/nvm.sh`; `uv` is in `~/.local/bin`.
+- Ship multi-step remote work as one script (`bash -s` through `exec_command`, or SFTP it then run it), not a quoted one-liner. Move files over one SFTP session, never one upload per file (105 handshakes timed out).
+- `pkill -f "a|b"` inside the remote command matches the remote shell itself and kills the session (exit 255); use `pkill -x <name>` or kill by PID.
 - Compare counts before deleting staging files.
 - Windows-side Python cannot open Git Bash `/c/...` paths.
 
@@ -102,15 +115,15 @@ Windows stack `http://100.86.121.94:8088`; the Ubuntu box (`ssh oci`, WebUI `:80
 | Radarr   | `C:\ProgramData\Radarr\logs\radarr*.txt`                | `Radarr` / `Radarr.Console` | 7878 |
 | Prowlarr | `C:\ProgramData\Prowlarr\logs\prowlarr*.txt`            | `Prowlarr`                  | 9696 |
 | SABnzbd  | `C:\Users\Lance\AppData\Local\sabnzbd\logs\sabnzbd.log` | `SABnzbd`                   | 8080 |
-| Emby     | `%AppData%\Emby-Server\programdata\logs\embyserver.txt` | `EmbyServer`, `embytray`    | 8096 |
+| Emby     | `%AppData%\Emby-Server\programdata\logs\embyserver.txt` | `EmbyServer`, `embytray`    | 8096 home, 8296 lance |
 
-- The arr logs roll as numbered files (`.0.txt`, `.1.txt`); the no-suffix or highest number is newest. `*.debug.*` is verbose and only useful with `LogLevel` `debug` in `config.xml` (all three run `debug` now).
+- The arr logs roll as numbered files (`.0.txt`, `.1.txt`); the no-suffix or highest number is newest. `*.debug.*` is verbose and only written with `LogLevel` `debug` in `config.xml` (per-machine levels in `stack-state.md`). Validation failures (`Name: Should be unique`, `Unable to connect to indexer`) appear only in `*.debug.*`, as ` -- ` lines under `Validation failed`.
 - Live queue: Sonarr/Radarr `GET /api/v3/queue` (`status`, `trackedDownloadStatus`, `errorMessage`); Prowlarr has none (check the arr app or SABnzbd).
 - Edits to `config.xml` / `sabnzbd.ini` made while the app runs are overwritten at the next write or exit: stop, edit, restart. API-driven changes need neither.
 
 ## Bazarr
 
-Port `6767`, config `C:\ProgramData\Bazarr\config\config.yaml`. The API key is under `auth:` (not `general:`); header `X-API-KEY`, query `apikey`, or form field `apikey`. Code: `get_bazarr_api_key`, `wire_bazarr` (not yet run live: Bazarr was down when written).
+Port `6767`, config `C:\ProgramData\Bazarr\config\config.yaml`. The API key is under `auth:` (not `general:`); header `X-API-KEY`, query `apikey`, or form field `apikey`. Installed on lance only. Code: `get_bazarr_api_key`, `bazarr_base` (reads `general.ip`/`general.port`), `wire_bazarr` (not yet run live).
 
 - **`POST /api/system/settings` takes form-encoded** `settings-<section>-<key>` fields; a JSON body is silently ignored and nothing saves. It accepts partial updates and answers 204 (406 plus a message on validation failure). It is hidden from swagger; `PUT`/`PATCH` give 405.
 - Saving restarts Bazarr's Sonarr/Radarr signalr clients; no service restart needed (`POST /api/system?action=restart` also exists, also hidden).

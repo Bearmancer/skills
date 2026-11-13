@@ -1,66 +1,38 @@
-# Triage — live runbooks for stuck/down symptoms
+# Triage: runbooks for a stack that is broken right now
 
-Active diagnostic playbooks for this media stack. Read when the stack looks broken right now (down app, stuck queue, health error) — not needed for normal wiring/config work.
+Read when an app is down, a queue is stuck, a health check is red or indexers fail. Normal wiring and config work does not need this file.
 
-## Before hitting any app's API
+## Before calling any app's API
 
-Confirm app really running first (`Get-Process <App>`). Down app give
-misleading "connection refused" — worse, call made while down can leave
-false "API key missing" entry in _its own_ health log once back up,
-since log just record request that arrive with no key attach (app not
-there to catch one, not real config problem). Don't chase that log
-entry like it live thing.
+Confirm the app is really serving first. A down app gives a misleading "connection refused", and a call made while it was down can leave a false "API key missing" entry in its own health log once it is back up: the log records a request that arrived with no key, not a config problem. Do not chase that entry.
 
-**Stuck/zombie process look "running" but serve nothing.**
-`Get-Process` show exe no mean it listen —
-Sonarr/Radarr/Prowlarr `SingleInstancePolicy` self-kill fresh
-launch if see another instance already hold lock, but older
-instance itself can be zombie (crash past HTTP listener, mutex still
-hold). Symptom: process exist, `Get-NetTCPConnection -OwningProcess
-<pid>` give back nothing, `curl` get connection-refused. Fix:
-`Stop-Process -Id <pid> -Force`, relaunch.
+**A stuck process looks running but serves nothing.** `Get-Process` showing the exe does not mean it listens. Sonarr/Radarr/Prowlarr's `SingleInstancePolicy` kills a fresh launch when another instance holds the lock, and that older instance can be a zombie (crashed past its HTTP listener, mutex still held). Symptom: the process exists, `Get-NetTCPConnection -State Listen -OwningProcess <pid>` returns nothing, `curl` gets connection refused. Fix: `Stop-Process -Id <pid> -Force`, relaunch.
 
-**SABnzbd duplicate-process outage.** Two
-`SABnzbd.exe` at once (one boot-time, one late-night manual launch),
-both bare cmdline `"C:\Program Files\SABnzbd\SABnzbd.exe"`, neither
-listen on 8080, log tail 3 day old. Meanwhile `sc.exe query` show
-all four service `STOPPED` while Sonarr/Prowlarr orphan process
-still serve API fine — SCM state and process table disagree, trust
-`Get-NetTCPConnection -State Listen` for port 8989/7878/9696/8080,
-not service state. Fix: `Stop-Process -Id <both> -Force`,
-`sc.exe start SABnzbd`, verify single PID listen `0.0.0.0:8080`
-before touch anything else. Sonarr-side client config need zero
-change after — outage was process, not setting.
+**Trust the listener, not the service state.** Service Control Manager state and the process table can disagree (seen: all four services `STOPPED` while orphan Sonarr/Prowlarr processes still served the API). Check `Get-NetTCPConnection -State Listen` for the app's port (per machine in `stack-state.md`).
 
-## "All download clients are unavailable due to failures" triage
+**SABnzbd duplicate-process outage.** Two `SABnzbd.exe` at once (one boot-time, one manual launch), neither listening on 8080, log tail days old. Fix: `Stop-Process` both, start one (`sc.exe start SABnzbd` on lance; on home, which has no service, `explorer.exe "C:\Program Files\SABnzbd\SABnzbd.exe"`), verify a single PID listens on 8080 before touching anything else. Client config in Sonarr needs no change afterwards: the outage was the process, not a setting.
 
-Health error almost always mean client app down, not client config
-wrong. Order: (1) confirm listener (`Get-NetTCPConnection -State
-Listen` for 8080), (2) read Sonarr log tail for exact cause —
-SAB-down look like `DownloadClientUnavailableException: Unable to
-connect to SABnzbd, No connection could be made because the target
-machine actively refused it. (100.86.121.94:8080)` under
-`DownloadMonitoringService|Unable to retrieve queue and history
-items from SABnzbd`, (3) fix process (see zombie section above),
-(4) `POST /api/v3/downloadclient/testall` — expect
-`[{id, isValid: True, validationFailures: []}]`, then re-`GET
-/api/v3/health` and confirm download-client error gone with no
-config edit.
+## "All download clients are unavailable due to failures"
 
-Stale queue entries with `status: downloadClientUnavailable` persist
-after client recover (they reference grab-time state). Don't hand-
-`POST /api/v3/queue/grab` with `{ids}` — it 405. Instead queue a
-`SeriesSearch`: `POST /api/v3/command`
-`{"name":"SeriesSearch","seriesId":<id>}` → `queued`, wait ~90s,
-then `GET /queue` group by `status` and SAB `mode=queue` show
-`Downloading` jobs.
+This health error almost always means the client app is down, not misconfigured. In order:
 
-Pause live SAB-side: Sonarr queue `status: paused` mirror SAB job
-status, so resume in SAB, not Sonarr:
-`mode=queue&name=resume&value=<nzo_id>&output=json&apikey=...` →
-`{"status":true}`, re-query queue confirm job `Downloading`.
-Find `nzo_id` per job from same `mode=queue` response (`.queue.slots[].nzo_id`).
-Duplicate-pause pattern: several Sonarr paused entries for the same
-release can map to only one or two real SAB jobs — rest are stale
-tracked refs to a `nzo_id` lost in restart. Resume the real one,
-stale refs drop on re-poll by themselves, don't chase them.
+1. Confirm the listener (`Get-NetTCPConnection -State Listen` for 8080, or the qBittorrent port).
+2. Read the Sonarr log tail for the cause. SABnzbd down looks like `DownloadClientUnavailableException: Unable to connect to SABnzbd, No connection could be made because the target machine actively refused it.` under `DownloadMonitoringService|Unable to retrieve queue and history items from SABnzbd`.
+3. Fix the process (zombie section above).
+4. `POST /api/v3/downloadclient/testall`: expect `[{id, isValid: true, validationFailures: []}]`, then re-`GET /api/v3/health` and confirm the error is gone with no config edit.
+
+Stale queue entries with `status: downloadClientUnavailable` stay after the client recovers, because they reference grab-time state. `POST /api/v3/queue/grab` with `{ids}` answers 405; queue a search instead: `POST /api/v3/command {"name":"SeriesSearch","seriesId":<id>}` → `queued`, wait about 90 s, then group `GET /queue` by `status` and check SABnzbd `mode=queue` shows `Downloading` jobs.
+
+**Paused jobs.** A Sonarr queue entry with `status: paused` mirrors the SABnzbd job, so resume it in SABnzbd: `mode=queue&name=resume&value=<nzo_id>&output=json&apikey=...` → `{"status":true}`, then re-query the queue for `Downloading`. Take each `nzo_id` from `mode=queue` (`.queue.slots[].nzo_id`). Several paused Sonarr entries for one release can map to one real SABnzbd job; the rest are stale references to an `nzo_id` lost in a restart and drop off on the next poll once the real job resumes.
+
+## Indexers failing or missing after a sync
+
+Symptoms: Sonarr/Radarr health says "No indexers available with RSS sync enabled", an app has fewer indexers than Prowlarr offers, or the sync log shows `Validation failed`.
+
+1. Read the app's `*.debug.txt` for the ` -- ` lines under `Validation failed` (the plain log omits them):
+   - `Unable to connect to indexer ... 429:TooManyRequests ... localhost:9696/<id>/` is Prowlarr's backoff on indexer `<id>` (`GET /api/v1/indexerstatus`), not the site.
+   - `Name: Should be unique` means an app indexer with that name already exists outside Prowlarr's mapping.
+2. Run `POST /api/v1/indexer/test` per Prowlarr indexer to get each site's real answer. Bad keys, 403s and bans need the user's new credentials; disable those indexers rather than retrying.
+3. For each app indexer, read its `baseUrl`. One pointing at the other machine's Prowlarr (`http://100.86.121.94:9696/...` on home) is outside sync and may be the only working copy: test it with a real search (`<baseUrl>api?t=tvsearch&apikey=<that Prowlarr's key>`) before deleting it. To bring it home, copy that Prowlarr's key for the indexer into the local Prowlarr (`api-reference.md`, masked secrets), sync, then delete the foreign entry.
+4. One indexer keeps vanishing from an app on every sync: mapping collision (`api-reference.md`). Delete that app indexer and sync again.
+5. Done when every app indexer points at the local Prowlarr, `POST /api/v3/indexer/testall` is all valid, and both apps' health is empty after one more sync.
