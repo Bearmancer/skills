@@ -7,6 +7,8 @@ description: "Use when the user asks for a Windows setup, install, migration or 
 
 Shell commands failing, hanging, or quoting wrong (PowerShell, git-bash, Bun.$): see the `shell-gotchas` skill before debugging from scratch.
 
+**Plain script or wizard?** A job with no admin step and no human click (a remux, a rename, a batch convert) is a plain script run in a terminal: write the smallest `.ps1` that does it, run it on real-sized input, lint it with `Invoke-ScriptAnalyzer`, and stop here. A wizard is for a procedure that needs elevation or a human action.
+
 A **ps-wizard** is a single `.ps1` script, run under **pwsh**, that walks a human step by step through a one-shot Windows admin procedure the agent cannot perform itself: installs, setup, migrations, cutovers, dashboard steps only a human can click through. It self-elevates to admin, checks goal sufficiency before starting, force-closes apps that block its task, logs to screen and to a file, drops its output on the Desktop, takes one quick backup first, auto-uninstalls anything it newly installed, and traces maximally so any failure is diagnosable after the fact.
 
 The delightful UX is already solved by `template.ps1`: stage framing with progress counters (`Invoke-Step`), colored instruction lines (`Write-Say` / `Write-Step` / `Write-Note` / `Write-Warn`), URL opening (`Open-Url`), human-action gates (`Wait-HumanAction`, `Confirm-Choice`), visible and secret prompts (`Read-PlainValue`, `Read-SecretValue`), persisted-value writes (`Write-PersistedValue`), native programs with a timeout and exit code (`Invoke-NativeProcess`), Windows optional features through `dism.exe` (`Get-OptionalFeatureState`, `Disable-OptionalFeature`), isolated goal checks (`Test-WizardGoal`), and a closing summary that reports failures (`Show-Summary`). **Your job is only to scope the procedure and author its stages.** The library above the `STAGES` marker is identical in every wizard; that consistency is the point: never hand-edit it.
@@ -113,7 +115,7 @@ Hold the bar the template sets: open the URL before asking for its value, use `R
 ### 4. Verify and hand off
 
 - Run `scripts/verify-wizard.ps1 -Path <wizard> -TemplatePath template.ps1`. It parses the file, runs the analyzer, compares the library above the marker with the template, counts stages against `-TotalStages`, and flags the failure patterns above: `Write-Error`, `Select-Object -Unique`, `SilentlyContinue`, `-ne 'Enabled'`-style checks, `Start-Process -Wait`, wildcard or filter-driven `Remove-Item`, installs with no `Register-InstalledSoftware`, a bare or relative launch path, and a `.bunx` launcher. Each hit is fixed or justified, never waved through.
-- Don't run it end-to-end yourself: it opens browsers, elevates, and blocks on human input. Trace it statically instead: every value from step 1 is captured and lands where step 1 said, and every persisted sink name matches its target.
+- Exercise every stage's core command that needs no elevation and no human input in a scratch pwsh on real-sized input: a size past 2 GB for any byte arithmetic, a real disc or file for any parse. Trace the elevated and human-gated stages statically instead: every value from step 1 is captured and lands where step 1 said, and every persisted sink name matches its target. The report names the stages that ran for real and the stages only traced.
 - Assert presence, length and shape, never a modification time: any legitimate human edit moves an mtime, so a time-based check fails on a healthy machine.
 - Never verify secret-handling code with the real secret. Use a synthetic value of the same shape; if a probe must handle the real one, delete every file it touched and prove absence in the same run, before reporting.
 - Run each system query the stages rely on once, read-only, in the exact pwsh that will run the wizard (`(Get-Process -Id $PID).Path`), elevated if it needs admin (`dism.exe` exits 740 without it).
@@ -126,4 +128,4 @@ Hold the bar the template sets: open the URL before asking for its value, use `R
 - No Enter-pauses for pacing; `Wait-HumanAction` only at human-action gates.
 - No exposed cmdlet parameters or flags on the generated wizard.
 - No plaintext secret logging: secret values never reach screen, transcript, or log file.
-- No end-to-end live run of a generated wizard as proof (human-input and elevation blocker; static trace instead).
+- No end-to-end live run of a generated wizard as proof (elevation and human input block it); the report says which stages ran for real and which were only traced.
