@@ -7,4 +7,6 @@ assimilation/units/
 .codegraph/
 .rigor/
 
-.omc/state/
+.omc/
+
+.slim/deepwork/
