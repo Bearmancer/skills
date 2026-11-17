@@ -104,4 +104,4 @@ When `## Review` is not empty and every finding has a disposition, ask with head
 - Option 2: "No, I want changes". Their change request starts another round of drafting.
 - If the checks fail, the question is blocked with the gaps. Fix them and ask again.
 
-Only an option label beginning with `Yes`, or a bare `yes`, approves. On approval the plan is frozen and you carry on into the build (after-approval.md).
+Only an option label beginning with `Yes`, a typed answer starting `Yes,`, or a bare `yes`, approves. On approval the plan is frozen and you carry on into the build (after-approval.md).

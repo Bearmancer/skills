@@ -89,7 +89,7 @@ When the checker's conditions hold (all six lines filled, no open question, ever
 | Constraint | the binding limit |
 | Out of scope | what is deliberately not being done |
 
-Then ask with header `Sign intent`. Put the six lines in the preview of the first option, with single quotes instead of double quotes. First option: "Yes, this is the intent". Second: "No, I want to change something". Only an option label beginning with `Yes`, or a bare `yes`, counts. "Sounds good" typed under Other is not a yes: ask what they would refine.
+Then ask with header `Sign intent`. Put the six lines in the preview of the first option, with single quotes instead of double quotes. First option: "Yes, this is the intent". Second: "No, I want to change something". Only an option label beginning with `Yes`, a typed answer starting `Yes,`, or a bare `yes`, counts. "Sounds good" typed under Other is not a yes: ask what they would refine.
 
 After the signature, do not edit the Intent. Any change to those six lines cancels the signature and returns the plan to stage one. If the intent really changes, say so and ask `Sign intent` again.
 

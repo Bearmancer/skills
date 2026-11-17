@@ -21,7 +21,7 @@ This skill takes a request from "what do you want?" to an approved plan, then ca
 
 ## Reserved question headers
 
-Five headers are special. The system records the tool answer; you copy it into the plan line. Only an option whose label begins with `Yes`, or a bare `yes`, counts as agreement, so word agreeing options "Yes, ..." and others "No, ...".
+Five headers are special. The system records the tool answer; you copy it into the plan line. Only an option whose label begins with `Yes`, a typed answer starting `Yes,`, or a bare `yes`, counts as agreement, so word agreeing options "Yes, ..." and others "No, ...".
 
 | Header | When you ask | What `Yes` does |
 |---|---|---|

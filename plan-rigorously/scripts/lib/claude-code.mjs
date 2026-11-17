@@ -25,10 +25,10 @@ const ALLOW = { decision: 'allow' };
 
 const deny = (reason) => ({ decision: 'deny', reason });
 const asText = (v) => (typeof v === 'string' ? v : '');
-// 'yes, but no' and 'yesterday' are not consent: only a bare yes, or an offered option label starting with Yes
+// 'yesterday' and 'yes but' are not consent: a bare yes, a 'Yes,' prefix, or an offered option label starting with Yes
 const yes = (answer, labels = []) => {
   const text = String(answer ?? '').trim();
-  return /^\s*yes\s*[.!]?\s*$/i.test(text) || labels.some((l) => /^yes/i.test(l) && l === text);
+  return /^yes\s*([.!]\s*)?$/i.test(text) || /^yes\s*,/i.test(text) || labels.some((l) => /^yes/i.test(l) && l === text);
 };
 
 /** What was blocked and why, what is missing (one bullet each), what to do next. */
