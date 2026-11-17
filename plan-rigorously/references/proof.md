@@ -19,9 +19,9 @@ Write every claim as one line under `## Claims`, with an id and one proof, and n
 
 | Kind | Form | Counts only if |
 |---|---|---|
-| Official documentation | `-- doc: https://... "exact quoted passage"` | the URL is a full link (a deep link with an anchor if one exists), you fetched that page with the web fetch tool during planning (after `.rigor/plan.md` existed; another docs tool does not count), and the quote is at least 12 characters copied from it and holds no double quote (`"`). |
+| Official documentation | `-- doc: https://... "exact quoted passage"` | the URL is a full link (a deep link with an anchor if one exists), you fetched that page with the web fetch tool during planning (after `.rigor/plan.md` existed; another docs tool does not count), and the quote is at least 12 characters copied from it and holds no double quote (`"`). When a claim enters a question preview, its double quotes become single quotes (review.md, the preview rule). |
 | Code citation | `-- code: src/theme.ts:14` | the file exists and the line number is within the file |
-| Command run | ``-- cmd: `npm test` `` | you ran exactly that command in a shell during planning, after `.rigor/plan.md` existed, and looked at its output |
+| Command run | ``-- cmd: `npm test` `` | you ran exactly that command in a shell during planning, after `.rigor/plan.md` existed, and looked at its output; a non-zero exit code does not count |
 
 Examples:
 

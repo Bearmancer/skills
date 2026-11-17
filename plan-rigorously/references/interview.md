@@ -32,7 +32,7 @@ A round is one call of the question tool.
 2. **Ask the frontier, at most 4 questions per call.** If more than 4 are ready, ask the 4 that unblock the most others.
 3. **Start each question's text with its id**, for example `Q-2: Should the choice persist across devices?`. The id is how the answer is matched to the plan line.
 4. **Give every question a recommended answer.** It is the first option, worded so that "yes" accepts it ("Yes, remember it on this device only"). Add 1 to 3 other options. Put the reasoning, an example and what each option costs in the option `preview` and `description`. Text above the dialog is never seen.
-5. **Write the answers into the plan.** Set the line to `[answered]` and add `-> the answer`. Recompute the frontier. Waiting questions whose prerequisite is now answered become `[open]`.
+5. **Copy the recorded answers into the plan.** The system records the tool answer; you set the line to `[answered]` and add `-> the answer`. The checker rejects a copy with no recorded answer. Recompute the frontier. Waiting questions whose prerequisite is now answered become `[open]`.
 6. Repeat until no question is `[open]` or `[waiting]`.
 
 Do not ask for a free-text answer when two or three options cover the space. Never answer a question for the user. Never apply a default for them.
@@ -89,7 +89,7 @@ When the checker's conditions hold (all six lines filled, no open question, ever
 | Constraint | the binding limit |
 | Out of scope | what is deliberately not being done |
 
-Then ask with header `Sign intent`. Put the six lines in the preview of the first option, with single quotes instead of double quotes. First option: "Yes, this is the intent". Second: "No, I want to change something". Only an answer that begins with `Yes` counts. "Sounds good" typed under Other is not a yes: ask what they would refine.
+Then ask with header `Sign intent`. Put the six lines in the preview of the first option, with single quotes instead of double quotes. First option: "Yes, this is the intent". Second: "No, I want to change something". Only an option label beginning with `Yes`, or a bare `yes`, counts. "Sounds good" typed under Other is not a yes: ask what they would refine.
 
 After the signature, do not edit the Intent. Any change to those six lines cancels the signature and returns the plan to stage one. If the intent really changes, say so and ask `Sign intent` again.
 

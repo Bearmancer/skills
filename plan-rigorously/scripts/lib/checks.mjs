@@ -153,6 +153,8 @@ function claimGaps(plan, ctx) {
     } else if (p.kind === 'cmd') {
       const want = p.command.trim();
       const ran = (ctx.commands ?? []).some((e) => {
+        // a command that exited non-zero proves nothing; a missing exit code stays acceptable
+        if (Number.isInteger(e.exitCode) && e.exitCode !== 0) return false;
         const recorded = String(e.command ?? '').trim();
         return recorded === want || commandSegments(recorded).includes(want);
       });

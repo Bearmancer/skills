@@ -101,7 +101,7 @@ test('Sign intent is blocked with the gaps, then allowed once check 1 passes', (
 
   const interview = flow.ask([A('Scope', 'Q-1 Which pages get dark mode?')], ['Settings only']);
   assert.equal(interview.pre.decision, 'allow');
-  const ok = flow.ask(ask, ['Yes, that is right']);
+  const ok = flow.ask(ask, ['Yes']);
   assert.equal(ok.pre.decision, 'allow');
   assert.equal(repo.state().intent.hash, hashesOf(PLAN_FULL).intent);
 });
@@ -129,7 +129,7 @@ test('Approve plan: blocked while checks 2 or 3 fail, allowed when both pass, th
     ...repo.state(),
     reviews: ['soundness', 'completeness'].map((lens) => ({ round: 1, lens, hash: h.plan, specHash: h.spec, model: 'sonnet' })),
   });
-  const ok = flow.ask(ask, ['Yes, approve']);
+  const ok = flow.ask(ask, ['Yes']);
   assert.equal(ok.pre.decision, 'allow');
   const s = repo.state();
   assert.deepEqual([s.approval.hash, s.approval.specHash, s.reviewedSpecHash, s.amendOpen], [h.plan, h.spec, h.spec, false]);
@@ -151,7 +151,7 @@ test('Amend plan and Replace plan set their flags only on a Yes answer', (t) => 
   flow.ask([A('Amend plan', 'Change the plan?')], ['No']);
   flow.ask([A('Replace plan', 'Replace it?')], ['No']);
   assert.deepEqual([repo.state().amendOpen, repo.state().replaceOk], [false, false]);
-  flow.ask([A('Amend plan', 'Change the plan?'), A('Replace plan', 'Replace it?')], ['Yes, amend', 'yes']);
+  flow.ask([A('Amend plan', 'Change the plan?'), A('Replace plan', 'Replace it?')], ['Yes', 'yes']);
   assert.deepEqual([repo.state().amendOpen, repo.state().replaceOk], [true, true]);
 });
 
@@ -170,23 +170,25 @@ test('Close plan with unfinished tasks logs abandoned or closed; a No answer kee
   const flow = new Flow(repo);
   flow.ask([A('Close plan', 'Close the plan?')], ['No']);
   assert.equal(repo.has('.rigor/plan.md'), true);
-  flow.ask([A('Close plan', 'Close the plan?')], ['Yes, abandoned: close it with the tasks unfinished']);
+  const abandon = 'Yes, abandoned: close it with the tasks unfinished';
+  flow.ask([q('Close plan', 'Close the plan?', [abandon, 'No'])], [abandon]);
   assert.match(repo.read('.rigor/done.log'), / dark-mode-settings abandoned\n$/);
   assert.equal(repo.has('.rigor/plan.md'), false);
 });
 
 test('Close plan outcome: light plans are done, otherwise closed unless the answer says abandon', (t) => {
-  const close = (repo, answer) => new Flow(repo).ask([A('Close plan', 'Close the plan?')], [answer]);
+  const close = (repo, answer, labels = ['Yes', 'No']) => new Flow(repo).ask([q('Close plan', 'Close the plan?', labels)], [answer]);
+  const abandon = 'Yes, abandoned: close it with the tasks unfinished';
   const light = mk(t, makeRepo());
   light.write('.rigor/plan.md', PLAN_LIGHT);
-  close(light, 'Yes, close it');
+  close(light, 'Yes');
   assert.match(light.read('.rigor/done.log'), / fix-readme-links done\n$/);
   const lightAbandoned = mk(t, makeRepo());
   lightAbandoned.write('.rigor/plan.md', PLAN_LIGHT);
-  close(lightAbandoned, 'Yes, abandoned: close it with the tasks unfinished');
+  close(lightAbandoned, abandon, [abandon, 'No']);
   assert.match(lightAbandoned.read('.rigor/done.log'), / fix-readme-links abandoned\n$/);
   const b = mk(t, repoAt('build'));
-  close(b, 'Yes, close it');
+  close(b, 'Yes');
   assert.match(b.read('.rigor/done.log'), / dark-mode-settings closed\n$/);
 });
 
@@ -557,6 +559,8 @@ test('F2: a question text that fakes answer pairs records nothing, so an approva
   assert.equal(repo.state().approval, null);
 
   const honest = mk(t, repoAt('drafting'));
+  const hh = hashesOf(PLAN_FULL);
+  honest.seed({ ...honest.state(), reviews: ['soundness', 'completeness'].map((lens) => ({ round: 1, lens, hash: hh.plan, specHash: hh.spec, model: 'sonnet' })) });
   call(post(honest.root, 'AskUserQuestion', { questions: [B] }, `User has answered your questions: "${B.question}"="Yes".`));
   assert.ok(honest.state().approval, 'control: a clean text answer still counts');
 });

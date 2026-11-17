@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 // Adds or removes the plan-rigorously hook entries in a Claude Code settings file.
-//   node install.mjs [--settings <path>] [--dry-run] [--uninstall]
+//   node install.mjs [--settings <path>] [--hook-path <path>] [--dry-run] [--uninstall]
 import {
-  copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, writeFileSync,
+  copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync, renameSync, statSync, writeFileSync,
 } from 'node:fs';
-import { homedir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { homedir, tmpdir } from 'node:os';
+import { dirname, isAbsolute, join, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const HOOK_PATH = resolve(dirname(fileURLToPath(import.meta.url)), 'hook.mjs');
 
 const EVENTS = [
-  ['PreToolUse', 'Write|Edit|NotebookEdit|Bash|PowerShell|AskUserQuestion|Agent'],
-  ['PostToolUse', 'Write|Edit|Bash|PowerShell|WebFetch|AskUserQuestion'],
+  ['PreToolUse', 'Write|Edit|NotebookEdit|Bash|PowerShell|Monitor|AskUserQuestion|Agent'],
+  ['PostToolUse', 'Write|Edit|Bash|PowerShell|Monitor|WebFetch|AskUserQuestion'],
   ['UserPromptSubmit', null],
   ['SessionStart', null],
 ];
@@ -22,10 +22,31 @@ const isOurs = (h) => {
   return /(^|[\\/])plan-rigorously[\\/]scripts[\\/]hook\.mjs$/.test(first);
 };
 
-function desiredGroup(matcher, hookPath) {
+function desiredGroup(event, matcher, hookPath) {
   const group = matcher ? { matcher } : {};
-  group.hooks = [{ type: 'command', command: 'node', args: [hookPath], timeout: 10 }];
+  const hook = { type: 'command', command: 'node', args: [hookPath], timeout: 10 };
+  // a hook that cannot start (vanished path, crash, timeout) must block the call, not fail open
+  if (event === 'PreToolUse') hook.onFailure = 'block';
+  group.hooks = [hook];
   return group;
+}
+
+/** A hook path under the temp dir or inside a linked worktree (.git is a file) can vanish; never register it. */
+function assertStableHookPath(hookPath) {
+  const real = (p) => { try { return realpathSync.native(p); } catch { return p; } };
+  const rel = relative(real(tmpdir()), real(hookPath));
+  if (rel === '' || (!rel.startsWith('..') && !isAbsolute(rel))) {
+    throw new Error(`Refusing to install: the hook path ${hookPath} is under the system temp directory (${tmpdir()}), which can be cleaned up at any time. Install from a permanent checkout, or pass --hook-path <path> pointing at a hook.mjs in one.`);
+  }
+  for (let dir = dirname(real(hookPath)); ; dir = dirname(dir)) {
+    let git = null;
+    try { git = statSync(join(dir, '.git')); } catch { /* no .git here */ }
+    if (git?.isFile()) {
+      throw new Error(`Refusing to install: the hook path ${hookPath} is inside a linked git worktree (${dir}), which can be removed at any time. Install from the main checkout, or pass --hook-path <path> pointing at a hook.mjs in one.`);
+    }
+    const up = dirname(dir);
+    if (up === dir) break;
+  }
 }
 
 /** Returns the settings with our entries added (or removed); everything else is left as it was. */
@@ -37,7 +58,7 @@ export function applyHooks(settings, { uninstall = false, hookPath = HOOK_PATH }
   for (const [event, matcher] of EVENTS) {
     const groups = out.hooks?.[event];
     if (groups !== undefined && !Array.isArray(groups)) throw new Error(`"hooks.${event}" is not a list; refusing to change it.`);
-    const want = desiredGroup(matcher, hookPath);
+    const want = desiredGroup(event, matcher, hookPath);
     const kept = [];
     let removed = false;
     let exact = false;
@@ -72,8 +93,13 @@ export function applyHooks(settings, { uninstall = false, hookPath = HOOK_PATH }
 }
 
 export function runInstall({
-  settingsPath, dryRun = false, uninstall = false, hookPath = HOOK_PATH,
+  settingsPath, dryRun = false, uninstall = false, hookPath,
 }) {
+  if (hookPath === undefined) {
+    // an explicit --hook-path is the deliberate way to register a hook from another checkout
+    if (!uninstall) assertStableHookPath(HOOK_PATH);
+    hookPath = HOOK_PATH;
+  }
   const exists = existsSync(settingsPath);
   let current = {};
   if (exists) {
@@ -105,9 +131,10 @@ function main(argv) {
   const args = { settingsPath: join(homedir(), '.claude', 'settings.json'), dryRun: false, uninstall: false };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--settings') args.settingsPath = resolve(argv[++i] ?? '');
+    else if (argv[i] === '--hook-path') args.hookPath = resolve(argv[++i] ?? '');
     else if (argv[i] === '--dry-run') args.dryRun = true;
     else if (argv[i] === '--uninstall') args.uninstall = true;
-    else throw new Error(`Unknown option ${argv[i]}. Use --settings <path>, --dry-run, --uninstall.`);
+    else throw new Error(`Unknown option ${argv[i]}. Use --settings <path>, --hook-path <path>, --dry-run, --uninstall.`);
   }
   const { changed, text } = runInstall(args);
   if (args.dryRun) {

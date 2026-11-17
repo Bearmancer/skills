@@ -4,7 +4,7 @@ Load this when `Approve plan` is answered `Yes` (full path), or when a light pla
 
 ## Carry on into the build
 
-Do not stop and wait. Approval is the go-ahead: start the first task whose `Depends:` are all ticked, in plan order. (This is an instruction to you; the system does not make you go on.)
+Do not stop and wait. Approval is the go-ahead: start the first task whose `Depends:` are all ticked, in plan order. (This is an instruction to you; the system does not make you go on.) If the plan is already in build and this session did not start it, ask the user before continuing.
 
 For each task, one at a time:
 
@@ -16,13 +16,17 @@ For each task, one at a time:
 6. Tick the task: change `- [ ]` to `- [x]`. That, and edits to `## Review`, are the only plan changes allowed now.
 7. At a checkpoint, report in a few lines what is done and what was checked.
 
-If a task fails twice with two different approaches, stop and ask through the question tool: the preview says what failed and what you tried; the options are two ways forward, your recommendation first.
+If a task's `Verify:` fails twice, stop and ask through the question tool: the preview says what failed and what you tried; the options are two ways forward, your recommendation first. Try a different approach for the second attempt; after two failures, ask.
 
 Never lower the quality bar to get a task green: no new skipped tests, suppressions or removed assertions, and no thresholds edited down. That is a question for the user.
 
 ## The plan is read-only
 
 Once approved, the plan is frozen apart from ticks and `## Review`. Writes to other files are allowed only for paths named in some task's `Edits:` or in a `Creates:` entry or glob. A blocked write says what to do: ask with `Amend plan`.
+
+## If the plan file is gone
+
+If `.rigor/plan.md` was deleted by hand, the plan is dead. Ask the user through the question tool whether to start again or close it. Starting again means a fresh plan with a fresh `Sign intent` and `Approve plan`, and every command and fetch re-run for evidence. Never rebuild sign-offs from memory.
 
 ## Amendments
 
@@ -55,8 +59,10 @@ When every task is ticked, or the user wants to stop:
 1. Check the standing bar once more for the whole change and look at the output.
 2. Say in two or three lines what was done, what was verified, and anything left open.
 3. Ask with header `Close plan`.
-   - All tasks done: "Yes, close it as done" and "No, keep the plan open".
-   - Tasks left: "Yes, abandoned: close it with the tasks unfinished" and "No, keep the plan open". The outcome in the log is `abandoned` if the label says abandoned (a light plan too); otherwise `done` if every task is ticked or the plan is light; otherwise `closed`.
+   - At least one task and all ticked (a light plan: all steps done): "Yes, close it as done" and "No, keep the plan open".
+   - Tasks left: "Yes, abandoned: close it with the tasks unfinished" and "No, keep the plan open".
+   - No tasks at all: "Yes, close it" and "No, keep the plan open".
+   The outcome in the log is `abandoned` if the label says abandoned (a light plan too); otherwise `done` if there is at least one task and every task is ticked (a light plan: all steps done); otherwise `closed`. A close with no tasks logs `closed`.
 4. On `Yes`, the plan, the map and all working state are deleted and one line is added to the done log: the date, the plan name and the outcome. That is the only record kept.
 
 A light plan closes the same way once its steps are done.

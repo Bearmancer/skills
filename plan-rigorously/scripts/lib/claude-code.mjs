@@ -2,7 +2,7 @@
 // All plan logic lives in the core modules; this file maps events onto it and
 // performs the engine-only state writes.
 import { existsSync } from 'node:fs';
-import { basename, dirname, join, relative, resolve, sep } from 'node:path';
+import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { check1, check2, check3 } from './checks.mjs';
 import { foldCase } from './paths.mjs';
 import { parsePlan, stripReview } from './parse.mjs';
@@ -13,7 +13,7 @@ import {
 } from './state.mjs';
 
 const WRITE_TOOLS = new Set(['Write', 'Edit', 'NotebookEdit']);
-const SHELL_TOOLS = new Set(['Bash', 'PowerShell']);
+const SHELL_TOOLS = new Set(['Bash', 'PowerShell', 'Monitor']);
 const AGENT_TOOLS = new Set(['Agent', 'Task']);
 const RESERVED = new Set(['sign intent', 'approve plan', 'close plan', 'amend plan', 'replace plan']);
 const ENGINE_ONLY_PATH = /(^|\/)\.rigor\/(state|evidence)(\/|$)|(^|\/)\.rigor\/done\.log$/i;
@@ -25,7 +25,11 @@ const ALLOW = { decision: 'allow' };
 
 const deny = (reason) => ({ decision: 'deny', reason });
 const asText = (v) => (typeof v === 'string' ? v : '');
-const yes = (answer) => /^\s*yes/i.test(String(answer ?? ''));
+// 'yes, but no' and 'yesterday' are not consent: only a bare yes, or an offered option label starting with Yes
+const yes = (answer, labels = []) => {
+  const text = String(answer ?? '').trim();
+  return /^\s*yes\s*[.!]?\s*$/i.test(text) || labels.some((l) => /^yes/i.test(l) && l === text);
+};
 
 /** What was blocked and why, what is missing (one bullet each), what to do next. */
 function block(what, bullets, next) {
@@ -320,17 +324,33 @@ function preWriteOutside(loc, env) {
 // ---------------------------------------------------------------- PreToolUse: shell, agent, questions
 
 // The guard stops accidental edits of .rigor. Deliberate evasion through the shell is out of scope.
-const RIGOR_WORD = /(^|[\s\\/'"=])\.rigor([\\/\s'"]|$)/i;
+const RIGOR_WORD = /(^|[\s\\/'"=([{,;:])\.rigor([\\/\s'"]|$)/i;
 const namesRigor = (command) => RIGOR_WORD.test(asText(command).replace(/\\/g, '/').replace(/[`^'"]/g, ''));
 
 function preShell(input) {
-  const root = findRoot(cwdOf(input));
-  if (!root || !existsSync(rigorPaths(root).stateFile) || !namesRigor(input.tool_input?.command)) return ALLOW;
-  return deny(block(
-    'This command was blocked because it names .rigor while a plan is live.',
-    [],
-    'Use the file tools for .rigor/plan.md and .rigor/map.md; nothing else in .rigor is yours to touch.',
-  ));
+  const command = asText(input.tool_input?.command);
+  if (!namesRigor(command)) return ALLOW;
+  const roots = new Set();
+  const cwdRoot = findRoot(cwdOf(input));
+  if (cwdRoot) roots.add(cwdRoot);
+  // an absolute path token can name .rigor in a checkout other than the cwd's
+  for (const m of command.matchAll(/"[^"]*"|'[^']*'|`[^`]*`|\S+/g)) {
+    const path = m[0].replace(/^["'`]+|["'`]+$/g, '');
+    if (!isAbsolute(path) || !/\.rigor/i.test(path)) continue;
+    const root = findRoot(dirname(path));
+    if (root) roots.add(root);
+  }
+  for (const root of roots) {
+    // the plan file, not state.json: a plan written from the shell has no state until the first answer
+    if (existsSync(rigorPaths(root).plan)) {
+      return deny(block(
+        'This command was blocked because it names .rigor while a plan is live.',
+        [],
+        'Use the file tools for .rigor/plan.md and .rigor/map.md; nothing else in .rigor is yours to touch.',
+      ));
+    }
+  }
+  return ALLOW;
 }
 
 function preAgent(input, opts) {
@@ -396,18 +416,22 @@ function reviewGate(ti, opts, root, lens) {
   return ALLOW;
 }
 
-function headersOf(input) {
-  const qs = Array.isArray(input.tool_input?.questions) ? input.tool_input.questions : [];
-  return qs.map((q) => asText(q?.header).trim().toLowerCase());
-}
-
 function preAsk(input, opts) {
   const root = findRoot(cwdOf(input));
   if (!root) return ALLOW;
-  const headers = headersOf(input);
-  if (headers.length === 0) return ALLOW;
+  const questions = Array.isArray(input.tool_input?.questions) ? input.tool_input.questions : [];
+  if (questions.length === 0) return ALLOW;
   const env = load(root, opts);
-  for (const header of headers) {
+  for (const q of questions) {
+    const header = asText(q?.header).trim().toLowerCase();
+    // a double quote anywhere in a checkpoint question can fake answer pairs in the text fallback
+    if (RESERVED.has(header) && hasQuote(q)) {
+      return deny(block(
+        `The \`${asText(q?.header).trim()}\` question was blocked because it contains a double quote, which could fake answer pairs when the answers are read as text.`,
+        [],
+        'Use single quotes instead of double quotes in the question, header, option labels, descriptions and previews, then ask again.',
+      ));
+    }
     const refusal = askRefusal(header, env);
     if (refusal) return deny(refusal);
   }
@@ -565,7 +589,8 @@ function extractAnswers(input) {
     // question is not one of the asked questions may have been forged inside a question: drop it.
     if (!q && !structured) continue;
     const text = Array.isArray(answer) ? answer.join(', ') : String(answer ?? '');
-    out.push({ header: asText(q?.header).trim(), question, answer: text });
+    const labels = Array.isArray(q?.options) ? q.options.map((o) => asText(o?.label)) : [];
+    out.push({ header: asText(q?.header).trim(), question, answer: text, labels });
   }
   return out;
 }
@@ -583,7 +608,7 @@ function postAsk(input, opts) {
 function recordAnswers(root, answers, opts) {
   const env = load(root, opts);
   const at = nowIso(opts);
-  for (const a of answers) appendJsonl(env.p.answers, { at, ...a });
+  for (const a of answers) appendJsonl(env.p.answers, { at, header: a.header, question: a.question, answer: a.answer });
 
   let state = { ...env.state };
   const contexts = [];
@@ -595,9 +620,21 @@ function recordAnswers(root, answers, opts) {
       interviewRound = true;
       continue;
     }
-    if (!yes(a.answer)) continue;
-    if (header === 'sign intent' && env.plan) state.intent = { hash: env.plan.hashes.intent, at };
-    else if (header === 'approve plan' && env.plan) {
+    if (!yes(a.answer, a.labels)) continue;
+    // the plan may have changed between the question and the answer: check again before recording
+    if (header === 'sign intent' && env.plan) {
+      const gaps = check1(env.plan, env.ctx);
+      if (gaps.length) {
+        contexts.push(block('The `Sign intent` answer was not recorded because the intent is not ready to be signed.', gaps, 'Settle these points in .rigor/plan.md (asking the user where needed), then ask again.'));
+        continue;
+      }
+      state.intent = { hash: env.plan.hashes.intent, at };
+    } else if (header === 'approve plan' && env.plan) {
+      const gaps = [...check2(env.plan, env.ctx), ...check3(env.plan, env.ctx)];
+      if (gaps.length) {
+        contexts.push(block('The `Approve plan` answer was not recorded because the plan is not ready for approval.', gaps, 'Fix these points in .rigor/plan.md (and run the reviews that are missing), then ask again.'));
+        continue;
+      }
       state.approval = { hash: env.plan.hashes.plan, specHash: env.plan.hashes.spec, at };
       state.reviewedSpecHash = env.plan.hashes.spec;
       state.amendOpen = false;

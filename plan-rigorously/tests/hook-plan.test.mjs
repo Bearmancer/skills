@@ -76,7 +76,7 @@ test('a different plan name needs the Replace plan answer; the answer is spent b
   assert.match(blocked.reason, /"dark-mode-settings"/);
   assert.match(blocked.reason, /header is `Replace plan`/);
 
-  const answered = flow.ask([{ header: 'Replace plan', question: 'Replace the plan?', options: [], multiSelect: false }], ['Yes, replace it']);
+  const answered = flow.ask([{ header: 'Replace plan', question: 'Replace the plan?', options: [], multiSelect: false }], ['Yes']);
   assert.equal(answered.pre.decision, 'allow');
   assert.equal(repo.state().replaceOk, true);
 

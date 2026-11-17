@@ -38,13 +38,14 @@ The test is whether you can state the question precisely now, not whether you ca
 
 ## Working the map
 
-1. **Name the destination** with the user (a question; the answer is the first line of the map). If the user cannot name one, offer the two or three best candidates and let them choose or park the job.
-2. **Chart breadth first.** Ask the frontier of decisions whose prerequisites are settled, 4 questions per call, exactly as in interview.md, each with a recommended answer. Write each answer into Settled. Write the plan skeleton (interview.md, "Start the file") before the first question, or nothing is recorded. Map rounds count toward the interview's round limits (soft 10, hard 20) once that plan file exists, so spend them on decisions that matter.
-3. **Settle as many decisions as fit in a session.** Do not stop after one. Stop when the questions left are all blocked, when facts must be looked up first, or when the user runs out of time. Then say plainly what is left.
-4. **Facts go to lookups**, not to the user (a fresh agent under the subagent rule in SKILL.md, or you). A decision that needs a prototype is answered with one (design.md).
-5. **Rule things out of scope** with the user's yes. Out-of-scope work is never reopened unprompted.
-6. **Sediment as you go:** a settled term goes to `GLOSSARY.md`, a hard-to-reverse surprising trade-off goes to an ADR (design.md).
-7. **Each new session starts from the map file**, not from memory. Read it, restate the destination in a sentence, take the next open decisions.
+1. **Write the plan skeleton first** (interview.md, "Start the file"), before any question, or nothing is recorded.
+2. **Name the destination** with the user (a question; the answer is the first line of the map). If the user cannot name one, offer the two or three best candidates and let them choose or park the job.
+3. **Chart breadth first.** Ask the frontier of decisions whose prerequisites are settled, 4 questions per call, exactly as in interview.md, each with a recommended answer. Write each answer into Settled. Map rounds count toward the interview's round limits (soft 10, hard 20) once that plan file exists, so spend them on decisions that matter.
+4. **Settle as many decisions as fit in a session.** Do not stop after one. Stop when the questions left are all blocked, when facts must be looked up first, or when the user runs out of time. Then say plainly what is left.
+5. **Facts go to lookups**, not to the user (a fresh agent under the subagent rule in SKILL.md, or you). A decision that needs a prototype is answered with one (design.md).
+6. **Rule things out of scope** with the user's yes. Out-of-scope work is never reopened unprompted.
+7. **Sediment as you go:** a settled term goes to `GLOSSARY.md`, a hard-to-reverse surprising trade-off goes to an ADR (design.md).
+8. **Each new session starts from the map file**, not from memory. Read it, restate the destination in a sentence, take the next open decisions.
 
 ## Finishing
 

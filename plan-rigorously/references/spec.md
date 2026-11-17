@@ -78,7 +78,7 @@ When the job adds or changes something other files call (a function signature, a
 
 ## Risky work: threat prompts
 
-Treat the job as risky when it touches sign-in or permissions, stores a new kind of personal or payment data, adds an outside service, changes cross-origin rules, accepts file uploads, changes rate limits or grants roles. Each of these is also a reason to use the full path, and each is a question for the user before it is a behaviour.
+Treat the job as risky when it touches any risky area in SKILL.md's canonical list ('Choose the path'). Each risky area is a reason to use the full path, and each is a question for the user before it is a behaviour.
 
 For risky jobs add, as questions and then criteria:
 

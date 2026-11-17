@@ -39,7 +39,7 @@ test('one plan walked from the first write to Close plan', (t) => {
   // 3. the user answers Q-1, the plan records it, the intent is signed
   assert.equal(flow.ask([q('Scope', 'Q-1 Which pages get dark mode?', ['Settings only', 'All pages'])], ['Settings only']).pre.decision, 'allow');
   flow.edit('.rigor/plan.md', '[open] Which pages get dark mode?', '[answered] Which pages get dark mode? -> Settings only');
-  assert.equal(flow.ask(sign, ['Yes, that is right']).pre.decision, 'allow');
+  assert.equal(flow.ask(sign, ['Yes']).pre.decision, 'allow');
   assert.equal(stageOf(), 'drafting');
 
   // 4. the model drafts the spec, claims and tasks (review still empty)
@@ -63,7 +63,7 @@ test('one plan walked from the first write to Close plan', (t) => {
   flow.edit('.rigor/plan.md', '## Review\n', '## Review\n- No findings (round 1)\n');
 
   // 7. approval moves the plan into build
-  assert.equal(flow.ask(approve, ['Yes, approve']).pre.decision, 'allow');
+  assert.equal(flow.ask(approve, ['Yes']).pre.decision, 'allow');
   assert.equal(stageOf(), 'build');
 
   // 8. the build may touch declared files only, and the plan is read-only apart from ticks

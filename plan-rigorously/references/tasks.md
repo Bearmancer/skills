@@ -28,7 +28,7 @@ Sizing guide: 1 file is tiny, 1 to 2 small, 3 to 5 medium (the limit), 6 or more
 ```
 
 - **Covers:** criterion ids only. Never copy the criterion's words into the task. `Covers: -` is allowed for a preparatory task, but every criterion must still be covered by some task.
-- **Edits:** exact paths, no wildcards. Each file exists now, or is listed under `Creates:` by a task this one depends on. Look each one up before you write it.
+- **Edits:** exact paths, no wildcards. Each file exists now, or is listed under `Creates:` by a task this one depends on, directly or through other tasks. Look each one up before you write it.
 - **Creates:** exact paths that do not exist yet, or globs with `*` in the file name only, such as `src/theme/dark-*.ts` (no `**`, no wildcard folders). If the file exists, it belongs under Edits.
 - Include the test files the slice needs. They count toward the 5.
 - **Depends:** task ids that must finish first, or a dash. No loops.

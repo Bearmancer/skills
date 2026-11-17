@@ -124,15 +124,15 @@ test('N3: a reviewer spawned with model "inherit" is refused', (t) => {
 
 // ---- N4 lock wait
 
-test('N4: a foreign fresh lock is waited on for about 4 s, then the writer proceeds', (t) => {
+test('N4: a foreign fresh lock is waited on for about 4 s, then the writer refuses to run unlocked', (t) => {
   const repo = mk(t, repoAt('intent'));
   const lock = repo.p('.rigor/.lock');
   writeFileSync(lock, '');
   const started = Date.now();
   let ran = false;
-  withLock(repo.root, () => { ran = true; });
+  assert.throws(() => withLock(repo.root, () => { ran = true; }), /lock/);
   const took = Date.now() - started;
-  assert.equal(ran, true);
+  assert.equal(ran, false);
   assert.ok(took >= 3800 && took < 4800, `waited ${took} ms`);
   assert.equal(existsSync(lock), true, 'a lock the writer did not take is left alone');
   utimesSync(lock, new Date(0), new Date(0));

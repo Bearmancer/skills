@@ -184,7 +184,9 @@ export function withLock(root, fn) {
       } catch {
         // the lock vanished between the two calls; just try again
       }
-      if (Date.now() - started > LOCK_WAIT_MS) break;
+      if (Date.now() - started > LOCK_WAIT_MS) {
+        throw new Error('plan-rigorously: could not take the .rigor lock within 4 s; refusing to run without it.');
+      }
       sleepMs(15);
     }
   }
@@ -193,10 +195,6 @@ export function withLock(root, fn) {
   } finally {
     if (held) rmSync(lock, { force: true });
   }
-}
-
-function writeLf(file, text) {
-  atomicWrite(file, text);
 }
 
 export function readText(file) {
@@ -233,7 +231,13 @@ export function readState(root, config) {
   if (text === null) return base;
   try {
     const parsed = JSON.parse(text);
-    return parsed && typeof parsed === 'object' ? { ...base, ...parsed } : base;
+    if (!parsed || typeof parsed !== 'object') return base;
+    const merged = { ...base, ...parsed };
+    // a damaged array field (reviews) must not crash every later .map/.at on it
+    for (const key of Object.keys(base)) {
+      if (Array.isArray(base[key]) && !Array.isArray(merged[key])) merged[key] = base[key];
+    }
+    return merged;
   } catch {
     return base;
   }
@@ -267,11 +271,11 @@ export function ensureGitExclude(root) {
   const has = current.split(/\r?\n/).some((l) => ['.rigor/', '/.rigor/', '.rigor', '/.rigor'].includes(l.trim()));
   if (has) return;
   const prefix = current === '' || current.endsWith('\n') ? current : `${current}\n`;
-  writeLf(file, `${prefix}.rigor/\n`);
+  atomicWrite(file, `${prefix}.rigor/\n`);
 }
 
 export function writeState(root, state) {
-  writeLf(rigorPaths(root).stateFile, `${JSON.stringify(state, null, 2)}\n`);
+  atomicWrite(rigorPaths(root).stateFile, `${JSON.stringify(state, null, 2)}\n`);
   ensureGitExclude(root);
 }
 
@@ -298,11 +302,11 @@ export function appendJsonl(file, record, cap = Infinity) {
     return;
   }
   const all = [...readJsonl(file), record].slice(-cap);
-  writeLf(file, all.map((r) => JSON.stringify(r)).join('\n') + '\n');
+  atomicWrite(file, all.map((r) => JSON.stringify(r)).join('\n') + '\n');
 }
 
 export function writeSnapshot(root, text) {
-  writeLf(rigorPaths(root).snapshot, text);
+  atomicWrite(rigorPaths(root).snapshot, text);
 }
 
 /**
@@ -315,7 +319,7 @@ export function resetPlanFiles(root, keepEvidenceSince = null) {
   for (const f of [p.answers, p.snapshot]) rmSync(f, { force: true });
   for (const f of [p.commands, p.fetches]) {
     const kept = keepEvidenceSince ? readJsonl(f).filter((r) => typeof r.at === 'string' && r.at >= keepEvidenceSince) : [];
-    if (kept.length) writeLf(f, kept.map((r) => JSON.stringify(r)).join('\n') + '\n');
+    if (kept.length) atomicWrite(f, kept.map((r) => JSON.stringify(r)).join('\n') + '\n');
     else rmSync(f, { force: true });
   }
 }
