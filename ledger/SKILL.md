@@ -12,11 +12,10 @@ The backlog is Lance's cross-project work, picked up and put down a few items at
 Segregate by repo/concern — one ledger per home, so work in one concern never drowns in another's noise:
 
 - A repo or concern with a repo keeps `LEDGER.md` at its root, e.g. `C:\Users\Lance\Dev\Toolbox\LEDGER.md`, `C:\Users\Lance\Dev\Skills\LEDGER.md`.
-- Work with no repo/concern home lives at `C:\Users\Lance\.agents\EPICs\<concern>\LEDGER.md`. The concerns are `tracker-requests`, `opencode-host`, `classical-library`, `arr-stack`, `md-library`, `foobar2000`. Create the concern folder and its `LEDGER.md` on first write if they are missing.
+- Work with no repo/concern home lives at `C:\Users\Lance\.agents\EPICs\<concern>\LEDGER.md`. Concerns include `tracker-requests`, `opencode-host`, `classical-library`, `arr-stack`, `md-library`, `foobar2000`, `research`, `salvage`, `inbox` — enumerate dynamically (discovery finds every concern folder). Create the concern folder and its `LEDGER.md` on first write if missing.
 - Known exemptions (existing owner rulings — keep them):
   - Media / Lance-Cmdlets / media-research-tools → `C:\Users\Lance\Documents\PowerShell\Modules\Media\LEDGER.md`, one section per concern.
-  - DVD concert library → `D:\DVDs`, with its plan in `MERGE-SPEC.md` + `tasks\` there (create on first write if absent).
-- `C:\Users\Lance\.claude\ledger\`, if present, is a frozen read-only archive: read it for history, never write to it.
+  - DVD concert library → `D:\DVDs` (merge initiative complete; per-folder `tags.json` sidecars are the metadata authority).
 
 ## Gates come from ledger-it
 
