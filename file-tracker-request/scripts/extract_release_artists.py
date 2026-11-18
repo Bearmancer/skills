@@ -19,6 +19,17 @@ import sys
 import time
 import urllib.error
 import urllib.request
+
+
+def work_name(title):
+    s = title.strip()
+    while True:
+        head, sep, tail = s.rpartition(":")
+        t = tail.strip()
+        numbered = t[:1].isdigit() and ". " in t[:4]
+        if not sep or not (t[:1].isalpha() or numbered):
+            return s
+        s = head.strip()
 from pathlib import Path
 
 MAIN, COMPOSER, CONDUCTOR = 1, 4, 5
@@ -67,7 +78,7 @@ def extract(rel, conductor_names=()):
                 continue
             add(t.get("artist-credit"), "composer")
             add(t.get("recording", {}).get("artist-credit"), "performer")
-            work = title.split(":")[0].strip()
+            work = work_name(title)
             if groups and groups[-1]["composer"] == comp and groups[-1]["work"] == work:
                 groups[-1]["tracks"] += 1
                 groups[-1]["last_title"] = title
@@ -75,7 +86,7 @@ def extract(rel, conductor_names=()):
                 groups.append({"composer": comp, "work": work, "tracks": 1, "last_title": title})
         works = []
         for g in groups:
-            work = g["work"] if g["tracks"] > 1 else g["last_title"]
+            work = work_name(g["work"] if g["tracks"] > 1 else g["last_title"])
             works.append({"composer": g["composer"], "work": work})
         works_out.append({"cd": m.get("position"), "mb_title": m.get("title"), "works": works})
 

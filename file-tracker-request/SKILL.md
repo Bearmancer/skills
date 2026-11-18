@@ -38,6 +38,14 @@ Any other tracker: say these notes do not cover it.
   stay unticked** on both sites — demanding them is more specific than the upload
   rules; tick only on explicit user request.
 - **Year** = edition release year, not recording dates.
+- **Catalogue number is mandatory** (owner ruling 2026-11-18). Every request carries the
+  label's catalogue number — it is what identifies the exact edition, and without it a
+  filler cannot tell which pressing to rip. Do not post with it blank. When the ranked
+  sources have no row, keep going: the label's own catalogue, the retailer listings, the
+  Discogs label page, and the other MCPs (`exa`, `tavily`, `firecrawl`, `browse`) are all
+  legitimate next steps. A JS-rendered label page that returns an empty shell is not
+  "no catalogue" — render it through the browser or a scraping MCP and read it again.
+  Only stop and ask the owner when every route is exhausted, and say which ones failed.
 - **Tags:** `classical` plus fitting tags, ≤ 200 chars, dots inside multi-word tags.
   RED accepts free tags; OPS official `#genre_tags` values only (rejection is
   server-side, after the POST).
@@ -117,7 +125,8 @@ opus typos and add any composer the correction introduces to the artist rows.
    never a second request.
 3. Neither a torrent nor a request → research via sources; run extraction;
    cross-check; build description (overview + full work list + source links +
-   barcode).
+   barcode). The catalogue number is part of the payload, not an optional extra —
+   settle it before filling anything.
 4. Fill immediately — no skill edits, retros or questions first — per
    `references/browser-fill.md` (main-world injection, DOM-stashed payload,
    `make_bundle.py` + `serve_payload.py`). Done when the readback says `ok:true`.
@@ -163,3 +172,6 @@ A conductor's surname is a starting point, never proof of absence (owner ruling
   row titles: if they are unrelated newest uploads, the parameter was ignored.
 - "Not found" from page 1, or from a link regex that missed `action=view&`. Both read
   as absence and are not. Walk the pages, validate the pattern on a known hit.
+- Posted with a blank catalogue number because the first few sources had no row. The
+  number identifies the edition; keep hunting the label and retailer routes before
+  treating it as unavailable.

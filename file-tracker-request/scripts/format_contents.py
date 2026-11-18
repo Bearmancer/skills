@@ -4,8 +4,19 @@ import sys
 from pathlib import Path
 
 
+def work_name(title):
+    s = title.strip()
+    while True:
+        head, sep, tail = s.rpartition(":")
+        t = tail.strip()
+        numbered = t[:1].isdigit() and ". " in t[:4]
+        if not sep or not (t[:1].isalpha() or numbered):
+            return s
+        s = head.strip()
+
+
 def strip_movement(title):
-    return title.split(":")[0].strip()
+    return work_name(title)
 
 
 def format_contents(extract, performers):

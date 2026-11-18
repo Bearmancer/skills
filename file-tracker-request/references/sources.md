@@ -58,6 +58,16 @@ fetch. Otherwise stay in the list above.
   sign-in wall; the OCLC field on RED is optional — leave it blank rather than guess.
 - Cover Art Archive returns 404 for releases without uploaded art; fall back to a
   Discogs or retailer image and verify HTTPS 200 + image content-type.
+- Discogs search never reports "no results" — an unmatched query returns unrelated
+  fuzzy rows (a Végh box query returned Händel and DJ Smallcock). Read the returned
+  titles before calling anything a hit or a miss.
+- Retailer search endpoints fall back to generic listings when the query misses:
+  Presto redirected `/classical/search?search=` to the section front page, Horizons
+  returned 220 unrelated products. A page full of products is not a search result.
+- The label's own site can be JS-only: `orfeomusic.de` returned an error page to a
+  plain fetch and a 3 KB shell to a scraper. Naxos distributes Orfeo and publishes its
+  catalogue at `naxos.com/individuallabel?labelid=OFO` — extract that with `tvly extract`
+  and search it for the artist; it carries the catalogue numbers directly.
 - Brand-new boxes are often missing from Discogs search. When ranks 1–6 have no row,
   jump to Presto (rank 7) as the fallback — it carries the catalogue number, release
   date and cover earliest. This is a fallback for an absent row, not a licence to
