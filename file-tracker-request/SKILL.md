@@ -1,6 +1,6 @@
 ---
 name: file-tracker-request
-description: Fill, verify or edit a request on Redacted (redacted.sh, "RED") or Orpheus (orpheus.network, "OPS") — the "Create a request" form. Use whenever asked to post a request, fill or check the requests form, or work out which fields and bounty a request needs. Defaults to 10 GB, extracts every conductor, composer, orchestra and soloist into artist rows and the full work list into the body, rehosts covers for OPS, and confirms only once, immediately before posting. Field maps live in references/, the reusable scripts in scripts/.
+description: Fill, verify or edit a request on Redacted (redacted.sh, "RED") or Orpheus (orpheus.network, "OPS") — the "Create a request" form. Use whenever asked to post a request, fill or check the requests form, or work out which fields and bounty a request needs. Defaults to a disc-count bounty (2/5/7/10 GB), extracts every conductor, composer, orchestra and soloist into artist rows and the full work list into the body, rehosts covers for OPS, and confirms only once, immediately before posting. Field maps live in references/, the reusable scripts in scripts/.
 ---
 
 # Track requests — RED and OPS
@@ -26,13 +26,17 @@ Any other tracker: say these notes do not cover it.
 
 ## Defaults (automatic)
 
-- **Bounty 10 GB** unless the user names a number. RED: `#amount_box`=10, `#unit`=gb,
-  `Calculate()`. OPS: 10 GiB, fire native `input` on box and unit (jQuery handler; no
-  global to call); hidden `request_tax` reduces the credited bounty.
+- **Bounty scales with disc count** (owner ruling 2026-11-18): 1 disc → 2 GB; 2–10 →
+  5 GB; 11–20 → 7 GB; over 20 → 10 GB. Bytes = GB × 1024³. The user naming a number
+  overrides the tier. RED: `#amount_box`=<gb>, `#unit`=gb, `Calculate()`. OPS: same
+  number in GiB, fire native `input` on box and unit (jQuery handler; no global to
+  call); hidden `request_tax` reduces the credited bounty.
 - **Classical CD shape:** Music; release type **Anthology (`6` on both sites) for every
-  box set or collection — never Compilation**; Album for a single original album; FLAC only; Lossless; CD. **Log, cue and checksum stay unticked** on
-  both sites — demanding them is more specific than the upload rules; tick only on
-  explicit user request.
+  box set or collection — never Compilation**; **Live album** for a single non-box live
+  release (value code differs per site — read the reference); Album for a single
+  original studio album. **FLAC exclusively**, Lossless, CD. **Log, cue and checksum
+  stay unticked** on both sites — demanding them is more specific than the upload
+  rules; tick only on explicit user request.
 - **Year** = edition release year, not recording dates.
 - **Tags:** `classical` plus fitting tags, ≤ 200 chars, dots inside multi-word tags.
   RED accepts free tags; OPS official `#genre_tags` values only (rejection is
@@ -46,7 +50,9 @@ Any other tracker: say these notes do not cover it.
 `references/sources.md`, in the owner's mandated order: MusicBrainz, Discogs,
 Europadisc, Horizons, MusicWeb International, AllMusic, Presto. Wikipedia, Amazon,
 The Guardian and UMG label storefronts are outside the routine; a blocked or empty
-source → move to the next and say which failed.
+source → move to the next and say which failed. When fetches keep failing, widen
+through the other MCPs (`exa`, `tavily`, `firecrawl`, `browse`) rather than stopping —
+a 403/451/503 from one transport is not the source having no row.
 
 ## Extraction (classical)
 
@@ -102,8 +108,13 @@ opus typos and add any composer the correction introduces to the artist rows.
    unfiltered newest-torrents list — it reads like hundreds of hits for any query.
    Only `searchstr` (and the field filters) actually filter; `requests.php` is the
    one that takes `search`.
+   A 16-bit FLAC rip ends the job. If the release exists **only as 24-bit FLAC**, the
+   request still goes up — the ask is for the 16-bit CD layer — and the release is
+   logged in a standing `24bit-only.md` inventory (tracker, torrent id, title, label,
+   catalogue, depth, size), one row per such torrent.
 2. No torrent → search `requests.php?search=<title>` for an existing request. One
-   already there means vote or add bounty, never a second request.
+   already there means **add exactly 1 GB** to its bounty (owner ruling 2026-11-18),
+   never a second request.
 3. Neither a torrent nor a request → research via sources; run extraction;
    cross-check; build description (overview + full work list + source links +
    barcode).
