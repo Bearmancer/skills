@@ -40,7 +40,7 @@ Exit codes: 0 done, 1 failed, 2 suspended, 3 waiting on you. Read the run direct
 
 - Failed (1): `REPORT.md` names the phase and every problem. The draft branch keeps the ledger; a failed `live-check` publishes then reverts, and resume refuses, so start a new run. Fix the cause (usually a claim or sentence, not a gate), then `cli resume <run_dir>`.
 - Suspended (2): `NEEDS_YOU.md`; a whole key pool is exhausted. Add keys or wait out the reset window, then resume. Settled claims are kept.
-- Waiting (3): `ASKS.md`; AI steps need your replies (see AI steps), then resume.
+- Waiting (3): `ASKS.md`; AI steps need your replies (see AI steps), then resume. Read its `Progress` line before every resume; when claims reach the budget or the wave stays the same for three resumes, stop and ask the user. Discover budget: `start --max-waves --wave-size --max-claims --max-source-chunks`; answer mode defaults to 2 waves, 600 claims, 2 chunks per source.
 - Set `DEEP_RESEARCH_NOTIFY` to a command (it receives one message argument); the driver calls it on failed or suspended runs.
 - `--model` on start and resume adds your model id to `answered_by` in `run.yaml` and the run record.
 

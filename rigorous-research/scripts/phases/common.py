@@ -130,7 +130,10 @@ def extract_claims(
 ):
     out = Extracted()
     text = source_text(ctx, row) if text is None else text
-    for i, piece in enumerate(chunks(text, ctx.cfg.max_source_chars), 1):
+    if len(ctx.ledger.claims) >= ctx.cfg.max_claims:
+        return out
+    pieces = chunks(text, ctx.cfg.max_source_chars)[: ctx.cfg.max_source_chunks]
+    for i, piece in enumerate(pieces, 1):
         data = agents.call(
             ctx.runner,
             "extractor",

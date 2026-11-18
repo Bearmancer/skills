@@ -4,7 +4,7 @@
 # ///
 """CLI entry: start or resume a run.
 
-  uv run <skill dir>/scripts/cli.py start --site-root <bearmancer.github.io clone> --topic <slug> [--site-url <url>] [--mode learn|rules|answer|verify|recommend] [--kind narrative|explainer] [--subject <name>] [--model <id>] "<prompt>"
+  uv run <skill dir>/scripts/cli.py start --site-root <bearmancer.github.io clone> --topic <slug> [--site-url <url>] [--mode learn|rules|answer|verify|recommend] [--kind narrative|explainer] [--subject <name>] [--model <id>] ("<prompt>" | --prompt-file <path>)
   uv run <skill dir>/scripts/cli.py resume [--model <id>] <run_dir>
   uv run <skill dir>/scripts/cli.py doctor [--site-root <clone>]
   uv run <skill dir>/scripts/cli.py remove --site-root <bearmancer.github.io clone> --topic <slug> [--site-url <url>] [--dry-run] [--force]
@@ -233,7 +233,10 @@ def main(
     s.add_argument(
         "--model", help="the model answering the AI steps, kept in the run record"
     )
-    s.add_argument("prompt")
+    for flag in ("max-waves", "wave-size", "max-claims", "max-source-chunks"):
+        s.add_argument(f"--{flag}", type=int, help="discover budget; answer mode has tighter defaults")
+    s.add_argument("prompt", nargs="?")
+    s.add_argument("--prompt-file", type=Path)
     r = sub.add_parser("resume")
     r.add_argument("--site-url", default=DEFAULT_SITE_URL)
     r.add_argument(
@@ -249,6 +252,12 @@ def main(
     d.add_argument("--dry-run", action="store_true")
     d.add_argument("--force", action="store_true")
     args = ap.parse_args(argv)
+
+    if args.cmd == "start":
+        if (args.prompt is None) == (args.prompt_file is None):
+            ap.error("give a prompt or --prompt-file")
+        if args.prompt_file is not None:
+            args.prompt = args.prompt_file.read_text(encoding="utf-8").strip()
 
     if args.cmd == "doctor":
         results = doctor(args.site_root.resolve() if args.site_root else None)
@@ -275,6 +284,9 @@ def main(
             driver.new_run_id(),
         )
     else:
+        if not (args.run_dir / "run.yaml").is_file():
+            print(f"error: {args.run_dir} is not a run dir (no run.yaml)")
+            return 1
         main_root, topic, run_id = locate(args.run_dir.resolve())
     ctx = build_context(
         main_root, topic, run_id, services(main_root, registry.load()), args.site_url
@@ -293,6 +305,13 @@ def main(
             d.state.context["subject"] = args.subject
         if args.allow_kind_downgrade:
             d.state.context["allow_kind_downgrade"] = True
+        budget = {
+            k: getattr(args, k)
+            for k in ("max_waves", "wave_size", "max_claims", "max_source_chunks")
+            if getattr(args, k) is not None
+        }
+        if budget:
+            d.state.context["budget"] = budget
         d.save()
     else:
         d = driver.Driver.resume(run_dir, handlers)

@@ -2,6 +2,7 @@ import concurrent.futures as cf
 import copy
 import hashlib
 import inspect
+import json
 import re
 import traceback
 from datetime import datetime, timezone
@@ -287,12 +288,31 @@ class Driver:
                 else:
                     _write_batch(batches_dir, role, batch, batch_lines)
         (self.run_dir / "ASKS.md").write_text(
-            f"# Run {st.run_id} waits on the agent\n\n- Phase: {phase}\n\n"
+            f"# Run {st.run_id} waits on the agent\n\n- Phase: {phase}\n"
+            f"- Progress: {self._progress(asks)}\n\n"
             "Answer each ask below (the loading agent itself; `fresh subagent: yes` in a fresh subagent "
             "that sees only that ask file), write its reply file, then resume the run.\n\n"
             + "".join(f"- {a}\n" for a in asks)
             + ("\n## batches\n" + "\n".join(batch_lines) if batch_lines else ""),
             encoding="utf-8",
+        )
+
+    def _progress(self, asks):
+        disc = self.state.context.get("discover") or {}
+        budget = disc.get("limits") or self.state.context.get("budget") or {}
+        last = {}
+        waves = self.run_dir / "waves.jsonl"
+        if waves.exists():
+            lines = waves.read_text(encoding="utf-8").splitlines()
+            last = json.loads(lines[-1]) if lines else {}
+        agents_dir = Path(asks[0]).parent if asks else None
+        replies = len(list(agents_dir.glob("*.reply.md"))) if agents_dir else 0
+        return (
+            f"wave {disc.get('wave', 0)}/{budget.get('max_waves', 'default')}"
+            f" · quiet {disc.get('quiet', 0)}"
+            f" · claims {disc.get('claims', last.get('claims', '?'))}/{budget.get('max_claims', 'default')}"
+            f" · replies so far {replies}"
+            f" · asks now {len(asks)}"
         )
 
     def _suspend(self, phase, exc):

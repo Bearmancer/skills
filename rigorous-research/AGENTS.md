@@ -32,7 +32,6 @@ references/design.md  skill-local decision record
 - Exit codes: 0 done, 1 failed, 2 suspended, 3 waiting on the agent.
 - Scripts import as the `scripts` package (`from scripts import registry`); each script's header lists its own dependencies.
 - Run state lives in the site repo's gitignored `work/`, never here; `work/`, `scratch/` are ignored in this folder too.
-- Tests: `tests/conftest.py` supplies `ScriptedRunner`, `reg` and `ledger_ctx`; use them instead of a model call.
 
 ## Anti-patterns
 

@@ -1,7 +1,7 @@
 import json
 import re
 
-from .. import agents, domains, driver, ledger, registry
+from .. import agents, domains, driver, ledger, registry, workspace
 from ..driver import PhaseResult
 from . import common
 
@@ -137,6 +137,7 @@ def _cluster_keys(ctx):
 def discover(ctx, d):
     common.guard_pools(ctx)
     common.bind_domain(ctx, d)
+    workspace.apply_budget(ctx.cfg, d.state.mode, d.state.context.get("budget"))
     st = common.state_ctx(
         d, "discover", {"wave": 0, "quiet": 0, "mis_done": [], "inputs_done": False}
     )
@@ -153,16 +154,22 @@ def discover(ctx, d):
         st["inputs_done"] = True
         ctx.ledger.save()
     size = ctx.cfg.wave_size
-    while st["wave"] < ctx.cfg.max_waves and st["quiet"] < ctx.cfg.saturation_waves:
+    while (
+        st["wave"] < ctx.cfg.max_waves
+        and st["quiet"] < ctx.cfg.saturation_waves
+        and len(ctx.ledger.claims) < ctx.cfg.max_claims
+    ):
         wave = st["wave"] + 1
         plan = st.setdefault("plans", {}).get(str(wave))
         if plan is None:
             aspects = _aspects(ctx, d, wave)
+            last_new = set(st.get("last_new", []))
             fresh = [
                 c
                 for c in ctx.ledger.clusters()
-                if ledger.normalize_text(c) not in st["mis_done"]
-            ]
+                if ledger.normalize_text(c) in last_new
+                and ledger.normalize_text(c) not in st["mis_done"]
+            ][: ctx.cfg.max_mis_tasks]
             mis = [d.state.prompt] if wave == 1 else fresh
             plan = {f"a{i}": ["wave", a] for i, a in enumerate(aspects, 1)}
             plan.update({f"m{i}": ["mis", m] for i, m in enumerate(mis, 1)})
@@ -183,6 +190,8 @@ def discover(ctx, d):
             timeout=ctx.cfg.wave_timeout,
         )
         common.raise_exhausted(exhausted)
+        st["claims"] = len(ctx.ledger.claims)
+        st["limits"] = {"max_waves": ctx.cfg.max_waves, "max_claims": ctx.cfg.max_claims}
         if asks := driver.waiting(results):
             ctx.ledger.save()
             raise asks
@@ -191,7 +200,8 @@ def discover(ctx, d):
                 st["mis_done"].append(ledger.normalize_text(tasks[name][1]))
         ctx.ledger.save()
         new = _cluster_keys(ctx) - before_clusters
-        grown = len(ctx.ledger.claims) > before_claims
+        st["last_new"] = sorted(new)
+        grown = len(new) >= ctx.cfg.min_new_clusters
         failed_tasks = any(not r.ok for r in results.values())
         st["quiet"] = 0 if grown or failed_tasks else st["quiet"] + 1
         st["wave"] = wave
@@ -228,5 +238,6 @@ def discover(ctx, d):
             "clusters": len(ctx.ledger.clusters()),
             "claims": len(ctx.ledger.claims),
             "saturated": st["quiet"] >= ctx.cfg.saturation_waves,
+            "claim_budget_hit": len(ctx.ledger.claims) >= ctx.cfg.max_claims,
         }
     )

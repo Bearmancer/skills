@@ -29,7 +29,15 @@ class Config:
         min_rounds_true=2,
         min_text_chars=200,
         media_pages=4,
+        max_source_chunks=3,
+        max_claims=2000,
+        max_mis_tasks=3,
+        min_new_clusters=2,
     ):
+        self.max_source_chunks = max_source_chunks
+        self.max_claims = max_claims
+        self.max_mis_tasks = max_mis_tasks
+        self.min_new_clusters = min_new_clusters
         self.wave_size = wave_size
         self.wave_timeout = wave_timeout
         self.max_waves = max_waves
@@ -45,6 +53,24 @@ class Config:
         self.min_rounds_true = min_rounds_true
         self.min_text_chars = min_text_chars
         self.media_pages = media_pages
+
+
+MODE_BUDGETS = {
+    "answer": {"max_waves": 2, "max_claims": 600, "max_source_chunks": 2},
+}
+BUDGET_KEYS = (
+    "max_waves",
+    "wave_size",
+    "max_claims",
+    "max_source_chunks",
+    "saturation_waves",
+)
+
+
+def apply_budget(cfg, mode, overrides):
+    for key, value in {**MODE_BUDGETS.get(mode, {}), **(overrides or {})}.items():
+        if key in BUDGET_KEYS and value is not None:
+            setattr(cfg, key, value)
 
 
 def now_stamp(clock=None):
