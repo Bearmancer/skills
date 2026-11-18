@@ -127,9 +127,25 @@ opus typos and add any composer the correction introduces to the artist rows.
 7. Verify on the site: redirect to `requests.php?id=<newid>` and the request on the
    account — a returned click is not evidence. Kill the payload server afterwards.
 
-Record the torrent and request search terms you used and the row counts you saw, per
-site. "Not found" is a claim about the tracker, so it needs the search that produced
-it — an empty result from one spelling is not proof the rip is absent.
+### Search mechanics — "not found" must be earned
+
+A conductor's surname is a starting point, never proof of absence (owner ruling
+2026-11-18). Record the terms, the pages walked and the distinct-group count per site.
+
+- **Walk every page.** Results paginate at 50 groups. Follow `&page=N` until a page
+  adds no new group ids; a page-1 miss means nothing. Measured: `searchstr=Beethoven`
+  on RED fills page 1 and links to page 20+, while `searchstr=Vegh` is 38 groups on one
+  page. If pagination links exist and you did not follow them, you have not searched.
+- **Count group links only**: `torrents.php?id=<n>` and
+  `requests.php?action=view&id=<n>`. Download, `userid` and `torrentid` links inflate
+  the count — OPS `searchstr=Vegh` looks like 134 hits but is 32 groups.
+- **A regex that misses `action=view&` returns a false zero on requests.** The first
+  probe of `requests.php?search=Vegh` read 0; the correct pattern found 1. Validate
+  the pattern against a query you know has a hit (e.g. `search=Maazel` → OPS 83111)
+  before trusting any zero.
+- **Surnames collide.** RED `search=Vegh` returns request 204889 "Imrich Végh – Wave
+  Earplug No.4", an electronic artist, not Sándor Végh. Read the titles; a namesake is
+  not your release. Try the accented and ASCII spellings both ways.
 
 ## Failure modes
 
@@ -145,3 +161,5 @@ it — an empty result from one spelling is not proof the rip is absent.
   then requests, then create; never the reverse.
 - `torrents.php?search=` looks like it worked (200+ rows) but is unfiltered. Read the
   row titles: if they are unrelated newest uploads, the parameter was ignored.
+- "Not found" from page 1, or from a link regex that missed `action=view&`. Both read
+  as absence and are not. Walk the pages, validate the pattern on a known hit.
