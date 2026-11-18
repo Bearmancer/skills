@@ -43,10 +43,10 @@ Any other tracker: say these notes do not cover it.
 
 ## Research sources
 
-`references/sources.md`: Europadisc, Discogs, MusicBrainz, MusicWeb International,
-Presto, AllMusic, Horizons. Wikipedia, Amazon, The Guardian and UMG label storefronts
-are outside the routine; a blocked allowed source → move to the next and say which
-failed.
+`references/sources.md`, in the owner's mandated order: MusicBrainz, Discogs,
+Europadisc, Horizons, MusicWeb International, AllMusic, Presto. Wikipedia, Amazon,
+The Guardian and UMG label storefronts are outside the routine; a blocked or empty
+source → move to the next and say which failed.
 
 ## Extraction (classical)
 
@@ -61,8 +61,30 @@ Skim the Main list for variant spellings of one ensemble (Maazel box: "New
 Philharmonia" vs "New Philharmonic Orchestra") and keep one. MB fetches can die with
 `IncompleteRead` — the script retries; rerun if it still fails.
 
-Work list → description body: per disc `Composer – Work`, movement suffix after `:`
-stripped, disc order; excerpt discs list the actual arias/excerpts; drop applause.
+Work list → description body: `scripts/format_contents.py --extract extract.json
+[--performers performers.json] [--out contents.txt]` renders the block from the
+extraction JSON. Shape: a `Contents:` header, then one block per disc — `Disc N` on its
+own line, then one line per work `Composer — Work [Soloists, Orchestra]` (em dash U+2014;
+performers in square brackets, comma-separated, soloists before orchestra, emitted only
+when a performers entry exists for that disc). Consecutive works by the same composer:
+the first line carries the composer, the rest are bare work lines (no composer, no
+brackets); a different composer starts a new `Composer — Work [...]` line. Blank line
+between disc blocks. No `CD n:` prefix, no parenthesised performers, no `·` joins.
+Movement suffix after `:` stripped, disc order preserved, identical composer+work lines
+deduped per disc; excerpt discs list the actual arias/excerpts; drop applause. The
+performers map is disc number → string (`{"1": "Berliner Philharmoniker", "3": "Sviatoslav
+Richter, Orchestre de Paris"}`), from retailer/Discogs credits. In the final BBCode
+description `[b]…[/b]` may wrap the `Contents:` header and the `Disc N` labels.
+
+```
+Contents:
+Disc 1
+Bruckner — Symphony no. 7 in E major, WAB 107 [Berliner Philharmoniker]
+
+Disc 2
+Tchaikovsky — Piano Concerto no. 1 in B-flat minor, op. 23 [Emil Gilels, New Philharmonia Orchestra]
+Piano Concerto no. 2 in G major, op. 44
+```
 
 **Cross-check against the retailer contents listing before posting.** MB composer
 credits contain real errors — on Mehta's *Philharmonic Edition*, *Les préludes* was
@@ -71,18 +93,32 @@ opus typos and add any composer the correction introduces to the artist rows.
 
 ## Procedure
 
-1. Identify tracker; read its reference. Search its requests for the title first
-   (duplicate check).
-2. Research via sources; run extraction; cross-check; build description (overview +
-   full work list + source links + barcode).
-3. Fill immediately — no skill edits, retros or questions first — per
+1. Identify tracker; read its reference. **Torrents first, on both sites** (owner
+   ruling 2026-11-18): search `torrents.php?searchstr=<title or conductor>` for an
+   existing rip, and `torrents.php?cataloguenumber=<cat>` for an exact match. Box
+   titles appear under many spellings, so try conductor + label too. A rip already on
+   the tracker means there is nothing to request: report the torrent and stop.
+   `torrents.php?search=` is **silently ignored** on both sites and returns the
+   unfiltered newest-torrents list — it reads like hundreds of hits for any query.
+   Only `searchstr` (and the field filters) actually filter; `requests.php` is the
+   one that takes `search`.
+2. No torrent → search `requests.php?search=<title>` for an existing request. One
+   already there means vote or add bounty, never a second request.
+3. Neither a torrent nor a request → research via sources; run extraction;
+   cross-check; build description (overview + full work list + source links +
+   barcode).
+4. Fill immediately — no skill edits, retros or questions first — per
    `references/browser-fill.md` (main-world injection, DOM-stashed payload,
    `make_bundle.py` + `serve_payload.py`). Done when the readback says `ok:true`.
-4. Read the payload back in one compact block — the only confirmation.
-5. On yes: assert `#amount` + button, submit; accept a dialog only if the numbers
+5. Read the payload back in one compact block — the only confirmation.
+6. On yes: assert `#amount` + button, submit; accept a dialog only if the numbers
    match (RED fires one ≥ 25 GB; OPS none).
-6. Verify on the site: redirect to `requests.php?id=<newid>` and the request on the
+7. Verify on the site: redirect to `requests.php?id=<newid>` and the request on the
    account — a returned click is not evidence. Kill the payload server afterwards.
+
+Record the torrent and request search terms you used and the row counts you saw, per
+site. "Not found" is a claim about the tracker, so it needs the search that produced
+it — an empty result from one spelling is not proof the rip is absent.
 
 ## Failure modes
 
@@ -94,3 +130,7 @@ opus typos and add any composer the correction introduces to the artist rows.
 - OPS image rejection → rehost (postimages), resubmit; the POST returns the form with
   values preserved.
 - MB composer errors propagated unchecked — always cross-check.
+- Skipped the torrent check → a request for a rip the tracker already has. Torrents,
+  then requests, then create; never the reverse.
+- `torrents.php?search=` looks like it worked (200+ rows) but is unfiltered. Read the
+  row titles: if they are unrelated newest uploads, the parameter was ignored.
