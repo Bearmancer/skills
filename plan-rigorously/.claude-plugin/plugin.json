@@ -1,0 +1,8 @@
+{
+  "name": "plan-rigorously",
+  "version": "1.0.0",
+  "description": "Plan-before-code workflow: one .rigor/plan.md file, staged questions and sign-offs, and hooks that guard the plan while it is live.",
+  "author": {
+    "name": "Lance"
+  }
+}

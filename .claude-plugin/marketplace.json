@@ -1,0 +1,14 @@
+{
+  "name": "bearmancer-skills",
+  "description": "Lance's skills repository: Claude Code plugins built from the skills in this repo.",
+  "owner": {
+    "name": "Lance"
+  },
+  "plugins": [
+    {
+      "name": "plan-rigorously",
+      "source": "./plan-rigorously",
+      "description": "Plan-before-code workflow with a guarded .rigor/plan.md, staged sign-offs, and review rounds."
+    }
+  ]
+}
