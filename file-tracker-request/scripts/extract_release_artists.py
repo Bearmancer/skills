@@ -23,7 +23,7 @@ MAIN, COMPOSER, CONDUCTOR = 1, 4, 5
 
 def fetch_release(mbid):
     url = f"https://musicbrainz.org/ws/2/release/{mbid}?inc=recordings+artist-credits+labels&fmt=json"
-    req = urllib.request.Request(url, headers={"User-Agent": "track-requests-skill/1.0 (MusicBrainz lookup for tracker request)"})
+    req = urllib.request.Request(url, headers={"User-Agent": "file-tracker-request-skill/1.0 (MusicBrainz lookup for tracker request)"})
     with urllib.request.urlopen(req, timeout=60) as resp:
         return json.loads(resp.read().decode("utf-8"))
 
