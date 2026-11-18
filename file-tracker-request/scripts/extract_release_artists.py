@@ -13,8 +13,11 @@ MB track-level composer credits contain real errors.
 
 import argparse
 import collections
+import http.client
 import json
 import sys
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -24,8 +27,15 @@ MAIN, COMPOSER, CONDUCTOR = 1, 4, 5
 def fetch_release(mbid):
     url = f"https://musicbrainz.org/ws/2/release/{mbid}?inc=recordings+artist-credits+labels&fmt=json"
     req = urllib.request.Request(url, headers={"User-Agent": "file-tracker-request-skill/1.0 (MusicBrainz lookup for tracker request)"})
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+    last = None
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except (http.client.IncompleteRead, urllib.error.URLError, TimeoutError) as exc:
+            last = exc
+            time.sleep(2 * (attempt + 1))
+    raise last
 
 
 def credit_names(credits):

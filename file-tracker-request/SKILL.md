@@ -29,8 +29,8 @@ Any other tracker: say these notes do not cover it.
 - **Bounty 10 GB** unless the user names a number. RED: `#amount_box`=10, `#unit`=gb,
   `Calculate()`. OPS: 10 GiB, fire native `input` on box and unit (jQuery handler; no
   global to call); hidden `request_tax` reduces the credited bounty.
-- **Classical CD shape:** Music; Compilation for collections, Album for a single
-  original album; FLAC only; Lossless; CD. **Log, cue and checksum stay unticked** on
+- **Classical CD shape:** Music; release type **Anthology (`6` on both sites) for every
+  box set or collection — never Compilation**; Album for a single original album; FLAC only; Lossless; CD. **Log, cue and checksum stay unticked** on
   both sites — demanding them is more specific than the upload rules; tick only on
   explicit user request.
 - **Year** = edition release year, not recording dates.
@@ -57,6 +57,10 @@ failed.
 explicitly — soloists who also conduct (Ashkenazy, Perlman, Zukerman) stay Main;
 `conductor_review` flags ambiguous cases. Max 200 rows; `[no artist]` dropped.
 
+Skim the Main list for variant spellings of one ensemble (Maazel box: "New
+Philharmonia" vs "New Philharmonic Orchestra") and keep one. MB fetches can die with
+`IncompleteRead` — the script retries; rerun if it still fails.
+
 Work list → description body: per disc `Composer – Work`, movement suffix after `:`
 stripped, disc order; excerpt discs list the actual arias/excerpts; drop applause.
 
@@ -73,7 +77,7 @@ opus typos and add any composer the correction introduces to the artist rows.
    full work list + source links + barcode).
 3. Fill immediately — no skill edits, retros or questions first — per
    `references/browser-fill.md` (main-world injection, DOM-stashed payload,
-   `serve_payload.py` + `fill_request.js`). Done when the readback says `ok:true`.
+   `make_bundle.py` + `serve_payload.py`). Done when the readback says `ok:true`.
 4. Read the payload back in one compact block — the only confirmation.
 5. On yes: assert `#amount` + button, submit; accept a dialog only if the numbers
    match (RED fires one ≥ 25 GB; OPS none).

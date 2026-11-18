@@ -35,6 +35,12 @@ fetch. Otherwise stay in the list above.
   sign-in wall; the OCLC field on RED is optional — leave it blank rather than guess.
 - Cover Art Archive returns 404 for releases without uploaded art; fall back to a
   Discogs or retailer image and verify HTTPS 200 + image content-type.
+- Brand-new boxes are often missing from Discogs search; Presto has the catalogue
+  number, release date and cover first. jpc answers 451 to fetches; MusicBrainz
+  search through `webfetch` returned 503 — query it from Python with a User-Agent.
+- Presto `og:image` is a 200 px CloudFront thumbnail whose path is base64 JSON
+  (`{"bucket":"presto-cover-images","key":"<id>.1.jpg","edits":{"resize":{"width":200},…}}`);
+  re-encode with `width: 800` for a usable cover, then rehost.
 - MB release JSON for huge boxes embeds recordings without relations; performer
   credits are on the recording entities. Browse JSON serializes relation dates as
   `begin`/`end`, not `begin-date`.
