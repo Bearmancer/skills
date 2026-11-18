@@ -58,6 +58,12 @@ fetch. Otherwise stay in the list above.
   sign-in wall; the OCLC field on RED is optional — leave it blank rather than guess.
 - Cover Art Archive returns 404 for releases without uploaded art; fall back to a
   Discogs or retailer image and verify HTTPS 200 + image content-type.
+- A blog post's `Label :` line can be wrong. The Järvi Cincinnati Telarc box is labelled
+  Decca on the blog but was issued on **New Classical Adventure** after the Telarc
+  catalogue passed to Concord. Take the label from MusicBrainz or a retailer, not the post.
+- The catalogue-number torrent search is decisive but not sufficient: OPS returned 0 for
+  `cataloguenumber=234381` while its own group page for that box displays 234381. Run the
+  title search as well — that is what found the existing rip on OPS.
 - Discogs search never reports "no results" — an unmatched query returns unrelated
   fuzzy rows (a Végh box query returned Händel and DJ Smallcock). Read the returned
   titles before calling anything a hit or a miss.

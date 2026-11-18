@@ -15,6 +15,7 @@ MB track-level composer credits contain real errors.
 import argparse
 import collections
 import json
+import re
 import sys
 import time
 from pathlib import Path
@@ -23,10 +24,11 @@ import musicbrainzngs as mb
 
 MAIN, COMPOSER, CONDUCTOR = 1, 4, 5
 INCLUDES = ["recordings", "artist-credits", "labels"]
+RIP_NOISE = re.compile(r"\s*\(\s*\d+\s*dB\s*\)", re.IGNORECASE)
 
 
 def work_name(title):
-    s = title.strip()
+    s = RIP_NOISE.sub("", title.strip())
     while True:
         head, sep, tail = s.rpartition(":")
         t = tail.strip()
