@@ -25,7 +25,7 @@ This skill serves the backlog; it does not define the discipline for recording w
 
 Find the homes before reading anything, so you resume the right concern instead of a stale memory of one:
 
-1. Enumerate existing ledgers (the `-I` flag matters: ledger filenames are git-excluded, so an ignore-respecting search misses them):
+1. Enumerate existing ledgers (the `-I` flag matters: some homes git-exclude their LEDGER.md, so an ignore-respecting search can miss them):
 
    ```
    fd -HI -d 2 "^LEDGER\.md$" C:\Users\Lance\Dev
