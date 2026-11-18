@@ -65,9 +65,17 @@ fetch. Otherwise stay in the list above.
   Presto redirected `/classical/search?search=` to the section front page, Horizons
   returned 220 unrelated products. A page full of products is not a search result.
 - The label's own site can be JS-only: `orfeomusic.de` returned an error page to a
-  plain fetch and a 3 KB shell to a scraper. Naxos distributes Orfeo and publishes its
-  catalogue at `naxos.com/individuallabel?labelid=OFO` — extract that with `tvly extract`
-  and search it for the artist; it carries the catalogue numbers directly.
+  plain fetch and a pre-hydration shell to the first scrape. **Retry before calling it
+  empty** — measured 2026-11-18: the identical firecrawl call (`onlyMainContent: true,
+  waitFor: 5000`) returned 5,953 chars with zero catalogue links on the first attempt
+  and 5,202 chars with all 6 links on a later one. A cold fetch of a JS page is a
+  timing artefact, not an absent source. Naxos distributes Orfeo and publishes its
+  catalogue at `naxos.com/individuallabel?labelid=OFO`; `tvly extract` reads both that
+  and `orfeomusic.de/CatalogueDetail/?id=<cat>` cleanly.
+- Scrapegraph MCP was down at the transport layer, not the target site: `smartscraper`
+  given inline `website_html` and no URL failed with the same
+  `SSLV3_ALERT_HANDSHAKE_FAILURE` as a URL fetch. When a scraper errors, test it with
+  inline HTML to tell "the site refused" from "the tool cannot reach its own API".
 - Brand-new boxes are often missing from Discogs search. When ranks 1–6 have no row,
   jump to Presto (rank 7) as the fallback — it carries the catalogue number, release
   date and cover earliest. This is a fallback for an absent row, not a licence to

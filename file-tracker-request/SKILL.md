@@ -64,12 +64,32 @@ a 403/451/503 from one transport is not the source having no row.
 
 ## Extraction (classical)
 
-`scripts/extract_release_artists.py --mbid <id> [--conductor "Name"] --out extract.json`
-(or `--file <saved MB JSON>`) emits artist rows + per-disc work list from
-`release?inc=recordings+artist-credits+labels`. Roles: conductors → 5, composers
+`scripts/extract_release_artists.py` runs on the **musicbrainzngs library**
+(`alastair/python-musicbrainzngs`), which owns transport, rate limiting and retries —
+do not hand-roll `urllib` calls against `ws/2`:
+
+```
+uv run --no-project --with musicbrainzngs python -I scripts/extract_release_artists.py \
+  --mbid <id> [--conductor "Name"] --out extract.json
+uv run --no-project --with musicbrainzngs python -I scripts/extract_release_artists.py \
+  --search 'release:"Orchesterkonzerte" AND artist:"Vegh"'
+```
+
+`--mbid` extracts, `--file` reads a saved release, `--search` lists candidate releases
+with id, date, disc count, label, catalogue and barcode — use it to find the MBID
+instead of writing a one-off search script each time. A query containing quotes gets
+mangled by the shell, so put it in a file and pass `--search-file <path>` instead.
+Roles: conductors → 5, composers
 (track-level credits) → 4, orchestras/choirs/soloists → 1. Pass the conductor
 explicitly — soloists who also conduct (Ashkenazy, Perlman, Zukerman) stay Main;
 `conductor_review` flags ambiguous cases. Max 200 rows; `[no artist]` dropped.
+
+The library reads the XML API, so its shapes differ from `ws/2` JSON: `medium-list` /
+`track-list` instead of `media` / `tracks`, `label-info-list`, and join phrases appear
+as bare strings inside `artist-credit`. **A track's `title` is omitted when it equals
+the recording title** — measured on the Végh box, 106 of 152 tracks had no track-level
+title, so reading `track["title"]` alone silently empties most of the work list. The
+script falls back to `recording.title`; keep that fallback if you touch it.
 
 Skim the Main list for variant spellings of one ensemble (Maazel box: "New
 Philharmonia" vs "New Philharmonic Orchestra") and keep one. MB fetches can die with
