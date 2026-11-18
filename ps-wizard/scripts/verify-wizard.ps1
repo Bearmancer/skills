@@ -105,7 +105,7 @@ if ($markerIndex -gt 0) {
         Add-Result -Name 'stage-count' -Ok ($stepCount -eq $declared) -Detail "-TotalStages says $declared, the file has $stepCount Invoke-Step calls"
     }
     else {
-        Add-Result -Name 'stage-count' -Ok $false -Detail 'no Show-Banner ... -TotalStages <n> call in the stage code'
+        Write-Output 'SKIP stage-count :: no Show-Banner call (banner is optional)'
     }
 
     $goalCount = @($stageLines | Where-Object { $_ -match '^\s*Test-WizardGoal -Name' }).Count

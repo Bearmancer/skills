@@ -1021,12 +1021,6 @@ function Invoke-Wizard {
         throw
     }
     finally {
-        # The elevated window closes when the script ends; hold it so the
-        # summary or the failure stays readable.
-        if (-not [Console]::IsInputRedirected) {
-            Clear-PendingInput
-            [void](Read-Host -Prompt 'Press ENTER to close this window')
-        }
         Restore-WizardConsoleInput
         Stop-WizardLogging
     }
