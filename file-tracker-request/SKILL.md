@@ -226,3 +226,7 @@ A conductor's surname is a starting point, never proof of absence (owner ruling
 - Trusting the blog's grouped disc markers ("CD 1-2", "CD 4-5"). Discogs gives the real
   per-disc split (Symphony 3 beginning on CD1, conclusion plus Symphony 4 on CD2), which
   is what a filler needs.
+- Requesting a subset edition whose parent box is already ripped. The 7-CD Ančerl
+  "Live Recordings: Concertos" has no rip of its own, but the 15-CD "Live Recordings"
+  parent does — owner ruling 2026-11-19: skip, the parent covers it. When a box is a
+  subset of a larger set, search for the parent too and record both group ids.
