@@ -12,7 +12,7 @@ The backlog is Lance's cross-project work, picked up and put down a few items at
 Segregate by repo/concern — one ledger per home, so work in one concern never drowns in another's noise:
 
 - A repo or concern with a repo keeps `LEDGER.md` at its root, e.g. `C:\Users\Lance\Dev\Toolbox\LEDGER.md`, `C:\Users\Lance\Dev\Skills\LEDGER.md`.
-- Work with no repo/concern home lives at `C:\Users\Lance\.agents\EPICs\<concern>\LEDGER.md`. Concerns include `tracker-requests`, `opencode-host`, `classical-library`, `arr-stack`, `md-library`, `foobar2000`, `research`, `salvage`, `inbox` — enumerate dynamically (discovery finds every concern folder). Create the concern folder and its `LEDGER.md` on first write if missing.
+- Work with no repo/concern home lives at `C:\Users\Lance\.agents\EPICs\<concern>\LEDGER.md`. Concerns include `tracker-requests`, `opencode-host`, `classical-library`, `arr-stack`, `md-library`, `research`, `salvage`, `inbox` — enumerate dynamically (discovery finds every concern folder). Create the concern folder and its `LEDGER.md` on first write if missing.
 - Known exemptions (existing owner rulings — keep them):
   - Media / Lance-Cmdlets / media-research-tools → `C:\Users\Lance\Documents\PowerShell\Modules\Media\LEDGER.md`, one section per concern.
   - DVD concert library → `D:\DVDs` (merge initiative complete; per-folder `tags.json` sidecars are the metadata authority).
@@ -37,6 +37,7 @@ Find the homes before reading anything, so you resume the right concern instead 
 3. If Lance names a concern or repo, go straight to its ledger.
 4. If he names none, do not guess: ask with the question tool, one multi-select tickbox entry per concern that has open items, each labelled with its next item. He ticks; you serve that concern.
 5. Read the chosen ledger before acting (ledger-it re-entry): status, established facts, settled decisions, open items / next. Resume from "next" — do not restart the work or re-derive what the ledger already holds.
+6. One home, one session. Each fact and each question lives in exactly one ledger; other ledgers carry a one-line pointer to it, never a copy. A ledger whose header names an owning session (`Session: <id>`) belongs to that session — another session reads it and stays out. A `Status: CLOSED` ledger is never served.
 
 ## The serve budget
 
@@ -53,6 +54,8 @@ Questions and their answers live in the ledger itself, in an `Open questions` se
   - [ ] <option B>
   - answer: <verbatim option label or Lance's words> — recorded <ISO date>
 ```
+
+Verify every question is live before serving it. Check its target against the disk (`Test-Path`, the file, the code line it cites) and `rg` its id and subject across every ledger home, including the Media exemption. A question whose target is gone, or that another ledger already answered, is stale: drop or rewrite it and record why. Never serve a question straight from an imported or frozen block.
 
 Ask through the question tool. In Claude Code that is one `AskUserQuestion` call with up to 4 entries, shaped from the open questions; checkbox options become the question's options. Text printed above the dialog is invisible to Lance — anything he needs goes inside the question, its description, or a preview.
 

@@ -2,7 +2,7 @@
 
 The Gates are the anti-deathloop enforcement: how the ledger is consulted and updated so the three deathloops cannot fire. The Record (Layer 1) gives the gates something true to enforce; without the gates, the record is a diary nobody reads and the loops still happen.
 
-## The five gates
+## The six gates
 
 ### Gate 1 — Read before act
 Before any attempt or decision, read the relevant ledger sections: Established facts, Attempts, Decisions. Know what is already proven, what has been tried, and what is decided before you act. Acting without this read is how all three deathloops start.
@@ -35,6 +35,13 @@ The spec change log makes indecision visible. After each spec change, scan the r
 The user's own rulings count. When a new ruling reverses or replaces a SETTLED decision (for example "retitle-only" then "merge"), write it to the spec change log as `from -> to` and cite both decision ids before you act on it, then run this scan. A reversal recorded only as another decision is invisible to the scan.
 
 When a flip-flop is detected, surface it to the user — non-judgmentally, with the history: "This is the Nth change to X: A->B->A. This looks like flip-flopping. Let's settle X with a durable rationale before continuing." Then record a settled decision with its rationale and re-open condition. The goal is to make the oscillation visible so it can be broken, not to silently absorb another reversal. This gate is a mirror for the user's indecision, not just a guard on the agent.
+
+### Gate 6 — Mechanical guards (dead ends already paid for)
+Each guard below retires a failure this host has already logged; apply it every time, not on suspicion.
+- **Compare identity, not formatting.** A census or before/after check compares bytes, SHA256, or full-precision instants (`ticks`, ISO round-trip). Formatted date strings coerce by culture and produce false FAILs.
+- **Replace paths by whole line.** Edit a path with its full surrounding line as context. A substring replacement (`sd -F 'cert\X'`) can match inside a longer path segment (`Concert\X`) and silently corrupt it.
+- **Absence needs its search quoted.** A "not found / does not exist" claim records the exact command, the roots searched, and the hit count. An empty result from a summary or a narrow search is a hypothesis, not a fact.
+- **Coverage before deletion.** A source is deleted only when every title or track in it is matched by a kept output, or the owner has approved losing the unmatched part by name. A backup counts only after `Test-Path` plus a size measure prove it is on disk. A blocked check (encryption, tool failure) is a stop, never a pass.
 
 ## The new-evidence test (the shared rule)
 

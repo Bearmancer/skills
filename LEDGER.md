@@ -91,9 +91,8 @@ Settled decisions:
 - SKILLS-23: delete all 16 verified tailscale orphan branches — each verified ahead_by=0 by 4 methods (mirror, ancestor, clone, GraphQL).
 - SKILLS-02 eval matrix DROPPED at Lance's decision 2026-11-14: direct tests only — 14 direct live tests, max 3 at a time; standing rules: verify skills directly instead of eval loops, at most 3 agents and 3 rounds per task.
 - SKILLS-24: live create test = real fix PR for omo#8229 (skills.enable allowlist), using Sonnet 5.5 via github-create.
-- SKILLS-25: arr-api-reference live test — config writes ALLOWED (over the read-only recommendation).
+- SKILLS-25 and SKILLS-27 (arr-api-reference / subtitle-triage live tests, writes ALLOWED) live only in `C:\Users\Lance\.agents\EPICs\arr-stack\LEDGER.md` (owner ruling 2026-11-19, no duplicate questions).
 - SKILLS-26: ps-wizard live test — sandbox only (temp dirs + test registry hive, no real installs).
-- SKILLS-27: subtitle-triage live test — writes ALLOWED next to real D:\Media.
 - SKILLS-90: keep opencode PR #61120 open — underlying issue closed NOT_PLANNED by a bot, Lance's dispute active.
 - SKILLS-91/92/93: answered "add the link" but moot on live check — issues already named their PRs; no edit made.
 - SKILLS-101/102/104/106/107: fix + push the CONFLICTING PRs (senpi#4253, omo#10704, #10519, #9832, #9741) — full local gate green then force-with-lease; Lance: use Sonnet 5.5 for all these fixes.
