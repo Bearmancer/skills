@@ -32,6 +32,8 @@ The spec change log makes indecision visible. After each spec change, scan the r
 - A return to a previously rejected option.
 - The same decision point changed repeatedly (a high churn count).
 
+The user's own rulings count. When a new ruling reverses or replaces a SETTLED decision (for example "retitle-only" then "merge"), write it to the spec change log as `from -> to` and cite both decision ids before you act on it, then run this scan. A reversal recorded only as another decision is invisible to the scan.
+
 When a flip-flop is detected, surface it to the user — non-judgmentally, with the history: "This is the Nth change to X: A->B->A. This looks like flip-flopping. Let's settle X with a durable rationale before continuing." Then record a settled decision with its rationale and re-open condition. The goal is to make the oscillation visible so it can be broken, not to silently absorb another reversal. This gate is a mirror for the user's indecision, not just a guard on the agent.
 
 ## The new-evidence test (the shared rule)
