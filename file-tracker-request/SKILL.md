@@ -91,6 +91,18 @@ the recording title** — measured on the Végh box, 106 of 152 tracks had no tr
 title, so reading `track["title"]` alone silently empties most of the work list. The
 script falls back to `recording.title`; keep that fallback if you touch it.
 
+**When MusicBrainz has no row** (archival and radio boxes often have none), build the
+artist rows and per-disc contents from retailer tracklists instead of stopping: Discogs
+gives the per-disc split, label, catalogue and barcode; classite.com gives performers,
+venues and recording dates per work; the blog post gives the narrative and the cover.
+Run several MB query variants first and record the counts, so "no MB row" is a measured
+claim rather than one failed search. The blog's label and catalogue can be short forms —
+"Memories" was really **Memories Excellence**, "ME 1031" really **ME1031-36**.
+
+**Image + cue sources:** when the source rip is a single image with a cue sheet, the
+request still asks for FLAC / Lossless / CD and the body says to split/convert to
+per-track FLAC (owner ruling 2026-11-19). Log, cue and checksum boxes stay unticked.
+
 Skim the Main list for variant spellings of one ensemble (Maazel box: "New
 Philharmonia" vs "New Philharmonic Orchestra") and keep one. MB fetches can die with
 `IncompleteRead` — the script retries; rerun if it still fails.
@@ -195,3 +207,10 @@ A conductor's surname is a starting point, never proof of absence (owner ruling
 - Posted with a blank catalogue number because the first few sources had no row. The
   number identifies the edition; keep hunting the label and retailer routes before
   treating it as unavailable.
+- Submitting RED from a form that waited through a confirmation prompt: the auth key
+  expires and the POST returns "Invalid authorization key. Go back, refresh, and try
+  again." OPS is unaffected. Reopen the form, re-fill from the payload server, re-assert
+  the readback and click immediately — the fill is idempotent on a fresh form.
+- Trusting the blog's grouped disc markers ("CD 1-2", "CD 4-5"). Discogs gives the real
+  per-disc split (Symphony 3 beginning on CD1, conclusion plus Symphony 4 on CD2), which
+  is what a filler needs.
