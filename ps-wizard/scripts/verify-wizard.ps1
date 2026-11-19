@@ -166,6 +166,31 @@ if ($markerIndex -gt 0) {
 
     $gateCount = @($stageLines | Where-Object { $_ -match '^\s*Wait-HumanAction' }).Count
     Write-Output "INFO human-action gates in stage code: $gateCount (each must sit inside a branch that prints manual instructions)"
+
+    # Path-existence: every literal absolute path the goal-sufficiency gate requires
+    # must exist now. A corrupted-but-syntactically-valid path string passes the
+    # analyzer and every pattern check; only an existence test catches it before launch.
+    $pathMap = @{}
+    foreach ($s in $stageLines) {
+        $m = [regex]::Match($s, "\`$(\w+)\s*=\s*'([A-Za-z]:\\[^']*)'")
+        if ($m.Success) { $pathMap[$m.Groups[1].Value] = $m.Groups[2].Value }
+    }
+    $required = [System.Collections.Generic.List[string]]::new()
+    foreach ($s in $stageLines) {
+        $m = [regex]::Match($s, 'Confirm-GoalSufficiency\s+-RequiredPaths\s+@\(([^)]*)\)')
+        if (-not $m.Success) { continue }
+        foreach ($token in ($m.Groups[1].Value -split ',')) {
+            $t = $token.Trim()
+            if ($t -match "^'([A-Za-z]:\\[^']*)'$") { $required.Add($Matches[1]) }
+            elseif ($t -match '^\$(?:script:)?(\w+)$') {
+                $name = $Matches[1]
+                if ($pathMap.ContainsKey($name)) { $required.Add($pathMap[$name]) }
+            }
+        }
+    }
+    $missingPaths = @($required | Sort-Object -Unique | Where-Object { -not (Test-Path -LiteralPath $_) })
+    Add-Result -Name 'path:required-exist' -Ok ($missingPaths.Count -eq 0) -Detail ("missing literal path(s): " + ($missingPaths -join ' | '))
+    Write-Output "INFO required literal paths checked: $(@($required | Sort-Object -Unique).Count)"
 }
 
 if ($failures.Count -gt 0) {
