@@ -1614,3 +1614,22 @@ End state: parked. Audit/merge half done; live cleanup (GITHUB-20.x fork-branch 
 - Created: 2026-11-14T10:31:33.673Z
 - Updated: 2026-11-14T10:31:33.673Z
 
+## python-modernization skill: created, python-env retired (SKILLS)
+
+Status: done (2026-11-19)
+
+Checkpoint:
+- Created python-modernization — single Python authority on this host. Mandates: modern brief Python 3.9-3.15 (3.16 is alpha 3.16.0a2, preview only); NO static typing (no annotations, typing module, or type checkers); uv-only, never any venv; pyproject.toml for importable libraries vs uv run --with / --script (PEP 723) for one-off CLIs; pathlib over os.path; maximal speed. Carries a superseded-to-modern catalog grounded in the saved What's New essays.
+- Retired and purged python-env locally (its .venv advice contradicted the host no-venv rule). python-env was never present in this repo.
+- muse skills validate: valid=true, zero diagnostics, compatible.
+- Pushed to Bearmancer/skills main: python-modernization/SKILL.md, commit a70dbf59cef40099fa11cecbca7c5d41cecfbd32 (blob 2f4d155), 11668 bytes; verified by re-fetching the file from GitHub.
+
+## References
+* Local skill: ~/.agents/skills/python-modernization/SKILL.md
+* Source notes: ~/Documents/python-release-notes/3.9.md .. 3.16.md (collected 2026-11-18)
+* Repo file: https://github.com/Bearmancer/skills/blob/main/python-modernization/SKILL.md
+
+## Metadata
+- Concern: SKILLS
+- Status: Done
+- Date: 2026-11-19
