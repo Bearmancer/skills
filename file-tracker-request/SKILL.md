@@ -156,6 +156,13 @@ opus typos and add any composer the correction introduces to the artist rows.
    existing rip, and `torrents.php?cataloguenumber=<cat>` for an exact match. Box
    titles appear under many spellings, so try conductor + label too. A rip already on
    the tracker means there is nothing to request: report the torrent and stop.
+   **The check is cross-site** (owner ruling 2026-11-19): if *either* tracker already
+   has the album, do not request it on the other one either. For a multi-volume series,
+   drop every volume present on either site and request only the remainder — the Inbal
+   Exton Bruckner request covers 2/4/7/8 because RED holds 5/6/9, and the Mahler request
+   covers 1/3/4/6 because OPS holds 2/5/7/9/10. A parent box also covers its subsets:
+   RED's Frankfurt complete-symphonies box (1624654) holds Bruckner 1 and 3, so neither
+   was requested.
    `torrents.php?search=` is **silently ignored** on both sites and returns the
    unfiltered newest-torrents list — it reads like hundreds of hits for any query.
    Only `searchstr` (and the field filters) actually filter; `requests.php` is the
@@ -200,6 +207,41 @@ A conductor's surname is a starting point, never proof of absence (owner ruling
   Earplug No.4", an electronic artist, not Sándor Végh. Read the titles; a namesake is
   not your release. Try the accented and ASCII spellings both ways.
 
+## Artist credit rules (owner ruling 2026-11-19)
+
+**No conductor may sit in a Composer row, except Maazel.** Audit every payload before
+filling: the set of Conductor names and the set of Composer names must be disjoint.
+Maazel is the one permitted exception because he genuinely co-composed the twelve Serge
+Lama chansons on the Cleveland CBS box; even there he is filed as Conductor for the set
+and Serge Lama holds the composer credit.
+
+MusicBrainz's dual-credit rule misfiles performers as composers often enough to check
+every time. On the Haitink LPO extract it put **Haitink himself**, the London Philharmonic,
+the Philharmonia, Rodney Friend and Ashkenazy into Composer; all five had to be moved
+(Haitink to Conductor, the rest to Main). On the Bernstein Harvard Lectures it put
+Bernstein in Composer; he is the lecturer/conductor and belongs in Conductor.
+
+Latinize native-script names before filling (Елена Образцова → Elena Obraztsova). RED may
+restore a canonical alias on save — "Seiji Ozawa (小澤征爾)" came back after editing — so
+verify the readback rather than assuming the edit stuck.
+
+## Raising a bounty after posting
+
+The request edit form does not change the bounty; the **vote form** does. On both sites
+it is the form whose hidden `action` is `vote`, with `#amount_box`, `#unit` and a hidden
+`#amount` holding bytes.
+
+- Set `#amount_box` and `#unit`, then **set `#amount` to the byte total directly** — the
+  page's Calculate does not always re-run on synthetic change events (OPS computed 5 MB
+  for a "5 gb" entry until `#amount` was set explicitly).
+- Click `#button` ("Vote!"). **RED fires a confirm dialog** ("Vote on this request for
+  5 GB? Your new stats will be…"); answer it with `dialog action:accept`. OPS may fire
+  none. A blocked dialog pauses the whole tab, so handle it before the next call.
+- OPS enforces a **minimum vote of 100 MiB**.
+- Verify by reloading: `#total_bounty` and the "Top Contributors" line must show the new
+  total. The "Bounty" label near the vote box is the *entered* amount, not the total —
+  reading it as the total gives a false "nothing changed".
+
 ## Mandatory description block (owner ruling 2026-11-19)
 
 Every request body ends with this block, verbatim except for the blog URL. It tells the
@@ -222,6 +264,12 @@ It would be greatly appreciated if the uploaded files contained proper tags defi
 
 Put it after the Contents and Sources sections. Keep the numbering and wording exactly —
 it is the owner's specification, not a suggestion to paraphrase.
+
+When hand-building a Contents block instead of using `format_contents.py`, prefix **every
+new composer**, not just the first work on the disc: a disc holding Carter, Wuorinen,
+Sessions and Di Domenica needs all four names. `format_contents.py` already tracks
+`prev_composer` and does this; an `if i == 0` shortcut silently drops the other composers
+and shipped a wrong body once (Levine, RED 386899, corrected 2026-11-19).
 
 Retrofitting requests posted before the rule (owner ruling: "EDIT Red and post comment on
 OPS. When edit not possible use comment"):
