@@ -84,6 +84,18 @@ Roles: conductors → 5, composers
 explicitly — soloists who also conduct (Ashkenazy, Perlman, Zukerman) stay Main;
 `conductor_review` flags ambiguous cases. Max 200 rows; `[no artist]` dropped.
 
+The dual-credit rule (composer + performer → Composer) can misfile the box's principal
+conductor: MB co-credited Maazel as composer on the twelve Serge Lama chansons in the
+Cleveland CBS box, which moved him out of the Conductor row. When the named conductor of
+the whole set picks up a composer credit on a subset, keep him as Conductor and leave the
+actual songwriter as Composer — verify the subset against the blog or retailer contents
+first, so you know the credit is real and not a MB error. Also Latinize native-script
+artist names (Елена Образцова → Elena Obraztsova) before filling.
+
+When MB holds several editions of the same box, pick the one a retailer corroborates:
+the RSO Berlin set has two 14-disc entries with different barcodes, and only ELQ4844904
+matches Eloquence's own release page and Presto. Record which entry you used and why.
+
 The library reads the XML API, so its shapes differ from `ws/2` JSON: `medium-list` /
 `track-list` instead of `media` / `tracks`, `label-info-list`, and join phrases appear
 as bare strings inside `artist-credit`. **A track's `title` is omitted when it equals
