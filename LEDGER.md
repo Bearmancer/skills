@@ -1,5 +1,15 @@
 # Ledger — Dev\Skills
 
+Goal: backlog home for the Skills repo (PLAN + SKILLS + GITHUB epics).
+Host: repo ledger served by the `ledger` skill; ledger-it schema.
+Purpose: planning (backlog home; execution lanes attach their own records)
+Status: active
+
+## Open items / next
+
+- Open questions: the "Recovered open backlog" section below, one BEA block per topic.
+- next: serve via the `ledger` skill, up to 4 questions and 3 tasks per turn.
+
 Assimilated 2026-11-17 from the frozen archive `C:\Users\Lance\.claude\ledger\epics\` (settled decisions and durable facts). Open questions recovered from the Linear export 2026-11-18 and appended below in full detail; the `.claude\ledger` archive has since been deleted.
 
 ## plan-rigorously skill: review, merge, install (PLAN)
