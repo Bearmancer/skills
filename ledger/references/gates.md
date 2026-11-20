@@ -1,6 +1,6 @@
-# Layer 2 — The Gates
+# The Gates
 
-The Gates are the anti-deathloop enforcement: how the ledger is consulted and updated so the three deathloops cannot fire. The Record (Layer 1) gives the gates something true to enforce; without the gates, the record is a diary nobody reads and the loops still happen.
+The gates are the anti-deathloop enforcement: how the ledger is consulted and updated so the three deathloops cannot fire. The record (`record.md`) gives the gates something true to enforce; without the gates, the record is a diary nobody reads and the loops still happen.
 
 ## The six gates
 
@@ -37,7 +37,7 @@ The user's own rulings count. When a new ruling reverses or replaces a SETTLED d
 When a flip-flop is detected, surface it to the user — non-judgmentally, with the history: "This is the Nth change to X: A->B->A. This looks like flip-flopping. Let's settle X with a durable rationale before continuing." Then record a settled decision with its rationale and re-open condition. The goal is to make the oscillation visible so it can be broken, not to silently absorb another reversal. This gate is a mirror for the user's indecision, not just a guard on the agent.
 
 ### Gate 6 — Mechanical guards (dead ends already paid for)
-Each guard below retires a failure this host has already logged; apply it every time, not on suspicion.
+Each guard below retires a failure already logged on this machine; apply it every time, not on suspicion.
 - **Compare identity, not formatting.** A census or before/after check compares bytes, SHA256, or full-precision instants (`ticks`, ISO round-trip). Formatted date strings coerce by culture and produce false FAILs.
 - **Replace paths by whole line.** Edit a path with its full surrounding line as context. A substring replacement (`sd -F 'cert\X'`) can match inside a longer path segment (`Concert\X`) and silently corrupt it.
 - **Absence needs its search quoted.** A "not found / does not exist" claim records the exact command, the roots searched, and the hit count. An empty result from a summary or a narrow search is a hypothesis, not a fact.
@@ -55,8 +55,8 @@ State the new evidence explicitly in the ledger before revisiting. If you cannot
 
 On resume, after compaction, or on a new turn picking up this work:
 1. Read the ledger first, before any action.
-2. Reconstruct state from it: Established facts (do not re-derive), Attempts (do not blindly retry quarantined ones), Decisions (do not re-litigate settled ones), Spec change log (do not silently re-flip-flop), Open items / next (where to resume).
-3. Continue from "next". Do not restart the work or re-derive what the ledger already holds.
+2. Reconstruct state from it: Established facts (do not re-derive), Attempts (do not blindly retry quarantined ones), Decisions (do not re-litigate settled ones), Spec change log (do not silently re-flip-flop), Resume point (where to resume).
+3. Continue from the section's `next:`. Do not restart the work or re-derive what the ledger already holds.
 
 This is what makes the ledger durable working memory for the same agent across turns.
 
