@@ -30,3 +30,4 @@
 - policy file: .github\ISSUE_TEMPLATE\feature-request.yml
 
 ## Learnings (append with `learn`)
+- 2026-11-20: version gate read 'releases/latest' or npm latest (both point at the v1.x line, e.g. v1.19.6) -> list releases by published_at: the v2.x line is the newest shipped line (v2.3.2, 2026-11-18) and what opencode --version reports; pin citations to the tag commit sha
