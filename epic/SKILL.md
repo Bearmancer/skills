@@ -23,7 +23,7 @@ How a piece of work went (attempts, failures, reasons) lives in that work's ledg
 ```
 # EPIC - <concern>
 Goal: <one line>
-Status: active | paused | CLOSED
+Status: active | paused
 
 ## Current truths
 - <a standing fact or settled decision the plan relies on, one line, with its source>
@@ -51,12 +51,14 @@ Every time you open or serve an EPIC, and whenever a linked ledger section close
 
 Record each removal as one line, `- <item> - removed: <reason> - evidence: <command + result>`, in the item's ledger section when it has one, otherwise under `## EPIC removals` in `~/.agents/ledgers/<concern>/LEDGER.md`. The EPIC keeps no struck-through copy. When unsure whether an item is still live, keep it and mark it `(unverified)`.
 
+When the purge leaves an EPIC with no open items and no open questions, and its ledger sections record the work as done, delete the concern's EPIC folder without asking. Log `- <concern> EPIC - removed: finished - evidence: <ledger section>` under `## EPIC removals` in its ledger. There is no closed status: a finished EPIC is gone.
+
 ## Discovery
 
 1. Run `fd -HI -d 2 "^EPIC\.md$" C:\Users\Lance\.agents\EPICs`.
 2. If Lance names a concern, open it. Otherwise ask with the question tool, one tickbox per active EPIC, labelled with its `next:` line.
 3. Read the EPIC, plus the ledger section of any item already in progress, before acting.
-4. Serve only `active` EPICs; `CLOSED` ones are finished.
+4. Serve only `active` EPICs.
 
 ## Lock
 
