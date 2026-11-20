@@ -13,6 +13,7 @@ It is not a plan. What is still to do lives in the concern's EPIC (the `epic` sk
 
 - **Work in a repo:** `LEDGER.md` at the repo root, committed with the work. It travels with the code it explains.
   - If the repo's `.gitignore` whitelists paths, add `!LEDGER.md` so the file is tracked.
+  - Exception: a repo that publishes its files publicly, such as the GitHub Pages site `Dev\bearmancer.github.io`. There the ledger stays at the root, but it is excluded through `.git/info/exclude` and never committed (owner ruling 2026-11-20).
 - **Work with no repo** (host config, the media library on D:, cross-cutting chores): `C:\Users\Lance\.agents\ledgers\<concern>\LEDGER.md`.
 - Never in temp, Desktop, or the working directory of a scratch task. Temp gets purged and takes the evidence with it.
 - One repo, one ledger. Concurrent units of work in the same repo get their own `## <task>` section in that file, each with the sections below.
