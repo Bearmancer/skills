@@ -1,6 +1,6 @@
 ---
 name: epic
-description: Serve and maintain Lance's plans and cross-project backlog - one EPIC.md per concern in ~/.agents/EPICs/<concern>/, served a few items at a time and kept free of finished work. Use whenever Lance resumes or asks what is next ("resume", "next", "add: ...", "hand off"), starts a session without naming a task, writes down any plan, or asks to purge the backlog. Event logs of work in progress belong to the ledger skill, not here.
+description: "Serve and maintain Lance's plans and cross-project backlog - one EPIC.md per concern in ~/.agents/EPICs/<concern>/, served a few items at a time and kept free of finished work. Use whenever Lance resumes or asks what is next (\"resume\", \"next\", \"add: ...\", \"hand off\"), starts a session without naming a task, writes down any plan, or asks to purge the backlog. Event logs of work in progress belong to the ledger skill, not here."
 ---
 
 # Epic
