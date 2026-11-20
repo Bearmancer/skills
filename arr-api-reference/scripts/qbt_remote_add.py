@@ -144,7 +144,7 @@ def connect(alias: str) -> paramiko.SSHClient:
         fail(
             f"no host key for {spec['hostname']} in {known}: strict checking, refusing to "
             "auto-add. A human must trust it in a real terminal: "
-            f"`uv run --no-project --with paramiko ~/.agents/scripts/paramiko-run.py {spec['alias']} --trust`"
+            f"`paramiko-run {spec['alias']} --trust`"
         )
 
     keys = key_candidates(spec)

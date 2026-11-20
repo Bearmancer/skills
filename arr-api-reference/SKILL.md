@@ -62,7 +62,7 @@ Add `.torrent` files with `add_qbt_torrents`: it targets this machine's WebUI by
 
 Gotchas (silent no-op on known hashes, login bypass): "qBittorrent" in `references/api-reference.md`. Done when the torrent count rose by the number added.
 
-Remote work for this stack goes through Python `paramiko`, not the `ssh`/`scp`/`sftp` CLIs, which are blocked host-wide by the `ssh-paramiko-only` plugin. One-off commands and file transfer: `uv run --no-project --with paramiko ~/.agents/scripts/paramiko-run.py <alias> ...` with the `~/.ssh/config` aliases `laptop` (lance) and `oci` (Ubuntu box).
+Remote work for this stack goes through Python `paramiko`, not the `ssh`/`scp`/`sftp` CLIs, which are blocked host-wide by the `ssh-paramiko-only` plugin. One-off commands and file transfer: `paramiko-run <alias> ...` with the `~/.ssh/config` aliases `laptop` (lance) and `oci` (Ubuntu box).
 
 ## Verify, don't assume
 
