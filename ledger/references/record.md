@@ -4,8 +4,8 @@ The Record is the documentation rigor: what the ledger captures and how. Its job
 
 ## The ledger file
 
-- **One location only:** `C:\Users\Lance\.agents\EPICs\<concern>\LEDGER.md`. A separate task in a big concern can use a lane at `EPICs\<concern>\lanes\<task>.md`. Never put a ledger at a repo root, the working directory, temp or Desktop.
-- **One writer per concern.** This is the `.lock` file in the concern folder; SKILL.md covers the protocol.
+- **Location:** `LEDGER.md` at the repo root, committed. Work with no repo goes to `C:\Users\Lance\.agents\ledgers\<concern>\LEDGER.md`. Never in temp or Desktop.
+- **One writer at a time.** Before writing, check for `LEDGER.md.lock` beside the file. If another session holds it, stop and tell Lance. Otherwise create it with your session id, and delete it when you hand back. Add `*.lock` to the repo's ignore rules, so a lock is never committed.
 - **Durable.** The ledger survives compaction and turn boundaries, and it persists after the work because it is the deliverable.
 - **Journal, then modify.** Before you create any transient artifact, add it to "Artifacts to revert" with its revert command. The ledger itself is never listed there; it is kept.
 
