@@ -1,131 +1,77 @@
 ---
 name: ps-wizard
-description: "Use when the user asks for a Windows setup, install, migration or admin wizard, mentions pwsh or .ps1, or a wizard run failed, skipped a prompt or froze. Generates single .ps1 wizards with self-elevation, logging, backup and auto-uninstall."
+description: "Use when the user asks for a Windows setup, install, migration or admin wizard, mentions pwsh or .ps1 wizards, or a wizard run failed or froze. Generates short .ps1 wizards on the shared PsWizard module: unattended runs, hidden secret entry, backup, goal checks, rollback."
 ---
 
 # PS-Wizard
 
-Shell commands failing, hanging, or quoting wrong (PowerShell, git-bash, Bun.$): see the `shell-gotchas` skill before debugging from scratch.
+A wizard is one `.ps1` under pwsh 7 for a procedure needing admin rights or a human action. A job with neither is a plain script: write the smallest `.ps1`, run it on real-sized input, lint it, done. Shell commands failing or quoting wrong: see `shell-gotchas` first. Cmdlet syntax and quoting: consult `powershell-expert`.
 
-**Plain script or wizard?** A job with no admin step and no human click (a remux, a rename, a batch convert) is a plain script run in a terminal: write the smallest `.ps1` that does it, run it on real-sized input, lint it with `Invoke-ScriptAnalyzer`, and stop here. A wizard is for a procedure that needs elevation or a human action.
+Wizards run start to finish with no pacing pauses, whether the owner or the agent starts them. The only stops are human-only input: a secret, a typed value, or a hands-on step; an interactive run also ends with one ENTER to close the window (`Stop-WizardRun`; skipped when input or output is redirected, as in agent launches). Decisions are settled before the run via the question tool, never mid-run.
 
-A **ps-wizard** is a single `.ps1` script, run under **pwsh**, that walks a human step by step through a one-shot Windows admin procedure the agent cannot perform itself: installs, setup, migrations, cutovers, dashboard steps only a human can click through. It self-elevates to admin, checks goal sufficiency before starting, force-closes apps that block its task, logs to screen and to a file, drops its output on the Desktop, takes one quick backup first, auto-uninstalls anything it newly installed, and traces maximally so any failure is diagnosable after the fact.
+## Skeleton
 
-The delightful UX is already solved by `template.ps1`: stage framing with progress counters (`Invoke-Step`), colored instruction lines (`Write-Say` / `Write-Step` / `Write-Note` / `Write-Warn`), URL opening (`Open-Url`), human-action gates (`Wait-HumanAction`, `Confirm-Choice`), visible and secret prompts (`Read-PlainValue`, `Read-SecretValue`), persisted-value writes (`Write-PersistedValue`), native programs with a timeout and exit code (`Invoke-NativeProcess`), Windows optional features through `dism.exe` (`Get-OptionalFeatureState`, `Disable-OptionalFeature`), isolated goal checks (`Test-WizardGoal`), and a closing summary that reports failures (`Show-Summary`). **Your job is only to scope the procedure and author its stages.** The library above the `STAGES` marker is identical in every wizard; that consistency is the point: never hand-edit it.
+Every wizard is exactly this shape with its steps filled in. No comments, no `param()` block.
 
-A wizard is ephemeral by default: built for one run, saved to a scratch or `scripts/` path, deleted when the job's done. Commit it only when the user wants a repeatable setup path that should live in the repo.
+```powershell
+#Requires -Version 7.0
+#Requires -RunAsAdministrator
+Import-Module "$HOME\.agents\skills\ps-wizard\PsWizard.psm1" -Force
 
-## Rules
+$code = Start-WizardRun -Title '<procedure>' -Steps <n>
+try {
+    Assert-WizardPrerequisite -Path @('<paths the job needs>')
+    Invoke-WizardStep 'Back up'
+    Invoke-QuickBackup -Path @('<only the sinks a step writes>')
+    Invoke-WizardStep '<step>'
+    # ... one Invoke-WizardStep per step, dependency order ...
+    Invoke-WizardStep 'Verify'
+    Test-WizardGoal '<goal>' { <prove the goal state; last output exactly $true> }
+    $code = Complete-WizardRun
+}
+catch { $code = Complete-WizardFailure $_ }
+finally { Stop-WizardRun }
+exit $code
+```
 
-- **`.ps1` only (a).** Every generated wizard is one `.ps1` file. Never emit `.sh`, `.bash`, or `.bat` content.
-- **Targets pwsh (b), requires pwsh 7.x (h).** Every generated file starts with `#Requires -Version 7.0`, which is the whole host check. No step hands work to Windows PowerShell 5.1: no `powershell.exe`, no `-UseWindowsPowerShell` compatibility layer, which runs a hidden 5.1 process.
-- **Analyzer-clean (c).** Every generated wizard must pass `Invoke-ScriptAnalyzer` at Error and Warning severity with zero findings, except the single justified `Write-Host` suppression below.
-- **Colored text via Write-Host (d), tolerated via one justified suppression (e).** Colored say/step output uses `Write-Host -ForegroundColor` only, and the template carries a single narrow `Invoke-ScriptAnalyzer` suppression of just `PSAvoidUsingWriteHost` with a justification comment. No other `Write-Host` use, no other suppressed rule.
-- **Consult powershell-expert (f).** Before authoring stages, consult the `powershell-expert` skill for cmdlet syntax, quoting, parameter design, and error-handling patterns, and cite what you applied. Quoting rule: single-quote static literals, double-quote only with interpolation (`$()` subexpressions).
-- **Subagents are Muse Spark (q).** Every subagent spawned while generating a wizard uses Muse Spark.
+## Toolbox (PsWizard.psm1)
 
-## Setup
+Never read the module into context; `Get-Help <function> -Full` when a detail is needed.
 
-How to scope and shape the generated wizard's setup section:
+- Run: `Start-WizardRun`, `Invoke-WizardStep`, `Stop-WizardRun`, `Complete-WizardRun` (exit code), `Complete-WizardFailure` (logs, uninstalls registered installs, exit 1)
+- Output: `Write-WizardStatus -Level Info|Step|Ok|Warn|Fail` (screen + log), `Write-WizardLog` (log only)
+- Human-only: `Read-SecretValue` (hidden, returns SecureString), `Read-PlainValue` (ENTER keeps current), `Wait-HumanAction -Url` (hands-on step)
+- Values: `Get-ExistingValue`, `Write-PersistedValue -Sink Environment|Registry|File` (accepts SecureString; logs names only)
+- Work: `Invoke-QuickBackup`, `Invoke-NativeProcess` (timeout + exit code; absolute paths), `Close-BlockingProcess` (`-NoUnsavedWork` or prior-consent `-AllowUnsavedWorkLoss`), `Get-OptionalFeatureState` / `Disable-OptionalFeature` (dism.exe), `Register-InstalledSoftware`
+- Checks: `Assert-WizardPrerequisite`, `Test-WizardGoal`, `Add-ManualFollowUp`
 
-- **No Enter-pauses except human-action gates (g).** The wizard never pauses for pacing. `Wait-HumanAction` (`Read-Host`) appears only where the human must physically act (click something in a browser, plug in a device, confirm a reboot). Pacing pauses are forbidden. No closing hold: on this rig the agent launches the wizard (`Start-Process <pwsh> -File <wizard> -Wait`) and reads `wizard.log`.
-- **No exposed cmdlet parameters or flags (g).** The generated `.ps1` exposes no `param()` block and no switches/flags to the human. All choices are answered in-flow via `Read-PlainValue` / `Read-SecretValue` / `Confirm-Choice`. The human double-clicks or runs one command and answers prompts.
-- **Single quick backup, of exactly the sinks this run writes (g).** The generated wizard takes exactly one quick backup before stage 1 (a registry export, config-file copies, or a restore point) covering only the files, keys and values a stage will change, records the path in `$script:BackupPath`, and announces it in the closing summary. Never more than one backup step, and no copy of a file no stage touches: for a secrets file that is not a backup, it is a second live copy on the Desktop waiting to be purged.
+## Authoring
 
-## Runtime contract
+1. Scope: read the machine first (installed programs, registry, env vars, configs, tasks). Show the owner the ordered stages and each captured value's sink and secrecy; confirm before writing.
+2. Map each stage's journey: exact URL, exact action, where the value lands. Never invent UI steps; check docs or ask.
+3. Fill the skeleton. One backup of exactly the sinks written. Register every install right after it. A failed goal check does not uninstall; only a thrown error does.
+4. Verify: `pwsh -File scripts/verify-wizard.ps1 -Path <wizard>` — fix every FAIL. Then exercise each non-elevated, non-human stage command in a scratch pwsh on real-sized input; trace the rest statically and say which ran for real.
 
-Every generated wizard obeys this contract; trace each item to the template:
+Judgement rules the verifier cannot check:
 
-- **Always runs as admin (i).** The wizard self-elevates and relaunches at start when not elevated. No manual "run as admin" instruction.
-- **Force-stop blockers auto-integrated (j); force-close apps that block the task (m).** Each stage declares its blocker processes/services; `Close-BlockingProcess` lists the running ones and asks once before force-closing. Pass `-NoUnsavedWork` only for processes that hold no user data (updaters, tray agents). Never set `$ConfirmPreference = 'None'`.
-- **Always logs to screen and to a file (k).** `Start-Transcript` plus an explicit per-stage log file; secrets are never written to either log.
-- **Wizard output created on the Desktop, in one folder per wizard (l).** All artifacts of a run — `wizard.log`, `transcript.log`, `backup\` and `output\` — live under `Desktop\ps-wizard\<script name>\<stamp>\`. Nothing else lands loose on the Desktop: no timestamped log beside it, no separate backup folder, no sibling `WizardOutput`. The stamp keeps earlier runs from satisfying this one's checks; the per-name folder keeps the Desktop legible across many wizards.
-- **Assimilate the existing wizard; never grow a series of `.ps1` files.** A procedure has one path, and later runs edit that file: read it, bring its library section back in step with `template.ps1`, and rewrite only the stages that changed. Save it where the procedure belongs — `scripts\<name>-setup.ps1` in the owning repo when it is a repeatable setup path, otherwise `Desktop\ps-wizard\<name>\<name>.ps1` when it is ephemeral. Never write `<name>-v2.ps1`, a date-stamped copy, or a second file beside it: when a stale wizard already sits at the target path, port what is still true into the one file and delete the rest.
-- **Auto-uninstall anything newly installed (n).** The wizard records everything it installs and removes it when a stage throws, unless the goal of the wizard was the install itself. A failed goal check does not uninstall: the summary lists it and the installs stay for the human to judge.
-- **Maximize tracing events (o).** `$VerbosePreference = 'Continue'` and `$DebugPreference = 'Continue'`; every stage emits `Write-Verbose`/`Write-Debug` with state so failures are diagnosable post-run.
-- **Check goal sufficiency before starting (p).** A goal-sufficiency gate runs before stage 1: required values, privileges, network, and disk preconditions are verified, and the wizard refuses to start with a precise missing-items message rather than failing halfway.
-- **Report only what this run proved.** Every goal is one `Test-WizardGoal` in the last stage. "Setup complete." and exit 0 appear only when at least one check ran and all passed; otherwise the summary lists the failures and the wizard exits 1. Run outputs land in a fresh `WizardOutput\<stamp>` folder, so an earlier run's files never satisfy a check.
+- Refuse to start when an ancestor process is an app the wizard closes or whose config it deletes (walk `Win32_Process.ParentProcessId`; anchor names with `(\.exe)?$`).
+- Per-user Appx removal is a human gate (`ms-settings:appsfeatures`); the Appx module does not load in pwsh 7. Verify by file or uninstall entry, never `Get-AppxPackage`.
+- Uninstall before deleting leftovers, then rescan with the same discovery function; package managers recreate folders.
+- Delete exact known paths only, never globs; print the resolved list first. A missing target is not grounds to prune a PATH entry or shortcut (offline share).
+- Run a downloaded installer only after a Valid Authenticode signature from the expected signer, or a SHA-256 published apart from the download.
+- Read existing config before writing it; never hardcode a source the machine already declares.
+- Mark a reboot only when a disable/install reports it. Scheduled tasks: read `references/windows-task-scheduler.md` first.
+- Never verify secret handling with a real secret; use a synthetic value of the same shape.
 
-## Authoring rules from failed runs
+## Run and diagnose
 
-The 2026-10-26 Reset-PC-Wizard run failed at stage 8 and wrote no report; an audit of the run found 31 defects, several in the template library itself. The template now fixes the library defects. These rules cover the stage code it cannot fix. Most of them come from one cause: the stage code relied on hidden state (which pwsh host is running, error preference, what is already in the input buffer, PATH, what earlier runs left behind) as if it were fixed. Make that state explicit and check it.
+Run: `pwsh -NoProfile -ExecutionPolicy Bypass -File <wizard>` (no arguments). The owner can double-click: the `.ps1` open verb runs it under pwsh 7 and the window stays open on any outcome (the verb self-elevates silently, so admin wizards run even where the double-clicked window would otherwise run non-elevated and be refused). A wizard with `#Requires -RunAsAdministrator` needs an elevated terminal when run by hand; a double-click shows the refusal in the kept-open window. No run folder on the Desktop means the run died before step 1 — read the error there. Artifacts: `Desktop\ps-wizard\<name>\<stamp>\` — `wizard.log`, `transcript.log`, `backup\`, `output\`. When `wizard.log` stops early, the failure is in the transcript.
 
-- **Never kill or delete the wizard's own process tree.** Before the blocker stage, walk the wizard's ancestor processes (`Win32_Process.ParentProcessId`). Refuse to start when an ancestor is an app the wizard will close or whose config it will delete (an editor, terminal agent or IDE). Otherwise stage 1 kills the host and stage 2 deletes its config. `Win32_Process.Name` carries `.exe`, so anchor the name regex with `(\.exe)?$`; without it the guard never matched.
-- **A failed stage fails the run.** Let a stage throw. If a stage must catch its own error to continue, record a failure the summary lists and the exit code reflects, and skip every later stage that depends on it. A caught-and-logged stage error that still ends in exit 0 hides the failure.
-- **Every removal has a check for every place it removed from.** If a stage removes the uninstall entry, the program folder and the config folders, verification checks all three, not just the uninstall entry.
-- **System cmdlets that fail in pwsh 7 go to their native exe, not to 5.1.** Check every system module in the exact pwsh that will run the wizard; a module that loads is not proof that it works. As measured on Store pwsh 7.6.9 (2026-10-27):
-  - _Optional features:_ `Get-WindowsOptionalFeature` failed with `Class not registered` or hung. Use `Get-OptionalFeatureState` and `Disable-OptionalFeature`, which call `dism.exe /Online /English`, read `State : <value>`, and treat exit 3010 as "reboot needed".
-  - _Provisioned Appx (for new users):_ `dism.exe /Online /Get-ProvisionedAppxPackages` and `/Remove-ProvisionedAppxPackage /PackageName:<full name>`. They do not touch packages already installed for a user.
-  - _Per-user Appx (`Get-AppxPackage`, `Remove-AppxPackage`):_ the Appx module does not load in pwsh 7 ("Operation is not supported on this platform"), because .NET 5+ removed built-in WinRT ([Microsoft Learn](https://learn.microsoft.com/dotnet/core/compatibility/interop/5.0/built-in-support-for-winrt-removed)). Microsoft's only supported route is the 5.1 compatibility layer, which is banned here ([module compatibility](https://learn.microsoft.com/powershell/windows/module-compatibility)). The WinRT `PackageManager` API through a C#/WinRT projection (`FindPackagesForUser`, `RemovePackageAsync`) is the documented native API, but it is unproven from pwsh 7. Until it is proven, make per-user Appx removal a human-action gate: open `ms-settings:appsfeatures` with `Open-Url`, name the app, and verify by a file or uninstall-entry check, not `Get-AppxPackage`.
-- **A query failure is not an absence.** Never `-ErrorAction SilentlyContinue` on a query whose empty result means "removed" or "nothing to do". Let it throw; `Test-WizardGoal` turns the throw into a failed check.
-- **A check proves the goal state.** Test `State -eq 'Disabled'`, not `State -ne 'Enabled'`: a missing or failed query also passes the second. Each check computes its own data inside its scriptblock; a variable set by one check is not there for the report if that check threw.
-- **Delete exact targets only.** Build delete lists from exact known paths or uninstall-entry locations, never a broad glob: `C:\Python*` also matched `C:\PythonProjects`. Print the resolved list before deleting. Do not prune a PATH entry, shortcut or file association just because its target is missing right now: it may be on an offline share or an unplugged drive. Delete a shortcut only when its target is an exact path the wizard removed, never because its name matches an app (`AnyDesk*.lnk`), which a portable copy or the user's own shortcut also matches. Judge any delete stage with the `purge-safety` skill.
-- **Uninstall before deleting leftovers, then rescan.** Package managers recreate the folders you just removed (`bun remove -g` did). Run the uninstall commands, delete the leftovers, then rescan with the same discovery function rather than rechecking the original list.
-- **Deduplicate objects by key.** `Sort-Object Scope, Entry -Unique`, never `Select-Object -Unique` on objects.
-- **Native programs get a timeout and an exit-code decision.** Run them with `Invoke-NativeProcess`. Use the vendor's documented silent switch; never append `/S` to a command that lacks one, since only NSIS installers read it. Decide which exit codes count as success (MSI 3010 and 1641 mean reboot needed, not failure).
-- **A native program gets an absolute path, and so does every path argument.** `Invoke-NativeProcess` starts the child in a directory you name, never in the location a stage happened to set: `Push-Location` moves only PowerShell's location. A measured run died with `MSBUILD : error MSB1009: Project file does not exist. Switch: src\App` because the stage passed a repo-relative project path while the host sat in `C:\Users\Lance`. Hold one block of absolute roots at the top of `Invoke-Wizard` (the repo root, each tool's exe, each config path) and derive everything else from it with `Join-Path`; pass `-WorkingDirectory` only when a tool genuinely needs a directory.
-- **Start the launcher, not the script beside it.** bun and npm write `<name>.bunx` (a script) next to `<name>.exe` (a real launcher). `ProcessStartInfo` starts the `.exe` (or the `.cmd` through `cmd.exe`) and rejects the rest with `The specified executable is not a valid application for this OS platform` — measured when a `-Filter 'swa.*'` picked `swa.bunx`. Filter `'<name>.exe'` explicitly, and make the stage prove the tool answers (`--version`) before anything depends on it.
-- **Scheduled tasks have measured shapes; don't write them from memory.** Read `references/windows-task-scheduler.md` before authoring or asserting task registration: it records the working `ExecutionTimeLimit`, the battery properties, the trigger's offset, and how to prove the run-as identity.
-- **Verify downloaded code before running it.** A downloaded installer or script runs only after its Authenticode signature (`Get-AuthenticodeSignature`, status `Valid`, expected signer) or a SHA-256 published apart from the download matches. Printing a hash checks nothing.
-- **Read existing config before writing it.** Take a source the machine already declares instead of hardcoding one: a hardcoded marketplace URL clashed with `extraKnownMarketplaces.omc` in `~/.claude/settings.json` and the plugin never installed.
-- **Register every install.** Call `Register-InstalledSoftware` right after each install, or the auto-uninstall has nothing to remove.
-- **Set the reboot flag only when something changed.** Mark a reboot when a disable or install reports `RestartNeeded`, not unconditionally.
-- **Pass values to child processes as arguments, not text.** Never splice a path or pattern into a script string (`.Replace('__PATH__', $p)`); an apostrophe in the Desktop path breaks it. Use `Invoke-NativeProcess -ArgumentList`, and put temp-file cleanup in `finally`.
-- **Say only what is true.** The banner counts the manual gates rather than claiming the run is "fully automated". A `Wait-HumanAction` gate lives inside the branch that prints manual instructions, so the automated path never blocks on an ENTER that has no purpose and the summary never credits the human with work the run did itself. The summary prints an output path only after `Test-Path` confirms this run wrote it, and any claim about outside state ("task registered", "shim runs") names the command that proved it in this run.
+| Symptom | Cause |
+| --- | --- |
+| Gate passed in the same second it opened | Buffered ENTER (module clears the queue; report if seen) |
+| Output frozen until Esc | QuickEdit click (module disables it; report if seen) |
+| `Class not registered` on a DISM cmdlet | Use the module's dism.exe helpers |
+| Paths "removed" but present at verification | Uninstall recreated them; rescan |
 
-## Diagnosing a failed run
-
-Read the transcript (`wizard-<stamp>-transcript.log` on the Desktop) alongside the explicit log (`wizard-<stamp>.log`). When the explicit log stops early, the failure is in the transcript. Symptoms seen in the field and their causes:
-
-| Symptom                                                                                 | Cause                                                                    |
-| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| Explicit log holds only `Wizard started.`; error only in the transcript                 | A `Write-Error` in a catch under `Stop` ended the fatal handler          |
-| A "press ENTER when done" gate opened and passed in the same second                     | An Enter buffered during an earlier stage satisfied `Read-Host`          |
-| Enter seemed dead until Space or Esc was pressed; output paused mid-install until a key | QuickEdit selection started by a click after a GUI installer took focus  |
-| `Class not registered`, or a hang, on a DISM cmdlet                                     | Store pwsh cannot run the DISM module; use `dism.exe`                    |
-| Paths "removed" but still there at verification                                         | A package-manager uninstall recreated them after the delete              |
-| Only one of many dead entries cleaned                                                   | `Select-Object -Unique` collapsed distinct objects                       |
-| "Setup complete." with exit 1, or a report path that does not exist                     | A summary printed without consulting the results (fixed in the template) |
-
-## Process
-
-### 1. Scope the procedure
-
-Work out every manual step the human must take and every value captured along the way. Read the machine first, don't ask cold:
-
-- For setup: installed programs, registry keys, machine/user environment variables, config files, and scheduled tasks the wizard will read or write (each value's sink is registry, env var, or file — never `.env`).
-- For a migration or transition: the current state, the target state, and the irreversible actions between them. Name the blocker apps and the single backup the wizard will take.
-
-Then show the user the ordered list of stages and the values each produces, and confirm: they may add, drop, or reorder.
-
-**Done when:** every stage is named in order, and for each captured value you know (a) where the human gets it, (b) where it's written (registry key, env var, config file, or nowhere; some stages are pure actions), and (c) whether it's secret (hidden entry via `Read-SecretValue`) or public.
-
-### 2. Map each stage's journey
-
-For each stage, write the precise path a human follows: which URL to open (`Open-Url`), what to do there, where a value is shown, which persisted sink it fills: e.g. "Dashboard → Developers → API keys → Reveal test key → copy → stored to machine env var". Where you don't actually know the current UI or the exact command, say so and ask the user or check the docs: never invent steps that may not exist. Mark the human-action gates (the only places `Wait-HumanAction` may appear) and the blocker apps each stage force-closes.
-
-**Done when:** every stage traces to concrete instructions a stranger could follow.
-
-### 3. Author the wizard
-
-Copy `template.ps1` to the target path. Below the `STAGES` marker, replace the example stages with one `Invoke-Step` per step, in dependency order, and replace the placeholder goal check (it fails on purpose) with one `Test-WizardGoal` per goal. Use the library helpers: `Invoke-Step`, `Write-Say`/`Write-Step`/`Write-Note`/`Write-Warn`, `Open-Url`, `Read-PlainValue`/`Read-SecretValue`, `Write-PersistedValue`, `Get-ExistingValue`, `Wait-HumanAction`/`Confirm-Choice`, `Close-BlockingProcess`, `Invoke-NativeProcess`, `Register-InstalledSoftware`, `Get-OptionalFeatureState`/`Disable-OptionalFeature`, `Test-WizardGoal`. `Show-Banner` is optional; if you call it, pass `-TotalStages` the number of stages you wrote.
-
-Hold the bar the template sets: open the URL before asking for its value, use `Read-SecretValue` for anything secret (never log its value), `Write-PersistedValue` for every persisted value, and `Confirm-Choice` before any irreversible action. Each `Invoke-Step` clears the screen so only the current step is visible: keep a stage to one focused task so nothing the human needs scrolls away. Keep the goal-sufficiency gate, admin self-elevation, backup step, transcript+log, Desktop output, and auto-uninstall wiring intact. Don't touch the library above the marker. Don't add a `param()` block or pacing pauses.
-
-### 4. Verify and hand off
-
-- Run `scripts/verify-wizard.ps1 -Path <wizard> -TemplatePath template.ps1`. It parses the file, runs the analyzer, compares the library above the marker with the template, counts stages against `-TotalStages`, and flags the failure patterns above: `Write-Error`, `Select-Object -Unique`, `SilentlyContinue`, `-ne 'Enabled'`-style checks, `Start-Process -Wait`, wildcard or filter-driven `Remove-Item`, installs with no `Register-InstalledSoftware`, a bare or relative launch path, and a `.bunx` launcher. Each hit is fixed or justified, never waved through.
-- Exercise every stage's core command that needs no elevation and no human input in a scratch pwsh on real-sized input: a size past 2 GB for any byte arithmetic, a real disc or file for any parse. Trace the elevated and human-gated stages statically instead: every value from step 1 is captured and lands where step 1 said, and every persisted sink name matches its target. The report names the stages that ran for real and the stages only traced.
-- Assert presence, length and shape, never a modification time: any legitimate human edit moves an mtime, so a time-based check fails on a healthy machine.
-- Never verify secret-handling code with the real secret. Use a synthetic value of the same shape; if a probe must handle the real one, delete every file it touched and prove absence in the same run, before reporting.
-- Run each system query the stages rely on once, read-only, in the exact pwsh that will run the wizard (`(Get-Process -Id $PID).Path`), elevated if it needs admin (`dism.exe` exits 740 without it).
-- Tell the user how to run it: the one file's path, run with no arguments. If it is a repeatable setup path, commit it and link it from the README so the next person runs the script instead of asking an AI.
-
-## Must NOT
-
-- No bash content: no `.sh`, no `bash`, no `shellcheck`, no `chmod`, no `tput`, no `.env` upserts, no `gh secret`/`gh variable` writes.
-- No edits to the upstream CLI-managed `wizard` skill, ever.
-- No Enter-pauses for pacing; `Wait-HumanAction` only at human-action gates.
-- No exposed cmdlet parameters or flags on the generated wizard.
-- No plaintext secret logging: secret values never reach screen, transcript, or log file.
-- No end-to-end live run of a generated wizard as proof (elevation and human input block it); the report says which stages ran for real and which were only traced.
+One wizard per procedure: edit the existing file, never a `-v2` or dated copy. Repeatable setup lives at `scripts\<name>-setup.ps1` in the owning repo (committed); ephemeral at `Desktop\ps-wizard\<name>\<name>.ps1`.
