@@ -7,7 +7,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY_PATH = ROOT / "registry" / "registry.yaml"
 ROLES_PATH = ROOT / "registry" / "roles.yaml"
-ROUTE_KINDS = ("mcp", "cli", "post", "http", "local")
+ROUTE_KINDS = ("cli", "post", "http", "local")
 LADDERS = ("discovery", "fetch")
 ERROR_CLASSES = ("bad_key", "out_of_credit", "blocked", "rate_limit")
 

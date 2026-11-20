@@ -5,7 +5,7 @@
 """ScrapeGraph v2 crawl management: start, status, stop, resume, delete, pages.
 
 Docs: https://docs.scrapegraphai.com/api-reference/endpoint/crawl/get-status, https://docs.scrapegraphai.com/api-reference/endpoint/crawl/manage, https://docs.scrapegraphai.com/api-reference/endpoint/crawl/pages, https://docs.scrapegraphai.com/api-reference/endpoint/crawl/start
-Uses the v2 host; ids from the installed MCP 1.0.1 (v1 tool names) may not resolve here. Use ids from this script's `start`.
+Uses the v2 host; ids from other clients may not resolve here. Use ids from this script's `start`.
 delete removes the job and its pages permanently. pages: --limit 1-100 (default 50), --cursor index from pagination.nextCursor.
 Usage: uv run <skill dir>/scripts/post/scrapegraph_crawl.py start <url> [--max-pages N] | status|stop|resume|delete <id> | pages <id> [--limit N] [--cursor N]
 """

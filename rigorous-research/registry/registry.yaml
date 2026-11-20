@@ -1,9 +1,7 @@
-# Routing registry: source of truth for surfaces. references/routing.md is generated from this file
+# Routing registry: source of truth for surfaces. references/routing.md and fleet.md are generated from this file
 # (scripts/gen_routing_table.py). Surface id = <server>.<capability>.
-# Route order inside one capability: mcp, then cli, then post, then local/http. Fallback inside a server is never a new surface.
-# Note 2026-10-19: the Brightdata and Brave MCP servers are disabled and their
-# external skill packs were removed, so their routes were stripped from this
-# registry. The key pools below cover only enabled providers and free surfaces.
+# Routes are CLI-only (ADR 0035): vendor CLI, then POST script, then local/http. No MCP routes.
+# Fallback inside a server is never a new surface. `auth` says how the CLI authenticates when it is not just `key.env`.
 schema: 1
 
 # Rotation paradigms for discovery rounds. Round N must use a paradigm not used in earlier rounds.
@@ -32,8 +30,10 @@ fetch_ladder:
   - exa.fetch
   - wayback.fetch
   - scrapegraph.scrape
+  - zenrows.fetch
+  - tinyfish.fetch
+  - brightdata.scrape
   - apify.rag-web-browser
-  - agentql.extract
   - browserbase.session
 
 # Source tiers by type. Per-domain overrides go in tier_overrides.
@@ -81,28 +81,25 @@ servers:
         paradigm: keyword,
         ladder: discovery,
         cost: low,
-        routes: { mcp: [tavily_search], cli: ["tvly search"] },
+        routes: { cli: ["tvly search"] },
       }
       extract: {
         paradigm: crawl-map,
         ladder: fetch,
         cost: low,
-        routes: { mcp: [tavily_extract], cli: ["tvly extract"] },
+        routes: { cli: ["tvly extract"] },
       }
       crawl: {
         paradigm: crawl-map,
         ladder: discovery,
         cost: med,
-        routes: {
-          mcp: [tavily_crawl, tavily_map],
-          cli: ["tvly crawl", "tvly map"],
-        },
+        routes: { cli: ["tvly crawl", "tvly map"] },
       }
       research: {
         paradigm: answer-agent,
         ladder: discovery,
         cost: high,
-        routes: { mcp: [tavily_research], cli: ["tvly research"] },
+        routes: { cli: ["tvly research"] },
       }
     errors:
       blocked: ["failed to fetch url"]
@@ -125,13 +122,21 @@ servers:
         paradigm: semantic,
         ladder: discovery,
         cost: low,
-        routes: { mcp: [web_search_exa, web_search_advanced_exa] },
+        routes: {
+          post: [
+            "uv run <skill dir>/scripts/post/vendor_request.py exa POST /search --body <json|@file>",
+          ],
+        },
       }
       fetch: {
         paradigm: crawl-map,
         ladder: fetch,
         cost: low,
-        routes: { mcp: [web_fetch_exa] },
+        routes: {
+          post: [
+            "uv run <skill dir>/scripts/post/vendor_request.py exa POST /contents --body <json|@file>",
+          ],
+        },
       }
       answer: {
         paradigm: answer-agent,
@@ -148,8 +153,9 @@ servers:
         ladder: discovery,
         cost: high,
         routes: {
-          mcp: [agent_run],
           post: [
+            "uv run <skill dir>/scripts/post/vendor_request.py exa POST /agent/runs --body <json|@file>",
+            "uv run <skill dir>/scripts/post/vendor_request.py exa GET /agent/runs/<run_id>",
             "uv run <skill dir>/scripts/post/exa_agent_run.py stop|cancel <run_id>",
             "uv run <skill dir>/scripts/post/exa_batches.py start|status|cancel",
           ],
@@ -178,22 +184,19 @@ servers:
         paradigm: keyword,
         ladder: discovery,
         cost: low,
-        routes: { mcp: [firecrawl_search], cli: ["firecrawl search"] },
+        routes: { cli: ["firecrawl search"] },
       }
       scrape: {
         paradigm: crawl-map,
         ladder: fetch,
         cost: low,
-        routes: { mcp: [firecrawl_scrape], cli: ["firecrawl scrape"] },
+        routes: { cli: ["firecrawl scrape <url>"] },
       }
       crawl: {
         paradigm: crawl-map,
         ladder: discovery,
         cost: med,
-        routes: {
-          mcp: [firecrawl_crawl, firecrawl_map],
-          cli: ["firecrawl crawl", "firecrawl map"],
-        },
+        routes: { cli: ["firecrawl crawl", "firecrawl map"] },
       }
       batch-scrape: {
         paradigm: crawl-map,
@@ -209,19 +212,13 @@ servers:
         paradigm: answer-agent,
         ladder: discovery,
         cost: high,
-        routes: { mcp: [firecrawl_agent], cli: ["firecrawl agent"] },
+        routes: { cli: ["firecrawl agent"] },
       }
       research: {
         paradigm: scholarly-archive,
         ladder: discovery,
         cost: low,
-        routes: {
-          mcp: [
-            firecrawl_research_search_papers,
-            firecrawl_research_read_paper,
-          ],
-          cli: ["firecrawl research"],
-        },
+        routes: { cli: ["firecrawl research"] },
       }
     errors:
       bad_key: ["401"]
@@ -231,10 +228,11 @@ servers:
 
   scrapegraph:
     pool: scrapegraph
+    auth: "SGAI_API_KEY (just-scrape); debug with SGAI_DEBUG=1, history with `just-scrape history scrape --json`"
     wired: true
     keyed: true
     key: {
-      env: SCRAPEGRAPH_API_KEY,
+      env: SGAI_API_KEY,
       pattern: "^(?P<acct>[A-Z0-9]+)_(SCRAPEGRAPH|SCRAPEGRAPHAI)_API_KEY$",
       header: "SGAI-APIKEY",
       prefix: "",
@@ -246,20 +244,19 @@ servers:
         paradigm: keyword,
         ladder: discovery,
         cost: med,
-        routes: { mcp: [search], cli: ["just-scrape search"] },
+        routes: { cli: ["just-scrape search"] },
       }
       scrape: {
         paradigm: structured-extraction,
         ladder: fetch,
         cost: med,
-        routes: { mcp: [scrape, extract], cli: ["just-scrape scrape"] },
+        routes: { cli: ["just-scrape scrape <url>"] },
       }
       crawl: {
         paradigm: crawl-map,
         ladder: discovery,
         cost: high,
         routes: {
-          mcp: [crawl_start, crawl_get, crawl_pages],
           cli: ["just-scrape crawl"],
           post: [
             "uv run <skill dir>/scripts/post/scrapegraph_crawl.py start|status|stop|resume|delete|pages",
@@ -274,6 +271,7 @@ servers:
 
   apify:
     pool: apify
+    auth: "`apify login` (the CLI stores the token); APIFY_TOKEN for POST scripts"
     wired: true
     keyed: true
     key: {
@@ -289,16 +287,13 @@ servers:
         paradigm: browser-unlocker,
         ladder: fetch,
         cost: med,
-        routes: { mcp: [apify--rag-web-browser], cli: ["apify actors call"] },
+        routes: { cli: ["apify actors call apify/rag-web-browser"] },
       }
       actor: {
         paradigm: structured-extraction,
         ladder: fetch,
         cost: high,
-        routes: {
-          mcp: [search-actors, call-actor],
-          cli: ["apify actors search", "apify actors call"],
-        },
+        routes: { cli: ["apify actors search", "apify actors call"] },
       }
     errors:
       bad_key: ["401", "invalid-token", "token-not-provided"]
@@ -310,27 +305,72 @@ servers:
       rate_limit: ["429", "rate-limit-exceeded"]
     unverified: [blocked]
 
-  agentql:
-    pool: agentql
+  zenrows:
+    pool: zenrows
     wired: true
     keyed: true
+    auth: "ZENROWS_API_KEY or the CLI's own login (`zenrows` stores the key in its config)"
     key: {
-      env: AGENTQL_API_KEY,
-      pattern: "^(?P<acct>[A-Z0-9]+)_AGENTQL_API_KEY$",
-      header: "X-API-Key",
+      env: ZENROWS_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_ZENROWS_API_KEY$",
+      header: null,
       prefix: "",
-      base_url: "https://api.agentql.com/v1",
+      base_url: null,
     }
-    reset: unknown # agentql.com/pricing lists monthly calls but no reset rule
+    reset: unknown
     capabilities:
-      extract: {
-        paradigm: structured-extraction,
+      fetch: {
+        paradigm: browser-unlocker,
         ladder: fetch,
         cost: med,
-        routes: { mcp: [extract-web-data] },
-      }
+        routes: { cli: ["zenrows fetch <url>"] },
+      } # HTML; ~$0.01 per call; run artifacts in ~/.zenrows/runs/<run-id>
+    unverified: [bad_key, out_of_credit, blocked, rate_limit]
+
+  tinyfish:
+    pool: tinyfish
+    wired: true
+    keyed: true
+    auth: "pipe the key into `tinyfish auth set`; check `tinyfish auth status` (TINYFISH_API_KEY alone did not authenticate the CLI)"
+    key: {
+      env: TINYFISH_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_TINYFISH_API_KEY$",
+      header: null,
+      prefix: "",
+      base_url: null,
+    }
+    reset: unknown
+    capabilities:
+      fetch: {
+        paradigm: browser-unlocker,
+        ladder: fetch,
+        cost: med,
+        routes: { cli: ["tinyfish fetch content get <url>"] },
+      } # JSON: title, author, text (markdown)
+    unverified: [bad_key, out_of_credit, blocked, rate_limit]
+
+  brightdata:
+    pool: brightdata
+    wired: true
+    keyed: true
+    auth: "BRIGHTDATA_API_KEY plus a Web Unlocker zone: pass --zone or `brightdata config set default_zone_unlocker cli_unlocker`"
+    key: {
+      env: BRIGHTDATA_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_BRIGHTDATA_API_KEY$",
+      header: null,
+      prefix: "",
+      base_url: null,
+    }
+    reset: unknown
+    capabilities:
+      scrape: {
+        paradigm: browser-unlocker,
+        ladder: fetch,
+        cost: high,
+        routes: { cli: ["brightdata scrape <url> --zone cli_unlocker"] },
+      } # -f markdown|html|screenshot|json, --country, --mobile, --async, -o
     errors:
-      bad_key: ["401", "api key required"]
+      bad_key: ["No API key found"]
     unverified: [out_of_credit, blocked, rate_limit]
 
   browserbase:
@@ -350,10 +390,7 @@ servers:
         paradigm: browser-unlocker,
         ladder: fetch,
         cost: high,
-        routes: {
-          mcp: [start, navigate, act, observe, extract, end],
-          cli: ["browse open"],
-        },
+        routes: { cli: ["browse open <url>"] },
       }
       agent-run: {
         paradigm: browser-unlocker,
@@ -376,27 +413,7 @@ servers:
         paradigm: keyword,
         ladder: discovery,
         cost: low,
-        routes: { mcp: [microsoft_docs_search, microsoft_docs_fetch] },
-      }
-
-  dappier:
-    pool: dappier
-    wired: true
-    keyed: true
-    key: {
-      env: DAPPIER_API_KEY,
-      pattern: "^(?P<acct>[A-Z0-9]+)_DAPPIER_API_KEY$",
-      header: null,
-      prefix: "",
-      base_url: null,
-    }
-    reset: unknown # no vendor doc found
-    capabilities:
-      search: {
-        paradigm: semantic,
-        ladder: discovery,
-        cost: low,
-        routes: { mcp: [dappier_real_time_search] },
+        routes: { http: ["GET learn.microsoft.com/api/search?search=<q>"] },
       }
 
   # Free lawful surfaces (no key).

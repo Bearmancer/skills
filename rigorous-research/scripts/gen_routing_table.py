@@ -41,8 +41,8 @@ def render(reg):
         "",
         "## Surfaces",
         "",
-        "| Surface | Paradigm | Ladder | Cost | Wired | MCP | CLI | POST/HTTP/local |",
-        "|---|---|---|---|---|---|---|---|",
+        "| Surface | Paradigm | Ladder | Cost | Wired | CLI | POST/HTTP/local |",
+        "|---|---|---|---|---|---|---|",
     ]
     for s in registry.surfaces(reg).values():
 
@@ -58,23 +58,24 @@ def render(reg):
             or "-"
         )
         lines.append(
-            f"| `{s.id}` | {s.paradigm} | {s.ladder} | {s.cost} | {'yes' if s.wired else 'no'} | {col('mcp')} | {col('cli')} | {other} |"
+            f"| `{s.id}` | {s.paradigm} | {s.ladder} | {s.cost} | {'yes' if s.wired else 'no'} | {col('cli')} | {other} |"
         )
     lines += [
         "",
         "## Key policy",
         "",
-        "Key goes only into the vendor auth header; source order: `~/.config/opencode/secrets/<pool>`, then the env var.",
+        "CLIs read the env var (or their own stored login, see CLI auth); POST scripts put the key only into the vendor auth",
+        "header, source order `~/.config/opencode/secrets/<pool>`, then the env var.",
         "",
-        "| Server | Env var | Pool | Auth header | Wired |",
-        "|---|---|---|---|---|",
+        "| Server | Env var | Pool | POST auth header | CLI auth | Wired |",
+        "|---|---|---|---|---|---|",
     ]
     for name, srv in reg["servers"].items():
         if srv.get("keyed"):
             k = srv["key"]
             header = f"`{k['header']}: {k['prefix']}<key>`" if k["header"] else "-"
             lines.append(
-                f"| {name} | `{k['env']}` | `{srv['pool']}` | {header} | {'yes' if srv.get('wired') else 'no'} |"
+                f"| {name} | `{k['env']}` | `{srv['pool']}` | {header} | {srv.get('auth', 'env var')} | {'yes' if srv.get('wired') else 'no'} |"
             )
     lines += [
         "",
@@ -114,7 +115,7 @@ def render_fleet(reg):
         "",
         "Generated from `registry/registry.yaml` by `scripts/gen_routing_table.py`. Do not edit by hand. Full tables: `routing.md`.",
         "",
-        "Per surface the route order is: MCP tool the host carries, then vendor CLI, then POST script. A server's key pool rotates",
+        "Per surface the route order is: vendor CLI, then POST script, then HTTP or a local tool. No MCP. A server's key pool rotates",
         'inside the server (SKILL.md, "Key rotation: single home"); a fallback inside a server is never a new surface.',
         "",
         "## Pick by capability",

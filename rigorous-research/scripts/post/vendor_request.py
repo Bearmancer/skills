@@ -2,9 +2,9 @@
 # requires-python = ">=3.12"
 # dependencies = ["pyyaml", "jsonschema"]
 # ///
-"""Generic vendor REST call for hosts with no MCP and no CLI for the vendor.
+"""Generic vendor REST call for vendors with no CLI, or a call the CLI does not expose.
 
-Pools: exa, firecrawl, browserbase, scrapegraph, tavily, apify, agentql. The base URL (incl. version prefix) and the auth header are fixed per pool, so the key only ever goes to the vendor host.
+Pools: every keyed server in registry.yaml with a base_url (exa, firecrawl, browserbase, scrapegraph, tavily, apify). The base URL (incl. version prefix) and the auth header are fixed per pool, so the key only ever goes to the vendor host.
 --body: JSON literal or @file. --param k=v and --header k=v repeat. Path starts with "/" and is relative to the pool base (firecrawl `/scrape`, scrapegraph `/credits`, apify `/store`).
 Usage: uv run <skill dir>/scripts/post/vendor_request.py <pool> <METHOD> </path> [--body JSON|@file] [--param k=v]... [--header k=v]...
 """

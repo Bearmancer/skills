@@ -32,7 +32,7 @@ def discovery_surface_lines(ctx):
 
 ATTEMPTS_INSTRUCTION = (
     "report every attempt, any route, in `attempts` (the driver logs them): "
-    "{surface: <surface id>, route: <mcp|cli|post|http>, url: <url>, status: <ok|error|blocked|empty>, "
+    "{surface: <surface id>, route: <cli|post|http|local>, url: <url>, status: <ok|error|blocked|empty>, "
     "error_class: <bad_key|out_of_credit|blocked|rate_limit|unknown, only with error or blocked>, "
     "query_variant: <supporting|opposing|primary|other-language>}"
 )

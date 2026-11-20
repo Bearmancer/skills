@@ -8,7 +8,7 @@ Claim-ledger research skill: fetch, verify, then publish pages to `bearmancer.gi
 scripts/cli.py        entry: start, resume, doctor, remove (via launch.py bootstrap)
 scripts/driver.py     phase order, retries, gates
 scripts/phases/       discover, ingest, write, verify, ship, common
-scripts/post/         vendor POST scripts for hosts with no MCP or CLI
+scripts/post/         vendor POST scripts for vendors with no CLI (exa) or no CLI verb
 scripts/ledger*.py    ledger store and publish gate; workspace.py holds Ledger, Config
 registry/             registry.yaml (surfaces), roles.yaml
 schema/               claims, lesson, sources JSON schemas

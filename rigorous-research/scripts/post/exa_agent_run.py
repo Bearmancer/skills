@@ -2,7 +2,7 @@
 # requires-python = ">=3.12"
 # dependencies = ["pyyaml", "jsonschema"]
 # ///
-"""Exa agent run stop and cancel. Create and poll runs with MCP `agent_run`.
+"""Exa agent run stop and cancel. Create runs with `vendor_request.py exa POST /agent/runs`, poll with `GET /agent/runs/<id>`.
 
 Docs: https://exa.ai/docs/exa-spec.yaml (`/agent/runs/{id}/stop`, `/agent/runs/{id}/cancel`)
 stop: ends an `ultra` run early, keeps results so far. cancel: drops a queued or running run, no results. Both bill accrued usage.

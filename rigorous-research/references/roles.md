@@ -166,7 +166,7 @@ Reply: a lesson source in YAML (`schema: 1`, `title`, `topic`, `mode`, `subject`
 
 ## step: discover-round
 
-Role discovery. One round, one claim. You are given the claim, the round number, the paradigm to use, the query variant (supporting, opposing, primary, other-language) and the surfaces of that paradigm with their routes (MCP tool, then vendor CLI, then POST script). Use only those surfaces. Rewrite the query for the variant; other-language means search in the source language of the topic. Report every attempt, any route, in `attempts` (format in the payload; the driver logs them).
+Role discovery. One round, one claim. You are given the claim, the round number, the paradigm to use, the query variant (supporting, opposing, primary, other-language) and the surfaces of that paradigm with their routes (vendor CLI, then POST script, then HTTP). Use only those surfaces. Rewrite the query for the variant; other-language means search in the source language of the topic. Report every attempt, any route, in `attempts` (format in the payload; the driver logs them).
 Return raw findings, no judgement. Save each page's text to a file under the given inbox directory and return its path in `file` (or inline `text` for short pages). List sources that could not be read, with the reason. Report vendor errors you hit with status and code.
 
 ```yaml
@@ -186,7 +186,7 @@ errors:
 attempts:
   - {
       surface: "tavily.search",
-      route: mcp,
+      route: cli,
       url: "...",
       status: ok,
       query_variant: supporting,
@@ -205,11 +205,11 @@ Role discovery. One wave task: search for common misconceptions, myths and frequ
 
 ## step: fetch
 
-Role discovery. Read one URL with the named surface and save the page text to the given file. Do not summarise. Report the route you used (`mcp`, `cli` or `post`) and, if it failed, the vendor status and code. The driver logs the attempt.
+Role discovery. Read one URL with the named surface and save the page text to the given file. Do not summarise. Report the route you used (`cli`, `post` or `http`) and, if it failed, the vendor status and code. The driver logs the attempt.
 
 ```yaml
 ok: true
-route: mcp
+route: cli
 error: { status: 403, code: "..." }
 ```
 

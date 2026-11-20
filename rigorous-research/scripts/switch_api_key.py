@@ -349,7 +349,7 @@ def main(argv=None):
                 from_desc = "UNSET"
             print(
                 f"{args.service}: {from_desc} -> {target_acct}({target_fp}). "
-                "Secrets file updated; the OpenCode config watcher reconnects the MCP server."
+                "Secrets file and user env var updated; CLIs pick the key up on their next start."
             )
     except Exception as exc:
         print(str(exc), file=sys.stderr)
