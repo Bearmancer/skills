@@ -72,8 +72,8 @@ Write-after-act keeps the gates supplied; re-entry keeps them alive across turns
 
 ## Enforcement is discipline, not tooling
 
-The gates are behavioral rules any agent follows, in any harness. Where a harness offers hooks or pre-action checks, they can reinforce the gates mechanically (for example, block an action that matches a quarantined attempt unless new evidence is recorded). But the sidecar works as discipline anywhere: read before act, write after act, new evidence to revisit, surface flip-flops.
+The gates are behavioral rules any agent follows, in any harness. Where a harness offers hooks or pre-action checks, they can reinforce the gates mechanically (for example, block an action that matches a quarantined attempt unless new evidence is recorded). But the ledger works as discipline anywhere: read before act, write after act, new evidence to revisit, surface flip-flops.
 
 ## When a gate blocks you
 
-If a gate stops you — a retry with no new evidence, a re-open with no new evidence, or a detected flip-flop — that is the sidecar working, not an obstacle. Record the blocked impulse in the ledger so it is not silently re-attempted, then choose a different approach, or escalate to the user if genuinely stuck. Do not bypass the gate.
+If a gate stops you — a retry with no new evidence, a re-open with no new evidence, or a detected flip-flop — that is the ledger working, not an obstacle. Record the blocked impulse in the ledger so it is not silently re-attempted, then choose a different approach, or escalate to the user if genuinely stuck. Do not bypass the gate.

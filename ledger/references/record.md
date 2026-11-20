@@ -4,12 +4,10 @@ The Record is the documentation rigor: what the ledger captures and how. Its job
 
 ## The ledger file
 
-- **One file per unit of work**, at a stable, predictable location the agent will find on re-entry. Default `LEDGER.md` at the working root; name it for the task if several run concurrently.
-- **Never in a temp or scratch directory.** Temp folders get purged and take the evidence with them. When the working root is scratch space (`%TEMP%`, a staging dir), put the ledger in the owning concern's home instead (on this host: `C:\Users\Lance\.agents\EPICs\<concern>\lanes\<task>.md`) and keep only transient artifacts in scratch.
-- **One writer per ledger.** Before writing, create `<ledger>.lock` beside it holding your session id and start time; if a lock from another live session exists, stop and report instead of writing. Delete your lock when you hand back.
-- **Durable.** It survives compaction and turn boundaries, and it persists after the work because it is the deliverable.
-- **Journal-then-modify.** Before creating any transient artifact, add it to "Artifacts to revert" with its revert command. The ledger itself is never listed there — it is kept.
-- **Version control.** Add the ledger filename to `.git/info/exclude` so it does not pollute a commit, unless the user wants the ledger committed as the record.
+- **One location only:** `C:\Users\Lance\.agents\EPICs\<concern>\LEDGER.md`. A separate task in a big concern can use a lane at `EPICs\<concern>\lanes\<task>.md`. Never put a ledger at a repo root, the working directory, temp or Desktop.
+- **One writer per concern.** This is the `.lock` file in the concern folder; SKILL.md covers the protocol.
+- **Durable.** The ledger survives compaction and turn boundaries, and it persists after the work because it is the deliverable.
+- **Journal, then modify.** Before you create any transient artifact, add it to "Artifacts to revert" with its revert command. The ledger itself is never listed there; it is kept.
 
 ## The schema
 
