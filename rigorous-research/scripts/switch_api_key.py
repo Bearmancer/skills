@@ -69,30 +69,40 @@ def _section_service(title):
     return key if key in SERVICE_MAP else None
 
 
+def env_files(path):
+    if path.is_file():
+        return [(path, None)]
+    if path.parent.is_dir():
+        found = sorted(path.parent.glob("*.env"))
+        if found:
+            return [(file, _section_service(file.stem)) for file in found]
+    raise FileNotFoundError(f"env file not found: {path}")
+
+
 def get_dotenv_map(path):
-    if not path.exists():
-        raise FileNotFoundError(f"env file not found: {path}")
     env_map = DotEnv()
-    section = None
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        if line[0] in "#;":
-            heading = re.match(r"^(#+)\s*(.*)$", line)
-            if heading and "=" not in heading.group(2):
-                if len(heading.group(1)) == 1:
-                    section = None
-                elif len(heading.group(1)) == 2:
-                    section = _section_service(heading.group(2))
-            continue
-        parsed = _parse_assignment(line)
-        if not parsed:
-            continue
-        name, val = parsed
-        env_map[name] = val
-        if section:
-            env_map.sections.setdefault(section, {})[name] = val
+    for source, default_section in env_files(path):
+        section = default_section
+        lines = source.read_text(encoding="utf-8").splitlines()
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            if line[0] in "#;":
+                heading = re.match(r"^(#+)\s*(.*)$", line)
+                if heading and "=" not in heading.group(2):
+                    if len(heading.group(1)) == 1:
+                        section = None
+                    elif len(heading.group(1)) == 2:
+                        section = _section_service(heading.group(2))
+                continue
+            parsed = _parse_assignment(line)
+            if not parsed:
+                continue
+            name, val = parsed
+            env_map[name] = val
+            if section:
+                env_map.sections.setdefault(section, {})[name] = val
     return env_map
 
 
