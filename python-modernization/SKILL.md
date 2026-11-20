@@ -111,7 +111,8 @@ needless copies; reach for the stdlib before adding a dependency.
 | --- | --- |
 | `python -m venv .venv`, `uv venv`, `virtualenv`, `pipenv`, `poetry`, `conda create` | **Banned.** uv manages the interpreter; no `.venv` left behind |
 | `pip install X` into system/user site | `uv add X` (project), `uv run --with X ...` (one-off), `uv tool install X` (CLI tool) |
-| `python script.py` (bare, deps assumed) | `uv run --no-project --with <deps> python script.py` or `uv run --script script.py` |
+| `python script.py` (bare, deps assumed) | PEP 723 header in the script + `uv run script.py` |
+| `uv run --no-project --with <deps> python script.py` | PEP 723 header + `uv run script.py` (owner 2026-11-20: flags too noisy) |
 | Running a library project ad hoc | `uv sync` then `uv run python -m pkg` |
 | `setup.py` / `setup.cfg` / `requirements.txt` for a new library | `pyproject.toml` (uv project) |
 | Installing Python system-wide | `uv python install 3.15`, `uv run --python 3.15 ...` |
@@ -151,8 +152,9 @@ data = httpx.get("https://example.com").text
 Path("out.txt").write_text(data)
 ```
 
-Run with `uv run --script script.py`. For a quick inline run without a file header:
-`uv run --no-project --with httpx python script.py`. Do not turn a throwaway script into a
+Run with plain `uv run script.py` (`--quiet` hides the first-run "Installed N packages" line); the
+header absorbs `--with`, `--python` and `--no-project`. `uv run --with httpx python -c ...` is only
+for a throwaway one-liner with no file. Do not turn a throwaway script into a
 packaged project, and do not use `--with` as a substitute for a real library's pyproject.
 
 ## Banned: typing (turn it off)

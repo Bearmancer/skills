@@ -17,7 +17,7 @@ dedupe is needed here. The file list travels as positional args of the single re
 command, so names with spaces, commas or semicolons stay intact.
 
 Run it (no venvs on this box, uv only):
-    python "C:\\Users\\Lance\\.agents\\skills\\arr-api-reference\\scripts\\qbt_remote_add.py" oci <dir> 8080
+    uv run "C:\\Users\\Lance\\.agents\\skills\\arr-api-reference\\scripts\\qbt_remote_add.py" oci <dir> 8080
 """
 
 import io
@@ -38,7 +38,7 @@ USAGE = (
     "  <ssh-host>                 alias from ~/.ssh/config (e.g. oci)\n"
     "  <dir-with-.torrent-files>  local folder holding the *.torrent files\n"
     "  [webui-port=8080]          qBittorrent WebUI port on the remote side\n"
-    "run: python <this file> <ssh-host> <dir> [port]"
+    "run: uv run <this file> <ssh-host> <dir> [port]"
 )
 
 # Runs remotely in one bash, like the heredoc the shell version piped to `ssh "$host"

@@ -58,7 +58,7 @@ Outside the category pipeline. Sonarr and Radarr each tell Emby to rescan throug
 
 Add `.torrent` files with `add_qbt_torrents`: it targets this machine's WebUI by default (address and port read from `qBittorrent.ini`), or pass `base=` for another machine's tailnet URL. For the Ubuntu box, whose WebUI listens only on its own `localhost:8080`:
 
-`python "C:\Users\Lance\.agents\skills\arr-api-reference\scripts\qbt_remote_add.py" oci <dir> 8080`
+`uv run "C:\Users\Lance\.agents\skills\arr-api-reference\scripts\qbt_remote_add.py" oci <dir> 8080`
 
 Gotchas (silent no-op on known hashes, login bypass): "qBittorrent" in `references/api-reference.md`. Done when the torrent count rose by the number added.
 
