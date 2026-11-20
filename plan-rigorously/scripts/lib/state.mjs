@@ -4,7 +4,6 @@ import {
 } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createHash } from 'node:crypto';
 
 export const DEFAULT_CONFIG = {
   reviewer: { model: 'sonnet' },
@@ -63,10 +62,6 @@ export function loadConfig(path = DEFAULT_CONFIG_PATH) {
     },
     review: { maxRounds: pickNumber(raw.review?.maxRounds, d.review.maxRounds) },
   };
-}
-
-export function sha256(text) {
-  return createHash('sha256').update(text).digest('hex');
 }
 
 export function rigorPaths(root) {
