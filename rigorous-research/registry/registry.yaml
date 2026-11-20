@@ -309,7 +309,7 @@ servers:
     pool: zenrows
     wired: true
     keyed: true
-    auth: "ZENROWS_API_KEY or the CLI's own login (`zenrows` stores the key in its config)"
+    auth: "~/.zenrows/secrets.json wins over ZENROWS_API_KEY (`zenrows login --api-key`); keep both on the same key"
     key: {
       env: ZENROWS_API_KEY,
       pattern: "^(?P<acct>[A-Z0-9]+)_ZENROWS_API_KEY$",
@@ -331,7 +331,7 @@ servers:
     pool: tinyfish
     wired: true
     keyed: true
-    auth: "pipe the key into `tinyfish auth set`; check `tinyfish auth status` (TINYFISH_API_KEY alone did not authenticate the CLI)"
+    auth: "TINYFISH_API_KEY (overrides a key saved with `tinyfish auth set`); check `tinyfish auth status`"
     key: {
       env: TINYFISH_API_KEY,
       pattern: "^(?P<acct>[A-Z0-9]+)_TINYFISH_API_KEY$",

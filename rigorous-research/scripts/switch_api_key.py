@@ -8,7 +8,6 @@ import ctypes
 import os
 import re
 import sys
-import uuid
 from pathlib import Path
 
 if not __package__:
@@ -45,40 +44,6 @@ SERVICE_MAP = {
     for pool in registry.pools(_REG)
 }
 SERVICE_CHOICES = [*sorted(SERVICE_MAP), "all"]
-DEFAULT_SECRETS_DIR = Path.home() / ".config" / "opencode" / "secrets"
-MATERIALIZE_SERVICES = sorted(
-    pool for pool in SERVICE_MAP if registry.key_info(_REG, pool)["wired"]
-)
-
-
-def write_secret(secrets_dir, svc, value):
-    secrets_dir.mkdir(parents=True, exist_ok=True)
-    target = secrets_dir / svc
-    tmp = secrets_dir / f".{svc}.{uuid.uuid4().hex}.tmp"
-    try:
-        tmp.write_text(value, encoding="utf-8", newline="")
-        tmp.replace(target)
-    except BaseException:
-        tmp.unlink(missing_ok=True)
-        raise
-    return target
-
-
-def materialize_secret(dotenv, svc, secrets_dir, dry_run=False):
-    if (secrets_dir / svc).exists():
-        return f"{svc}: exists"
-    pool = get_pool(dotenv, svc)
-    value = get_active_value(SERVICE_MAP[svc].env_var)
-    if not value and pool:
-        value = pool[sorted(pool)[0]]
-    if not value:
-        raise ValueError(f"{svc}: no active key or pool account; file not created")
-    if dry_run:
-        return f"{svc}: WHATIF create (no write)"
-    write_secret(secrets_dir, svc, value)
-    return f"{svc}: created"
-
-
 SECTION_ALIASES = {"scrapegraphai": "scrapegraph"}
 
 
@@ -250,9 +215,8 @@ def fingerprint_rows(dotenv, pools):
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description=(
-            "Rotate a masked pool of API keys. The active key is written to "
-            "~/.config/opencode/secrets/<service> (read by OpenCode via {file:}) "
-            "and to a User-scope environment variable."
+            "Rotate a masked pool of API keys. The active key is the User-scope "
+            "environment variable each CLI and POST script reads."
         )
     )
     parser.add_argument("--service", choices=SERVICE_CHOICES)
@@ -266,12 +230,6 @@ def main(argv=None):
     parser.add_argument("--next", action="store_true")
     parser.add_argument("--env-path", default=str(Path.home() / ".secrets" / ".env"))
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--secrets-dir", default=str(DEFAULT_SECRETS_DIR))
-    parser.add_argument(
-        "--materialize",
-        action="store_true",
-        help="create every missing secrets file (--service all, or one service)",
-    )
     args = parser.parse_args(argv)
     if args.service is None:
         if not args.fingerprints:
@@ -280,24 +238,12 @@ def main(argv=None):
 
     try:
         dotenv = get_dotenv_map(Path(args.env_path))
-        secrets_dir = Path(args.secrets_dir)
 
         if args.fingerprints:
             targets = sorted(SERVICE_MAP) if args.service == "all" else [args.service]
             for row in fingerprint_rows(dotenv, targets):
                 print(row)
             sys.exit(0)
-
-        if args.materialize:
-            targets = MATERIALIZE_SERVICES if args.service == "all" else [args.service]
-            failed = False
-            for svc in targets:
-                try:
-                    print(materialize_secret(dotenv, svc, secrets_dir, args.dry_run))
-                except ValueError as exc:
-                    failed = True
-                    print(str(exc), file=sys.stderr)
-            sys.exit(1 if failed else 0)
 
         if args.service == "all":
             if args.set_account or args.next:
@@ -331,8 +277,6 @@ def main(argv=None):
             )
 
         target_fp = get_fingerprint(pool[target_acct])
-        if not args.dry_run:
-            write_secret(secrets_dir, args.service, pool[target_acct])
         if active_acct == target_acct:
             print(f"{args.service}: already active {target_acct}({target_fp})")
             sys.exit(0)
@@ -349,7 +293,7 @@ def main(argv=None):
                 from_desc = "UNSET"
             print(
                 f"{args.service}: {from_desc} -> {target_acct}({target_fp}). "
-                "Secrets file and user env var updated; CLIs pick the key up on their next start."
+                f"User env var {env_var} updated; CLIs and POST scripts read it on their next start."
             )
     except Exception as exc:
         print(str(exc), file=sys.stderr)

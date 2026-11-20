@@ -74,8 +74,8 @@ Generated from `registry/registry.yaml` by `scripts/gen_routing_table.py`. Do no
 
 ## Key policy
 
-CLIs read the env var (or their own stored login, see CLI auth); POST scripts put the key only into the vendor auth
-header, source order `~/.config/opencode/secrets/<pool>`, then the env var.
+The active key is the User-scope env var (`switch_api_key.py` rotates it). CLIs read it (zenrows prefers its own
+stored login); POST scripts read it from HKCU first, then the process env, and send it only in the vendor auth header.
 
 | Server | Env var | Pool | POST auth header | CLI auth | Wired |
 |---|---|---|---|---|---|
@@ -84,8 +84,8 @@ header, source order `~/.config/opencode/secrets/<pool>`, then the env var.
 | firecrawl | `FIRECRAWL_API_KEY` | `firecrawl` | `Authorization: Bearer <key>` | env var | yes |
 | scrapegraph | `SGAI_API_KEY` | `scrapegraph` | `SGAI-APIKEY: <key>` | SGAI_API_KEY (just-scrape); debug with SGAI_DEBUG=1, history with `just-scrape history scrape --json` | yes |
 | apify | `APIFY_TOKEN` | `apify` | `Authorization: Bearer <key>` | `apify login` (the CLI stores the token); APIFY_TOKEN for POST scripts | yes |
-| zenrows | `ZENROWS_API_KEY` | `zenrows` | - | ZENROWS_API_KEY or the CLI's own login (`zenrows` stores the key in its config) | yes |
-| tinyfish | `TINYFISH_API_KEY` | `tinyfish` | - | pipe the key into `tinyfish auth set`; check `tinyfish auth status` (TINYFISH_API_KEY alone did not authenticate the CLI) | yes |
+| zenrows | `ZENROWS_API_KEY` | `zenrows` | - | ~/.zenrows/secrets.json wins over ZENROWS_API_KEY (`zenrows login --api-key`); keep both on the same key | yes |
+| tinyfish | `TINYFISH_API_KEY` | `tinyfish` | - | TINYFISH_API_KEY (overrides a key saved with `tinyfish auth set`); check `tinyfish auth status` | yes |
 | brightdata | `BRIGHTDATA_API_KEY` | `brightdata` | - | BRIGHTDATA_API_KEY plus a Web Unlocker zone: pass --zone or `brightdata config set default_zone_unlocker cli_unlocker` | yes |
 | browserbase | `BROWSERBASE_API_KEY` | `browserbase` | `X-BB-API-Key: <key>` | env var | yes |
 

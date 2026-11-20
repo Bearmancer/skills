@@ -80,12 +80,12 @@ Account pools live in `~/.secrets/.env`. Never read that file by any means, not 
 
 Trigger: a credit, quota, payment or auth failure (error classes in `references/routing.md`). A plain 429: retry once first.
 
-1. Run `uv run <skill dir>/scripts/switch_api_key.py --service <name> --next` from anywhere. It writes the active key to that service's key file and the user env var. A CLI picks the new key up from the user env var on its next start; a shell that was already running needs the key inline (`$env:<VAR> = ...`).
+1. Run `uv run <skill dir>/scripts/switch_api_key.py --service <name> --next` from anywhere. It writes the active key to the service's User-scope env var (the variable in `references/routing.md` "Key policy"). A CLI picks the new key up from the user env var on its next start; a shell that was already running needs the key inline (`$env:<VAR> = ...`).
 2. Relay its output line verbatim (already masked).
 3. Retry the failed call on the same server. Repeat `--next` per failure until output returns to the first account: pool exhausted, go to the next chain step. `pool empty for <svc>` means the same; tell the user in one line.
 4. A pool exhausted inside a run stops it with `NEEDS_YOU.md` (ADR 0017, 0025).
 
-Controls: `--list`, `--service all --list`, `--set <ACCOUNT>`, `--next --dry-run`, `--materialize`, `--fingerprints`. Services and env vars: `references/routing.md` "Key policy".
+Controls: `--list`, `--service all --list`, `--set <ACCOUNT>`, `--next --dry-run`, `--fingerprints`. Services and env vars: `references/routing.md` "Key policy".
 
 ## Rigor home
 

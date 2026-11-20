@@ -1,5 +1,4 @@
 import json
-import os
 import re
 import sys
 import time
@@ -9,7 +8,7 @@ import urllib.request
 from pathlib import Path
 
 from .. import registry
-from ..switch_api_key import DEFAULT_SECRETS_DIR as SECRETS_DIR
+from ..switch_api_key import get_active_value
 
 UA = "rigorous-research-post-scripts/1"
 
@@ -52,21 +51,13 @@ def fail(status, code, message):
 
 
 def load_key(pool):
-    path = SECRETS_DIR / pool
+    # User-scope env var first (fresh after a rotation even in a long-running shell), then the process env.
     env_var = VENDORS[pool][3]
-    try:
-        key = path.read_text(encoding="utf-8").strip()
-    except OSError:
-        key = ""
-    key = key or os.environ.get(env_var, "").strip()
+    key = (get_active_value(env_var) or "").strip()
     if not key:
-        fail(
-            "-",
-            "key_unreadable",
-            f"cannot read {path} (missing or empty) and {env_var} is unset",
-        )
+        fail("-", "key_unreadable", f"{env_var} is unset (user and process environment)")
     if re.search(r"\s", key):
-        fail("-", "key_malformed", f"{path} has whitespace")
+        fail("-", "key_malformed", f"{env_var} has whitespace")
     return key
 
 
