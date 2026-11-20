@@ -103,6 +103,8 @@ class KeyManager:
         raise PoolExhausted(pool, "no available key")
 
     def _rotation_decision(self, server, pool, seen_generation):
+        if not self.fingerprints(pool):
+            return NEXT_SURFACE
         rotate_once(
             self.state_path,
             pool,

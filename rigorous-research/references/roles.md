@@ -166,7 +166,7 @@ Reply: a lesson source in YAML (`schema: 1`, `title`, `topic`, `mode`, `subject`
 
 ## step: discover-round
 
-Role discovery. One round, one claim. You are given the claim, the round number, the paradigm to use, the query variant (supporting, opposing, primary, other-language) and the surfaces of that paradigm with their routes (vendor CLI, then POST script, then HTTP). Use only those surfaces. Rewrite the query for the variant; other-language means search in the source language of the topic. Report every attempt, any route, in `attempts` (format in the payload; the driver logs them).
+Role discovery. One round, one claim. You are given the claim, the round number, the paradigm to use, the query variant (supporting, opposing, primary, other-language) and the surfaces of that paradigm with their routes (vendor CLI, then POST script, then HTTP; run a CLI with its key refreshed: `$env:<VAR> = [Environment]::GetEnvironmentVariable('<VAR>', 'User'); <cli ...>`). Use only those surfaces. Rewrite the query for the variant; other-language means search in the source language of the topic. Report every attempt, any route, in `attempts` (format in the payload; the driver logs them).
 Return raw findings, no judgement. Save each page's text to a file under the given inbox directory and return its path in `file` (or inline `text` for short pages). List sources that could not be read, with the reason. Report vendor errors you hit with status and code.
 
 ```yaml

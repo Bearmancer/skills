@@ -27,7 +27,6 @@ inside the server (SKILL.md, "Key rotation: single home"); a fallback inside a s
 | research | `firecrawl.research` (low), `tavily.research` (high) |
 | scrape | `firecrawl.scrape` (low), `scrapegraph.scrape` (med), `brightdata.scrape` (high) |
 | search | `arxiv.search` (low), `crossref.search` (low), `exa.search` (low), `firecrawl.search` (low), `openalex.search` (low), `semantic-scholar.search` (low), `tavily.search` (low), `wikipedia.search` (low), `wikisource.search` (low), `scrapegraph.search` (med) |
-| session | `browserbase.session` (high) |
 | transcript | `ytdlp.transcript` (low) |
 | xmlapi | `bgg.xmlapi` (low) |
 
@@ -47,7 +46,6 @@ Every step exhausted: the URL is blocked; never guess its content.
 8. `tinyfish.fetch` - cli: `tinyfish fetch content get <url>`
 9. `brightdata.scrape` - cli: `brightdata scrape <url> --zone cli_unlocker`
 10. `apify.rag-web-browser` - cli: `apify actors call apify/rag-web-browser`
-11. `browserbase.session` - cli: `browse open <url>`
 
 ## POST scripts
 

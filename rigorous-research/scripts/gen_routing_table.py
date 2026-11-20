@@ -64,8 +64,9 @@ def render(reg):
         "",
         "## Key policy",
         "",
-        "The active key is the User-scope env var (`switch_api_key.py` rotates it). CLIs read it (zenrows prefers its own",
-        "stored login); POST scripts read it from HKCU first, then the process env, and send it only in the vendor auth header.",
+        "The active key is the User-scope env var; `switch_api_key.py` rotates it. A running shell keeps the old value, so run",
+        "every CLI route with its key refreshed: `$env:<VAR> = [Environment]::GetEnvironmentVariable('<VAR>', 'User'); <cli ...>`.",
+        "POST scripts read HKCU themselves and send the key only in the vendor auth header.",
         "",
         "| Server | Env var | Pool | POST auth header | CLI auth | Wired |",
         "|---|---|---|---|---|---|",
@@ -75,7 +76,7 @@ def render(reg):
             k = srv["key"]
             header = f"`{k['header']}: {k['prefix']}<key>`" if k["header"] else "-"
             lines.append(
-                f"| {name} | `{k['env']}` | `{srv['pool']}` | {header} | {srv.get('auth', 'env var')} | {'yes' if srv.get('wired') else 'no'} |"
+                f"| {name} | `{k['env']}` | `{srv['pool']}` | {header} | {srv['auth']} | {'yes' if srv.get('wired') else 'no'} |"
             )
     lines += [
         "",

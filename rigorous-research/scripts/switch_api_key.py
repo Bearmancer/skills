@@ -4,7 +4,6 @@
 # ///
 
 import argparse
-import ctypes
 import os
 import re
 import sys
@@ -23,11 +22,7 @@ if not __package__:
 
 from . import registry
 from .keystate import fingerprint
-
-try:
-    import winreg
-except ImportError:
-    winreg = None
+from .userenv import broadcast_change, get_active_value, set_user
 
 
 class ServiceInfo:
@@ -129,52 +124,6 @@ def get_active_account(pool, active):
         if v == active:
             return k
     return None
-
-
-def _get_user_env_var(name):
-    if winreg is None:
-        return None
-    try:
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as key:
-            value, _ = winreg.QueryValueEx(key, name)
-            return str(value)
-    except (FileNotFoundError, OSError):
-        return None
-
-
-def _set_user_env_var(name, value):
-    if winreg is None:
-        return
-    with winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Environment") as key:
-        winreg.SetValueEx(key, name, 0, winreg.REG_SZ, value)
-
-
-def _broadcast_env_change():
-    if winreg is None:
-        return
-    try:
-        HWND_BROADCAST = 0xFFFF
-        WM_SETTINGCHANGE = 0x1A
-        SMTO_ABORTIFHUNG = 2
-        result = ctypes.c_ulong()
-        ctypes.windll.user32.SendMessageTimeoutW(
-            HWND_BROADCAST,
-            WM_SETTINGCHANGE,
-            0,
-            "Environment",
-            SMTO_ABORTIFHUNG,
-            1000,
-            ctypes.byref(result),
-        )
-    except Exception:
-        pass
-
-
-def get_active_value(env_var):
-    v = _get_user_env_var(env_var)
-    if not v:
-        v = os.environ.get(env_var)
-    return v
 
 
 def show_pool_state(dotenv, svc):
@@ -284,9 +233,9 @@ def main(argv=None):
         if args.dry_run:
             print(f"{args.service}: WHATIF -> {target_acct}({target_fp}). (no write)")
         else:
-            _set_user_env_var(env_var, pool[target_acct])
+            set_user(env_var, pool[target_acct])
             os.environ[env_var] = pool[target_acct]
-            _broadcast_env_change()
+            broadcast_change()
             if active_acct:
                 from_desc = f"{active_acct}({get_fingerprint(pool[active_acct])})"
             else:

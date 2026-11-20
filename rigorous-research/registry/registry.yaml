@@ -34,7 +34,6 @@ fetch_ladder:
   - tinyfish.fetch
   - brightdata.scrape
   - apify.rag-web-browser
-  - browserbase.session
 
 # Source tiers by type. Per-domain overrides go in tier_overrides.
 tiers:
@@ -66,6 +65,7 @@ servers:
 
   tavily:
     pool: tavily
+    auth: "TAVILY_API_KEY (`tvly auth` confirms)"
     wired: true
     keyed: true
     key: {
@@ -107,6 +107,7 @@ servers:
 
   exa:
     pool: exa
+    auth: "EXA_API_KEY (POST scripts only; exa has no CLI)"
     wired: true
     keyed: true
     key: {
@@ -169,6 +170,7 @@ servers:
 
   firecrawl:
     pool: firecrawl
+    auth: "FIRECRAWL_API_KEY (wins over the stored login; `firecrawl status` confirms)"
     wired: true
     keyed: true
     key: {
@@ -271,7 +273,7 @@ servers:
 
   apify:
     pool: apify
-    auth: "`apify login` (the CLI stores the token); APIFY_TOKEN for POST scripts"
+    auth: "APIFY_TOKEN (`apify info` reports token source env; no ~/.apify/auth.json: never run `apify login`)"
     wired: true
     keyed: true
     key: {
@@ -309,7 +311,7 @@ servers:
     pool: zenrows
     wired: true
     keyed: true
-    auth: "~/.zenrows/secrets.json wins over ZENROWS_API_KEY (`zenrows login --api-key`); keep both on the same key"
+    auth: "ZENROWS_API_KEY (no ~/.zenrows/secrets.json: a stored key would win over the env var; never run `zenrows login`)"
     key: {
       env: ZENROWS_API_KEY,
       pattern: "^(?P<acct>[A-Z0-9]+)_ZENROWS_API_KEY$",
@@ -370,11 +372,12 @@ servers:
         routes: { cli: ["brightdata scrape <url> --zone cli_unlocker"] },
       } # -f markdown|html|screenshot|json, --country, --mobile, --async, -o
     errors:
-      bad_key: ["No API key found"]
+      bad_key: ["401", "api key required", "No API key found"]
     unverified: [out_of_credit, blocked, rate_limit]
 
   browserbase:
     pool: browserbase
+    auth: "BROWSERBASE_API_KEY (POST scripts only)"
     wired: true
     keyed: true
     key: {
@@ -386,12 +389,6 @@ servers:
     }
     reset: monthly # https://docs.browserbase.com/account/billing/plans (browser hours renew monthly)
     capabilities:
-      session: {
-        paradigm: browser-unlocker,
-        ladder: fetch,
-        cost: high,
-        routes: { cli: ["browse open <url>"] },
-      }
       agent-run: {
         paradigm: browser-unlocker,
         ladder: fetch,
@@ -413,7 +410,7 @@ servers:
         paradigm: keyword,
         ladder: discovery,
         cost: low,
-        routes: { http: ["GET learn.microsoft.com/api/search?search=<q>"] },
+        routes: { http: ["GET learn.microsoft.com/api/search?search=<q>", "GET <hit url>"] },
       }
 
   # Free lawful surfaces (no key).

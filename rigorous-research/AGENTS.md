@@ -26,7 +26,7 @@ references/design.md  skill-local decision record
 
 ## Conventions
 
-- `ADR 00NN` inside this folder means `references/design.md` (0001-0034), never `docs/adr/`.
+- `ADR 00NN` inside this folder means `references/design.md` (0001-0035), never `docs/adr/`.
 - The ledger is canonical; pages are generated from it.
 - Scripts never call a model or start another agent. A phase that needs AI writes asks to `ASKS.md` and exits 3; the agent answers and resumes (ADR 0033).
 - Exit codes: 0 done, 1 failed, 2 suspended, 3 waiting on the agent.

@@ -80,6 +80,8 @@ def validate(reg):
             problems.append(f"{sname}: keyed server needs a pool")
         if server.get("keyed"):
             problems.extend(_key_problems(sname, server.get("key")))
+            if not server.get("auth"):
+                problems.append(f"{sname}: keyed server needs an auth note")
         for cname, cap in server.get("capabilities", {}).items():
             sid = f"{sname}.{cname}"
             sids.add(sid)

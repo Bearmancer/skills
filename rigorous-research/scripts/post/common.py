@@ -8,7 +8,7 @@ import urllib.request
 from pathlib import Path
 
 from .. import registry
-from ..switch_api_key import get_active_value
+from ..userenv import get_active_value
 
 UA = "rigorous-research-post-scripts/1"
 
@@ -51,7 +51,6 @@ def fail(status, code, message):
 
 
 def load_key(pool):
-    # User-scope env var first (fresh after a rotation even in a long-running shell), then the process env.
     env_var = VENDORS[pool][3]
     key = (get_active_value(env_var) or "").strip()
     if not key:

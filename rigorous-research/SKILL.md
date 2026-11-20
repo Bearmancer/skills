@@ -60,7 +60,7 @@ A video or audio input over 30 minutes splits into chapters at ingest in every m
 
 Page grabbing runs only as part of research; there is no fetch-only shortcut. The driver walks this inside a run (`scripts/fetch.py`); an agent doing a web call by hand follows it too.
 
-1. Pick by capability in `references/fleet.md`: vendor CLI, then POST script (`scripts/post/`), then HTTP or a local tool; no MCP (ADR 0035). Full tables, CLI auth and error classes: `references/routing.md`.
+1. Pick by capability in `references/fleet.md`: vendor CLI, then POST script (`scripts/post/`), then HTTP or a local tool; no MCP (ADR 0035). Run a CLI route with its key refreshed from User scope, because a running shell keeps the value it started with: `$env:<VAR> = [Environment]::GetEnvironmentVariable('<VAR>', 'User'); <cli ...>` (`<VAR>` from routing.md "Key policy"). Full tables, CLI auth and error classes: `references/routing.md`.
 2. Bot-blocked (401, 403, 429, 503, challenge page, empty body): walk the "Bot-block chain" in `references/fleet.md` (registry `fetch_ladder`) and stop at the first fetch that holds the target content. Credit or auth failure: rotate that server's key ("Key rotation: single home") before leaving it. Blocked: next step.
 3. Log every attempt (`scripts/log_attempt.py`, or the driver from an agent reply): URL, surface, route, status.
 4. All steps and accounts exhausted: the URL is blocked. Never guess its content; flag or drop the claim it carried.
@@ -80,7 +80,7 @@ Account pools live in `~/.secrets/.env`. Never read that file by any means, not 
 
 Trigger: a credit, quota, payment or auth failure (error classes in `references/routing.md`). A plain 429: retry once first.
 
-1. Run `uv run <skill dir>/scripts/switch_api_key.py --service <name> --next` from anywhere. It writes the active key to the service's User-scope env var (the variable in `references/routing.md` "Key policy"). A CLI picks the new key up from the user env var on its next start; a shell that was already running needs the key inline (`$env:<VAR> = ...`).
+1. Run `uv run <skill dir>/scripts/switch_api_key.py --service <name> --next` from anywhere. It writes the active key to the service's User-scope env var (the variable in `references/routing.md` "Key policy"). Refresh the variable from User scope before the retry (the line in step 1 of the fetch rules); POST scripts read HKCU themselves.
 2. Relay its output line verbatim (already masked).
 3. Retry the failed call on the same server. Repeat `--next` per failure until output returns to the first account: pool exhausted, go to the next chain step. `pool empty for <svc>` means the same; tell the user in one line.
 4. A pool exhausted inside a run stops it with `NEEDS_YOU.md` (ADR 0017, 0025).

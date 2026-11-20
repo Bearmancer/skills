@@ -24,7 +24,6 @@ Generated from `registry/registry.yaml` by `scripts/gen_routing_table.py`. Do no
 8. `tinyfish.fetch`
 9. `brightdata.scrape`
 10. `apify.rag-web-browser`
-11. `browserbase.session`
 
 ## Surfaces
 
@@ -53,9 +52,8 @@ Generated from `registry/registry.yaml` by `scripts/gen_routing_table.py`. Do no
 | `zenrows.fetch` | browser-unlocker | fetch | med | yes | `zenrows fetch <url>` | - |
 | `tinyfish.fetch` | browser-unlocker | fetch | med | yes | `tinyfish fetch content get <url>` | - |
 | `brightdata.scrape` | browser-unlocker | fetch | high | yes | `brightdata scrape <url> --zone cli_unlocker` | - |
-| `browserbase.session` | browser-unlocker | fetch | high | yes | `browse open <url>` | - |
 | `browserbase.agent-run` | browser-unlocker | fetch | high | yes | - | post: `uv run <skill dir>/scripts/post/browserbase_agent_run.py start|status` |
-| `microsoft-learn.docs` | keyword | discovery | low | yes | - | http: `GET learn.microsoft.com/api/search?search=<q>` |
+| `microsoft-learn.docs` | keyword | discovery | low | yes | - | http: `GET learn.microsoft.com/api/search?search=<q>`<br>http: `GET <hit url>` |
 | `openalex.search` | scholarly-archive | discovery | low | yes | - | http: `GET api.openalex.org/works` |
 | `crossref.search` | scholarly-archive | discovery | low | yes | - | http: `GET api.crossref.org/works` |
 | `semantic-scholar.search` | scholarly-archive | discovery | low | yes | - | http: `GET api.semanticscholar.org/graph/v1/paper/search` |
@@ -74,20 +72,21 @@ Generated from `registry/registry.yaml` by `scripts/gen_routing_table.py`. Do no
 
 ## Key policy
 
-The active key is the User-scope env var (`switch_api_key.py` rotates it). CLIs read it (zenrows prefers its own
-stored login); POST scripts read it from HKCU first, then the process env, and send it only in the vendor auth header.
+The active key is the User-scope env var; `switch_api_key.py` rotates it. A running shell keeps the old value, so run
+every CLI route with its key refreshed: `$env:<VAR> = [Environment]::GetEnvironmentVariable('<VAR>', 'User'); <cli ...>`.
+POST scripts read HKCU themselves and send the key only in the vendor auth header.
 
 | Server | Env var | Pool | POST auth header | CLI auth | Wired |
 |---|---|---|---|---|---|
-| tavily | `TAVILY_API_KEY` | `tavily` | `Authorization: Bearer <key>` | env var | yes |
-| exa | `EXA_API_KEY` | `exa` | `x-api-key: <key>` | env var | yes |
-| firecrawl | `FIRECRAWL_API_KEY` | `firecrawl` | `Authorization: Bearer <key>` | env var | yes |
+| tavily | `TAVILY_API_KEY` | `tavily` | `Authorization: Bearer <key>` | TAVILY_API_KEY (`tvly auth` confirms) | yes |
+| exa | `EXA_API_KEY` | `exa` | `x-api-key: <key>` | EXA_API_KEY (POST scripts only; exa has no CLI) | yes |
+| firecrawl | `FIRECRAWL_API_KEY` | `firecrawl` | `Authorization: Bearer <key>` | FIRECRAWL_API_KEY (wins over the stored login; `firecrawl status` confirms) | yes |
 | scrapegraph | `SGAI_API_KEY` | `scrapegraph` | `SGAI-APIKEY: <key>` | SGAI_API_KEY (just-scrape); debug with SGAI_DEBUG=1, history with `just-scrape history scrape --json` | yes |
-| apify | `APIFY_TOKEN` | `apify` | `Authorization: Bearer <key>` | `apify login` (the CLI stores the token); APIFY_TOKEN for POST scripts | yes |
-| zenrows | `ZENROWS_API_KEY` | `zenrows` | - | ~/.zenrows/secrets.json wins over ZENROWS_API_KEY (`zenrows login --api-key`); keep both on the same key | yes |
+| apify | `APIFY_TOKEN` | `apify` | `Authorization: Bearer <key>` | APIFY_TOKEN (`apify info` reports token source env; no ~/.apify/auth.json: never run `apify login`) | yes |
+| zenrows | `ZENROWS_API_KEY` | `zenrows` | - | ZENROWS_API_KEY (no ~/.zenrows/secrets.json: a stored key would win over the env var; never run `zenrows login`) | yes |
 | tinyfish | `TINYFISH_API_KEY` | `tinyfish` | - | TINYFISH_API_KEY (overrides a key saved with `tinyfish auth set`); check `tinyfish auth status` | yes |
 | brightdata | `BRIGHTDATA_API_KEY` | `brightdata` | - | BRIGHTDATA_API_KEY plus a Web Unlocker zone: pass --zone or `brightdata config set default_zone_unlocker cli_unlocker` | yes |
-| browserbase | `BROWSERBASE_API_KEY` | `browserbase` | `X-BB-API-Key: <key>` | env var | yes |
+| browserbase | `BROWSERBASE_API_KEY` | `browserbase` | `X-BB-API-Key: <key>` | BROWSERBASE_API_KEY (POST scripts only) | yes |
 
 ## POST scripts
 
@@ -138,7 +137,7 @@ JSON to stdout; HTTP error: exit 1 with `{status, code, message}` on stderr; red
 | tinyfish | out_of_credit | - | no |
 | tinyfish | blocked | - | no |
 | tinyfish | rate_limit | - | no |
-| brightdata | bad_key | `No API key found` | yes |
+| brightdata | bad_key | `401`, `api key required`, `No API key found` | yes |
 | brightdata | out_of_credit | - | no |
 | brightdata | blocked | - | no |
 | brightdata | rate_limit | - | no |
