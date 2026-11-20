@@ -90,7 +90,7 @@ Each machine's WebUI address and port are in `stack-state.md`; `qbt_base()` read
 
 - **Add:** `POST /api/v2/torrents/add`, multipart, one `torrents` part per file, optional `savepath`, `category`, `paused`. A known hash is a silent no-op, so judge success by the torrent count (`GET /api/v2/torrents/info`), never by the HTTP code (`000` = transport failure, 405 = empty request).
 - **Local or tailnet WebUI:** `add_qbt_torrents(paths, base=None, save_path, category)` defaults to `qbt_base()`, dedupes by infohash (`qbt_info_hash`) and returns `(added, skipped, count_after)`.
-- **Ubuntu box (WebUI bound to its own localhost):** `uv run --no-project --with paramiko "C:\Users\Lance\.agents\skills\arr-api-reference\scripts\qbt_remote_add.py" oci <dir> 8080` — one SFTP upload session, curl batches of 25, staging removed only when every batch returned 200 (about 8 s for 300 files). The `ssh` CLI it replaced is blocked host-wide.
+- **Ubuntu box (WebUI bound to its own localhost):** `python "C:\Users\Lance\.agents\skills\arr-api-reference\scripts\qbt_remote_add.py" oci <dir> 8080` — one SFTP upload session, curl batches of 25, staging removed only when every batch returned 200 (about 8 s for 300 files). The `ssh` CLI it replaced is blocked host-wide.
 - **Other calls:** `GET /api/v2/app/preferences`, `POST /api/v2/app/setPreferences` (form field `json=`), `POST /api/v2/torrents/createCategory` / `editCategory` (`set_qbt_category_dir`).
 
 ### Working on the Ubuntu box with paramiko
