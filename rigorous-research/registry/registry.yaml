@@ -87,7 +87,7 @@ servers:
         paradigm: crawl-map,
         ladder: fetch,
         cost: low,
-        routes: { cli: ["tvly extract"] },
+        routes: { cli: ["tvly extract <url...(max 20)> --json -o <file>"] },
       }
       crawl: {
         paradigm: crawl-map,

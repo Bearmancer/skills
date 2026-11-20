@@ -37,7 +37,7 @@ challenge page or an empty body. A credit or auth failure rotates that server's 
 Every step exhausted: the URL is blocked; never guess its content.
 
 1. `direct.fetch` - http: `GET <url>`
-2. `tavily.extract` - cli: `tvly extract`
+2. `tavily.extract` - cli: `tvly extract <url...(max 20)> --json -o <file>`
 3. `firecrawl.scrape` - cli: `firecrawl scrape <url>`
 4. `exa.fetch` - post: `uv run <skill dir>/scripts/post/vendor_request.py exa POST /contents --body <json|@file>`
 5. `wayback.fetch` - http: `GET archive.org/wayback/available`, `GET web.archive.org/cdx/search/cdx`

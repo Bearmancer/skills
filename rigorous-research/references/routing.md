@@ -31,7 +31,7 @@ Generated from `registry/registry.yaml` by `scripts/gen_routing_table.py`. Do no
 |---|---|---|---|---|---|---|
 | `direct.fetch` | crawl-map | fetch | low | yes | - | http: `GET <url>` |
 | `tavily.search` | keyword | discovery | low | yes | `tvly search` | - |
-| `tavily.extract` | crawl-map | fetch | low | yes | `tvly extract` | - |
+| `tavily.extract` | crawl-map | fetch | low | yes | `tvly extract <url...(max 20)> --json -o <file>` | - |
 | `tavily.crawl` | crawl-map | discovery | med | yes | `tvly crawl`<br>`tvly map` | - |
 | `tavily.research` | answer-agent | discovery | high | yes | `tvly research` | - |
 | `exa.search` | semantic | discovery | low | yes | - | post: `uv run <skill dir>/scripts/post/vendor_request.py exa POST /search --body <json|@file>` |
