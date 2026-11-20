@@ -15,7 +15,7 @@ How a piece of work went (attempts, failures, reasons) lives in that work's ledg
 
 - `<concern>` is a short kebab-case name: a repo (`skills`, `toolbox`, `website`) or an area (`opencode-host`, `arr-stack`, `tracker-requests`, `research`, `salvage`, `inbox`). Enumerate the folders rather than trusting this list.
 - Work that fits no concern goes to `inbox` until triaged.
-- Data files the plan depends on may sit beside the EPIC, for example `tracker-requests\24BIT-ONLY.md` (the skip list of boxes not to request).
+- Data files the plan depends on may sit beside the EPIC. Before the folder is deleted, move any that outlive the plan beside the ledger (e.g. `ledgers\tracker-requests\24BIT-ONLY.md`).
 - Event logs go to repo roots or `~/.agents/ledgers/` (the `ledger` skill). A plan found anywhere else moves into its concern.
 
 ## Format
