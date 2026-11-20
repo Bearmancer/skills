@@ -78,3 +78,7 @@ Status: closed 2026-11-20
 ### Artifacts to revert
 - [x] `%TEMP%\ps-wizard-audit\*` - removed 2026-11-20 (A9)
 - [x] `Desktop\ps-wizard\secret-test\` - removed 2026-11-20 (A9)
+
+## PLAN-45 / PLAN-46 (2026-11-20)
+- PLAN-45 done: removed unused `sha256` export + `createHash` import from plan-rigorously/scripts/lib/state.mjs (rg: no caller; parse.mjs has its own createHash). Tests 172/172 before and after. Commit 1708bc8 on worktree-plan-rigorously, pushed.
+- PLAN-46 closed, no change: the `.replace(/\\/g, '/')` calls in scripts/lib/claude-code.mjs (lines 184, 186, 328) are not redundant. `canonicalPath` returns `path.join(...)`, which yields backslashes on win32, and the regexes match forward slashes.
