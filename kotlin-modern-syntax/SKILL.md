@@ -1,6 +1,6 @@
 ---
 name: kotlin-modern-syntax
-description: Enforces modern Kotlin (2.3 to 2.5) and bans superseded patterns, built from the official 2.3.0 to 2.5.0-Beta2 release notes, changelogs and compatibility guides. Use this skill whenever writing, reviewing, refactoring, migrating or explaining ANY Kotlin code or Kotlin build config (.kt, .kts, build.gradle.kts, libs.versions.toml, gradle.properties, pom.xml, Compose or KMP code), even when the user never mentions "modern", "idiomatic" or "migration". Also use it for "is this deprecated", "what's the new way to do X in Kotlin", Kotlin upgrade questions, and code review of Kotlin pull requests. It carries an antipattern catalog (old pattern, modern replacement, version and stability) and a scanner script, so Kotlin you produce never uses context receivers, kotlinOptions, readLine, backing-property boilerplate, Char.toInt and similar leftovers.
+description: Use whenever writing, reviewing, refactoring, migrating or explaining any Kotlin code or build config (.kt, .kts, build.gradle.kts, libs.versions.toml, Compose, KMP). Enforces Kotlin 2.3-2.5 and bans superseded patterns (context receivers, kotlinOptions, readLine, Char.toInt) via an antipattern catalog and scanner. Also for "is this deprecated" and Kotlin upgrade questions.
 ---
 
 # Modern Kotlin, enforced

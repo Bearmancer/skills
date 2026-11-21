@@ -1,6 +1,6 @@
 ---
 name: file-tracker-request
-description: Fill, verify or edit a request on Redacted (redacted.sh, "RED") or Orpheus (orpheus.network, "OPS") — the "Create a request" form. Use whenever asked to post a request, fill or check the requests form, or work out which fields and bounty a request needs. Defaults to a disc-count bounty (2/5/7/10 GB), extracts every conductor, composer, orchestra and soloist into artist rows and the full work list into the body, rehosts covers for OPS, and confirms only once, immediately before posting. Field maps live in references/, the reusable scripts in scripts/.
+description: Use when asked to post, fill, check or edit a request on Redacted (redacted.sh, "RED") or Orpheus (orpheus.network, "OPS"), or to work out a request's fields and bounty. Sets a disc-count bounty, fills every conductor, composer, orchestra and soloist as artist rows and the work list in the body, rehosts covers for OPS, and confirms once before posting.
 ---
 
 # Track requests — RED and OPS

@@ -1,17 +1,6 @@
 ---
 name: dvd-concert-curation
-description: >
-  Use whenever processing ripped classical/concert DVD folders (e.g. D:\DVDs) into a
-  curated video library: researching performers, works, movements and performance years
-  into tags.json; classifying works, movements and extras (drop trailers, fold applause
-  and intros into the work, keep talks standalone); merging per-movement split MKVs into
-  one file per work when requested; retaining and naming every chapter with its movement;
-  naming classical works Surname's Work - Performers (Year) and songs Song name - Artist
-  (Year); restyling default/incoherent DVD titles, filenames and folder names; verifying
-  merges losslessly and deleting movement sources only after verification. Triggers on:
-  DVDs, D:\DVDs, tags.json, movement chapters, split works, per-work merge, concert video
-  tagging, song naming, title restyle, or any request to tidy, tag, split, merge, rename
-  or restyle concert DVD rips.
+description: 'Use when processing ripped classical or concert DVD folders (D:\DVDs) into a curated video library: classify works, movements and extras, merge split movement MKVs into one file per work, name every chapter, restyle titles, filenames and folders, and verify merges losslessly before deleting sources. Triggers: DVDs, tags.json, movement chapters, per-work merge, concert video.'
 ---
 
 # dvd-concert-curation

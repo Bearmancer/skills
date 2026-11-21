@@ -1,6 +1,6 @@
 ---
 name: ledger
-description: Record a unit of work as a diagnostic event log - every step, hypothesis, attempt, fix executed, failure and its reason, next-step rationale and user decision, verbatim, in the repo's root LEDGER.md (committed) or ~/.agents/ledgers/<concern>/LEDGER.md when there is no repo. Use for any non-trivial debugging, execution, migration or build, when Lance says "ledger it", and when re-entering in-flight work after compaction. Also use whenever work is retrying a failed approach, re-arguing a settled decision, or flip-flopping the spec. Plans and backlogs belong to the epic skill, not here.
+description: Use for any non-trivial debugging, execution, migration or build, when Lance says "ledger it", when re-entering work after compaction, or when work retries a failed approach or re-argues a settled decision. Records every step, hypothesis, attempt, failure and user decision verbatim in LEDGER.md. Plans and backlogs belong to the epic skill.
 ---
 
 # Ledger
