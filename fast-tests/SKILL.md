@@ -44,7 +44,7 @@ Write xdist-safe tests: per-test `tmp_path`, no fixed paths or ports, restore `s
 - asserts that cannot fail (`or True`, broad `raises(Exception)`, no mutation proof)
 - test counts that differ between runs (functions versus parametrized items: 137 versus 184)
 
-`work-audit` ships the matching checks: `scripts/test-audit.py`, described in its `references/test-audit.md`.
+`work-audit` ships the matching checks: `work-audit/scripts/test-audit.py`, described in `work-audit/references/test-audit.md`.
 
 ## Guardrails
 

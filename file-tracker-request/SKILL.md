@@ -41,8 +41,7 @@ Any other tracker: say these notes do not cover it.
 - **Catalogue number is mandatory** (owner ruling 2026-11-18). Every request carries the
   label's catalogue number — it is what identifies the exact edition, and without it a
   filler cannot tell which pressing to rip. Do not post with it blank. When the ranked
-  sources have no row, keep going: an allowed label catalogue (`music-lookup-artists`
-  `references/exclusions.md`), the retailer listings, the Discogs label page, and the other MCPs (`exa`, `tavily`, `firecrawl`, `browse`) are all
+  sources have no row, keep going: an allowed label catalogue (`music-lookup-artists/references/exclusions.md`), the retailer listings, the Discogs label page, and the other MCPs (`exa`, `tavily`, `firecrawl`, `browse`) are all
   legitimate next steps. A JS-rendered label page that returns an empty shell is not
   "no catalogue" — render it through the browser or a scraping MCP and read it again.
   Only stop and ask the owner when every route is exhausted, and say which ones failed.
@@ -55,8 +54,8 @@ Any other tracker: say these notes do not cover it.
 
 ## Research and extraction
 
-Sources, their order, bans and per-site traps live in `music-lookup-artists` (`references/routing.md`,
-`references/exclusions.md`, `references/sites.md`); a blocked or empty source → next rank, say which
+Sources, their order, bans and per-site traps live in `music-lookup-artists/references/` (`routing.md`,
+`exclusions.md`, `sites.md`); a blocked or empty source → next rank, say which
 failed. Artist rows and the per-disc work list come from its tracker extract:
 
 ```
@@ -66,7 +65,7 @@ uv run <music-lookup-artists>/scripts/discogs.py tracker <discogs-id> --out extr
 ```
 
 Roles: conductors → 5, composers (track-level credits) → 4, orchestras/choirs/soloists → 1.
-Resolve `dual_credit_review` / `conductor_review` per `music-lookup-artists` `references/sites.md`
+Resolve `dual_credit_review` / `conductor_review` per `music-lookup-artists/references/sites.md`
 (MusicBrainz) before filling, and Latinize native-script artist names (Елена Образцова → Elena
 Obraztsova). The blog's label and catalogue can be short forms - "Memories" was really **Memories
 Excellence**, "ME 1031" really **ME1031-36**.

@@ -54,7 +54,7 @@ Direct hits beat MCP. Use one `execute` call with `Promise.all` over all shortli
 2. **Persian layer, same shape**: `.../cgi-bin/app/steingass_query.py?qs=<headword>&searchhws=yes&matchtype=exact`.
 3. **Fallback mirror, plain GET**: `https://urdu.hawramani.com/<urdu-script>` (Platts text plus Origin tag); `https://www.rekhtadictionary.com/meaning-of-<roman>` and `https://www.rekhtadictionary.com/search?wref=rweb&keyword=<urdu-script>` (senses, Origin language, verse examples, no JS needed).
 4. **JS-gated pages**: ScrapeGraph MCP `scrape({url})` renders them (senses, Origin tag, Platts block with Urdu and Devanagari intact). The built-in browser also works: open the entry and read its text. Plain GET and static scrapers return only boilerplate. `hamariweb.com` and `smule.com` sit behind a JS challenge; `gaana.com` and WordPress lyric pages do not.
-5. **All fail**: walk rigorous-research "Fast path: every web call" (server pick: `references/fleet.md`), only for the failed words. ScrapeGraph is the remote endpoint `https://mcp.scrapegraphai.com/mcp` on a metered free plan.
+5. **All fail**: walk rigorous-research "Fast path: every web call" (server pick: `rigorous-research/references/fleet.md`), only for the failed words. ScrapeGraph is the remote endpoint `https://mcp.scrapegraphai.com/mcp` on a metered free plan.
 6. **Credit or auth failure**: rotate that server's key per rigorous-research "Key rotation: single home" before leaving it.
 7. **Chain exhausted**: print the origin language marked unverified (`Etym: <language> (unverified)`), so the failed fetch shows. A confident wrong etymology costs more than a bare language tag.
 

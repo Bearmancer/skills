@@ -47,7 +47,7 @@ glossed by this skill, but a poetic Urdu word can still be Indic.
   the page text. Prefer ScrapeGraph for one word, the built-in browser tool when credits are spent.
 - For the fetch itself, follow the rigorous-research skill's chain of resources:
   the rigorous-research `SKILL.md`, section "Fast path: every web call".
-  Pick the server by capability from its `references/fleet.md`, then walk the bot-block chain in
+  Pick the server by capability from `rigorous-research/references/fleet.md`, then walk the bot-block chain in
   order (Tavily -> Firecrawl -> Exa -> ScrapeGraph -> Apify -> AgentQL ->
   Bright Data -> Browserbase), stopping at the first fetch that actually holds the entry. ScrapeGraph
   speaks the remote endpoint `https://mcp.scrapegraphai.com/mcp` and is metered, so check `credits`

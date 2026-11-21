@@ -40,8 +40,8 @@ anything merges, and nothing deletes until verification passes.
 1. **Research metadata** — per disc folder, fill or refresh `tags.json`: composer, work,
    movement numbers/names, performers (soloists, conductor, orchestra, choir),
    performance year/date, venue, kind (music / intro / trailer / talk), confidence and
-   evidence URLs. Method, schema and sources: skill `music-lookup-artists`
-   `references/dvd-tags-json.md` (sources ranked in its `references/routing.md`).
+   evidence URLs. Method, schema and sources: `music-lookup-artists/references/dvd-tags-json.md`
+   (sources ranked in `music-lookup-artists/references/routing.md`).
    *Done when*: every chapter of every title has a tags.json entry, gaps carry explicit
    flags, and the owner has answered the research questions.
 
@@ -105,7 +105,7 @@ naming style, restyle without re-merging:
 
 ## Reference
 
-- `music-lookup-artists` `references/dvd-tags-json.md` — tags.json schema, join rule and the
+- `music-lookup-artists/references/dvd-tags-json.md` — tags.json schema, join rule and the
   research method (confidence flags, duration matching, reconciliation). Read at step 1.
 - `references/naming-and-chapters.md` — output naming, filename sanitization, chapter
   naming, extras folding, missingChapters. Read at step 2.
