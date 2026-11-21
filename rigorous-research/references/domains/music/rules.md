@@ -14,7 +14,7 @@ Music streaming services = not a source, not a mention, on any music task.
 
 "Every recording of X" / "duration of Y" = research task.
 
-1. Entry: sources, their order, stop rule, banned label sites and lookup scripts: skill `music-lookup-artists` (`references/routing.md`, `references/exclusions.md`). Query 2+ angles: work + performer; performer + label; catalog number; work title filtered by era/orchestra.
+1. Entry: sources, their order, stop rule, banned label sites and lookup scripts: `music-lookup-artists/references/routing.md` and `music-lookup-artists/references/exclusions.md`. Query 2+ angles: work + performer; performer + label; catalog number; work title filtered by era/orchestra.
 2. Trace each candidate to original session (venue, dates, orchestra), not sleeve date. Repress of known session: say so ("all other listings repress [session]").
 3. Verify: state date/catalog/session conflicts in one line. "N recordings exist" only after N distinct sessions traced. State depth reached (one query / one source / full sweep).
 
