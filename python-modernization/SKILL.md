@@ -11,9 +11,9 @@ replacement exists for the project's Python version.** If the replacement needs 
 interpreter than the project has, say so once (one line, with the version) and still write
 the modern form rather than silently falling back.
 
-This is the single Python authority on this host. It absorbs environment setup (the old
-`python-env` skill is retired) and adds four house mandates: **brevity, no typing, pathlib,
-maximal speed**, all on **uv**.
+This is the Python coding authority on this host: **brevity, no typing, pathlib, maximal
+speed**. Environment rules (one uv, no venvs, no pip, PEP 723 scripts) live in
+`~/.agents/AGENTS.md` "Python" and are not restated here.
 
 Source of truth: the *What's New* essays for 3.9-3.16 saved at
 `C:\Users\Lance\Documents\python-release-notes\3.9.md` ... `3.16.md` (collected 2026-11-18).
@@ -28,12 +28,11 @@ to the saved essays (open the matching `3.X.md` to confirm a detail before relyi
 1. **No typing, at all.** No annotations, no `typing`, no type checkers. Python here is
    dynamic and brief; annotations are noise that costs maintenance and buys nothing for
    this style. See the ban table.
-2. **uv only, never a venv.** Never `python -m venv`, `uv venv`, `virtualenv`, `pipenv`,
-   `poetry`, `conda create`; never leave a `.venv/` behind. uv manages the interpreter.
+2. **Environment per `~/.agents/AGENTS.md` "Python".** uv only, never a venv.
 3. **pathlib for every filesystem touch.** No `os.path` string surgery, no `open(str)`
    when a `Path` method does it in one call.
-4. **pyproject.toml for libraries; `--with`/`--script` for one-off CLIs.** A real importable
-   package is a uv project with `pyproject.toml`. A throwaway script uses inline deps.
+4. **pyproject.toml for libraries; a PEP 723 header for one-off scripts.** A real importable
+   package is a uv project with `pyproject.toml`. A throwaway script declares its deps inline.
 5. **Brevity and speed first.** Fewer lines, fewer allocations, C-speed builtins over
    Python loops. Don't add a dependency the stdlib already covers.
 
@@ -109,16 +108,13 @@ needless copies; reach for the stdlib before adding a dependency.
 
 | Superseded | Modern |
 | --- | --- |
-| `python -m venv .venv`, `uv venv`, `virtualenv`, `pipenv`, `poetry`, `conda create` | **Banned.** uv manages the interpreter; no `.venv` left behind |
-| `pip install X` into system/user site | `uv add X` (project), `uv run --with X ...` (one-off), `uv tool install X` (CLI tool) |
+| `pip install X` into a project | `uv add X` (updates `pyproject.toml` + `uv.lock`) |
 | `python script.py` (bare, deps assumed) | PEP 723 header in the script + `uv run script.py` |
 | `uv run --no-project --with <deps> python script.py` | PEP 723 header + `uv run script.py` (owner 2026-11-20: flags too noisy) |
 | Running a library project ad hoc | `uv sync` then `uv run python -m pkg` |
 | `setup.py` / `setup.cfg` / `requirements.txt` for a new library | `pyproject.toml` (uv project) |
-| Installing Python system-wide | `uv python install 3.15`, `uv run --python 3.15 ...` |
 
-There is exactly one uv (`~/.local/bin/uv.exe`); do not install a second. Interpreters are
-uv-managed and provisioned per need. If a stray `.venv` appears, delete it.
+Bans (venvs, pip, system Python, a second uv) and the run command: `~/.agents/AGENTS.md` "Python".
 
 ### Library project: `pyproject.toml`
 
