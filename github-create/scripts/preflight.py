@@ -11,6 +11,7 @@ import subprocess
 import sys
 import time
 import uuid
+from urllib.parse import quote
 from contextlib import contextmanager
 from datetime import date
 from functools import cache
@@ -867,7 +868,7 @@ def ci_section(clone, slug, run=sh):
         gh_json(
             run,
             "api",
-            f"repos/{slug}/branches/{branch}/protection/required_status_checks",
+            f"repos/{slug}/branches/{quote(branch, safe='/')}/protection/required_status_checks",
         )
         if branch
         else None

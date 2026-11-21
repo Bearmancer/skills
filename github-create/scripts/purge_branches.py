@@ -19,6 +19,12 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+from urllib.parse import quote
+
+
+def ref_path(name):
+    """Percent-encode a ref name for a REST path; gh api cuts a raw path at '#' and '?'."""
+    return quote(name, safe="/")
 
 
 def run_cmd(cmd):
@@ -190,7 +196,7 @@ def rest_compare(upstream_full, upstream_default, head_owner, branch):
         [
             "gh",
             "api",
-            f"repos/{upstream_full}/compare/{upstream_default}...{head_owner}:{branch}",
+            f"repos/{upstream_full}/compare/{ref_path(upstream_default)}...{head_owner}:{ref_path(branch)}",
             "--jq",
             "{status: .status, ahead_by: .ahead_by}",
         ]
@@ -404,7 +410,7 @@ def main():
                         "api",
                         "-X",
                         "DELETE",
-                        f"repos/{fork_full}/git/refs/heads/{b}",
+                        f"repos/{fork_full}/git/refs/heads/{ref_path(b)}",
                     ],
                     capture_output=True,
                     text=True,
