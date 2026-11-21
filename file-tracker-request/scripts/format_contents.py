@@ -49,9 +49,9 @@ def format_contents(extract, performers):
 
 def main():
     ap = argparse.ArgumentParser(
-        description="Render the Contents: block (Disc N / Composer \u2014 Work [performers]) from extract_release_artists.py JSON."
+        description="Render the Contents: block (Disc N / Composer \u2014 Work [performers]) from music-lookup-artists mb.py/discogs.py tracker JSON."
     )
-    ap.add_argument("--extract", required=True, help="extract_release_artists.py output JSON")
+    ap.add_argument("--extract", required=True, help="mb.py/discogs.py tracker output JSON")
     ap.add_argument("--performers", help="JSON mapping disc number to performer string, e.g. {\"1\": \"Berliner Philharmoniker\"}")
     ap.add_argument("--out", help="write the block here instead of stdout")
     args = ap.parse_args()

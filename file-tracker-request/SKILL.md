@@ -41,8 +41,8 @@ Any other tracker: say these notes do not cover it.
 - **Catalogue number is mandatory** (owner ruling 2026-11-18). Every request carries the
   label's catalogue number — it is what identifies the exact edition, and without it a
   filler cannot tell which pressing to rip. Do not post with it blank. When the ranked
-  sources have no row, keep going: the label's own catalogue, the retailer listings, the
-  Discogs label page, and the other MCPs (`exa`, `tavily`, `firecrawl`, `browse`) are all
+  sources have no row, keep going: an allowed label catalogue (`music-lookup-artists`
+  `references/exclusions.md`), the retailer listings, the Discogs label page, and the other MCPs (`exa`, `tavily`, `firecrawl`, `browse`) are all
   legitimate next steps. A JS-rendered label page that returns an empty shell is not
   "no catalogue" — render it through the browser or a scraping MCP and read it again.
   Only stop and ask the owner when every route is exhausted, and say which ones failed.
@@ -53,63 +53,23 @@ Any other tracker: say these notes do not cover it.
   ("Please rehost images from discogs.com elsewhere") — rehost via postimages.org
   (no login: upload, take the "Direct link" `https://i.postimg.cc/…`).
 
-## Research sources
+## Research and extraction
 
-`references/sources.md`, in the owner's mandated order: MusicBrainz, Discogs,
-Europadisc, Horizons, MusicWeb International, AllMusic, Presto. Wikipedia, Amazon,
-The Guardian and UMG label storefronts are outside the routine; a blocked or empty
-source → move to the next and say which failed. When fetches keep failing, widen
-through the other MCPs (`exa`, `tavily`, `firecrawl`, `browse`) rather than stopping —
-a 403/451/503 from one transport is not the source having no row.
-
-## Extraction (classical)
-
-`scripts/extract_release_artists.py` runs on the **musicbrainzngs library**
-(`alastair/python-musicbrainzngs`), which owns transport, rate limiting and retries —
-do not hand-roll `urllib` calls against `ws/2`:
+Sources, their order, bans and per-site traps live in `music-lookup-artists` (`references/routing.md`,
+`references/exclusions.md`, `references/sites.md`); a blocked or empty source → next rank, say which
+failed. Artist rows and the per-disc work list come from its tracker extract:
 
 ```
-uv run --no-project --with musicbrainzngs python -I scripts/extract_release_artists.py \
-  --mbid <id> [--conductor "Name"] --out extract.json
-uv run --no-project --with musicbrainzngs python -I scripts/extract_release_artists.py \
-  --search 'release:"Orchesterkonzerte" AND artist:"Vegh"'
+uv run <music-lookup-artists>/scripts/mb.py search --query-file q.txt
+uv run <music-lookup-artists>/scripts/mb.py tracker <mbid> [--conductor "Name"] --out extract.json
+uv run <music-lookup-artists>/scripts/discogs.py tracker <discogs-id> --out extract.json   # no MB row
 ```
 
-`--mbid` extracts, `--file` reads a saved release, `--search` lists candidate releases
-with id, date, disc count, label, catalogue and barcode — use it to find the MBID
-instead of writing a one-off search script each time. A query containing quotes gets
-mangled by the shell, so put it in a file and pass `--search-file <path>` instead.
-Roles: conductors → 5, composers
-(track-level credits) → 4, orchestras/choirs/soloists → 1. Pass the conductor
-explicitly — soloists who also conduct (Ashkenazy, Perlman, Zukerman) stay Main;
-`conductor_review` flags ambiguous cases. Max 200 rows; `[no artist]` dropped.
-
-The dual-credit rule (composer + performer → Composer) can misfile the box's principal
-conductor: MB co-credited Maazel as composer on the twelve Serge Lama chansons in the
-Cleveland CBS box, which moved him out of the Conductor row. When the named conductor of
-the whole set picks up a composer credit on a subset, keep him as Conductor and leave the
-actual songwriter as Composer — verify the subset against the blog or retailer contents
-first, so you know the credit is real and not a MB error. Also Latinize native-script
-artist names (Елена Образцова → Elena Obraztsova) before filling.
-
-When MB holds several editions of the same box, pick the one a retailer corroborates:
-the RSO Berlin set has two 14-disc entries with different barcodes, and only ELQ4844904
-matches Eloquence's own release page and Presto. Record which entry you used and why.
-
-The library reads the XML API, so its shapes differ from `ws/2` JSON: `medium-list` /
-`track-list` instead of `media` / `tracks`, `label-info-list`, and join phrases appear
-as bare strings inside `artist-credit`. **A track's `title` is omitted when it equals
-the recording title** — measured on the Végh box, 106 of 152 tracks had no track-level
-title, so reading `track["title"]` alone silently empties most of the work list. The
-script falls back to `recording.title`; keep that fallback if you touch it.
-
-**When MusicBrainz has no row** (archival and radio boxes often have none), build the
-artist rows and per-disc contents from retailer tracklists instead of stopping: Discogs
-gives the per-disc split, label, catalogue and barcode; classite.com gives performers,
-venues and recording dates per work; the blog post gives the narrative and the cover.
-Run several MB query variants first and record the counts, so "no MB row" is a measured
-claim rather than one failed search. The blog's label and catalogue can be short forms —
-"Memories" was really **Memories Excellence**, "ME 1031" really **ME1031-36**.
+Roles: conductors → 5, composers (track-level credits) → 4, orchestras/choirs/soloists → 1.
+Resolve `dual_credit_review` / `conductor_review` per `music-lookup-artists` `references/sites.md`
+(MusicBrainz) before filling, and Latinize native-script artist names (Елена Образцова → Elena
+Obraztsova). The blog's label and catalogue can be short forms - "Memories" was really **Memories
+Excellence**, "ME 1031" really **ME1031-36**.
 
 **Image + cue sources:** when the source rip is a single image with a cue sheet, the
 request still asks for FLAC / Lossless / CD and the body says to split/convert to
