@@ -1,6 +1,6 @@
 # Branch Hygiene & Maximal Purge Reference
 
-Branch-specific selection rules only. Generic deletion safety (explicit targets, containment, protected paths, manifests, journals, counts, guards, budgets) is owned by `purge-safety`; this file does not restate it. The adapter is `scripts/purge_branches.py`. Protocols for pruning remote fork branches and local tracking branches without prompts.
+Branch selection and deletion rules: explicit targets only, never a wildcard, and every deletion confirmed by a fresh listing. The adapter is `scripts/purge_branches.py`. Protocols for pruning remote fork branches and local tracking branches without prompts.
 
 ---
 

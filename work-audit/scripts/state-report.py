@@ -680,7 +680,7 @@ def i1():
         skipped = sorted(RC.NOT_SCANNED)
         for r in REPOS:
             rec(r, 1, "not_scanned", skipped)
-        extra += f"; not scanned: {', '.join(skipped)} (system temp, cleared by purge-safety)"
+        extra += f"; not scanned: {', '.join(skipped)} (system temp)"
     trunc = f"; truncated: {'; '.join(SCAN_TRUNCATED)}" if SCAN_TRUNCATED else ""
     return f"{len(REPOS)} repos, {dirty} dirty{extra}{trunc}", out, 0
 

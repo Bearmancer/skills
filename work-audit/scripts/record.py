@@ -219,7 +219,7 @@ NOT_SCANNED = set()
 
 
 def _not_scanned_dirs():
-    """System temp: purge-safety's purge.py clears it by age, so its throwaway clones are never walked."""
+    """System temp holds throwaway clones, so it is never walked."""
     t = tempfile.gettempdir()
     return {os.path.normcase(t), os.path.normcase(os.path.realpath(t))}
 

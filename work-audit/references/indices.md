@@ -16,7 +16,7 @@ Grouped by the phase `state-report.py` prints them under (`PHASES`). The number 
 
 Tags: `[judgment]` the script counts and the `verify` record decides (finished = files with evidence, not verified = the rest, skipped = tests identified but not run, left = not verified plus open questions); `[hint]` the line starts `proxy:` and ends `-> record <index> required`, and the record decides (tracked secrets in 21 stay a hard defect); `[purge]` the findings go to the deletion pass; `[purge, owner]` they go only as OWNER rows the owner releases. Untagged checks are mechanical: the script's count is the answer.
 
-Purge routing is the only deletion path: hand the report to `purge-safety`'s adapter. The routing, 4 -> 15 -> 16 order, flags and engine are defined once in `purge-safety/SKILL.md` §6.
+Purge is the only deletion path: owner-approved explicit paths in 4 -> 15 -> 16 order (`SKILL.md` step 8).
 
 ### Phase 1: repo state
 
@@ -62,7 +62,7 @@ Purge routing is the only deletion path: hand the report to `purge-safety`'s ada
 1. git status: `dirty`, `untracked` per repo.
 2. branches/worktrees/stashes, unpushed, merged-undeleted; `third_party` flag, duplicate-origin groups.
 3. plan files, classified `executed`, `open`, `unknown`.
-4. stale artifacts: zero-byte files (except `__init__.py`, `.gitkeep`, `.keep`, `py.typed`), `*.tmp`/`*.bak`/`*.orig`, `__pycache__`, gitignored untracked entries older than 24h (not `node_modules`, never secret-named files), each with `safety` facts; plus home config roots. Purge: hand to purge-safety (rules in `SKILL.md` §6).
+4. stale artifacts: zero-byte files (except `__init__.py`, `.gitkeep`, `.keep`, `py.typed`), `*.tmp`/`*.bak`/`*.orig`, `__pycache__`, gitignored untracked entries older than 24h (not `node_modules`, never secret-named files), each with `safety` facts; plus home config roots. Purge: `SKILL.md` step 8.
 5. handoffs and wizards: files named `handoff*`, `wizard*`, `runbook*`.
 6. tool state: versions found on PATH (git, gh, uv, node, python via uv, dotnet, cargo, go, npm), manifests (`package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`) without a lockfile.
 7. tests present.
@@ -73,8 +73,8 @@ Purge routing is the only deletion path: hand the report to `purge-safety`'s ada
 12. skipped: `skip`/`xfail`/`pytest.skip` and `.skip`/`.only` markers in changed test files.
 13. finished.
 14. not verified.
-15. empty dirs, with `safety` facts. Purge: hand to purge-safety (rules in `SKILL.md` §6).
-16. duplicates: identical files and identical same-name dirs, with `safety` facts. Purge: purge-safety adapter OWNER rows via `--include-duplicates`; keeper is a question-tool decision (rules in `SKILL.md` §6).
+15. empty dirs, with `safety` facts. Purge: `SKILL.md` step 8.
+16. duplicates: identical files and identical same-name dirs, with `safety` facts. Purge: `SKILL.md` step 8; the keeper is a question-tool decision.
 17. unfinished.
 18. small commits to squash.
 19. doc mismatches.
