@@ -84,3 +84,22 @@ Status: closed 2026-11-20
 - PLAN-46 closed, no change: the `.replace(/\\/g, '/')` calls in scripts/lib/claude-code.mjs (lines 184, 186, 328) are not redundant. `canonicalPath` returns `path.join(...)`, which yields backslashes on win32, and the regexes match forward slashes.
 - plan-rigorously hooks: owner "use bun alone standalone". hooks.json 4x `node` -> `C:/Users/Lance/.bun/bin/bun.exe`. `bun test ./tests` 172/172 (bun 1.4.4); hooks.json parses; hook.mjs under bun with a Read payload exits 0. Committed on worktree-plan-rigorously, pushed.
 - 2026-11-20 Q-SKILLS-126: owner approved; ps-wizard\.omc and the plan-rigorously worktree .omc deleted (verified gone). Q-GITHUB-22 closed as moot: opencode PR #61120 is CLOSED (gh pr view).
+
+## skill audit, music-lookup-artists merge, install hygiene (2026-11-21)
+Goal: one music-metadata skill; personal skills audited for bloat, dupes and dead deps; every personal skill tracked in Bearmancer/skills.
+Concern: skills
+Purpose: build
+Started: 2026-11-21
+Status: in progress
+
+### Log
+- 224cc6a music-lookup-artists replaces lookup-music-artists + classical-audio-tagging; mb.py/discogs.py byte-identical to old outputs; Fey Haydn 102 answered in 2 calls.
+- 23d540c cross-skill pointers written as <skill>/references/<file>.
+- 6d32ce3 five descriptions trimmed to 341-377 chars.
+- 51545a4 personal-mode-profile moved into the repo (hook verified); purge-safety routing dropped from work-audit and github-create.
+- python-modernization: env rules live in AGENTS.md only; file-tracker-request split (procedure in SKILL.md, description + failure modes in references/).
+- Links: all 19 personal skills .agents -> Dev\Skills, .claude -> .agents. Deleted .claude\skills\.trash, omc-learned, wizard (both copies). Kept .claude\skills\synced: it holds the Claude app's live synced skills (earlier claim that it held none was wrong).
+- Pruned: plan-rigorously worktree, local branches feat/track-requests, fix/purge-branches-encode-refs (ba81e3f), worktree-plan-rigorously (ef0d9c5), stash (551d74b), remote pre-squash-main (928b1d8), worktree-github-sweep-autonomy (6b549a7).
+- FAILURE: the dropped stash held the only copy of the open SKILLS-32 fix. Reason: EPIC not read before pruning. Recovery: branch rescue/skills-32-purge-branches-fix -> 551d74b.
+- plan-rigorously audit: V1 (9eab4f4^, YAML + railguard.py) is what execute-rigorously calls; V2 (origin/worktree-plan-rigorously) is a Claude Code hook plugin, 172/172 tests pass, inert in OpenCode, defaults subagents to sonnet.
+- Decisions (owner): rebuild rigorous-review from the ground up absorbing work-audit, no modes or flags, flow = review diff then audit repo, scripts rewritten (SKILLS-31); rebuild planner pair after it (SKILLS-34).
