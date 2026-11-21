@@ -21,8 +21,8 @@ The unit is a **spawn**: each launch costs 0.1-0.25 s on this Windows box (`git 
 
 ## Cuts, by measured payoff
 
-- **Template once, copy per test.** Build the seeded repo and bare remote in a session fixture (`tmp_path_factory`), copy per test, and repoint remotes in one call. AI-Config: 8 git calls per test gone, 25 s to 12 s serial; work-audit `make_repo`: ~130 spawns gone.
-- **Fail the cheap way.** Simulate "no git" with a PATH that lacks git (instant `OSError`). A zero timeout makes every call start, time out and run `taskkill` (work-audit d1 tests, 15 s to 2 s). Keep the real timeout in one test with one hung fake.
+- **Template once, copy per test.** Build the seeded repo and bare remote in a session fixture (`tmp_path_factory`), copy per test, and repoint remotes in one call. AI-Config: 8 git calls per test gone, 25 s to 12 s serial; a repo-audit suite's `make_repo`: ~130 spawns gone.
+- **Fail the cheap way.** Simulate "no git" with a PATH that lacks git (instant `OSError`). A zero timeout makes every call start, time out and run `taskkill` (one suite: 15 s to 2 s). Keep the real timeout in one test with one hung fake.
 - **Switch off external probes** (`gh`, `dotnet`, network) with an env var in unit tests; one test keeps the real path.
 - **Run scripts via `sys.executable`** instead of `uv run` per test; keep one real-uv test per entry point.
 - **Compute once, keep the load-bearing refresh.** Cache by key (tool versions by PATH) and share results across checks. Removing a status refresh made the tree hash stale and turned tests red.
@@ -30,7 +30,7 @@ The unit is a **spawn**: each launch costs 0.1-0.25 s on this Windows box (`git 
 
 ## Parallel
 
-xdist is the first lever: `uv run --no-project --with pytest --with pytest-xdist python -W error -m pytest -q -n auto -p no:cacheprovider` took work-audit from 285 s to 79 s (51-52 s now after later cuts). Worker count is no lever on a 6-core/12-thread chip (12, 8, 6 workers = 72, 72, 82 s). Under load a test runs 2.5-3x slower than solo: judge a test by solo time and the suite by total work.
+xdist is the first lever: `uv run --no-project --with pytest --with pytest-xdist python -W error -m pytest -q -n auto -p no:cacheprovider` took one suite from 285 s to 79 s (51-52 s after later cuts). Worker count is no lever on a 6-core/12-thread chip (12, 8, 6 workers = 72, 72, 82 s). Under load a test runs 2.5-3x slower than solo: judge a test by solo time and the suite by total work.
 
 Write xdist-safe tests: per-test `tmp_path`, no fixed paths or ports, restore `sys.modules` and `sys.path` after any fixture suite (an inner `conftest.py` overwrote `sys.modules['conftest']` in workers and turned five tests red), and build session fixtures once per worker. A failure that appears only under load is a spawn storm: cut spawns; retries only hide it.
 
