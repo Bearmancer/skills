@@ -79,29 +79,8 @@ Philharmonia" vs "New Philharmonic Orchestra") and keep one. MB fetches can die 
 `IncompleteRead` — the script retries; rerun if it still fails.
 
 Work list → description body: `scripts/format_contents.py --extract extract.json
-[--performers performers.json] [--out contents.txt]` renders the block from the
-extraction JSON. Shape: a `Contents:` header, then one block per disc — `Disc N` on its
-own line, then one line per work `Composer — Work [Soloists, Orchestra]` (em dash U+2014;
-performers in square brackets, comma-separated, soloists before orchestra, emitted only
-when a performers entry exists for that disc). Consecutive works by the same composer:
-the first line carries the composer, the rest are bare work lines (no composer, no
-brackets); a different composer starts a new `Composer — Work [...]` line. Blank line
-between disc blocks. No `CD n:` prefix, no parenthesised performers, no `·` joins.
-Movement suffix after `:` stripped, disc order preserved, identical composer+work lines
-deduped per disc; excerpt discs list the actual arias/excerpts; drop applause. The
-performers map is disc number → string (`{"1": "Berliner Philharmoniker", "3": "Sviatoslav
-Richter, Orchestre de Paris"}`), from retailer/Discogs credits. In the final BBCode
-description `[b]…[/b]` may wrap the `Contents:` header and the `Disc N` labels.
-
-```
-Contents:
-Disc 1
-Bruckner — Symphony no. 7 in E major, WAB 107 [Berliner Philharmoniker]
-
-Disc 2
-Tchaikovsky — Piano Concerto no. 1 in B-flat minor, op. 23 [Emil Gilels, New Philharmonia Orchestra]
-Piano Concerto no. 2 in G major, op. 44
-```
+[--performers performers.json] [--out contents.txt]`. Block shape, the mandatory closing
+block and retrofitting old requests: `references/description.md`.
 
 **Cross-check against the retailer contents listing before posting.** MB composer
 credits contain real errors — on Mehta's *Philharmonic Edition*, *Les préludes* was
@@ -201,72 +180,7 @@ it is the form whose hidden `action` is `vote`, with `#amount_box`, `#unit` and 
   total. The "Bounty" label near the vote box is the *entered* amount, not the total —
   reading it as the total gives a false "nothing changed".
 
-## Mandatory description block (owner ruling 2026-11-19)
-
-Every request body ends with this block, verbatim except for the blog URL. It tells the
-filler where the source rip is and what tagging standard the upload must meet, which is
-what makes the resulting files usable in a classical library:
-
-```
-Can be downloaded from: <the classicalpippo9 blog post URL for this box>
-
-It would be greatly appreciated if the uploaded files contained proper tags defined as:
-1. Title - Work Name, Op. (No) - I. (Movement Name)
-2. Artist - Soloists, conductor, orchestra
-3. Composer
-4. Date - Reflecting the recording date
-5. Track number
-6. Disc number
-7. Total disc
-8. Long path issues resolved via shortening box name
-```
-
-Put it after the Contents and Sources sections. Keep the numbering and wording exactly —
-it is the owner's specification, not a suggestion to paraphrase.
-
-When hand-building a Contents block instead of using `format_contents.py`, prefix **every
-new composer**, not just the first work on the disc: a disc holding Carter, Wuorinen,
-Sessions and Di Domenica needs all four names. `format_contents.py` already tracks
-`prev_composer` and does this; an `if i == 0` shortcut silently drops the other composers
-and shipped a wrong body once (Levine, RED 386899, corrected 2026-11-19).
-
-Retrofitting requests posted before the rule (owner ruling: "EDIT Red and post comment on
-OPS. When edit not possible use comment"):
-- **RED** — `requests.php?action=edit&id=<id>` carries the same `form#request_form`; append
-  the block to `#description`, fire `change`, click `#button`. Verified on all ten requests.
-- **OPS** — the request cannot be edited, so post the block as a comment:
-  `form#quickpostform` (action `comments.php?page=requests`), hidden `pageid` must equal the
-  request id, fill `#quickpost`, submit. **Trap:** on some request pages clicking
-  `#submit_button` does nothing — the textarea stays filled and no post appears. Use
-  `form.requestSubmit()` instead; it posts and lands on `&postid=<n>#post<n>`.
-
 ## Failure modes
 
-- Stale bounty: the conversion never ran after a programmatic edit → 100 MiB posts.
-- Hidden rows keep values across category switches and can still post.
-- Submit disabled by insufficient credit — read the on-page message, do not retry.
-- Server rejects a duplicate or rule-break — surface the message; never "fix" it by
-  loosening the request.
-- OPS image rejection → rehost (postimages), resubmit; the POST returns the form with
-  values preserved.
-- MB composer errors propagated unchecked — always cross-check.
-- Skipped the torrent check → a request for a rip the tracker already has. Torrents,
-  then requests, then create; never the reverse.
-- `torrents.php?search=` looks like it worked (200+ rows) but is unfiltered. Read the
-  row titles: if they are unrelated newest uploads, the parameter was ignored.
-- "Not found" from page 1, or from a link regex that missed `action=view&`. Both read
-  as absence and are not. Walk the pages, validate the pattern on a known hit.
-- Posted with a blank catalogue number because the first few sources had no row. The
-  number identifies the edition; keep hunting the label and retailer routes before
-  treating it as unavailable.
-- Submitting RED from a form that waited through a confirmation prompt: the auth key
-  expires and the POST returns "Invalid authorization key. Go back, refresh, and try
-  again." OPS is unaffected. Reopen the form, re-fill from the payload server, re-assert
-  the readback and click immediately — the fill is idempotent on a fresh form.
-- Trusting the blog's grouped disc markers ("CD 1-2", "CD 4-5"). Discogs gives the real
-  per-disc split (Symphony 3 beginning on CD1, conclusion plus Symphony 4 on CD2), which
-  is what a filler needs.
-- Requesting a subset edition whose parent box is already ripped. The 7-CD Ančerl
-  "Live Recordings: Concertos" has no rip of its own, but the 15-CD "Live Recordings"
-  parent does — owner ruling 2026-11-19: skip, the parent covers it. When a box is a
-  subset of a larger set, search for the parent too and record both group ids.
+`references/failure-modes.md`: read it before filling, and whenever a search, fill or
+submit misbehaves.
