@@ -8,7 +8,7 @@ description: "Use when tests are slow (a suite over 10 s, a test over 5 s, flaky
 Bench first: measuring costs less than guessing.
 
 ```
-uv run --no-project ~/.claude/skills/work-audit/scripts/bench.py <suite-dir> [--with <pkg>] [--workers N] [--slow N]
+uv run --quiet <this skill>/scripts/bench.py <suite-dir> [--with <pkg>] [--workers N] [--slow N]
 ```
 
 `github-create` imports `ruamel.yaml`: pass `--with ruamel.yaml`. A library cannot go in `uv tool install` (uv drops packages without executables).
@@ -44,7 +44,6 @@ Write xdist-safe tests: per-test `tmp_path`, no fixed paths or ports, restore `s
 - asserts that cannot fail (`or True`, broad `raises(Exception)`, no mutation proof)
 - test counts that differ between runs (functions versus parametrized items: 137 versus 184)
 
-`work-audit` ships the matching checks: `work-audit/scripts/test-audit.py`, described in `work-audit/references/test-audit.md`.
 
 ## Guardrails
 
