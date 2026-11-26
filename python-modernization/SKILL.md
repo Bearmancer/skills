@@ -1,19 +1,15 @@
 ---
 name: python-modernization
-description: Use whenever writing, reviewing, refactoring or explaining any Python (.py, notebooks) or picking a Python run or install command, even when the code looks fine, because model knowledge skews old. Targets Python 3.13 alone; installs only via `uv pip install` (libraries) or `uv tool install` (tools). Enforces brief untyped syntax and pathlib over os.path; bans `pyproject.toml`, `uv.lock`, `.venv`, PEP 723 `# /// script` headers, every `uv run` flag, `uv run python`, `uv sync`/`uv add`/`uvx` and all static typing. Also answers "is this deprecated" and Python upgrade questions.
+description: Use whenever writing, reviewing, refactoring or explaining any Python (.py, notebooks, one-liners) or choosing a Python run or install command, even when the code looks fine, because model knowledge skews old and this host's guards block the usual commands. Also use when a task touches pyproject.toml, uv.lock, .venv, PEP 723 headers, type annotations or uv commands, and for "is this deprecated" and Python upgrade questions. Enforces Python 3.13 only, `uv run <file.py>`, `uv pip install` / `uv tool install`, no typing, pathlib, fewest lines.
 ---
 
 # Modern Python, enforced
 
-Model knowledge predates 3.12: never emit a superseded pattern when 3.13 has a briefer one.
-Restates `~/.agents/AGENTS.md` "Python" identically - a doc that disagrees with the guard
-plugins gets the caller blocked mid-command.
+Model knowledge predates 3.12; this skill overrides it. It restates `~/.agents/AGENTS.md` "Python" identically - a doc that disagrees with the guard plugins gets the caller blocked mid-command.
 
-**CPython 3.13 only** (host: 3.13.18 x86_64). 3.14+ features are unavailable; never write a
-version switch (`--python`, `py -V:`). Deliberate: `onnxruntime`, needed by `faster-whisper`,
-ships no Windows cp315 wheel; 3.13 runs everything else.
+**CPython 3.13 only.** 3.14+ features do not exist here, and a version switch (`--python`, `py -V:`) is never written. Why 3.13: `onnxruntime`, which `faster-whisper` needs, ships no Windows cp315 wheel, and 3.13 runs everything else.
 
-Rules: no typing, one run command, pathlib with explicit UTF-8, no packaging files, fewest LOC.
+**Rules:** no typing; one run command; pathlib with explicit `encoding="utf-8"`, never bare `open()`; no packaging files; fewest lines - builtins and comprehensions over Python loops, `join` over `+=`, `functools.cache` for pure repeated calls, the right container, stdlib before any dependency, no abstraction nobody calls.
 
 ## Commands
 
@@ -23,13 +19,9 @@ Rules: no typing, one run command, pathlib with explicit UTF-8, no packaging fil
 | Library a script imports | `uv pip install <pkg>` |
 | Tool you type as a command | `uv tool install <pkg>`, then call it bare |
 
-Test suites get a `.py` entry point (`uv run tests/test_stt.py` behind `unittest.main()`); a
-tool that exists only as `python -m <tool>` gets `uv tool install`. Never `uvx`/`uv tool run`.
+Test suites get a `.py` entry point (`uv run tests/test_stt.py` behind `unittest.main()`); a tool that exists only as `python -m <tool>` gets `uv tool install`. Never `uvx`/`uv tool run`.
 
-`uv pip` installs into the shared interpreter's site-packages, importable by every script, no
-packaging files needed. `uv tool` builds a private env per tool, one `.exe` in `~\.local\bin`,
-requires `pyproject.toml`/`setup.py`, and drops entry-point-less packages. **Your own script
-never goes through `uv tool`.**
+`uv pip` installs into the shared interpreter: importable by every script, no packaging files. `uv tool` builds a private env per tool with one `.exe` in `~\.local\bin`, requires `pyproject.toml`/`setup.py`, and drops packages with no entry point. **A script of your own never goes through `uv tool`.**
 
 ## Banned
 
@@ -45,126 +37,57 @@ never goes through `uv tool`.**
 | `pip`, `pipx`, `python`, `python3`, `py` | resolves to a python.org install `uv run` never sees | the `uv ...` forms above |
 | typing: annotations, `import typing`, `from __future__ import annotations`, TypedDict, Protocol, `@dataclass`, `typing.NamedTuple`, PEP 695 `type X =`/`def f[T]`, `cast`, `@overload`, `Final`, `ClassVar`, `Self`, `@override`, `assert_type`, mypy/pyright/pyre | Python here is dynamic and brief; annotations cost maintenance and buy nothing | plain code; runtime checks (`isinstance`, guards, `assert`); `collections.namedtuple`, plain class, or dict; strip checker configs when modernizing |
 
-## Host facts (verified 2026-11-26, uv 0.13.10)
+Environment trouble - `uv pip` finds no interpreter, `externally-managed-environment`, an installed package will not import, a bloated uv cache: read `references/host.md`.
 
-- `~\.python-version` = `3.13`, so every `uv run` anywhere uses
-  `%APPDATA%\uv\python\cpython-3.13-windows-x86_64-none\python.exe` (uv walks up from the cwd).
-- `%APPDATA%\uv\uv.toml`: `[pip] python = '<that absolute path>'` +
-  `break-system-packages = true`. `uv pip` never reads `.python-version`; a version request
-  (`python = '3.13'`) resolves against discovered environments, not managed interpreters, and
-  fails - hence the absolute path, riding the junction name (`cpython-3.13-...-none`), which
-  `uv python upgrade` repoints, so the pin survives upgrades (a patch-versioned pin dangles).
-  Every uv-managed interpreter carries `Lib\EXTERNALLY-MANAGED` (verified 3.12-3.16): uv
-  guarding its own tree, which this policy owns as the one shared store - without the flag every
-  `uv pip install` dies `externally-managed-environment`.
-- Installed for scripts: pypdf, pyyaml, paramiko, requests, jsonschema, ruamel.yaml, mutagen,
-  markdown-it-py, mdit-py-plugins, linkify-it-py, httpx, pytest, pytest-xdist, numpy,
-  faster-whisper, sherpa-onnx, av, ctranslate2, onnxruntime, bcrypt, cryptography, pynacl, cffi,
-  invoke. Tools on 3.13: ruff, ty, yt-dlp, arxiv-mcp-server, paper-search-mcp.
-- PEP 723 cost, measured here: uv caches each headered script's sealed env at
-  `<cache>\environments-v2\<stem>-<hash>`, keyed on deps + `requires-python` + interpreter. A
-  cache hit still pays resolve-validation every run; a header edit mints a new hash and orphans
-  the old env (one script: five generations); a distinct `requires-python` seals a distinct
-  interpreter (one 3.15 env sits beside the 3.13 host) and cross-version dupes are real bytes -
-  ABI-specific wheels cannot hardlink-share. Standing waste: 501 dead envs, 1.1 GB, reclaimable
-  with `uv cache clean`, regenerable by design.
-- 3.12/3.15/3.16 and the python.org installs remain on PATH; unused - never code against them.
-  After `uv python upgrade --reinstall` the junction moves and `uv pip list` shows nothing:
-  re-run the installs; nothing else changes.
-- Doubtful feature: <https://docs.python.org/3/whats-new.html>, or write `probe.py` and
-  `uv run probe.py` - never `python -c`. `C:\Users\Lance\Documents\python-release-notes\`
-  does not exist; never cite it.
-
-## Workflow
-
-Assume 3.13. Write modern from the tables without narrating substitutions. Self-audit: pathlib
-for file code, no annotations, no `uv run` flag, no interpreter after `uv run`, no header, no
-packaging file, nothing newer than 3.13. Reviewing existing code: report superseded patterns,
-then give the corrected code in the format at the bottom.
-
-## Language and brevity
-
-| Superseded | Modern | Since |
-| --- | --- | --- |
-| `"%s" % x`, `"{}".format(x)`, `"a" + str(x)` | f-strings `f"{x}"`; self-documenting `f"{x=}"` | baseline (debug `=` 3.8) |
-| Workarounds to reuse quotes / nest f-strings | Direct nested quotes, multi-line expressions, backslashes inside f-strings | 3.12 (PEP 701) |
-| `if k in d: v = d[k] else: v = default` | `d.get(k, default)`; walrus `if (m := pat.search(s)):` to avoid recompute | baseline (walrus 3.8) |
-| Long `if/elif` chains dispatching on a value or shape | `match` / `case` with patterns and guards | 3.10 (PEP 634) |
-| `{**a, **b}`, `a.copy(); a.update(b)` | `a \| b` (new dict) and `a \|= b` (in place) | 3.9 (PEP 584) |
-| `s[len(p):] if s.startswith(p) else s`, `s.rstrip("x")` hacks | `s.removeprefix(p)`, `s.removesuffix(suf)` | 3.9 |
-| `result = []; for x in xs: result.append(f(x))` | Comprehension `[f(x) for x in xs]`; generator `(f(x) for x in xs)` when lazy | baseline (inlined 3.12, PEP 709) |
-| `for i in range(len(xs))`, parallel index loops | `enumerate(xs)`, `zip(xs, ys, strict=True)` | baseline (`strict=` 3.10) |
-| `try: ... except SomeError: pass` | `with contextlib.suppress(SomeError): ...` | baseline |
-| Manual `open()`/`close()`, nested `with` via backslashes | `with` block; parenthesized multi-context `with (a, b):` | baseline (parenthesized 3.10) |
-| `s = ""; for p in parts: s += p` | `"".join(parts)` (quadratic vs linear) | baseline |
-| Hand-rolled memo dict | `@functools.cache` or `@functools.lru_cache(maxsize=...)` | baseline (`cache` 3.9) |
-| `datetime.utcnow()`, `datetime.utcfromtimestamp()` | `datetime.now(timezone.utc)`, `datetime.fromtimestamp(ts, timezone.utc)` | deprecated 3.12 |
-| `distutils`, `imp`, `asyncore`, `asynchat` | gone on 3.13: `importlib`, `asyncio` | removed 3.12 (PEP 632) |
-
-## Standard library and speed
-
-| Superseded | Modern | Since |
-| --- | --- | --- |
-| Manual chunking loop | `itertools.batched(xs, n)` | 3.12 |
-| `zip(xs, xs[1:])` for neighbors | `itertools.pairwise(xs)` | 3.10 |
-| Third-party `toml`/`tomli` for reading | `tomllib.load(f)` (stdlib, read-only) | 3.11 |
-| `asyncio.gather` for structured fan-out; `wait_for` | `async with asyncio.TaskGroup() as tg:`; `async with asyncio.timeout(s):` | 3.11 |
-| `pytz` | `zoneinfo.ZoneInfo("Region/City")` | 3.9 |
-| Manual dot product / float stepping | `math.sumprod(a, b)`, `math.nextafter(x, y, steps=n)` | 3.12 |
-| `re` for simple prefix/suffix/contains tests | `str` methods (`startswith`, `endswith`, `in`, `removeprefix`) | baseline |
-| Hand-counted dicts / lists-as-queues | `collections.Counter`, `defaultdict`, `deque` | baseline |
-| Manual dependency ordering | `graphlib.TopologicalSorter` | 3.9 |
-| C-API extension for a hot loop | `ctypes`/`cffi` only if a real profile demands it; 3.13 free-threading and JIT are preview and not what this host runs | 3.13 preview |
-| 3.14+ ideas (t-strings, `compression.zstd`, `uuid.uuid6/7/8`) | **Not available on 3.13**; `zstandard` would need a `uv pip install` the stdlib answer cannot give | unavailable |
-
-Speed habits: builtins and comprehensions (C loop) over Python-level loops; `join` over `+=`;
-`cache` pure repeated calls; right container (`deque` for ends, `set` for membership); no
-premature abstraction; stdlib before dependency.
-
-## Filesystem: pathlib
+## Catalog (everything here runs on 3.13)
 
 | Superseded | Modern |
 | --- | --- |
 | `os.path.join(a, b)` | `Path(a) / b` |
-| `with open(p) as f: f.read()` | `Path(p).read_text(encoding="utf-8")` / `.read_bytes()` |
-| `with open(p, "w") as f: f.write(s)` | `Path(p).write_text(s, encoding="utf-8")` / `.write_bytes(b)` |
+| `with open(p) as f: f.read()` / `open(p, "w")` | `Path(p).read_text(encoding="utf-8")` / `.write_text(s, encoding="utf-8")` / `.read_bytes()` / `.write_bytes(b)` |
 | `os.path.exists/isfile/isdir(p)` | `Path(p).exists()` / `.is_file()` / `.is_dir()` |
-| `os.listdir(p)`, `glob.glob(p + "/*.py")` | `Path(p).iterdir()`, `.glob("*.py")`, `.rglob("*.py")` |
+| `os.listdir(p)`, `glob.glob(p + "/*.py")`, `os.walk(p)` | `Path(p).iterdir()`, `.glob("*.py")`, `.rglob("*.py")`, `.walk()` |
 | `os.path.basename/splitext/dirname(p)` | `Path(p).name` / `.stem` / `.suffix` / `.parent` |
-| `os.makedirs(p, exist_ok=True)` | `Path(p).mkdir(parents=True, exist_ok=True)` |
-| `os.walk(p)` | `Path(p).walk()` (3.12) |
-| `os.path.abspath/expanduser(p)` | `Path(p).resolve()` / `.expanduser()` |
+| `os.makedirs(p, exist_ok=True)`, `os.path.abspath/expanduser(p)` | `Path(p).mkdir(parents=True, exist_ok=True)`, `.resolve()`, `.expanduser()` |
+| `"%s" % x`, `"{}".format(x)`, `"a" + str(x)` | f-strings `f"{x}"`; self-documenting `f"{x=}"` |
+| Workarounds to reuse quotes / nest f-strings | direct nested quotes, multi-line expressions, backslashes inside f-strings |
+| `if k in d: v = d[k] else: v = default` | `d.get(k, default)`; walrus `if (m := pat.search(s)):` to avoid recompute |
+| `result = []; for x in xs: result.append(f(x))` | comprehension `[f(x) for x in xs]`; generator `(f(x) for x in xs)` when lazy |
+| `s = ""; for p in parts: s += p` | `"".join(parts)` (quadratic vs linear) |
+| hand-rolled memo dict | `@functools.cache` or `@functools.lru_cache(maxsize=...)` |
+| `re` for simple prefix/suffix/contains tests | `str` methods: `startswith`, `endswith`, `in`, `removeprefix` |
+| hand-counted dicts, lists as queues | `collections.Counter`, `defaultdict`, `deque` for ends, `set` for membership |
+| Long `if/elif` chain dispatching on a value or shape | `match` / `case` with patterns and guards |
+| `{**a, **b}`, `a.copy(); a.update(b)` | `a \| b` (new dict), `a \|= b` (in place) |
+| `s[len(p):] if s.startswith(p) else s`, `s.rstrip("x")` hacks | `s.removeprefix(p)`, `s.removesuffix(suf)` |
+| `for i in range(len(xs))`, parallel index loops | `enumerate(xs)`, `zip(xs, ys, strict=True)` |
+| `zip(xs, xs[1:])` for neighbors; manual chunking loop | `itertools.pairwise(xs)`; `itertools.batched(xs, n)` |
+| `try: ... except SomeError: pass` | `with contextlib.suppress(SomeError): ...` |
+| nested `with` joined by backslashes | `with (a, b):` |
+| `toml`/`tomli` for reading | `tomllib.load(f)` (stdlib, read-only) |
+| `asyncio.gather` for fan-out; `wait_for` | `async with asyncio.TaskGroup() as tg:`; `async with asyncio.timeout(s):` |
+| `pytz` | `zoneinfo.ZoneInfo("Region/City")` |
+| `datetime.utcnow()`, `datetime.utcfromtimestamp()` (deprecated 3.12) | `datetime.now(timezone.utc)`, `datetime.fromtimestamp(ts, timezone.utc)` |
+| `distutils`, `imp`, `asyncore`, `asynchat` (removed 3.12) | gone: `importlib`, `asyncio` |
+| manual dot product / float stepping; manual dependency ordering | `math.sumprod(a, b)`, `math.nextafter(x, y, steps=n)`; `graphlib.TopologicalSorter` |
+| C extension for a hot loop | profile first, then `ctypes`/`cffi`; 3.13 free-threading and JIT are preview and not what this host runs |
+| t-strings, `compression.zstd`, `uuid.uuid6/7/8` | **not on 3.13** - do not write them; `zstandard` would need a `uv pip install` the stdlib cannot answer |
 
-## Shape of a script
+## Script shape
+
+A script is a `.py` file whose docstring names what a fresh machine needs, then the run line. No shebang: `#!/usr/bin/env python3` resolves through PATH, which is not how this host runs scripts.
 
 ```python
-"""Fetch a page to disk.
-
-Needs: uv pip install requests
-Usage: uv run fetch.py <url> [--out FILE]
-"""
-
-import sys
-from pathlib import Path
-
-import requests
-
-out = Path(sys.argv[2] if len(sys.argv) > 2 else "page.html")
-out.write_text(requests.get(sys.argv[1], timeout=30).text, encoding="utf-8")
+"""Needs: uv pip install requests
+Usage: uv run fetch.py <url>"""
 ```
 
-Docstring names the run command and every `uv pip install` a fresh machine needs; pathlib does
-the file work; no shebang - `#!/usr/bin/env python3` resolves through PATH, which is not how
-this host runs scripts.
+## Review mode
 
-## Review / migrate output
+Report each substitution that matters as `path:line  old -> new`, then give the full modernized snippet:
 
 ```
-Superseded -> 3.13 modern
-- path:line  old: `os.path.join(a, b)`        ->  `Path(a) / b`
-- path:line  old: `def f(x: int) -> int:`     ->  `def f(x):`  (typing ban)
-- path:line  old: `uv run --with httpx s.py`  ->  `uv pip install httpx`, then `uv run s.py`
-- path:line  old: `# /// script` header       ->  delete it; deps move to a `uv pip install` line
+- a.py:12  `def f(x: int) -> int:`     ->  `def f(x):`  (typing ban)
+- b.py:3   `uv run --with httpx s.py`  ->  `uv pip install httpx`, then `uv run s.py`
+- c.py:1   `# /// script` header       ->  delete it; deps move to a `uv pip install` docstring line
 ```
-
-Then the full modernized snippet; keep the report to the substitutions that matter.
