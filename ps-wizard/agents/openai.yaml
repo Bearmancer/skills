@@ -1,0 +1,3 @@
+interface:
+  display_name: "PS-Wizard"
+  short_description: "Generate an admin-ready pwsh setup wizard"
