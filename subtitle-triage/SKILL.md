@@ -24,7 +24,7 @@ The reference in sync with the picture is the file's **own embedded track**:
 - `ffprobe -v error -show_entries stream=index,codec_type:stream_tags=language,title -show_entries format=duration -of json <mkv>` lists subtitle stream indices.
 - `ffmpeg -v error -y -i <mkv> -vn -an -map 0:<idx> -c:s srt ref.srt` extracts one into a temp dir.
 
-No embedded track (the usual WEB-DL case): build the reference from the file's **own audio** instead - `-map 0:<idx>` for the stream whose `language=eng`, at 16 kHz mono, and transcribe it (`parakeet ref.wav`; 22 min takes ~2 min on CPU). Pick the track by its language tag, never by default: a Netflix `NF WEB-DL` here defaults to the Portuguese dub, and ASR of the wrong language silently scores every cue as a miss.
+No embedded track (the usual WEB-DL case): build the reference from the file's **own audio** instead - `-map 0:<idx>` for the stream whose `language=eng`, at 16 kHz mono, and transcribe it (`stt ref.wav`; 22 min takes ~2 min on CPU). Pick the track by its language tag, never by default: a Netflix `NF WEB-DL` here defaults to the Portuguese dub, and ASR of the wrong language silently scores every cue as a miss.
 
 Measure three ways; one alone lies:
 
