@@ -1,8 +1,22 @@
 import asyncio
 import os
+import re
 import sys
 
 import httpx
+
+DATE = r"(late Old English|Old English)|(?:(early|mid-|late) ?)?\b(\d{1,2})c\.|\b(1\d{3}|20\d\d)s?\b"
+
+
+def age(text):
+    if not (m := re.search(DATE, text)):
+        return 9999
+    old, part, century, year = m.groups()
+    if old:
+        return 1050 if old.startswith("late") else 900
+    if century:
+        return (int(century) - 1) * 100 + {"early": 10, "late": 90}.get(part, 50)
+    return int(year)
 
 
 async def main():
@@ -16,9 +30,9 @@ async def main():
         r = await c.post("https://api.exa.ai/contents", headers={"x-api-key": os.environ["EXA_API_KEY"]},
                          json={"urls": list(urls), "text": {"maxCharacters": 700}, "maxAgeHours": -1})
         r.raise_for_status()
-    text = {urls[x["id"]]: " ".join(x.get("text", "").split()) for x in r.json()["results"] if x["id"] in urls}
-    for word, t in tags.items():
-        print(f"{word} {t} | {text.get(word) or 'no Etymonline entry'}")
+    text = {urls[x["id"]]: " ".join(x.get("text", "").split("## ", 1)[-1].split()) for x in r.json()["results"] if x["id"] in urls}
+    for word in sorted(tags, key=lambda w: age(text.get(w, ""))):
+        print(f"{word} {tags[word]} | {text.get(word) or 'no Etymonline entry'}")
 
 
 sys.stdout.reconfigure(encoding="utf-8")
