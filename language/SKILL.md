@@ -10,6 +10,6 @@ uv run "$HOME/.agents/skills/language/scripts/language.py" "<word or phrase>"
 uv run "$HOME/.agents/skills/language/scripts/language.py" "<word>, <word>, ..."
 ```
 
-One word or phrase prints it plus 20 synonyms; several comma-separated words print only those. Every row is an Etymonline entry, oldest first, so archaic words come first. Needs `httpx` (`uv pip install httpx`) and `EXA_API_KEY` in the environment; never print the key.
+One word prints it plus 40 Datamuse candidates (`ml`: related by meaning; tags give part of speech, `syn` and frequency). Several comma-separated words print only those. Each line is the opening of the Etymonline page (all parts of speech run together), or "no Etymonline entry". Needs `httpx` (`uv pip install httpx`) and `EXA_API_KEY` in the environment; never print the key.
 
-Choose what to show from the rows: the best matches for the sense asked, a lineage per etymology (oldest stage first), only relations both entries support. A row with no etymology is not evidence; look it up on Wiktionary and name it.
+You do the judging: pick the 20 that fit the sense and part of speech asked, order them oldest first by first attestation (archaic words come first), write each etymology as a lineage, and say two words are related only when both entries show the shared root. Take nothing from memory; for a missing entry read Wiktionary and name it.
