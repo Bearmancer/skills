@@ -5,35 +5,11 @@ description: Synonyms, etymology and word origins, whether two words are related
 
 # Language
 
-Pass the ask verbatim. No flags.
-
 ```
-uv run "$HOME/.agents/skills/language/scripts/language.py" "<the user's ask>"
+uv run "$HOME/.agents/skills/language/scripts/language.py" "<word or phrase>"
+uv run "$HOME/.agents/skills/language/scripts/language.py" "<word>, <word>, ..."
 ```
 
-Needs `httpx` installed once: `uv pip install httpx`.
+One word or phrase prints it plus 20 synonyms; several comma-separated words print only those. Every row is an Etymonline entry, oldest first, so archaic words come first. Needs `httpx` (`uv pip install httpx`) and `EXA_API_KEY` in the environment; never print the key.
 
-- Synonym asks (the default) print up to 40 candidates, oldest first by first English attestation.
-- Pick the part of speech by writing the word as `to urge` (verb) or `a request` (noun) when the user's context makes it clear.
-- Asks containing "etymology", "origin", "root", "come from", "derivation" or "cognate" print one entry per word. Separate words with commas. For "is X related to Y", send `etymology of X, Y`.
-- "archaic", "anachronistic", "obsolete" and "old-fashioned" mean archaic in time: only words with a Wiktionary sense labelled archaic or obsolete, with those senses printed under each word.
-- Needs `EXA_API_KEY` in the environment. Never print it.
-
-## Answer
-
-1. From the candidates, keep the best 20 in the requested sense. Drop loose associates. For archaic asks, keep a word only if a printed old sense matches the requested meaning. Return fewer than 20 rather than pad.
-2. Keep the printed chronological order. Undated entries go last.
-3. Write each etymology as one lineage, oldest first, using only stages in the printed text:
-
-   `ponder (mid-14c.): PIE *(s)pen- "draw, stretch, spin" → Latin pendere "hang, weigh" → pondus "weight" → ponderare "ponder" → Old French ponderer → English ponder`
-
-4. Name Wiktionary for entries marked `[Wiktionary]`, and strip its template markup. For a row with no etymology, give the word alone and say none was found.
-
-## Accuracy
-
-- Say two words are related only when both entries show the shared root.
-- Answer about the exact word typed. Do not swap in a lookalike.
-- Spellings are shared by unrelated words. If an etymology's meaning does not fit the sense you are listing, say no etymology was found for that sense.
-- If Etymonline and Wiktionary disagree, report both.
-- A hedge in the source ("said to be", "perhaps") stays a hedge.
-- Do not fetch etymonline.com directly: Cloudflare returns 403. The script reads it through Exa.
+Choose what to show from the rows: the best matches for the sense asked, a lineage per etymology (oldest stage first), only relations both entries support. A row with no etymology is not evidence; look it up on Wiktionary and name it.
