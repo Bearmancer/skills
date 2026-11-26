@@ -1,0 +1,353 @@
+#!/usr/bin/env python3
+"""
+sweep.py: Bundled census engine for the github-create skill (housekeeping mode).
+Autonomous account-wide discovery, third-party triage, and branch status checks.
+Census limits are 1000 (the GitHub search API ceiling); hitting a limit emits a
+truncation warning so an incomplete census is never mistaken for a complete one.
+Any census call that fails also exits non-zero, so a partial report cannot pass as a
+clean run.
+"""
+
+import argparse
+import json
+from pathlib import Path
+import subprocess
+import sys
+from collections import defaultdict
+
+CENSUS_LIMIT = 1000
+
+
+def run_cmd(cmd):
+    try:
+        res = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
+        if res.returncode != 0:
+            return None
+        return res.stdout.strip()
+    except Exception:
+        return None
+
+
+def get_current_user():
+    """The authenticated login: gh first, then gh auth status, then git config or a remote URL."""
+    user = run_cmd(["gh", "api", "user", "--jq", ".login"])
+    if user:
+        return user
+    status = run_cmd(["gh", "auth", "status"])
+    for line in (status or "").splitlines():
+        if "account" in line:
+            parts = line.split("account")
+            if len(parts) > 1:
+                return parts[1].split()[0]
+    user = run_cmd(["git", "config", "--get", "github.user"])
+    if user:
+        return user
+    for remote in ("origin",):
+        url = run_cmd(["git", "remote", "get-url", remote])
+        if url and "github.com" in url:
+            owner = url.split("github.com", 1)[1].lstrip(":/").split("/")[0]
+            if owner:
+                return owner
+    print(
+        "ERROR: cannot determine the GitHub user (gh api user, gh auth status and git all failed); "
+        "refusing to guess.",
+        file=sys.stderr,
+    )
+    sys.exit(2)
+
+
+def is_personal_repo(name_with_owner, current_user, forks_set):
+    owner = name_with_owner.split("/")[0]
+    if owner.lower() == current_user.lower():
+        return name_with_owner.lower() not in forks_set
+    return False
+
+
+def sweep_prs(current_user, forks_set, warnings, failures, fetch_details=True):
+    raw = run_cmd(
+        [
+            "gh",
+            "search",
+            "prs",
+            "--author",
+            "@me",
+            "--limit",
+            str(CENSUS_LIMIT),
+            "--json",
+            "repository,number,title,state,url,createdAt,updatedAt,closedAt",
+        ]
+    )
+    if not raw:
+        warnings.append("PR census failed (gh search prs returned nothing).")
+        failures.append("PR census")
+        return []
+    try:
+        items = json.loads(raw)
+    except Exception:
+        warnings.append("PR census unparseable; treat as incomplete.")
+        failures.append("PR census")
+        return []
+    if len(items) >= CENSUS_LIMIT:
+        warnings.append(
+            f"PR census hit the {CENSUS_LIMIT}-result search ceiling; older PRs are missing."
+        )
+
+    third_party = []
+    for item in items:
+        repo = item["repository"]["nameWithOwner"]
+        if is_personal_repo(repo, current_user, forks_set):
+            continue
+        third_party.append(item)
+
+    if not fetch_details:
+        return third_party
+
+    for item in third_party:
+        if item.get("state", "").lower() != "open":
+            continue
+        repo = item["repository"]["nameWithOwner"]
+        num = item["number"]
+        detail_raw = run_cmd(
+            [
+                "gh",
+                "pr",
+                "view",
+                str(num),
+                "--repo",
+                repo,
+                "--json",
+                "mergeable,reviewDecision,statusCheckRollup,headRefName",
+            ]
+        )
+        if detail_raw:
+            try:
+                d = json.loads(detail_raw)
+                item["mergeable"] = d.get("mergeable")
+                item["reviewDecision"] = d.get("reviewDecision")
+                item["headRefName"] = d.get("headRefName")
+
+                rollup = d.get("statusCheckRollup") or []
+                ci_failed = [
+                    c.get("name") or c.get("context")
+                    for c in rollup
+                    if c.get("conclusion")
+                    in ["FAILURE", "TIMED_OUT", "ACTION_REQUIRED"]
+                ]
+                in_prog = [
+                    c for c in rollup if c.get("status") in ["IN_PROGRESS", "QUEUED"]
+                ]
+                item["ci_total"] = len(rollup)
+                item["ci_failures"] = len(ci_failed)
+                item["ci_in_progress"] = len(in_prog)
+                item["failure_names"] = ci_failed
+            except Exception:
+                pass
+    return third_party
+
+
+def sweep_issues(current_user, forks_set, warnings, failures):
+    raw = run_cmd(
+        [
+            "gh",
+            "search",
+            "issues",
+            "--author",
+            "@me",
+            "--limit",
+            str(CENSUS_LIMIT),
+            "--json",
+            "repository,number,title,state,url,createdAt,updatedAt,closedAt",
+        ]
+    )
+    if not raw:
+        warnings.append("Issue census failed (gh search issues returned nothing).")
+        failures.append("issue census")
+        return []
+    try:
+        items = json.loads(raw)
+    except Exception:
+        warnings.append("Issue census unparseable; treat as incomplete.")
+        failures.append("issue census")
+        return []
+    if len(items) >= CENSUS_LIMIT:
+        warnings.append(
+            f"Issue census hit the {CENSUS_LIMIT}-result search ceiling; older issues are missing."
+        )
+
+    third_party = []
+    for item in items:
+        repo = item["repository"]["nameWithOwner"]
+        if is_personal_repo(repo, current_user, forks_set):
+            continue
+        third_party.append(item)
+    return third_party
+
+
+def sweep_forks(current_user, warnings, failures):
+    raw = run_cmd(
+        [
+            "gh",
+            "repo",
+            "list",
+            "--fork",
+            "--json",
+            "nameWithOwner,name,parent,defaultBranchRef",
+            "--limit",
+            str(CENSUS_LIMIT),
+        ]
+    )
+    if not raw:
+        warnings.append("Fork census failed (gh repo list returned nothing).")
+        failures.append("fork census")
+        return []
+    try:
+        forks = json.loads(raw)
+    except Exception:
+        warnings.append("Fork census unparseable; treat as incomplete.")
+        failures.append("fork census")
+        return []
+    if len(forks) >= CENSUS_LIMIT:
+        warnings.append(f"Fork census hit the {CENSUS_LIMIT}-repo ceiling; forks are missing.")
+    return forks
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Account-wide GitHub sweep for third-party PRs, issues, and fork branches."
+    )
+    parser.add_argument("--json", action="store_true", help="Output raw JSON")
+    parser.add_argument(
+        "--open-only", action="store_true", help="Only include open items"
+    )
+    parser.add_argument("--prs-only", action="store_true", help="Sweep PRs only")
+    parser.add_argument("--issues-only", action="store_true", help="Sweep issues only")
+    parser.add_argument("--forks-only", action="store_true", help="Sweep forks only")
+    parser.add_argument("--out", type=str, help="Save report to specified file path")
+    args = parser.parse_args()
+
+    current_user = get_current_user()
+    warnings = []
+    failures = []
+    forks = sweep_forks(current_user, warnings, failures)
+    forks_set = {f["nameWithOwner"].lower() for f in forks}
+
+    report = {"user": current_user, "forks": forks}
+
+    if not args.issues_only and not args.forks_only:
+        report["prs"] = sweep_prs(current_user, forks_set, warnings, failures)
+    if not args.prs_only and not args.forks_only:
+        report["issues"] = sweep_issues(current_user, forks_set, warnings, failures)
+
+    summary = {}
+    if "prs" in report:
+        all_prs = report["prs"]
+        open_prs = [p for p in all_prs if p.get("state", "").lower() == "open"]
+        merged_prs = [p for p in all_prs if p.get("state", "").lower() == "merged"]
+        closed_prs = [p for p in all_prs if p.get("state", "").lower() == "closed"]
+        summary["prs"] = {
+            "total": len(all_prs),
+            "open": len(open_prs),
+            "merged": len(merged_prs),
+            "closed": len(closed_prs),
+        }
+    if "issues" in report:
+        all_issues = report["issues"]
+        open_issues = [i for i in all_issues if i.get("state", "").lower() == "open"]
+        closed_issues = [
+            i for i in all_issues if i.get("state", "").lower() == "closed"
+        ]
+        summary["issues"] = {
+            "total": len(all_issues),
+            "open": len(open_issues),
+            "closed": len(closed_issues),
+        }
+    summary["forks"] = len(forks)
+    report["summary"] = summary
+    report["warnings"] = warnings
+
+    if args.json:
+        output_str = json.dumps(report, indent=2)
+        if args.out:
+            Path(args.out).write_text(output_str, encoding="utf-8")
+        else:
+            print(output_str)
+        sys.exit(1 if failures else 0)
+
+    lines = []
+    lines.append(f"# Third-Party GitHub Sweep Report (@{current_user})\n")
+    for w in warnings:
+        lines.append(f"**WARNING:** {w}")
+    if warnings:
+        lines.append("")
+    if "prs" in summary:
+        p = summary["prs"]
+        lines.append(
+            f"**Pull Requests:** {p['total']} total ({p['open']} Open, {p['merged']} Merged, {p['closed']} Closed)"
+        )
+    if "issues" in summary:
+        i = summary["issues"]
+        lines.append(
+            f"**Issues:** {i['total']} total ({i['open']} Open, {i['closed']} Closed)"
+        )
+    lines.append(f"**Tracked Forks:** {summary['forks']}")
+    lines.append("")
+
+    if "prs" in report:
+        open_prs = [p for p in report["prs"] if p.get("state", "").lower() == "open"]
+        lines.append("## Open Pull Requests")
+        if not open_prs:
+            lines.append("No open third-party pull requests.\n")
+        else:
+            for pr in open_prs:
+                repo = pr["repository"]["nameWithOwner"]
+                num = pr["number"]
+                title = pr["title"]
+                mergeable = pr.get("mergeable", "UNKNOWN")
+                rev = pr.get("reviewDecision") or "NONE"
+                ci_tot = pr.get("ci_total", 0)
+                ci_fail = pr.get("ci_failures", 0)
+                ci_run = pr.get("ci_in_progress", 0)
+
+                ci_str = f"CI: {ci_tot - ci_fail - ci_run}/{ci_tot} passed"
+                if ci_fail > 0:
+                    ci_str += (
+                        f" ({ci_fail} failed: {', '.join(pr.get('failure_names', []))})"
+                    )
+                if ci_run > 0:
+                    ci_str += f" ({ci_run} queued/running)"
+
+                lines.append(f"- **[{repo}#{num}]** {title}")
+                lines.append(
+                    f"  - Mergeable: `{mergeable}` | Review: `{rev}` | {ci_str}"
+                )
+                lines.append(f"  - URL: {pr['url']}")
+            lines.append("")
+
+    if "issues" in report and not args.open_only:
+        open_issues = [
+            i for i in report["issues"] if i.get("state", "").lower() == "open"
+        ]
+        lines.append("## Open Issues by Repository")
+        by_repo = defaultdict(list)
+        for iss in open_issues:
+            by_repo[iss["repository"]["nameWithOwner"]].append(iss)
+
+        for r, r_issues in sorted(by_repo.items()):
+            lines.append(f"### {r} ({len(r_issues)} open)")
+            for iss in r_issues:
+                lines.append(
+                    f"- **#{iss['number']}**: {iss['title']} ([Link]({iss['url']}))"
+                )
+            lines.append("")
+
+    out_text = "\n".join(lines)
+    if args.out:
+        Path(args.out).write_text(out_text, encoding="utf-8")
+        print(f"Report written to {args.out}")
+    else:
+        print(out_text)
+    sys.exit(1 if failures else 0)
+
+
+if __name__ == "__main__":
+    main()
