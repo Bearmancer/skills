@@ -5,7 +5,7 @@ description: Use whenever writing, reviewing, refactoring or explaining any Pyth
 
 # Modern Python, enforced
 
-Model knowledge predates 3.12; this skill overrides it. It restates `~/.agents/AGENTS.md` "Python" identically - a doc that disagrees with the guard plugins gets the caller blocked mid-command.
+Model knowledge predates 3.12; this skill overrides it. It extends the Python rule in `~/.agents/AGENTS.md` ("Code and guards") with stricter bans of its own, such as typing and `uv run python`. The python-guard plugin enforces only part of this, so follow the skill even where a command is let through.
 
 **CPython 3.13 only.** 3.14+ features do not exist here, and a version switch (`--python`, `py -V:`) is never written. Why 3.13: `onnxruntime`, which `faster-whisper` needs, ships no Windows cp315 wheel, and 3.13 runs everything else.
 
@@ -37,6 +37,8 @@ Test suites get a `.py` entry point (`uv run tests/test_stt.py` behind `unittest
 | `pip`, `pipx`, `python`, `python3`, `py` | resolves to a python.org install `uv run` never sees | the `uv ...` forms above |
 | typing: annotations, `import typing`, `from __future__ import annotations`, TypedDict, Protocol, `@dataclass`, `typing.NamedTuple`, PEP 695 `type X =`/`def f[T]`, `cast`, `@overload`, `Final`, `ClassVar`, `Self`, `@override`, `assert_type`, mypy/pyright/pyre | Python here is dynamic and brief; annotations cost maintenance and buy nothing | plain code; runtime checks (`isinstance`, guards, `assert`); `collections.namedtuple`, plain class, or dict; strip checker configs when modernizing |
 
+The guard also rejects `.py` writes and edits that call bare `open()`, add a PEP 723 header, or use `os.path`, `os.listdir`, `os.walk`, `os.mkdir`, `os.makedirs`, `os.remove`, `os.unlink` or `shutil` in a file that does not import `pathlib`.
+
 Environment trouble - `uv pip` finds no interpreter, `externally-managed-environment`, an installed package will not import, a bloated uv cache: read `references/host.md`.
 
 ## Catalog (everything here runs on 3.13)
@@ -63,15 +65,19 @@ Environment trouble - `uv pip` finds no interpreter, `externally-managed-environ
 | `for i in range(len(xs))`, parallel index loops | `enumerate(xs)`, `zip(xs, ys, strict=True)` |
 | `zip(xs, xs[1:])` for neighbors; manual chunking loop | `itertools.pairwise(xs)`; `itertools.batched(xs, n)` |
 | `try: ... except SomeError: pass` | `with contextlib.suppress(SomeError): ...` |
-| nested `with` joined by backslashes | `with (a, b):` |
-| `toml`/`tomli` for reading | `tomllib.load(f)` (stdlib, read-only) |
+| manual `open()`/`close()`; nested `with` joined by backslashes | `with Path(p).open(encoding="utf-8") as f:`; `with (a, b):` |
+| `toml`/`tomli` for reading | `tomllib.loads(Path(p).read_text(encoding="utf-8"))` (stdlib, read-only) |
 | `asyncio.gather` for fan-out; `wait_for` | `async with asyncio.TaskGroup() as tg:`; `async with asyncio.timeout(s):` |
 | `pytz` | `zoneinfo.ZoneInfo("Region/City")` |
 | `datetime.utcnow()`, `datetime.utcfromtimestamp()` (deprecated 3.12) | `datetime.now(timezone.utc)`, `datetime.fromtimestamp(ts, timezone.utc)` |
-| `distutils`, `imp`, `asyncore`, `asynchat` (removed 3.12) | gone: `importlib`, `asyncio` |
+| `imp` (removed 3.12) | `importlib` |
+| `asyncore`, `asynchat` (removed 3.12) | `asyncio` |
+| `distutils` (removed 3.12) | `shutil.which` for `find_executable`; `sysconfig` for `distutils.sysconfig` |
 | manual dot product / float stepping; manual dependency ordering | `math.sumprod(a, b)`, `math.nextafter(x, y, steps=n)`; `graphlib.TopologicalSorter` |
-| C extension for a hot loop | profile first, then `ctypes`/`cffi`; 3.13 free-threading and JIT are preview and not what this host runs |
-| t-strings, `compression.zstd`, `uuid.uuid6/7/8` | **not on 3.13** - do not write them; `zstandard` would need a `uv pip install` the stdlib cannot answer |
+
+**Not on 3.13**, so do not write them: t-strings, `compression.zstd`, `uuid.uuid6/7/8`. For zstd, install the third-party package (`uv pip install zstandard`).
+
+For a hot loop, profile first, then use `ctypes`/`cffi`. 3.13 free-threading and JIT are preview and not what this host runs.
 
 ## Script shape
 
