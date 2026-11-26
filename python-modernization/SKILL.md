@@ -28,9 +28,11 @@ the choice costs nothing.
 | Get a library a script imports | `uv pip install <pkg>` |
 | Get a tool you type as a command (`ruff`, `yt-dlp`, an MCP server) | `uv tool install <pkg>` |
 
-`uv run` takes **no flags**. A `-m` run (`uv run python -W error -m pytest`) is fine: there is
-no script file to name. `uvx`/`uv tool run` is not used - install the tool once with
-`uv tool install`, then call it by name.
+`uv run` takes **no flags** and is never followed by `python` - not for `-m`, not for `-c`, not
+bare. A test suite gets a `.py` entry point (`uv run tests/test_stt.py` behind a
+`unittest.main()` guard); a tool that exists only as `python -m <tool>` gets installed as a
+tool (`uv tool install <pkg>`) and called bare. `uvx`/`uv tool run` is not used - install the
+tool once with `uv tool install`, then call it by name.
 
 ### `uv tool` versus `uv pip`, for your own scripts
 
@@ -65,28 +67,43 @@ thing this layout cannot express.
 - `C:\Users\Lance\.python-version` contains `3.13`, so every `uv run` anywhere uses
   `%APPDATA%\uv\python\cpython-3.13-windows-x86_64-none\python.exe` (3.13.18, 64-bit). uv
   finds that file by walking up from the working directory.
-- `%APPDATA%\uv\uv.toml` pins `uv pip` to the same interpreter:
-  `[pip] python = '<absolute path to the 3.13 python.exe>'` plus
-  `break-system-packages = true`. The path must be absolute: a version request
-  (`python = '3.13'`) fails with "No virtual environment found for Python 3.13", because uv
-  does not read `.python-version` for `uv pip`.
-- `break-system-packages` is needed because uv's own interpreter carries an
-  `EXTERNALLY-MANAGED` marker. It is uv's install, not a Windows system Python, so the marker
-  is uv guarding its own tree.
+- `%APPDATA%\uv\uv.toml` pins `uv pip` to the interpreter `uv run` uses:
+  `[pip] python = '<abs path>\cpython-3.13-windows-x86_64-none\python.exe'` plus
+  `break-system-packages = true`. `uv pip` never reads `.python-version`, so without the pin it
+  errors "No virtual environment found" or targets a stray interpreter. The path must be
+  absolute: a version request (`python = '3.13'`) resolves against discovered environments,
+  not managed interpreters, and fails. The pin rides the junction name, not the patch-versioned
+  folder (`cpython-3.13.18-...`): `uv python upgrade` repoints the junction and the pin
+  survives; a patch-path pin dangles after every upgrade.
+- `break-system-packages` is needed because every uv-managed interpreter here carries a
+  `Lib\EXTERNALLY-MANAGED` marker (verified 3.12 through 3.16). It is uv's install, not a
+  Windows system Python - the marker is uv guarding its own tree, and this policy deliberately
+  owns that tree as the one shared store. Without the flag every `uv pip install` dies with
+  `externally-managed-environment`.
 - Already installed for scripts: pypdf, pyyaml, paramiko, requests, jsonschema, ruamel.yaml,
   mutagen, markdown-it-py, mdit-py-plugins, linkify-it-py, httpx, pytest, pytest-xdist, numpy,
   faster-whisper, sherpa-onnx, av, ctranslate2, onnxruntime, and the security stack
-  (bcrypt, cryptography, pynacl, cffi, invoke). 60 packages total.
+  (bcrypt, cryptography, pynacl, cffi, invoke).
+- PEP 723 cost, measured on this host: uv caches each headered script's sealed env at
+  `<cache>\environments-v2\<stem>-<hash>`, keyed on deps + `requires-python` + interpreter. A
+  cache hit still pays resolve-validation every run; a header edit mints a new hash and
+  orphans the old env (one script here: five generations). A distinct `requires-python` seals a
+  distinct interpreter - one 3.15 env sits beside the 3.13 host - and cross-version dupes are
+  real bytes, since ABI-specific wheels cannot hardlink-share. Running total: 501 dead envs,
+  1.1 GB, reclaimable with `uv cache clean` and regenerable by design. The sealed env also
+  cannot see the shared site-packages, which is the ban's real reason: a header re-declares a
+  parallel dependency set.
 - Tools live on 3.13 as of 2026-11-26: `ruff` 0.17.6, `ty` 0.0.111, `yt-dlp` 2026.11.23,
   `arxiv-mcp-server` 0.8.2, `paper-search-mcp` 0.1.4.
 - 3.12/3.15/3.16 remain in `%APPDATA%\uv\python` and the python.org installs are still on
   PATH. They are unused by this policy; do not code against them.
 - After `uv python upgrade --reinstall`, the 3.13 junction moves to a new patch folder and
   `uv pip list` shows nothing: re-run the installs. Nothing else changes.
-- Source for a doubtful feature: <https://docs.python.org/3/whats-new.html>, or
-  `uv run python -c "import sys; print(3.13 in [v for v in [sys.version_info[:2]]])"`-style
-  probe. The previously cited `C:\Users\Lance\Documents\python-release-notes\` folder does
-  not exist on this machine; do not trust a citation to it.
+- Source for a doubtful feature: <https://docs.python.org/3/whats-new.html>, or a probe file -
+  write `probe.py` (`import sys`, print what you need) and `uv run probe.py`. Never `python -c`,
+  not even under `uv run`: no interpreter appears on a command line on this host. The
+  previously cited `C:\Users\Lance\Documents\python-release-notes\` folder does not exist on
+  this machine; do not trust a citation to it.
 
 ## House mandates (non-negotiable)
 
@@ -102,8 +119,8 @@ thing this layout cannot express.
 
 ## Workflow
 
-1. **Assume 3.13.** To confirm what a run really uses:
-   `uv run python -c "import sys; print(sys.version, sys.executable)"`.
+1. **Assume 3.13.** To confirm what a run really uses, `uv run` a two-line probe script that
+   prints `sys.version` and `sys.executable`.
 2. **Write modern by default.** Apply the catalog without narrating each substitution.
 3. **Self-audit.** Walk the catalog over what you wrote: pathlib for file code, no
    annotations, no `uv run` flag, no script header, no packaging file, nothing newer than
