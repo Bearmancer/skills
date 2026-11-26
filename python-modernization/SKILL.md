@@ -1,102 +1,163 @@
 ---
 name: python-modernization
-description: Use whenever writing, reviewing, refactoring or explaining any Python (.py, pyproject.toml, uv.lock, notebooks) or picking a Python environment or run command. Enforces modern brief Python 3.9-3.15, bans superseded patterns and all static typing, uv only with no venvs, pathlib over os.path. Also for "is this deprecated" and Python upgrade questions.
+description: Use whenever writing, reviewing, refactoring or explaining any Python (.py, notebooks) or picking a Python run or install command, even when the code looks fine, because model knowledge skews old. Targets Python 3.13 alone and installs through `uv pip install` (libraries) or `uv tool install` (tools) only. Enforces brief untyped syntax and pathlib over os.path, and bans `pyproject.toml`, `uv.lock`, `.venv`, PEP 723 `# /// script` headers, `uv run` flags such as `--with`/`--no-project`, `uv sync`/`uv add`/`uvx` and all static typing. Also answers "is this deprecated" and Python upgrade questions.
 ---
 
 # Modern Python, enforced
 
 Model knowledge of Python skews old: most training text predates 3.12. This skill overrides
 that skew. The rule: **never emit a superseded pattern when a modern, briefer, faster
-replacement exists for the project's Python version.** If the replacement needs a newer
-interpreter than the project has, say so once (one line, with the version) and still write
-the modern form rather than silently falling back.
+replacement exists for 3.13.**
 
-This is the Python coding authority on this host: **brevity, no typing, pathlib, maximal
-speed**. Environment rules (one uv, no venvs, no pip, PEP 723 scripts) live in
-`~/.agents/AGENTS.md` "Python" and are not restated here.
+This is the Python authority on this host: **one target version, two install commands, no
+typing, pathlib, fewest lines**. Environment rules live in `~/.agents/AGENTS.md` "Python" and
+are restated here identically, because a doc that disagrees with the guard plugins gets the
+caller blocked mid-command.
 
-Source of truth: the *What's New* essays for 3.9-3.16 saved at
-`C:\Users\Lance\Documents\python-release-notes\3.9.md` ... `3.16.md` (collected 2026-11-18).
-Release dates: 3.9 (2020-10-05), 3.10 (2021-10-04), 3.11 (2022-10-24), 3.12 (2023-10-02),
-3.13 (2024-10-07), 3.14 (2025-10-07), 3.15 (2026-10-09). **Latest stable is 3.15.**
-**3.16 is alpha (`3.16.0a2`), not beta** - treat it as preview, use only on request.
-Catalog rows tagged `[baseline]` are long-established modernizations; `[notes]` rows trace
-to the saved essays (open the matching `3.X.md` to confirm a detail before relying on it).
+**Target: CPython 3.13 only** (host runs 3.13.18, x86_64). Treat 3.14/3.15/3.16 features as
+unavailable; never write a version switch (`--python 3.12`, `py -V:3.13`). 3.13 rather than
+the newer stable is deliberate: `onnxruntime`, needed by `faster-whisper`, publishes no
+Windows `cp315` wheel (its ABI tags run `cp311`-`cp314`), and 3.13 runs everything else, so
+the choice costs nothing.
+
+## The commands
+
+| Job | Command |
+| --- | --- |
+| Run a script that lives in a repo or skill | `uv run <file.py> <args>` |
+| Get a library a script imports | `uv pip install <pkg>` |
+| Get a tool you type as a command (`ruff`, `yt-dlp`, an MCP server) | `uv tool install <pkg>` |
+
+`uv run` takes **no flags**. A `-m` run (`uv run python -W error -m pytest`) is fine: there is
+no script file to name. `uvx`/`uv tool run` is not used - install the tool once with
+`uv tool install`, then call it by name.
+
+### `uv tool` versus `uv pip`, for your own scripts
+
+Both fetch from PyPI into an interpreter uv manages; they differ in **who imports the result**.
+
+| | `uv pip install <pkg>` | `uv tool install <pkg>` |
+| --- | --- | --- |
+| Where it lands | the interpreter `uv run` uses, `%APPDATA%\uv\python\cpython-3.13-...\site-packages` | a private env per tool under `%APPDATA%\uv\tools\<pkg>` |
+| What you get | importable modules for every script | one `.exe` entry point in `~\.local\bin` |
+| Needs packaging files | no | yes: `pyproject.toml` or `setup.py`. A folder holding only a `.py` fails with "does not appear to be a Python project" |
+| Packages with no console entry point | installed normally | dropped, so a plain library is invisible |
+| Use for | `requests`, `pyyaml`, `mutagen`, `pytest` - anything your `.py` imports | other people's CLIs (`ruff`, `ty`, `yt-dlp`, MCP servers) |
+
+So: **your own script never goes through `uv tool`.** `uv pip install` its libraries, then run
+it with `uv run`. The two are not interchangeable, and a script installed as a tool is the one
+thing this layout cannot express.
+
+## Banned, with the reason each ban exists
+
+| Forbidden | Why | Use instead |
+| --- | --- | --- |
+| `# /// script` PEP 723 header | uv builds a sealed env for the script, so `uv pip` packages vanish: a headered script failed `import six` while the headerless file beside it imported it | bare `uv run file.py` |
+| `uv run --with <pkg>` | re-resolves an env on every run, the cost the header was meant to remove | `uv pip install <pkg>` once |
+| `uv run --no-project`, `--script`, `--isolated`, `--quiet`, `--python` | flags exist to work around a project or env that should not be there | `uv run file.py`; version comes from `.python-version` |
+| `pyproject.toml`, `uv.lock`, `uv add`, `uv sync`, `uv lock`, `uv init` | a `pyproject.toml` in the tree turns `uv run` into "Creating virtual environment at: .venv" and the installed libraries stop being visible | a `.py` file plus a `uv pip install` line in its docstring |
+| `uv venv`, `virtualenv`, `.venv`, `venv/` | a venv is a second library set to keep in sync by hand, and it hides the shared one | `uv pip install` into the default interpreter |
+| `uvx <pkg>`, `uv tool run <pkg>` | a third way to reach a tool, and it hides which env the tool lives in | `uv tool install <pkg>`, then the bare command |
+| `pip install`, `pipx`, `python`, `python3`, `py` | bypasses the one interpreter; `py`/`python` resolve to a python.org install that is not where `uv run` looks | the `uv ...` forms above |
+
+## Host facts (verified 2026-11-26, uv 0.13.10)
+
+- `C:\Users\Lance\.python-version` contains `3.13`, so every `uv run` anywhere uses
+  `%APPDATA%\uv\python\cpython-3.13-windows-x86_64-none\python.exe` (3.13.18, 64-bit). uv
+  finds that file by walking up from the working directory.
+- `%APPDATA%\uv\uv.toml` pins `uv pip` to the same interpreter:
+  `[pip] python = '<absolute path to the 3.13 python.exe>'` plus
+  `break-system-packages = true`. The path must be absolute: a version request
+  (`python = '3.13'`) fails with "No virtual environment found for Python 3.13", because uv
+  does not read `.python-version` for `uv pip`.
+- `break-system-packages` is needed because uv's own interpreter carries an
+  `EXTERNALLY-MANAGED` marker. It is uv's install, not a Windows system Python, so the marker
+  is uv guarding its own tree.
+- Already installed for scripts: pypdf, pyyaml, paramiko, requests, jsonschema, ruamel.yaml,
+  mutagen, markdown-it-py, mdit-py-plugins, linkify-it-py, httpx, pytest, pytest-xdist, numpy,
+  faster-whisper, sherpa-onnx, av, ctranslate2, onnxruntime, and the security stack
+  (bcrypt, cryptography, pynacl, cffi, invoke). 60 packages total.
+- Tools live on 3.13 as of 2026-11-26: `ruff` 0.17.6, `ty` 0.0.111, `yt-dlp` 2026.11.23,
+  `arxiv-mcp-server` 0.8.2, `paper-search-mcp` 0.1.4.
+- 3.12/3.15/3.16 remain in `%APPDATA%\uv\python` and the python.org installs are still on
+  PATH. They are unused by this policy; do not code against them.
+- After `uv python upgrade --reinstall`, the 3.13 junction moves to a new patch folder and
+  `uv pip list` shows nothing: re-run the installs. Nothing else changes.
+- Source for a doubtful feature: <https://docs.python.org/3/whats-new.html>, or
+  `uv run python -c "import sys; print(3.13 in [v for v in [sys.version_info[:2]]])"`-style
+  probe. The previously cited `C:\Users\Lance\Documents\python-release-notes\` folder does
+  not exist on this machine; do not trust a citation to it.
 
 ## House mandates (non-negotiable)
 
 1. **No typing, at all.** No annotations, no `typing`, no type checkers. Python here is
-   dynamic and brief; annotations are noise that costs maintenance and buys nothing for
-   this style. See the ban table.
-2. **Environment per `~/.agents/AGENTS.md` "Python".** uv only, never a venv.
-3. **pathlib for every filesystem touch.** No `os.path` string surgery, no `open(str)`
-   when a `Path` method does it in one call.
-4. **pyproject.toml for libraries; a PEP 723 header for one-off scripts.** A real importable
-   package is a uv project with `pyproject.toml`. A throwaway script declares its deps inline.
-5. **Brevity and speed first.** Fewer lines, fewer allocations, C-speed builtins over
-   Python loops. Don't add a dependency the stdlib already covers.
+   dynamic and brief; annotations cost maintenance and buy nothing for this style.
+2. **One run command:** `uv run <file.py> <args>`, no flags, never a venv, never `--with`.
+3. **pathlib for every filesystem touch**, with explicit `encoding="utf-8"`. No `os.path`
+   string surgery, no bare `open()`.
+4. **No packaging files of ours, ever.** No `pyproject.toml`, `uv.lock`, `.venv`, or PEP 723
+   header. A script is a `.py` file plus a `uv pip install` line naming what it needs.
+5. **Fewest lines, whatever the complexity.** Fewer allocations, C-speed builtins over Python
+   loops, stdlib before any dependency, no abstraction nobody calls.
 
 ## Workflow
 
-1. **Find the target version.** Check, in order: `pyproject.toml` `requires-python`,
-   `.python-version`, `uv.lock`, then `uv run python --version`. Nothing found: assume
-   **3.15** and say so in one line. Treat **3.16 as alpha preview**.
+1. **Assume 3.13.** To confirm what a run really uses:
+   `uv run python -c "import sys; print(sys.version, sys.executable)"`.
 2. **Write modern by default.** Apply the catalog without narrating each substitution.
-   Modern, brief, untyped, pathlib-based code is the default, not a talking point.
-3. **Self-audit.** Walk the catalog over what you wrote. Any filesystem code must use
-   pathlib; any annotation or `typing` import must be removed; any venv/`pip install`
-   command must become uv.
-4. **Review/migrate mode** (user hands you existing code): report superseded patterns,
-   then give the corrected code in the format at the bottom.
+3. **Self-audit.** Walk the catalog over what you wrote: pathlib for file code, no
+   annotations, no `uv run` flag, no script header, no packaging file, nothing newer than
+   3.13.
+4. **Review/migrate mode** (user hands you existing code): report superseded patterns, then
+   give the corrected code in the format at the bottom.
 
 ## Language and brevity
 
 | Superseded | Modern | Since |
 | --- | --- | --- |
 | `"%s" % x`, `"{}".format(x)`, `"a" + str(x)` | f-strings `f"{x}"`; self-documenting `f"{x=}"` | `[baseline]` (debug `=` 3.8) |
-| Workarounds to reuse quotes / nest f-strings | Direct nested quotes, multi-line expressions, comments, backslashes inside f-strings | 3.12 (PEP 701) |
+| Workarounds to reuse quotes / nest f-strings | Direct nested quotes, multi-line expressions, backslashes inside f-strings | 3.12 (PEP 701) |
 | `if k in d: v = d[k] else: v = default` | `d.get(k, default)`; walrus `if (m := pat.search(s)):` to avoid recompute | `[baseline]` (walrus 3.8) |
 | Long `if/elif` chains dispatching on a value or shape | `match` / `case` with patterns and guards | 3.10 (PEP 634) |
 | `{**a, **b}`, `a.copy(); a.update(b)` | `a \| b` (new dict) and `a \|= b` (in place) | 3.9 (PEP 584) |
 | `s[len(p):] if s.startswith(p) else s`, `s.rstrip("x")` hacks | `s.removeprefix(p)`, `s.removesuffix(suf)` | 3.9 |
-| `result = []; for x in xs: result.append(f(x))` | Comprehension `[f(x) for x in xs]`; generator `(f(x) for x in xs)` when lazy | `[baseline]` (inlined/fast 3.12, PEP 709) |
+| `result = []; for x in xs: result.append(f(x))` | Comprehension `[f(x) for x in xs]`; generator `(f(x) for x in xs)` when lazy | `[baseline]` (inlined 3.12, PEP 709) |
 | `for i in range(len(xs))`, parallel index loops | `enumerate(xs)`, `zip(xs, ys, strict=True)` | `[baseline]` (`strict=` 3.10) |
 | `try: ... except SomeError: pass` | `with contextlib.suppress(SomeError): ...` | `[baseline]` |
 | Manual `open()`/`close()`, nested `with` via backslashes | `with` block; parenthesized multi-context `with (a, b):` | `[baseline]` (parenthesized 3.10) |
 | `s = ""; for p in parts: s += p` | `"".join(parts)` (quadratic vs linear) | `[baseline]` |
-| Hand-rolled memo dict | `@functools.cache` (unbounded) or `@functools.lru_cache(maxsize=...)` | `[baseline]` (`cache` 3.9) |
-| `typing.NamedTuple`, `@dataclass` (annotation-based) | `collections.namedtuple("P", "x y")`, plain class, or dict | `[baseline]` (see typing ban) |
-| `datetime.utcnow()`, `datetime.utcfromtimestamp()` | `datetime.now(timezone.utc)`, `datetime.fromtimestamp(ts, timezone.utc)` | deprecated 3.12 `[notes]` |
-| `distutils`, `imp`, `asyncore`, `asynchat` | Removed: use `setuptools`/`hatchling` via pyproject, `importlib`, `asyncio` | removed 3.12 (PEP 632) `[notes]` |
+| Hand-rolled memo dict | `@functools.cache` or `@functools.lru_cache(maxsize=...)` | `[baseline]` (`cache` 3.9) |
+| `typing.NamedTuple`, `@dataclass` (annotation-based) | `collections.namedtuple`, plain class, or dict | `[baseline]` (see typing ban) |
+| `datetime.utcnow()`, `datetime.utcfromtimestamp()` | `datetime.now(timezone.utc)`, `datetime.fromtimestamp(ts, timezone.utc)` | deprecated 3.12 |
+| `distutils`, `imp`, `asyncore`, `asynchat` | gone (probe: `import distutils` raises ModuleNotFoundError on 3.13): `importlib`, `asyncio` | removed 3.12 (PEP 632) |
 
 ## Standard library and speed
 
 | Superseded | Modern | Since |
 | --- | --- | --- |
-| Manual chunking loop | `itertools.batched(xs, n)` | 3.12 `[notes]` |
+| Manual chunking loop | `itertools.batched(xs, n)` | 3.12 (probe: present) |
 | `zip(xs, xs[1:])` for neighbors | `itertools.pairwise(xs)` | 3.10 `[baseline]` |
-| Third-party `toml`/`tomli` for reading | `tomllib.load(f)` (stdlib, read-only) | 3.11 `[notes]` |
-| `asyncio.gather` for structured fan-out; `wait_for` | `async with asyncio.TaskGroup() as tg:`; `async with asyncio.timeout(s):` | 3.11 `[notes]` |
+| Third-party `toml`/`tomli` for reading | `tomllib.load(f)` (stdlib, read-only) | 3.11 (probe: present) |
+| `asyncio.gather` for structured fan-out; `wait_for` | `async with asyncio.TaskGroup() as tg:`; `async with asyncio.timeout(s):` | 3.11 (probe: present) |
 | `pytz` | `zoneinfo.ZoneInfo("Region/City")` | 3.9 `[baseline]` |
-| Manual dot product / float stepping | `math.sumprod(a, b)`, `math.nextafter(x, y, steps=n)` | 3.12 `[notes]` |
+| Manual dot product / float stepping | `math.sumprod(a, b)`, `math.nextafter(x, y, steps=n)` | 3.12 `[baseline]` |
 | `re` for simple prefix/suffix/contains tests | `str` methods (`startswith`, `endswith`, `in`, `removeprefix`) | `[baseline]` |
 | Hand-counted dicts / lists-as-queues | `collections.Counter`, `defaultdict`, `deque` | `[baseline]` |
 | Manual dependency ordering | `graphlib.TopologicalSorter` | 3.9 `[baseline]` |
-| Old interpreter for hot code | Newest stable (3.11+ faster CPython; 3.12 comprehension inlining). 3.13/3.14 experimental JIT and free-threading are **preview, opt-in** | `[notes]` |
-| `zlib`/`bz2`/`lzma` only, third-party zstd | `compression.zstd` (stdlib); t-strings `t"..."` for safe templating (PEP 750); `uuid.uuid6/7/8` | 3.14 `[notes]` (confirm in 3.14.md) |
+| C-API extension for a hot loop | `ctypes`/`cffi` only if a real profile demands it; the free-threaded 3.13 build and the 3.13 JIT are preview, opt-in, and not what this host runs | 3.13 (preview) |
+| 3.14+ ideas (t-strings, `compression.zstd`, `uuid.uuid6/7/8`, `optimize()` probe) | **Not available on 3.13.** Do not write them; `zstandard` is absent from `sys.stdlib_module_names` (probe) and would need a `uv pip install` that the stdlib answer cannot give | unavailable |
 
-Speed habits: prefer builtins and comprehensions (C loop) over Python-level loops; `join`
-over `+=`; `cache` pure repeated calls; pick the right container (`deque` for ends, `set`
-for membership, `array`/`memoryview` for numeric buffers); avoid premature abstraction and
-needless copies; reach for the stdlib before adding a dependency.
+Speed habits: builtins and comprehensions (C loop) over Python-level loops; `join` over `+=`;
+`cache` pure repeated calls; right container (`deque` for ends, `set` for membership); no
+premature abstraction; stdlib before dependency.
 
 ## Filesystem: pathlib
 
 | Superseded | Modern |
 | --- | --- |
 | `os.path.join(a, b)` | `Path(a) / b` |
-| `with open(p) as f: f.read()` | `Path(p).read_text()` / `.read_bytes()` |
-| `with open(p, "w") as f: f.write(s)` | `Path(p).write_text(s)` / `.write_bytes(b)` |
+| `with open(p) as f: f.read()` | `Path(p).read_text(encoding="utf-8")` / `.read_bytes()` |
+| `with open(p, "w") as f: f.write(s)` | `Path(p).write_text(s, encoding="utf-8")` / `.write_bytes(b)` |
 | `os.path.exists/isfile/isdir(p)` | `Path(p).exists()` / `.is_file()` / `.is_dir()` |
 | `os.listdir(p)`, `glob.glob(p + "/*.py")` | `Path(p).iterdir()`, `.glob("*.py")`, `.rglob("*.py")` |
 | `os.path.basename/splitext/dirname(p)` | `Path(p).name` / `.stem` / `.suffix` / `.parent` |
@@ -104,81 +165,54 @@ needless copies; reach for the stdlib before adding a dependency.
 | `os.walk(p)` | `Path(p).walk()` (3.12) |
 | `os.path.abspath/expanduser(p)` | `Path(p).resolve()` / `.expanduser()` |
 
-## Environment and packaging: uv
-
-| Superseded | Modern |
-| --- | --- |
-| `pip install X` into a project | `uv add X` (updates `pyproject.toml` + `uv.lock`) |
-| `python script.py` (bare, deps assumed) | PEP 723 header in the script + `uv run script.py` |
-| `uv run --no-project --with <deps> python script.py` | PEP 723 header + `uv run script.py` (owner 2026-11-20: flags too noisy) |
-| Running a library project ad hoc | `uv sync` then `uv run python -m pkg` |
-| `setup.py` / `setup.cfg` / `requirements.txt` for a new library | `pyproject.toml` (uv project) |
-
-Bans (venvs, pip, system Python, a second uv) and the run command: `~/.agents/AGENTS.md` "Python".
-
-### Library project: `pyproject.toml`
-
-```toml
-[project]
-name = "mypkg"
-version = "0.1.0"
-requires-python = ">=3.15"
-dependencies = ["httpx>=0.27"]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-```
-
-Set up and run: `uv sync`, then `uv run python -c "import mypkg; mypkg.main()"`. Add a
-dependency with `uv add <pkg>` (updates `pyproject.toml` + `uv.lock`). Hand off a real import
-and one call, not just a README snippet.
-
-### One-off CLI script: PEP 723 inline metadata
+## Shape of a script
 
 ```python
-# /// script
-# requires-python = ">=3.15"
-# dependencies = ["httpx"]
-# ///
-from pathlib import Path
-import httpx
+"""Fetch a page to disk.
 
-data = httpx.get("https://example.com").text
-Path("out.txt").write_text(data)
+Needs: uv pip install requests
+Usage: uv run fetch.py <url> [--out FILE]
+"""
+
+import sys
+from pathlib import Path
+
+import requests
+
+out = Path(sys.argv[2] if len(sys.argv) > 2 else "page.html")
+out.write_text(requests.get(sys.argv[1], timeout=30).text, encoding="utf-8")
 ```
 
-Run with plain `uv run script.py` (`--quiet` hides the first-run "Installed N packages" line); the
-header absorbs `--with`, `--python` and `--no-project`. `uv run --with httpx python -c ...` is only
-for a throwaway one-liner with no file. Do not turn a throwaway script into a
-packaged project, and do not use `--with` as a substitute for a real library's pyproject.
+The docstring names the run command and any library a fresh machine must `uv pip install`;
+`pathlib` does the file work; nothing else in the file mentions environments. No shebang:
+`#!/usr/bin/env python3` resolves through PATH, which is not how this host runs scripts.
 
 ## Banned: typing (turn it off)
 
 | Remove / never write | Instead |
 | --- | --- |
 | `x: int`, `def f(a: int) -> str:` | No annotations; plain `x = ...`, `def f(a):` |
-| `from typing import List, Dict, Optional, ...` / `import typing` | Nothing; use builtins dynamically (`list`, `dict`) |
+| `from typing import List, Dict, Optional, ...` / `import typing` | Nothing; use builtins dynamically |
 | `from __future__ import annotations` | Remove |
 | `class X(TypedDict)`, `class X(Protocol)` | Plain dict; duck typing / `isinstance` at runtime |
 | `@dataclass`, `typing.NamedTuple` (need annotations) | `collections.namedtuple`, plain class, or dict |
-| `type Alias = ...`, `def f[T](...)` (PEP 695) | Remove; no static generics |
+| `type Alias = ...`, `def f[T](...)` (PEP 695, 3.12) | Remove; no static generics |
 | `cast`, `@overload`, `Final`, `ClassVar`, `Self`, `@override`, `assert_type` | Remove |
 | mypy / pyright / pyre config and runs | Do not add or run them; strip their config and annotations when modernizing |
 
-Why: this house style is dynamic and brief. Annotations and checkers add lines and
-ceremony without serving the goal here. Where a runtime guarantee matters, check it
-(`isinstance`, a guard, an `assert`) rather than annotating it.
+Where a runtime guarantee matters, check it (`isinstance`, a guard, an `assert`) rather than
+annotating it.
 
 ## Review / migrate output
 
 Report findings, then the corrected code:
 
 ```
-Superseded -> modern (version)
-- path:line  old: `os.path.join(a, b)`  ->  `Path(a) / b`
-- path:line  old: `def f(x: int) -> int:`  ->  `def f(x):`  (typing ban)
+Superseded -> 3.13 modern
+- path:line  old: `os.path.join(a, b)`        ->  `Path(a) / b`
+- path:line  old: `def f(x: int) -> int:`     ->  `def f(x):`  (typing ban)
+- path:line  old: `uv run --with httpx s.py`  ->  `uv pip install httpx`, then `uv run s.py`
+- path:line  old: `# /// script` header       ->  delete it; deps move to a `uv pip install` line
 ```
 
-Then give the full modernized snippet. Keep the report to the substitutions that matter;
-do not narrate every line.
+Then give the full modernized snippet. Keep the report to the substitutions that matter.
