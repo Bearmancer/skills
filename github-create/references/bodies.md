@@ -52,7 +52,7 @@ Software facts only, never hardware, hostname, username or token.
 
 ## URL audit
 
-The procedure has one home: the research-rigorously `SKILL.md`, section "URL audit: single home for all skills" — `uv run <research-rigorously dir>/rr.py urlaudit <url>... | -f <body file>` over every drafted body and comment, only a final `200 OK` passes, and the exemptions, the BLOCKED and JS? re-check and the repair-or-drop with `[link unverified]` are stated there. This skill adds three things to it:
+Audit every URL in a drafted body or comment with research-rigorously's URL audit: `uv run <research-rigorously dir>/rr.py urlaudit <url>...` or `-f <body file>`; only a final `200 OK` passes. The exemptions, the BLOCKED and JS? re-check and the repair-or-drop with `[link unverified]`: its `SKILL.md` ("URL audit: single home for all skills"); the publish-gate chain: its ADR 0042. This skill adds three things:
 
 - A GitHub URL that comes back `BLOCKED` is re-checked authenticated — `gh api repos/<owner>/<repo>/...` for the resource, or `gh pr|issue view` for one of your own — before it counts as broken, because a plain fetch is rate-limited on GitHub, not dead there. `gh api` proves the resource exists; the body still cites the `github.com/...` link.
 - A code permalink carries the full 40-hex SHA (line 5): `preflight check` warns when a markdown-template body has no permalink, fails the fallback layout when it has none, and counts neither a short SHA nor a `commit/` link.

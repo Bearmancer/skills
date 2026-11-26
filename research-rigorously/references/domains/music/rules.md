@@ -2,19 +2,19 @@
 
 ## Streaming ban
 
-Music streaming services = not a source, not a mention, on any music task.
+Music streaming services are banned on every music task: never a source, mention, fetch, citation, quote or link.
 
 - Services: Spotify, Apple Music, Apple Classical, Amazon Music, YouTube Music, Tidal, Deezer, Qobuz, Idagio, Primephonic, Naxos Music Library, SoundCloud, Pandora, any other streaming platform.
-- Domains, pass as `excludeDomains` (or tool equivalent) on every search: `spotify.com`, `music.apple.com`, `classical.music.apple.com`, `music.amazon.*`, `music.youtube.com`, `tidal.com`, `deezer.com`, `qobuz.com`, `idagio.com`, `naxosmusiclibrary.com`, `soundcloud.com`, `pandora.com`.
-- Result lands on one anyway: discard unread. Never fetch, cite, quote, link.
-- Output: no listen pointers, no "available on X", no streaming track totals. `Recording:` names conductor / orchestra / label only. Fact whose only witness is streaming: `[unverified — dropped]`.
+- Domains, pass as `excludeDomains` (or tool equivalent) on every search: `spotify.com`, `music.apple.com`, `classical.music.apple.com`, `music.amazon.*`, `music.youtube.com`, `tidal.com`, `deezer.com`, `qobuz.com`, `idagio.com`, `naxosmusiclibrary.com`, `soundcloud.com`, `pandora.com`. (This line is parsed by `scripts/domains.py`.)
+- Result lands on one anyway: discard unread.
+- Output names a recording by conductor / orchestra / label only (the `Recording:` line). No listen pointers, no "available on X", no streaming track totals. Fact whose only witness is streaming: `[unverified — dropped]`.
 - YouTube (`youtube.com`, `youtu.be`) outside ban: listen pointer only, never fact or timing source.
 
 ## Discography: entry -> trace -> verify
 
 "Every recording of X" / "duration of Y" = research task.
 
-1. Entry: sources, their order, stop rule, banned label sites and fetch routes: `music-lookup-artists/references/routing.md` and `music-lookup-artists/references/exclusions.md`. Query 2+ angles: work + performer; performer + label; catalog number; work title filtered by era/orchestra.
+1. Entry: sources, their order, stop rule, banned label sites and fetch routes: skill `music-lookup-artists`, files `references/routing.md` and `references/exclusions.md`. Query 2+ angles: work + performer; performer + label; catalog number; work title filtered by era/orchestra.
 2. Trace each candidate to original session (venue, dates, orchestra), not sleeve date. Repress of known session: say so ("all other listings repress [session]").
 3. Verify: state date/catalog/session conflicts in one line. "N recordings exist" only after N distinct sessions traced. State depth reached (one query / one source / full sweep).
 

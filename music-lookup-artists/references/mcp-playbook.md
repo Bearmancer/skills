@@ -25,7 +25,7 @@ Remedial guide. These three replace every credentialed client and are the **firs
 - `search` / `map`: discovery and site-URL enumeration when Exa/Tavily miss. Search proven 2026-11-25 (found the target Discogs release at position 1); its URLs carry `srsltid` tracking parameters — strip them before fetching or citing.
 - Costs credits: try Tavily extract or the built-in fetch first; escalate to Firecrawl when they return a shell, a challenge, or nav-only text.
 - A cold scrape can return an empty shell once and the full page on retry (orfeomusic, measured 2026-11-18). Retry once before calling a page empty.
-- OpenCode host: Firecrawl is disabled (research-rigorously ADR 0036) — `just-scrape` fills this slot. In Claude Chat, Firecrawl is the hosted connector.
+- OpenCode host: Firecrawl is disabled in research-rigorously's registry (ADR 0036); the host still carries the connector, denied per-resource. `just-scrape` fills this slot. In Claude Chat, Firecrawl is the hosted connector.
 
 ## Decision ladder
 

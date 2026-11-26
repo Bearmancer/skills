@@ -13,7 +13,7 @@ The decisive rule: **a lookup ends at the first source that answers it** (`refer
 
 - **No user credentials, ever.** No Discogs token, no scraping API key, no local secret files, no shell assumed. MusicBrainz is an open API (fixed User-Agent `music-lookup-artists/1.0`, never a personal address). Discogs and AllMusic are read as public web pages through the search MCPs.
 - **Tools — MCPs first:** use the connected **Exa**, **Tavily** and **Firecrawl** MCPs before the environment's built-in web search and web fetch. The built-ins are the fallback only when an MCP is not connected or its route failed. How to drive each one, and the decision ladder between them: `references/mcp-playbook.md`.
-- **OpenCode host note:** Firecrawl is disabled host-wide there (research-rigorously ADR 0036); `just-scrape` fills the render slot. In Claude Chat, Firecrawl is the hosted connector. No other environment difference matters.
+- **OpenCode host note:** Firecrawl's OpenCode situation (disabled in research-rigorously's registry; `just-scrape` fills the render slot): `references/mcp-playbook.md`. In Claude Chat, Firecrawl is the hosted connector. No other environment difference matters.
 - **Every search excludes the streaming domains and the banned label sites** (`references/exclusions.md`). A result on a banned site is discarded unread.
 
 ## The failure ledger (mandatory on every MCP delegation)

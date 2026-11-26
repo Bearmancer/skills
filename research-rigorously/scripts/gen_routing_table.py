@@ -1,11 +1,24 @@
 
 import argparse
 import sys
+from pathlib import Path
 
 from . import registry
 
-OUT = registry.ROOT / "references" / "routing.md"
+OUT = Path(registry.ROOT / "references" / "routing.md")
 COST_ORDER = {"low": 0, "med": 1, "high": 2}
+ROUTE_WORDS = {
+    "mcp": "MCP tool the host carries",
+    "cli": "vendor CLI",
+    "post": "POST script",
+    "http": "HTTP",
+    "local": "a local tool",
+}
+
+
+def route_order_sentence():
+    words = [ROUTE_WORDS[k] for k in registry.ROUTE_KINDS]
+    return ", then ".join(words[:-1]) + f" or {words[-1]}"
 
 
 def render(reg):
@@ -13,10 +26,12 @@ def render(reg):
     lines = [
         "# Routing table (generated)",
         "",
-        "Generated from `registry/registry.yaml` by `rr gen-routing`. Do not edit by hand.",
+        "Generated from `registry/registry.yaml` by `rr gen-routing`.",
         "",
-        "Per surface the route order is: MCP tool the host carries, then vendor CLI, then POST script, then HTTP or a local tool. A server's key pool rotates",
-        'inside the server (SKILL.md, "Key rotation: single home"); a fallback inside a server is never a new surface. Only agent-answered surfaces carry MCP routes: the agent calls `tools.<server>.<tool>`; Python never does.',
+        f"Per surface the route order is: {route_order_sentence()}. A server's key pool rotates",
+        'inside the server (SKILL.md, "Key rotation: single home"); a fallback inside a server is never a new surface.',
+        "Only agent-answered surfaces carry MCP routes (ADR 0035). A `tools.x.y` route is live only where the",
+        "host configures server `x`; `Wired` below means enabled in the registry, not host-reachable — check your tool catalog before trying an MCP route.",
         "",
         "## Rounds",
         "",
@@ -24,7 +39,11 @@ def render(reg):
         "|---|---|",
     ]
     for i, group in enumerate(reg["round_order"], 1):
-        lines.append(f"| R{i} | {', '.join(group)} |")
+        parts = []
+        for p in group:
+            has_discovery = bool(registry.discovery_surfaces(reg, p))
+            parts.append(p if has_discovery else f"{p} (fetch ladder only)")
+        lines.append(f"| R{i} | {', '.join(parts)} |")
 
     lines += [
         "",
@@ -35,15 +54,16 @@ def render(reg):
     ]
     by_cap = {}
     for s in surfs.values():
+        if s.cost not in COST_ORDER:
+            raise ValueError(f"{s.id}: unknown cost {s.cost!r}")
+        for name in s.routes.get("mcp", []):
+            if "." in name and name.split(".", 1)[0] not in reg["servers"]:
+                raise ValueError(f"{s.id}: mcp route {name!r} names unknown server")
         by_cap.setdefault(s.capability, []).append(s)
     for cap in sorted(by_cap):
-        ordered = sorted(by_cap[cap], key=lambda s: (COST_ORDER.get(s.cost, 3), s.id))
+        ordered = sorted(by_cap[cap], key=lambda s: (COST_ORDER[s.cost], s.id))
         lines.append(
-            f"| {cap} | "
-            + ", ".join(
-                f"`{s.id}` ({s.cost}{'' if s.wired else ', unwired'})" for s in ordered
-            )
-            + " |"
+            f"| {cap} | " + ", ".join(f"`{s.id}` ({s.cost})" for s in ordered) + " |"
         )
 
     lines += [
@@ -65,7 +85,7 @@ def render(reg):
             )
             for kind, names in s.routes.items()
         )
-        lines.append(f"{i}. `{sid}`{'' if s.wired else ' (unwired)'} - {route}")
+        lines.append(f"{i}. `{sid}` - {route}")
 
     lines += [
         "",
@@ -80,7 +100,11 @@ def render(reg):
         "|---|---|---|---|---|---|---|",
     ]
     for name, srv in reg["servers"].items():
-        if not (srv.get("keyed") or srv.get("mcp_key")):
+        if not srv.get("keyed"):
+            lines.append(
+                f"| {name} | `-` | `-` | - | {srv.get('auth') or '-'} | keyless (no rotation) | "
+                f"{'yes' if srv.get('wired') else 'no'} |"
+            )
             continue
         k = srv.get("key") or {}
         header = f"`{k['header']}: {k['prefix']}<key>`" if k.get("header") else "-"
@@ -128,9 +152,8 @@ def main(argv=None):
 
     text = render(registry.load())
     if args.check:
-        return 0 if OUT.exists() and OUT.read_text(encoding="utf-8") == text else 1
-    with OUT.open("w", encoding="utf-8", newline="\n") as fh:
-        fh.write(text)
+        return 0 if OUT.exists() and OUT.read_bytes() == text.encode("utf-8") else 1
+    OUT.write_text(text, encoding="utf-8", newline="\n")
     print(f"wrote {OUT}")
     return 0
 

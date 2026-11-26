@@ -102,7 +102,7 @@ servers:
         paradigm: answer-agent,
         ladder: discovery,
         cost: high,
-        routes: { mcp: [tavily_research], cli: ["tvly research"] },
+        routes: { mcp: [tavily_research], cli: ["tvly research run"] },
       }
     errors:
       blocked: ["failed to fetch url"]
@@ -207,7 +207,7 @@ servers:
         ladder: discovery,
         cost: high,
         routes: {
-          mcp: [crawl_start, crawl_get_status, crawl_stop, crawl_resume],
+          mcp: [crawl_start, crawl_get, crawl_pages, crawl_stop, crawl_resume, crawl_delete],
           cli: ["just-scrape crawl"],
           post: [
             "uv run <skill dir>/rr.py vendor scrapegraph-crawl start|status|stop|resume|delete|pages",

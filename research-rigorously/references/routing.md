@@ -1,9 +1,11 @@
 # Routing table (generated)
 
-Generated from `registry/registry.yaml` by `rr gen-routing`. Do not edit by hand.
+Generated from `registry/registry.yaml` by `rr gen-routing`.
 
 Per surface the route order is: MCP tool the host carries, then vendor CLI, then POST script, then HTTP or a local tool. A server's key pool rotates
-inside the server (SKILL.md, "Key rotation: single home"); a fallback inside a server is never a new surface. Only agent-answered surfaces carry MCP routes: the agent calls `tools.<server>.<tool>`; Python never does.
+inside the server (SKILL.md, "Key rotation: single home"); a fallback inside a server is never a new surface.
+Only agent-answered surfaces carry MCP routes (ADR 0035). A `tools.x.y` route is live only where the
+host configures server `x`; `Wired` below means enabled in the registry, not host-reachable — check your tool catalog before trying an MCP route.
 
 ## Rounds
 
@@ -11,7 +13,7 @@ inside the server (SKILL.md, "Key rotation: single home"); a fallback inside a s
 |---|---|
 | R1 | keyword |
 | R2 | semantic, answer-agent |
-| R3 | scholarly-archive, crawl-map, browser-unlocker, structured-extraction |
+| R3 | scholarly-archive, crawl-map, browser-unlocker (fetch ladder only), structured-extraction (fetch ladder only) |
 
 ## Pick by capability
 
@@ -60,6 +62,7 @@ when the host config reads the key as `{env:<VAR>}`; a literal key in that confi
 
 | Server | Env var | Pool | POST auth header | CLI auth | MCP key (rr keys rotation) | Wired |
 |---|---|---|---|---|---|---|
+| direct | `-` | `-` | - | - | keyless (no rotation) | yes |
 | tavily | `TAVILY_API_KEY` | `tavily` | `Authorization: Bearer <key>` | MCP tools read TAVILY_API_KEY from the host config; the tvly CLI is broken on this host and stays the fallback | `TAVILY_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
 | exa | `EXA_API_KEY` | `exa` | `x-api-key: <key>` | MCP tools read EXA_API_KEY from the host config; the POST scripts are the fallback | `EXA_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
 | scrapegraph | `SGAI_API_KEY` | `scrapegraph` | `SGAI-APIKEY: <key>` | SGAI_API_KEY (just-scrape); debug with SGAI_DEBUG=1, history with `just-scrape history scrape --json` | `SGAI_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
@@ -69,6 +72,18 @@ when the host config reads the key as `{env:<VAR>}`; a literal key in that confi
 | brightdata | `BRIGHTDATA_API_KEY` | `brightdata` | - | BRIGHTDATA_API_KEY plus a Web Unlocker zone: pass --zone or `brightdata config set default_zone_unlocker cli_unlocker` | `BRIGHTDATA_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
 | microsoft-learn | `-` | `-` | - | - | keyless (no rotation) | yes |
 | fetch | `-` | `-` | - | - | keyless (no rotation) | yes |
+| openalex | `-` | `-` | - | - | keyless (no rotation) | yes |
+| crossref | `-` | `-` | - | - | keyless (no rotation) | yes |
+| semantic-scholar | `-` | `-` | - | - | keyless (no rotation) | yes |
+| arxiv | `-` | `-` | - | - | keyless (no rotation) | yes |
+| unpaywall | `-` | `-` | - | - | keyless (no rotation) | yes |
+| wayback | `-` | `-` | - | - | keyless (no rotation) | yes |
+| internet-archive | `-` | `-` | - | - | keyless (no rotation) | yes |
+| wikisource | `-` | `-` | - | - | keyless (no rotation) | yes |
+| wikidata | `-` | `-` | - | - | keyless (no rotation) | yes |
+| bgg | `-` | `-` | - | - | keyless (no rotation) | yes |
+| ytdlp | `-` | `-` | - | - | keyless (no rotation) | yes |
+| ocr | `-` | `-` | - | - | keyless (no rotation) | yes |
 
 ## Error classes
 

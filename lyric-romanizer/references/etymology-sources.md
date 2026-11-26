@@ -47,14 +47,7 @@ glossed by this skill, but a poetic Urdu word can still be Indic.
   markdown with senses, the Origin language tag and the Platts block, Urdu and Devanagari intact; or
   the harness's own built-in browser tool, opening the entry URL and reading
   the page text. Prefer ScrapeGraph for one word, the built-in browser tool when credits are spent.
-- For the fetch itself, follow the research-rigorously skill's chain of resources:
-  the research-rigorously `SKILL.md`, section "Fast path: every web call".
-  Pick the server by capability from `research-rigorously/references/routing.md`, then walk the bot-block chain in
-  order (Tavily -> Exa -> ScrapeGraph -> Apify -> AgentQL ->
-  Bright Data -> Browserbase), stopping at the first fetch that actually holds the entry. ScrapeGraph
-  speaks the remote endpoint `https://mcp.scrapegraphai.com/mcp` and is metered, so check `credits`
-  before a batch. On a
-  credit or auth failure, rotate that server's keys before leaving it. DSAL is
+- Fetch route: research-rigorously `SKILL.md`, section "Fast path: every web call" (server pick and bot-block chain: its routing.md). ScrapeGraph is metered, so check `credits` before a batch. DSAL is
   bot-protected often enough that a single failed fetch means nothing: move down the chain.
 - Cross-check the origin language across at least two sources when the word is unusual.
 - Batch the lookups: one pass over all the words a song needs, hitting sources concurrently,
