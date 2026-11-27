@@ -1,6 +1,6 @@
 ---
 name: python-modernization
-description: Use whenever writing, reviewing, refactoring or explaining any Python (.py, notebooks, one-liners) or choosing a Python run or install command, even when the code looks fine, because model knowledge skews old and this host's guards block the usual commands. Also use when a task touches pyproject.toml, uv.lock, .venv, PEP 723 headers, type annotations or uv commands, and for "is this deprecated" and Python upgrade questions. Enforces Python 3.13 only, `uv run <file.py>`, `uv pip install` / `uv tool install`, no typing, pathlib, fewest lines.
+description: Use whenever writing, reviewing, refactoring, running or explaining any Python (.py, notebooks, one-liners, tests with pytest or unittest), when a run fails with ModuleNotFoundError or ImportError, or when choosing a `uv run`, `uv pip install` or `uv tool install` command, even when the code looks fine, because older Python habits are common and this host's guards block the usual commands. Also use when a task touches pyproject.toml, uv.lock, .venv, PEP 723 headers or type annotations, and for "is this deprecated" and Python upgrade questions. Enforces Python 3.13 only, pathlib, no typing, fewest lines.
 ---
 
 # Modern Python, enforced
