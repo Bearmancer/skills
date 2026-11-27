@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Decisions</title>
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#fff,#111315);--fg:light-dark(#16181d,#e8e6e3);--dim:light-dark(#4b5563,#a8adb5);--line:light-dark(#d1d5db,#353a42);--tint:light-dark(#f3f4f6,#1f2329);--accent:light-dark(#0f766e,#2dd4bf);--on:light-dark(#fff,#042f2e)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:46rem;padding:1rem 1rem 9rem;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif;overflow-wrap:anywhere}
+header{display:flex;gap:1rem;align-items:center;justify-content:space-between}
+section{border:2px solid var(--line);border-radius:10px;padding:1rem;margin:0 0 1rem}
+section.done{border-color:var(--accent)}
+h3{margin:0 0 .5rem;font-size:1.05rem}
+.ask{margin:0 0 .5rem;font-weight:600}
+.why{margin:0 0 .75rem;padding:.6rem .75rem;background:var(--tint);border-radius:8px;white-space:pre-line}
+label{display:flex;gap:.75rem;padding:.6rem;border:1px solid var(--line);border-radius:8px;margin-bottom:.5rem;cursor:pointer}
+label:has(:checked){border-color:var(--accent);background:var(--tint)}
+input{flex:none;width:1.25rem;height:1.25rem;margin-top:.15rem;accent-color:var(--accent)}
+small{display:block;color:var(--dim);font-size:.9rem;white-space:pre-line}
+em{margin-left:.5rem;color:var(--accent);font-size:.8rem;font-style:normal}
+textarea{width:100%;min-height:2.75rem;padding:.5rem;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;field-sizing:content}
+footer{position:fixed;inset:auto 0 0;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;padding:.75rem 1rem;background:var(--tint);border-top:1px solid var(--line)}
+button{padding:.5rem 1rem;font:inherit;border:1px solid var(--accent);border-radius:6px;background:var(--bg);color:var(--accent);cursor:pointer}
+#send{background:var(--accent);color:var(--on)}
+button:disabled{opacity:.5;cursor:default}
+</style>
+<header><h1 id="title">Decisions</h1><button id="theme" type="button"></button></header>
+<p>No box pre-ticked. Tick any number. Skip any. Note alone counts.</p>
+<main></main>
+<footer><button id="send" type="button" disabled>Submit</button><button id="next" type="button">Next open</button><span id="count"></span><span id="status" role="status">Loading...</span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const el = (tag, props = {}, ...kids) => { const node = Object.assign(document.createElement(tag), props); node.append(...kids); return node; };
+const stored = key => { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } };
+const store = (key, value) => { try { value === null ? localStorage.removeItem(key) : localStorage.setItem(key, JSON.stringify(value)); } catch {} };
+const say = text => { $('status').textContent = text; };
+
+const root = document.documentElement;
+const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+const paint = () => { $('theme').textContent = isDark() ? 'White mode' : 'Dark mode'; };
+root.dataset.theme = stored('decision-form-theme') || '';
+paint();
+$('theme').onclick = () => { root.dataset.theme = isDark() ? 'light' : 'dark'; store('decision-form-theme', root.dataset.theme); paint(); };
+
+let state = {};
+let draftKey = '';
+let ids = [];
+const entry = id => state[id] ||= { ticked: [], note: '' };
+const answered = id => Boolean(state[id]?.ticked.length || state[id]?.note.trim());
+
+function refresh() {
+  $('count').textContent = `${ids.filter(answered).length} of ${ids.length} answered`;
+  ids.forEach(id => $(`q-${id}`).classList.toggle('done', answered(id)));
+}
+
+function changed() {
+  store(draftKey, state);
+  refresh();
+  say('Not sent yet');
+}
+
+function noteBox(id, label) {
+  const box = el('textarea', { value: state[id]?.note || '', placeholder: label, ariaLabel: label });
+  box.oninput = () => { entry(id).note = box.value; changed(); };
+  return box;
+}
+
+function tickBox(id, option) {
+  const box = el('input', { type: 'checkbox', checked: Boolean(state[id]?.ticked.includes(option.label)) });
+  box.onchange = () => {
+    const others = entry(id).ticked.filter(label => label !== option.label);
+    entry(id).ticked = box.checked ? [...others, option.label] : others;
+    changed();
+  };
+  const badge = option.rec ? el('em', { textContent: 'recommended' }) : '';
+  return el('label', {}, box, el('span', {}, el('b', { textContent: option.label }), badge, el('small', { textContent: option.explain })));
+}
+
+async function load() {
+  const reply = await fetch('form.json');
+  if (!reply.ok) throw new Error(`${reply.status} ${await reply.text()}`);
+  const { key, form, saved } = await reply.json();
+  draftKey = `decision-form-${key}`;
+  const draft = stored(draftKey);
+  ids = form.questions.map(q => q.id);
+  const known = new Map(form.questions.map(q => [q.id, q.options.map(o => o.label)]).concat([['else', []]]));
+  state = Object.fromEntries(Object.entries(draft || saved).filter(([id]) => known.has(id))
+    .map(([id, a]) => [id, { ticked: a.ticked.filter(label => known.get(id).includes(label)), note: a.note }]));
+  document.title = $('title').textContent = form.title;
+  const main = document.querySelector('main');
+  let group = '';
+  form.questions.forEach((q, index) => {
+    if (q.group && q.group !== group) main.append(el('h2', { textContent: group = q.group }));
+    main.append(el('section', { id: `q-${q.id}` },
+      el('h3', { textContent: `${index + 1}. ${q.title}` }),
+      el('p', { className: 'ask', textContent: q.text }),
+      el('p', { className: 'why', textContent: q.explain }),
+      ...q.options.map(option => tickBox(q.id, option)),
+      noteBox(q.id, 'Note (optional)')));
+  });
+  main.append(el('h2', { textContent: 'Anything else' }), noteBox('else', 'Anything else'));
+  refresh();
+  $('send').disabled = false;
+  say(draft ? 'Unsent draft restored' : Object.keys(saved).length ? 'Showing your saved answers' : '');
+}
+
+$('send').onclick = async () => {
+  $('send').disabled = true;
+  say('Saving...');
+  const sent = JSON.stringify(state);
+  try {
+    const reply = await fetch('submit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: sent });
+    const text = await reply.text();
+    if (!reply.ok) throw new Error(`${reply.status} ${text}`);
+    const current = JSON.stringify(state) === sent;
+    if (current) store(draftKey, null);
+    say(current ? JSON.parse(text) : 'Saved. Newer edits not sent yet');
+  } catch (error) {
+    say(`Failed: ${error.message}`);
+  }
+  $('send').disabled = false;
+};
+
+$('next').onclick = () => {
+  const open = ids.filter(id => !answered(id)).map(id => $(`q-${id}`));
+  (open.find(card => card.getBoundingClientRect().top > 80) || open[0])?.scrollIntoView({ behavior: 'smooth' });
+};
+
+load().catch(error => say(`Load failed: ${error.message}`));
+</script>
+</html>

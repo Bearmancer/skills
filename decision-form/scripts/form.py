@@ -1,0 +1,158 @@
+import json
+import re
+import subprocess
+import sys
+from argparse import ArgumentParser
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+
+PAGE = Path(__file__).parents[1] / "assets" / "form.html"
+BUNDLED = re.compile(r"[,;/+&|]|\b(?:and|or|nor|plus|all|both|every|everything|either|each|rest|etc)\b", re.IGNORECASE)
+
+
+def run(*args, body=None):
+    return subprocess.run(args, input=body, capture_output=True, encoding="utf-8", check=True).stdout
+
+
+def blank(item, key):
+    return not isinstance(item.get(key), str) or not item[key].strip()
+
+
+def problems(form):
+    found = ["form: missing title"] if blank(form, "title") else []
+    if not form.get("questions"):
+        found.append("form: no questions")
+    ids = {"else"}
+    for number, question in enumerate(form.get("questions", []), 1):
+        where = question.get("id") or f"question {number}"
+        found += [f"{where}: missing {key}" for key in ("id", "title", "text", "explain") if blank(question, key)]
+        if question.get("id") in ids:
+            found.append(f"{where}: id taken")
+        ids.add(question.get("id"))
+        if not question.get("options"):
+            found.append(f"{where}: no options")
+        labels = set()
+        for option in question.get("options", []):
+            found += [f"{where}: box missing {key}" for key in ("label", "explain") if blank(option, key)]
+            label = str(option.get("label", ""))
+            if hit := BUNDLED.search(label):
+                found.append(f'{where}: "{label}" bundles items ("{hit[0]}"). One box per item.')
+            if label in labels:
+                found.append(f'{where}: duplicate box "{label}"')
+            labels.add(label)
+    return found
+
+
+def load(folder):
+    form = json.loads((folder / "questions.json").read_text(encoding="utf-8"))
+    if found := problems(form):
+        raise SystemExit("\n".join(found))
+    return form
+
+
+def gist_id(folder):
+    return (folder / "gist-id.txt").read_text(encoding="utf-8").strip()
+
+
+def saved(gist):
+    return json.loads(json.loads(run("gh", "api", f"gists/{gist}"))["files"]["answers.json"]["content"])
+
+
+def clean(form, sent):
+    allowed = {q["id"]: [o["label"] for o in q["options"]] for q in form["questions"]} | {"else": []}
+    kept = {}
+    for key, answer in sent.items():
+        ticked, note = answer["ticked"], answer["note"]
+        if not set(ticked) <= set(allowed[key]):
+            raise ValueError(f"unknown box in {key}")
+        if note.strip() or ticked:
+            kept[key] = {"ticked": [label for label in allowed[key] if label in ticked], "note": note}
+    return kept
+
+
+def prepare(folder):
+    form = load(folder)
+    record = folder / "gist-id.txt"
+    if not record.exists():
+        body = {"description": form["title"], "public": False, "files": {"answers.json": {"content": "{}"}}}
+        record.write_text(json.loads(run("gh", "api", "gists", "--input", "-", body=json.dumps(body)))["id"], encoding="utf-8")
+    print(f"ready: {len(form['questions'])} questions")
+
+
+def read(folder):
+    form = load(folder)
+    answers = saved(gist_id(folder))
+    (folder / "answers.json").write_text(json.dumps(answers, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    for question in [*form["questions"], {"id": "else", "title": "Anything else"}]:
+        if answer := answers.get(question["id"]):
+            print(f"[{question['id']}] {question['title']}")
+            for label in answer["ticked"]:
+                print(f"  ticked: {label}")
+            if answer["note"].strip():
+                print(f"  note: {answer['note']}")
+    print("open:", " ".join(q["id"] for q in form["questions"] if q["id"] not in answers) or "none")
+
+
+def serve(folder, port):
+    form, gist = load(folder), gist_id(folder)
+    host = json.loads(run("tailscale", "status", "--json"))["Self"]["DNSName"].rstrip(".")
+    origins = {f"127.0.0.1:{port}": f"http://127.0.0.1:{port}", f"{host}:{port}": f"https://{host}:{port}"}
+
+    class Handler(BaseHTTPRequestHandler):
+        def reply(self, code, body, kind):
+            self.send_response(code)
+            self.send_header("Content-Type", f"{kind}; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(body)
+
+        def answer(self, work):
+            try:
+                self.reply(200, json.dumps(work()).encode(), "application/json")
+            except subprocess.CalledProcessError as error:
+                self.reply(502, error.stderr.strip().encode(), "text/plain")
+
+        def do_GET(self):
+            if self.headers.get("Host") not in origins:
+                self.send_error(404)
+            elif self.path == "/":
+                self.reply(200, PAGE.read_bytes(), "text/html")
+            elif self.path == "/form.json":
+                self.answer(lambda: {"key": gist, "form": form, "saved": saved(gist)})
+            else:
+                self.send_error(404)
+
+        def do_POST(self):
+            origin = origins.get(self.headers.get("Host"))
+            if not origin or self.headers.get("Origin") != origin or self.path != "/submit":
+                return self.send_error(403)
+            try:
+                kept = clean(form, json.loads(self.rfile.read(int(self.headers["Content-Length"]))))
+            except (AttributeError, KeyError, TypeError, ValueError) as error:
+                return self.reply(400, f"bad answers: {error}".encode(), "text/plain")
+
+            def push():
+                content = json.dumps(kept, indent=2, ensure_ascii=False)
+                body = json.dumps({"files": {"answers.json": {"content": content}}})
+                run("gh", "api", f"gists/{gist}", "-X", "PATCH", "--input", "-", body=body)
+                return f"Saved to gist: {len(kept.keys() - {'else'})} answered"
+
+            self.answer(push)
+
+    ThreadingHTTPServer(("127.0.0.1", port), Handler).serve_forever()
+
+
+if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")
+    parser = ArgumentParser()
+    parser.add_argument("command", choices=("check", "prepare", "serve", "read"))
+    parser.add_argument("folder", type=Path)
+    parser.add_argument("--port", type=int, default=8765)
+    args = parser.parse_args()
+    if args.command == "serve":
+        serve(args.folder, args.port)
+    elif args.command == "check":
+        print(f"ok: {len(load(args.folder)['questions'])} questions")
+    else:
+        {"prepare": prepare, "read": read}[args.command](args.folder)
