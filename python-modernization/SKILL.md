@@ -7,7 +7,7 @@ description: Use whenever writing, reviewing, refactoring, running or explaining
 
 This skill extends the Python rule in `~/.agents/AGENTS.md` ("Code and guards") with stricter bans of its own, such as typing and `uv run python`. The python-guard plugin enforces only part of this, so follow the skill even where a command is let through.
 
-**CPython 3.13 only.** 3.14+ is installed on this box (3.15.2, 3.16.0a2) and never used; a version switch (`--python`, `py -V:`) is never written, and no `.python-version` is added, since a nearer one overrides the 3.13 default. Why 3.13: `faster-whisper` needs `onnxruntime`, and its latest PyPI release (1.32.0) lists no Windows cp315 wheel.
+**CPython 3.13 only.** 3.14+ is installed on this box (3.15.2, 3.16.0a2) and never used; a version switch (`--python`, `py -V:`) is never written, and a nearer `.python-version` overrides the 3.13 default. Why 3.13: `faster-whisper` needs `onnxruntime`, and the latest `onnxruntime` (1.32.0) lists no Windows cp315 wheel.
 
 ## Commands
 
