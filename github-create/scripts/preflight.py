@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = ["ruamel.yaml>=0.19"]
-# ///
 import argparse
 import json
 import os
@@ -1041,3 +1037,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

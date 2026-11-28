@@ -79,8 +79,7 @@ await tools.browse.eval({tab:t.tab, expression:`(async()=>{
 
 Keep the tab open between fill and submit (assert rows/amount/title again before the
 click). Write helper scripts with `pathlib` — raw `open()` is blocked by the host's
-python-pathlib-guard. Run every script as `uv run <file.py> <args>` with a PEP 723
-header; the host's uv-run-script guard refuses the `uv run … python <file.py>` form.
+python-pathlib-guard. Run every script as `uv run <file.py> <args>`; the host's uv-run-script guard refuses the `uv run … python <file.py>` form and PEP 723 headers are banned, so install a dependency with `uv pip install <pkg>` once.
 
 ## Browse API traps
 

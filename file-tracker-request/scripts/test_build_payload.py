@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = []
-# ///
 """Prove build_payload.py on the two 2026-11-24 defects and the happy path.
 
 Runs with: uv run --quiet scripts/test_build_payload.py
@@ -79,3 +75,4 @@ except SystemExit:
 
 print("FAIL: " + ", ".join(fails) if fails else "all checks pass")
 sys.exit(1 if fails else 0)
+

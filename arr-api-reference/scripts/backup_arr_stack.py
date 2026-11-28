@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = ["requests"]
-# ///
 
 import shutil
 import subprocess
@@ -137,3 +133,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

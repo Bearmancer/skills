@@ -5,7 +5,7 @@ Claim-ledger research skill: fetch, verify, then publish pages to `bearmancer.gi
 ## Structure
 
 ```
-rr.py                  entry point with the PEP 723 header: `uv run <skill dir>/rr.py <command>`
+rr.py                  entry point: `uv run <skill dir>/rr.py <command>`
 scripts/cli.py         `rr` commands: start, resume, remove and the tool subcommands (`rr --help`)
 scripts/infer_mode.py  mode routing table (the first phase, registered in `phases/__init__.py`)
 scripts/driver.py      phase order, retries, asks (HandRunner), gates
@@ -34,7 +34,7 @@ references/design.md   skill-local decision record
 ## Conventions
 
 - `ADR 00NN` inside this folder means `references/design.md`, never `docs/adr/`.
-- A new Python dependency goes in `rr.py`'s PEP 723 header (ADR 0040). Modules under `scripts/` import as the `scripts` package (`from scripts import registry`).
+- A new Python dependency is installed with `uv pip install <pkg>` and named in `SKILL.md`; no PEP 723 header anywhere (ADR 0040). Modules under `scripts/` import as the `scripts` package (`from scripts import registry`).
 - Run state lives under the state root (ADR 0038), never here or in the site clone; `scratch/` is ignored in this folder (`workspace.Layout` owns every path).
 - A phase that needs AI writes asks to `ASKS.md` and exits; the agent answers and resumes (ADR 0033).
 

@@ -1,6 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# ///
 """Curate a concert disc folder into one verified MKV per work.
 
 uv run --quiet curate.py plan   <folder> [--out manifest.json] [--dest DIR] [--research overrides.json]
@@ -1000,3 +997,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+

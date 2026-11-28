@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = []
-# ///
 """Turn a short album spec into lint-clean RED and OPS request payloads.
 
 Every site code, bounty rule, tag rule and the closing tag block live here, so a
@@ -190,3 +186,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

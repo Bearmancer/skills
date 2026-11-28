@@ -946,28 +946,10 @@ def _():
 
 @check("mech.script-header", "new")
 def _():
-    rr = (SKILL / "rr.py").read_text(encoding="utf-8")
-    for path in (SKILL / "scripts").rglob("*.py"):
+    marker = "# " + "/// script"
+    for path in [SKILL / "rr.py", *(SKILL / "scripts").rglob("*.py")]:
         head = path.read_text(encoding="utf-8").lstrip().splitlines()[:1]
-        assert head != ["# /// script"], path
-    m = re.search(r"# dependencies = (\[[^\]]*\])", rr)
-    assert m, "rr.py header has no dependencies list"
-    deps = set(ast.literal_eval(m[1]))
-    third = set()
-    distributions = {"yaml": "pyyaml", "jsonschema": "jsonschema"}
-    for path in sorted((SKILL / "scripts").rglob("*.py")):
-        tree = ast.parse(path.read_text(encoding="utf-8"))
-        for node in ast.walk(tree):
-            if isinstance(node, ast.Import):
-                names = [a.name.split(".")[0] for a in node.names]
-            elif isinstance(node, ast.ImportFrom) and node.level == 0:
-                names = [(node.module or "").split(".")[0]]
-            else:
-                continue
-            for name in names:
-                if name and name not in sys.stdlib_module_names and name != "scripts":
-                    third.add(distributions.get(name, name))
-    assert deps == third, (deps, third)
+        assert head != [marker], path
 
 
 @check("mech.routing-generated", "new")

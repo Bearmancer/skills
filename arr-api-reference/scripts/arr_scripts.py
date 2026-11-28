@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = ["requests"]
-# ///
 
 import re
 import xml.etree.ElementTree as ET
@@ -365,3 +361,4 @@ def wire_bazarr(bazarr=None):
         s: bool(got["general"][f"use_{s}"] and got[s]["apikey"])
         for s in ("sonarr", "radarr")
     }
+

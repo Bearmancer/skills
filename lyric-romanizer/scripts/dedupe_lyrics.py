@@ -1,6 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# ///
 
 import re
 import sys
@@ -81,3 +78,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

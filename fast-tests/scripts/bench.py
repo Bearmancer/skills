@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = []
-# ///
 """Benchmark a pytest suite: process costs, collection, serial/xdist walls, JUnit rankings, subprocess counts, bottlenecks.
 
 Stdlib only; pytest and pytest-xdist arrive via `uv run --with` at run time.
@@ -446,3 +442,4 @@ def main(argv=None):
 
 if __name__ == "__main__":
     sys.exit(main())
+

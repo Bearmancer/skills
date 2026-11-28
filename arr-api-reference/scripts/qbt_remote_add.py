@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = ["paramiko"]
-# ///
 """Add every .torrent in <dir> to a qBittorrent WebUI that is only reachable over ssh.
 
 usage: qbt_remote_add.py <ssh-host> <dir-with-.torrent-files> [webui-port=8080]
@@ -265,3 +261,4 @@ def main(argv: "list[str]") -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))
+

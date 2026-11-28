@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = []
-# ///
 """Serve a request payload JSON on loopback for the browser fill step.
 
 Usage: uv run serve_payload.py <payload.json> [port]
@@ -32,3 +28,4 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
 
 http.server.HTTPServer(("127.0.0.1", port), Handler).serve_forever()
+

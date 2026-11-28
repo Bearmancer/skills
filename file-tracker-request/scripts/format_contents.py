@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = []
-# ///
 import argparse
 import json
 import sys
@@ -76,3 +72,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

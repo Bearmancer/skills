@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.12"
-# dependencies = []
-# ///
 """Bundle a payload JSON with the fill and verify scripts so one served file drives a request.
 
 Usage: uv run make_bundle.py <payload.json> <bundle.json>
@@ -24,3 +20,4 @@ verify = (here / "verify_request.js").read_text(encoding="utf-8")
 Path(sys.argv[2]).write_text(json.dumps({"payload": payload, "code": code, "verify": verify}, ensure_ascii=False),
                              encoding="utf-8")
 print("bundle:", sys.argv[2], "artists:", len(payload["artists"]), "tags:", payload["tags"])
+
