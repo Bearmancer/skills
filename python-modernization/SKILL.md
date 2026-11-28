@@ -9,8 +9,6 @@ This skill extends the Python rule in `~/.agents/AGENTS.md` ("Code and guards") 
 
 **CPython 3.13 only.** 3.14+ is installed on this box (3.15.2, 3.16.0a2) and never used; a version switch (`--python`, `py -V:`) is never written, and no `.python-version` is added, since a nearer one overrides the 3.13 default. Why 3.13: `faster-whisper` needs `onnxruntime`, and its latest PyPI release (1.32.0) lists no Windows cp315 wheel.
 
-**Rules:** no typing; one run command; pathlib with explicit `encoding="utf-8"`, never bare `open()`; no packaging files; fewest lines - builtins and comprehensions over Python loops, `join` over `+=`, `functools.cache` for pure repeated calls, the right container, stdlib before any dependency, no abstraction nobody calls.
-
 ## Commands
 
 | Job | Command |
@@ -52,7 +50,7 @@ Environment trouble - `uv pip` finds no interpreter, `externally-managed-environ
 | `os.path.basename/splitext/dirname(p)` | `Path(p).name` / `.stem` / `.suffix` / `.parent` |
 | `os.makedirs(p, exist_ok=True)`, `os.path.abspath/expanduser(p)` | `Path(p).mkdir(parents=True, exist_ok=True)`, `.resolve()`, `.expanduser()` |
 | `"%s" % x`, `"{}".format(x)`, `"a" + str(x)` | f-strings `f"{x}"`; self-documenting `f"{x=}"` |
-| Workarounds to reuse quotes / nest f-strings | direct nested quotes, multi-line expressions, backslashes inside f-strings |
+| Workarounds to reuse quotes / nest f-strings | direct nested quotes, multi-line expressions with comments, backslashes inside f-strings |
 | `if k in d: v = d[k] else: v = default` | `d.get(k, default)`; walrus `if (m := pat.search(s)):` to avoid recompute |
 | `result = []; for x in xs: result.append(f(x))` | comprehension `[f(x) for x in xs]`; generator `(f(x) for x in xs)` when lazy |
 | `s = ""; for p in parts: s += p` | `"".join(parts)` (quadratic vs linear) |
@@ -77,7 +75,9 @@ Environment trouble - `uv pip` finds no interpreter, `externally-managed-environ
 
 **Not on 3.13**, so do not write them: t-strings, `compression.zstd`, `uuid.uuid6/7/8`. For zstd, install the third-party package (`uv pip install zstandard`).
 
-For a hot loop, profile first, then use `ctypes`/`cffi`. 3.13 free-threading and JIT are preview and not what this host runs.
+Beyond the catalog: `array` or `memoryview` for numeric buffers (a `memoryview` slice shares its buffer; a `bytearray` slice copies); avoid needless copies; stdlib before a dependency; no abstraction nobody calls; fewest lines. Write modern by default and apply the catalog without narrating each substitution.
+
+For a hot loop, profile first. `ctypes` is stdlib but bypasses Python's memory safety (ctypes docs); `cffi` is a third-party package (`uv pip install cffi`). In 3.13 the free-threaded build and the JIT are experimental (What's New 3.13), and this host runs the GIL build (`Py_GIL_DISABLED` is 0).
 
 ## Script shape
 
