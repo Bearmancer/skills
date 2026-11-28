@@ -3,6 +3,7 @@ import copy
 import hashlib
 import inspect
 import re
+import sys
 import traceback
 from datetime import UTC, datetime
 from pathlib import Path
@@ -273,7 +274,8 @@ class Driver:
                         step = line.split(":", 1)[1].strip()
                     elif line.startswith("fresh subagent:"):
                         fresh = "yes" in line
-            except (OSError, ValueError):
+            except (OSError, ValueError) as err:
+                print(f"warning: unreadable ask head {p}: {err}", file=sys.stderr)
                 continue
             if not fresh:
                 continue

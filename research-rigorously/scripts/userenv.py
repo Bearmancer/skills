@@ -1,5 +1,6 @@
 import ctypes
 import os
+import sys
 
 try:
     import winreg
@@ -33,8 +34,8 @@ def broadcast_change():
         ctypes.windll.user32.SendMessageTimeoutW(
             0xFFFF, 0x1A, 0, "Environment", 2, 1000, ctypes.byref(result)
         )
-    except (AttributeError, OSError):
-        return
+    except (AttributeError, OSError) as exc:
+        print(f"warning: WM_SETTINGCHANGE broadcast failed: {exc}", file=sys.stderr)
 
 
 def get_active_value(name):

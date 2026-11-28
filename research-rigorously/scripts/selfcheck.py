@@ -23,7 +23,6 @@ import time
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from types import SimpleNamespace
-from typing import ClassVar
 
 import yaml
 
@@ -1360,23 +1359,17 @@ def _():
         {"claim": "c1", "round": 2, "paradigm": "semantic", "ladder": "discovery"},
     ]
 
-    class L:
-        claims: ClassVar[list] = [claim]
-        sources_doc: ClassVar[dict] = {"schema": 1, "sources": []}
-        claims_doc: ClassVar[dict] = {"schema": 1, "claims": [claim]}
-
-        def sources_by_id(self):
-            return {}
-
-        def attempts(self):
-            return attempts
-
-        def save(self):
-            pass
-
-    _settle_ask_budget(SimpleNamespace(ledger=L()), SimpleNamespace(state=SimpleNamespace(context={}), save=lambda: None))
+    led = SimpleNamespace(
+        claims=[claim],
+        sources_doc={"schema": 1, "sources": []},
+        claims_doc={"schema": 1, "claims": [claim]},
+        sources_by_id=dict,
+        attempts=lambda: attempts,
+        save=lambda: None,
+    )
+    _settle_ask_budget(SimpleNamespace(ledger=led), SimpleNamespace(state=SimpleNamespace(context={}), save=lambda: None))
     assert claim["rounds"] == 2 and claim["paradigms_tried"] == [round1, "semantic"], claim
-    errors = [str(v) for v in ledger.check(L.claims_doc, L.sources_doc, attempts, publish=True) if v.severity == "error"]
+    errors = [str(v) for v in ledger.check(led.claims_doc, led.sources_doc, attempts, publish=True) if v.severity == "error"]
     assert not any("log-mismatch" in e for e in errors), errors
 
 
@@ -1594,12 +1587,11 @@ def _():
             {"id": "s6", "url": "https://vox.test/b", "tier": "T2", "publisher": "Vox", "status": "read"},
         ]
 
-        class L:
-            sources_doc: ClassVar[dict] = {"schema": 1, "sources": sources}
-            lock = __import__("threading").RLock()
-
-            def sources_by_id(self):
-                return {s["id"]: s for s in sources}
+        led = SimpleNamespace(
+            sources_doc={"schema": 1, "sources": sources},
+            lock=threading.RLock(),
+            sources_by_id=lambda: {s["id"]: s for s in sources},
+        )
 
         pairs = [
             ({"source": "s3", "stance": "supports", "locator": "p1", "quote": "q1"}, sources[0]),
@@ -1613,10 +1605,10 @@ def _():
                 prompts.append(prompt)
                 return reply
 
-        ctx = SimpleNamespace(ledger=L(), runner=R(), step_data={})
+        ctx = SimpleNamespace(ledger=led, runner=R(), step_data={})
         claim = {"id": "c36", "text": "claim"}
         assert verify._independent(ctx, claim, pairs, 1) is False
-        assert any(r["from"] == "s3" and r["to"] == "s6" and r["kind"] == "cites" for r in L.sources_doc["relations"])
+        assert any(r["from"] == "s3" and r["to"] == "s6" and r["kind"] == "cites" for r in led.sources_doc["relations"])
         claim2 = {"id": "c37", "text": "claim"}
         assert verify._independent(ctx, claim2, pairs, 2) is False
         assert "- s3 cites s6" in prompts[-1]
