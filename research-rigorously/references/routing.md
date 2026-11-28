@@ -25,15 +25,16 @@ host configures server `x`; `Wired` below means enabled in the registry, not hos
 | crawl | `tavily.crawl` (med), `scrapegraph.crawl` (high) |
 | docs | `microsoft-learn.docs` (low) |
 | extract | `tavily.extract` (low) |
-| fetch | `direct.fetch` (low), `exa.fetch` (low), `wayback.fetch` (low), `tinyfish.fetch` (med), `zenrows.fetch` (med) |
+| fetch | `direct.fetch` (low), `exa.fetch` (low), `wayback.fetch` (low), `firecrawl.fetch` (med), `tinyfish.fetch` (med), `zenrows.fetch` (med) |
 | fulltext | `internet-archive.fulltext` (low) |
 | lookup | `unpaywall.lookup` (low) |
+| map | `firecrawl.map` (low) |
 | query | `wikidata.query` (low) |
 | rag-web-browser | `apify.rag-web-browser` (med) |
 | read | `ocr.read` (low) |
 | research | `tavily.research` (high) |
 | scrape | `scrapegraph.scrape` (med), `brightdata.scrape` (high) |
-| search | `arxiv.search` (low), `crossref.search` (low), `exa.search` (low), `openalex.search` (low), `semantic-scholar.search` (low), `tavily.search` (low), `wikisource.search` (low), `scrapegraph.search` (med) |
+| search | `arxiv.search` (low), `crossref.search` (low), `exa.search` (low), `firecrawl.search` (low), `openalex.search` (low), `semantic-scholar.search` (low), `tavily.search` (low), `wikisource.search` (low), `scrapegraph.search` (med) |
 | transcript | `ytdlp.transcript` (low) |
 | xmlapi | `bgg.xmlapi` (low) |
 
@@ -50,8 +51,9 @@ Every step exhausted: the URL is blocked; never guess its content.
 5. `scrapegraph.scrape` - mcp: `tools.scrapegraph.scrape`, `tools.scrapegraph.extract`; cli: `just-scrape scrape <url>`
 6. `zenrows.fetch` - mcp: `tools.zenrows.scrape`; cli: `zenrows fetch <url>`
 7. `tinyfish.fetch` - mcp: `tools.tinyfish.fetch_content`; cli: `tinyfish fetch content get <url>`
-8. `brightdata.scrape` - mcp: `tools.brightdata.web_fetch`; cli: `brightdata scrape <url> --zone cli_unlocker`
-9. `apify.rag-web-browser` - mcp: `tools.apify.apify--rag-web-browser`; cli: `apify actors call apify/rag-web-browser`
+8. `firecrawl.fetch` - mcp: `tools.firecrawl.firecrawl_scrape`; cli: `firecrawl scrape <url>`
+9. `brightdata.scrape` - mcp: `tools.brightdata.web_fetch`; cli: `brightdata scrape <url> --zone cli_unlocker`
+10. `apify.rag-web-browser` - mcp: `tools.apify.apify--rag-web-browser`; cli: `apify actors call apify/rag-web-browser`
 
 ## Key policy
 
@@ -66,6 +68,7 @@ when the host config reads the key as `{env:<VAR>}`; a literal key in that confi
 | tavily | `TAVILY_API_KEY` | `tavily` | `Authorization: Bearer <key>` | MCP tools read TAVILY_API_KEY from the host config; the tvly CLI is broken on this host and stays the fallback | `TAVILY_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
 | exa | `EXA_API_KEY` | `exa` | `x-api-key: <key>` | MCP tools read EXA_API_KEY from the host config; the POST scripts are the fallback | `EXA_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
 | scrapegraph | `SGAI_API_KEY` | `scrapegraph` | `SGAI-APIKEY: <key>` | SGAI_API_KEY (just-scrape); debug with SGAI_DEBUG=1, history with `just-scrape history scrape --json` | `SGAI_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
+| firecrawl | `FIRECRAWL_API_KEY` | `firecrawl` | `Authorization: Bearer <key>` | MCP tools read FIRECRAWL_API_KEY from the host config; the firecrawl CLI is the fallback (`firecrawl --status` reports auth and credits) | `FIRECRAWL_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
 | apify | `APIFY_TOKEN` | `apify` | `Authorization: Bearer <key>` | APIFY_TOKEN (`apify info` reports token source env; no ~/.apify/auth.json: never run `apify login`) | `APIFY_TOKEN` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
 | zenrows | `ZENROWS_API_KEY` | `zenrows` | - | MCP tools read ZENROWS_API_KEY from the host config; the zenrows CLI is the fallback (no ~/.zenrows/secrets.json: a stored key would win; never run `zenrows login`) | `ZENROWS_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
 | tinyfish | `TINYFISH_API_KEY` | `tinyfish` | - | TINYFISH_API_KEY (overrides a key saved with `tinyfish auth set`); check `tinyfish auth status` | `TINYFISH_API_KEY` env reference (a rotation reaches the MCP only after OpenCode restarts; the server reads the var at launch) | yes |
@@ -101,6 +104,10 @@ when the host config reads the key as `{env:<VAR>}`; a literal key in that confi
 | scrapegraph | out_of_credit | `402`, `insufficient_credits` | yes |
 | scrapegraph | blocked | - | no |
 | scrapegraph | rate_limit | `429`, `rate_limited` | yes |
+| firecrawl | bad_key | `401` | yes |
+| firecrawl | out_of_credit | `402` | yes |
+| firecrawl | blocked | - | no |
+| firecrawl | rate_limit | `429` | yes |
 | apify | bad_key | `401`, `invalid-token`, `token-not-provided` | yes |
 | apify | out_of_credit | `402`, `not-enough-usage-to-run-paid-actor`, `monthly-usage-limit-too-low` | yes |
 | apify | blocked | - | no |

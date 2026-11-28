@@ -2,7 +2,6 @@
 # (rr gen-routing). Surface id = <server>.<capability>.
 # Route order inside one capability: mcp, then cli, then post, then http or a local tool.
 # MCP routes belong only to surfaces an agent answers (fetch and discovery asks); Python never calls MCP.
-# Firecrawl stays disabled (ADR 0036).
 # Fallback inside a server is never a new surface. `auth` says how the CLI authenticates when it is not just `key.env`.
 schema: 1
 
@@ -31,6 +30,7 @@ fetch_ladder:
   - scrapegraph.scrape
   - zenrows.fetch
   - tinyfish.fetch
+  - firecrawl.fetch
   - brightdata.scrape
   - apify.rag-web-browser
 
@@ -218,6 +218,45 @@ servers:
       bad_key: ["401", "auth_missing_key", "403", "auth_invalid_key"]
       out_of_credit: ["402", "insufficient_credits"]
       rate_limit: ["429", "rate_limited"]
+    unverified: [blocked]
+
+  firecrawl:
+    pool: firecrawl
+    auth: "MCP tools read FIRECRAWL_API_KEY from the host config; the firecrawl CLI is the fallback (`firecrawl --status` reports auth and credits)"
+    wired: true
+    keyed: true
+    key: {
+      env: FIRECRAWL_API_KEY,
+      pattern: "^(?P<acct>[A-Z0-9]+)_FIRECRAWL_API_KEY$",
+      header: "Authorization",
+      prefix: "Bearer ",
+      base_url: "https://api.firecrawl.dev",
+    }
+    mcp_key: { env: FIRECRAWL_API_KEY }
+    reset: monthly # https://docs.firecrawl.dev/billing (free plan 1,000 credits, resets each monthly cycle)
+    capabilities:
+      search: {
+        paradigm: keyword,
+        ladder: discovery,
+        cost: low,
+        routes: { mcp: [firecrawl_search], cli: ["firecrawl search"] },
+      } # 2 credits / 10 results
+      fetch: {
+        paradigm: browser-unlocker,
+        ladder: fetch,
+        cost: med,
+        routes: { mcp: [firecrawl_scrape], cli: ["firecrawl scrape <url>"] },
+      } # 1 credit / page
+      map: {
+        paradigm: crawl-map,
+        ladder: discovery,
+        cost: low,
+        routes: { mcp: [firecrawl_map], cli: ["firecrawl map"] },
+      } # 1 credit / call
+    errors:
+      bad_key: ["401"]
+      out_of_credit: ["402"]
+      rate_limit: ["429"]
     unverified: [blocked]
 
   apify:
