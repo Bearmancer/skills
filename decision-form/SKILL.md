@@ -1,6 +1,6 @@
 ---
 name: decision-form
-description: Clickable web page that collects the user's decisions through granular tick boxes with an inline remedial explanation for every question and every box, white and dark mode, no limit on questions or boxes, answers saved to a secret gist and served on the tailnet. All form text is written with the ultracave skill. Use whenever the user asks for a decision form, questionnaire, interactive page, interactive gist, tick boxes or a web page to answer questions, dismisses the question tool and wants to click instead, or when many decisions are waiting on the user, even if they never say "form".
+description: Clickable web page that collects the user's decisions through granular tick boxes with an inline remedial explanation for every question and every box, the Linear taxonomy (projects, milestones, issues, sub-issues, labels, documents) always drawn as graphical tabs, white and dark mode, no limit on questions or boxes, answers saved to a secret gist and served on the tailnet. All form text is written with the ultracave skill. Use whenever the user asks for a decision form, questionnaire, interactive page, interactive gist, tick boxes or a web page to answer questions, dismisses the question tool and wants to click instead, or when many decisions are waiting on the user, even if they never say "form".
 ---
 
 # Decision form
@@ -21,7 +21,29 @@ Load `ultracave` skill first. Form text and chat: ultracave only.
 - Run or read proof for each claim a question rests on. No proof: say so in `explain`.
 - Earlier note asked something: answer it first.
 
-## 2. Write `questions.json`
+## 2. Read Linear into `linear.json`
+
+Page always draws Linear taxonomy as tabs: Overview, one tab per project, Labels, Documents. Project tab: tree of milestone, issue, sub-issue, then that project's questions.
+
+Every new round: agent reads live Linear with its Linear tools (projects, issues, labels, documents; follow `hasNextPage`), writes `linear.json` into form folder. Never reuse old file. Never type rows from memory.
+
+```json
+{
+  "team": "Bearmancer",
+  "read": "2026-11-28 21:40 IST",
+  "projects": [{ "name": "skills", "url": "https://linear.app/..." }],
+  "issues": [{ "id": "BEA-492", "title": "Self-sufficiency plan", "url": "https://linear.app/...", "project": "skills", "milestone": "Close open lanes", "parent": null, "status": "backlog", "labels": ["Workstream"] }],
+  "labels": [{ "group": "Type", "name": "Workstream" }],
+  "documents": [{ "title": "Failure reference", "url": "https://linear.app/...", "project": null }]
+}
+```
+
+- `status`: Linear status type (`backlog`, `unstarted`, `started`, `completed`, `canceled`, `triage`).
+- Every non-archived issue. Script refuses issue whose project is not listed.
+- `project`, `milestone`, `parent`, label `group`: `null` when none.
+- Page serves file on tailnet. Gist holds answers only.
+
+## 3. Write `questions.json`
 
 Put in durable form folder (project or EPIC folder, never temp).
 
@@ -31,7 +53,7 @@ Put in durable form folder (project or EPIC folder, never temp).
   "questions": [
     {
       "id": "tavily-command",
-      "group": "Search tools",
+      "group": "skills",
       "title": "Tavily typed command",
       "text": "Keep it?",
       "explain": "Tavily: web search company. Skill can call it two ways: MCP (tool agent calls itself) or typed command `tvly search`. Today both listed. Example: MCP call fails, agent types `tvly search`.",
@@ -45,6 +67,8 @@ Put in durable form folder (project or EPIC folder, never temp).
 ```
 
 Optional: `group`, `rec`. Rest required.
+
+`group` equal to Linear project name: question sits in that project's tab. Any other `group`, or none: Overview tab.
 
 No limit: questions, boxes per question, ticks. Never trim or merge to shorten.
 
@@ -67,16 +91,15 @@ No limit: questions, boxes per question, ticks. Never trim or merge to shorten.
 
 Never pre-tick. `rec` only prints "recommended". Page adds note field per question plus "Anything else".
 
-## 3. Serve
+## 4. Serve
 
 ```powershell
-uv run <skill dir>/scripts/form.py check <folder>
 & <skill dir>/scripts/host.ps1 up -Form <folder>
 ```
 
-`up` creates secret gist once (`gist-id.txt`), runs server as scheduled task `decision-form-<port>`, runs `tailscale serve`, prints form link and gist link.
+`up` refuses a bad form, creates secret gist once (`gist-id.txt`, bound to that folder: a copy is refused), runs server as scheduled task `decision-form-<port>`, runs `tailscale serve`, prints form link and gist link.
 
-- Edited questions: run `up` again.
+- Edited `questions.json` or `linear.json`: run `up` again.
 - `-Port` default 8765. One form per port.
 - Needs pwsh 7, uv, `gh` logged in, tailscale.
 - Secret gist is unlisted, not private: anyone with link can read it. Keep keys, passwords and personal data out of questions.
@@ -84,13 +107,15 @@ uv run <skill dir>/scripts/form.py check <folder>
 
 Give user both links. Stop. Wait.
 
-## 4. Test
+## 5. Test
 
 Never press Submit on user's form: it writes answers user never gave.
 
-Test copy: put `questions.json` in temp folder, `up -Form <temp> -Port 8766`, click, Submit, `read`, `down -Port 8766`, delete that temp gist with `gh gist delete <id> --yes`.
+Test copy: put only `questions.json` plus `linear.json` in temp folder (never copy `gist-id.txt`: refused), `up -Form <temp> -Port 8766`, click, Submit, `read`, `down -Port 8766`, delete that temp gist with `gh gist delete <id> --yes`.
 
-## 5. Read answers
+Reworded question: its old answer is dropped, box starts unticked. Browser draft older than saved answers is dropped.
+
+## 6. Read answers
 
 ```powershell
 uv run <skill dir>/scripts/form.py read <folder>
@@ -106,10 +131,10 @@ Saves `answers.json`. Prints ticks, notes, open ids.
 - Ticks conflict, or tick conflicts with note: ask. Never pick.
 - Next round: new folder, only open items.
 
-## 6. Close
+## 7. Close
 
 ```powershell
-& <skill dir>/scripts/host.ps1 down
+& <skill dir>/scripts/host.ps1 down -Port <port>
 ```
 
 Gist stays.
