@@ -1,13 +1,13 @@
-# Host facts (verified 2026-11-26, uv 0.13.10)
+# Host facts (verified 2026-11-28, uv 0.13.10)
 
-Read when `uv pip` cannot find an interpreter, `externally-managed-environment` appears, a script cannot import something installed, or the uv cache is large.
+Read when `uv pip` cannot find an interpreter, `externally-managed-environment` appears, a package will not import, the uv cache is large, the Python version is not the one expected, or an upgrade ran.
 
-- `~\.python-version` = `3.13`, so every `uv run` anywhere uses `%APPDATA%\uv\python\cpython-3.13-windows-x86_64-none\python.exe` (3.13.18, x86_64; uv walks up from the cwd).
-- `%APPDATA%\uv\uv.toml`: `[pip] python = '<that absolute path>'` + `break-system-packages = true`.
-  - `uv pip` never reads `.python-version`; a version request (`python = '3.13'`) resolves against discovered environments, not managed interpreters, and fails - hence the absolute path.
-  - The pin rides the junction name (`cpython-3.13-...-none`), which `uv python upgrade` repoints, so it survives upgrades; a patch-versioned pin dangles.
-  - Every uv-managed interpreter carries `Lib\EXTERNALLY-MANAGED` (verified 3.12-3.16): uv guarding its own tree, which this policy owns as the one shared store. Without the flag every `uv pip install` dies `externally-managed-environment`.
-- PEP 723 cost, measured here: uv caches each headered script's sealed env at `<cache>\environments-v2\<stem>-<hash>`, keyed on deps + `requires-python` + interpreter. A cache hit still pays resolve-validation every run; a header edit mints a new hash and orphans the old env (one script: five generations); a distinct `requires-python` seals a distinct interpreter (one 3.15 env sits beside the 3.13 host), and cross-version dupes are real bytes - ABI-specific wheels cannot hardlink-share. Standing waste: 501 dead envs, 1.1 GB, reclaimable with `uv cache clean`, regenerable by design.
-- Libraries live in the shared interpreter: check `uv pip list` before installing. Tools on 3.13: ruff, ty, yt-dlp, arxiv-mcp-server, paper-search-mcp.
-- 3.12/3.15/3.16 and the python.org installs remain on PATH; unused - never code against them. After `uv python upgrade --reinstall` the junction moves and `uv pip list` shows nothing: re-run the installs; nothing else changes.
-- Doubtful feature: <https://docs.python.org/3/whats-new.html>, or write `probe.py` and `uv run probe.py` - never `python -c`. `C:\Users\Lance\Documents\python-release-notes\` does not exist; never cite it.
+- Interpreter: `uv python find` gives `%APPDATA%\uv\python\cpython-3.13-windows-x86_64-none\python.exe` (3.13.18). That name is a junction that `uv python upgrade` repoints to a newer patch. Packages install into the patch directory (`cpython-3.13.18-...\Lib\site-packages`), so after an upgrade, re-run the `uv pip install` lines.
+- Version: `uv run` uses the nearest `.python-version` in the working directory or a parent. With none, the user-level `%APPDATA%\uv\.python-version` applies; it says 3.13, as does `~\.python-version`. A `3.12` pin in a scratch folder made `uv run` use 3.12.16.
+- `%APPDATA%\uv\uv.toml` sets `[pip] python` to the 3.13 interpreter and `break-system-packages = true`, so `uv pip` installs there. Every uv-managed interpreter has `Lib\EXTERNALLY-MANAGED` (checked on all eight installs); `break-system-packages` lets `uv pip` modify it.
+- Which interpreter a script got: `uv run probe.py` printing `sys.executable`.
+- Libraries: `uv pip list`. Tools: `uv tool list --show-paths`. The guard blocks `uv tool dir` and allows `install`, `list`, `upgrade` and `uninstall` (python-guard.ts:12, 64).
+- Other interpreters: uv-managed 3.12, 3.15 and 3.16 (`uv python list --only-installed`). `python` on PATH resolves to `WindowsApps\python.exe`, which is 3.15.2. `uv run` uses one of these only when a nearer `.python-version` asks for it.
+- Cache: `uv cache dir` (here `%LOCALAPPDATA%\uv\cache`). On 2026-11-28 `environments-v2` held 505 entries, 1.16 GB; 502 had a `pyvenv.cfg`: 491 on 3.15, 10 on 3.13, 1 on 3.16. The 501 named entries share 438 name prefixes; the largest group has 8. `uv cache prune` removes unused entries; never delete the directory by hand (uv cache docs). How much prune reclaims is not measured here.
+- PEP 723 headers (banned): uv builds each headed script's environment in that cache (uv storage docs), so each headed script adds entries, as counted above. Packages a run already used are reused, not downloaded again (uv cache docs).
+- Doubtful feature: <https://docs.python.org/3/whatsnew/3.13.html>, or write `probe.py` and run `uv run probe.py`; never `python -c`.
