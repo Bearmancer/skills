@@ -70,11 +70,10 @@ Never pre-tick. `rec` only prints "recommended". Page adds note field per questi
 ## 3. Serve
 
 ```powershell
-uv run <skill dir>/scripts/form.py check <folder>
 & <skill dir>/scripts/host.ps1 up -Form <folder>
 ```
 
-`up` creates secret gist once (`gist-id.txt`), runs server as scheduled task `decision-form-<port>`, runs `tailscale serve`, prints form link and gist link.
+`up` refuses a bad form, creates secret gist once (`gist-id.txt`, bound to that folder: a copy is refused), runs server as scheduled task `decision-form-<port>`, runs `tailscale serve`, prints form link and gist link.
 
 - Edited questions: run `up` again.
 - `-Port` default 8765. One form per port.
@@ -88,7 +87,9 @@ Give user both links. Stop. Wait.
 
 Never press Submit on user's form: it writes answers user never gave.
 
-Test copy: put `questions.json` in temp folder, `up -Form <temp> -Port 8766`, click, Submit, `read`, `down -Port 8766`, delete that temp gist with `gh gist delete <id> --yes`.
+Test copy: put `questions.json` alone in temp folder (never copy `gist-id.txt`: refused), `up -Form <temp> -Port 8766`, click, Submit, `read`, `down -Port 8766`, delete that temp gist with `gh gist delete <id> --yes`.
+
+Reworded question: its old answer is dropped, box starts unticked. Browser draft older than saved answers is dropped.
 
 ## 5. Read answers
 
@@ -109,7 +110,7 @@ Saves `answers.json`. Prints ticks, notes, open ids.
 ## 6. Close
 
 ```powershell
-& <skill dir>/scripts/host.ps1 down
+& <skill dir>/scripts/host.ps1 down -Port <port>
 ```
 
 Gist stays.

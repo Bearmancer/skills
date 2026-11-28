@@ -46,6 +46,8 @@ $('theme').onclick = () => { root.dataset.theme = isDark() ? 'light' : 'dark'; s
 
 let state = {};
 let draftKey = '';
+let version = '';
+let sigs = {};
 let ids = [];
 const entry = id => state[id] ||= { ticked: [], note: '' };
 const answered = id => Boolean(state[id]?.ticked.length || state[id]?.note.trim());
@@ -56,7 +58,7 @@ function refresh() {
 }
 
 function changed() {
-  store(draftKey, state);
+  store(draftKey, { base: version, sigs, state });
   refresh();
   say('Not sent yet');
 }
@@ -81,12 +83,14 @@ function tickBox(id, option) {
 async function load() {
   const reply = await fetch('form.json');
   if (!reply.ok) throw new Error(`${reply.status} ${await reply.text()}`);
-  const { key, form, saved } = await reply.json();
+  const { key, form, saved, ...meta } = await reply.json();
+  ({ version, sigs } = meta);
   draftKey = `decision-form-${key}`;
-  const draft = stored(draftKey);
+  const stash = stored(draftKey);
+  const draft = stash?.base === version ? stash : null;
   ids = form.questions.map(q => q.id);
   const known = new Map(form.questions.map(q => [q.id, q.options.map(o => o.label)]).concat([['else', []]]));
-  state = Object.fromEntries(Object.entries(draft || saved).filter(([id]) => known.has(id))
+  state = Object.fromEntries(Object.entries(draft?.state || saved).filter(([id]) => known.has(id) && (!draft || draft.sigs[id] === sigs[id]))
     .map(([id, a]) => [id, { ticked: a.ticked.filter(label => known.get(id).includes(label)), note: a.note }]));
   document.title = $('title').textContent = form.title;
   const main = document.querySelector('main');
@@ -103,7 +107,7 @@ async function load() {
   main.append(el('h2', { textContent: 'Anything else' }), noteBox('else', 'Anything else'));
   refresh();
   $('send').disabled = false;
-  say(draft ? 'Unsent draft restored' : Object.keys(saved).length ? 'Showing your saved answers' : '');
+  say(draft ? 'Unsent draft restored' : stash ? 'Old draft dropped: newer answers were saved' : Object.keys(saved).length ? 'Showing your saved answers' : '');
 }
 
 $('send').onclick = async () => {
@@ -114,9 +118,11 @@ $('send').onclick = async () => {
     const reply = await fetch('submit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: sent });
     const text = await reply.text();
     if (!reply.ok) throw new Error(`${reply.status} ${text}`);
+    const out = JSON.parse(text);
+    version = out.version;
     const current = JSON.stringify(state) === sent;
-    if (current) store(draftKey, null);
-    say(current ? JSON.parse(text) : 'Saved. Newer edits not sent yet');
+    store(draftKey, current ? null : { base: version, sigs, state });
+    say(current ? out.msg : 'Saved. Newer edits not sent yet');
   } catch (error) {
     say(`Failed: ${error.message}`);
   }

@@ -10,12 +10,12 @@ $target = "http://127.0.0.1:$Port"
 $script = Join-Path $PSScriptRoot 'form.py'
 
 $web = (tailscale serve status --json | ConvertFrom-Json -AsHashtable).Web
-$proxies = @(foreach ($key in @($web.Keys) -like "*:$Port") { $web[$key].Handlers.Values.Proxy })
-if (@($proxies) -ne $target) { throw "tailnet port $Port already serves: $proxies" }
+$proxies = @(foreach ($key in @($web.Keys) -like "*:$Port") { $web[$key].Handlers.Values })
+if (@($proxies | Where-Object { $_.Proxy -ne $target })) { throw "tailnet port $Port already serves something else" }
 
 if ($Mode -eq 'up') {
     if (-not $Form) { throw 'up needs -Form <folder>' }
-    $folder = (Resolve-Path -LiteralPath $Form).ProviderPath
+    $folder = (Get-Item -LiteralPath $Form).FullName.TrimEnd('\')
     uv run $script prepare $folder
 }
 
@@ -44,4 +44,3 @@ $name = (tailscale status --json | ConvertFrom-Json).Self.DNSName.TrimEnd('.')
 $url = "https://${name}:$Port/"
 $null = Invoke-RestMethod "${url}form.json" -MaximumRetryCount 10 -RetryIntervalSec 2 -TimeoutSec 60
 "form: $url"
-"gist: https://gist.github.com/$((Get-Content -LiteralPath (Join-Path $folder 'gist-id.txt') -Raw).Trim())"
