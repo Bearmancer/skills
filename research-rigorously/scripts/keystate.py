@@ -134,7 +134,7 @@ class KeyState:
 
     def is_available(self, pool, fp, now=None):
         entry = self.data["keys"].get(pool, {}).get(fp)
-        if entry is None:
+        if entry is None or "exhausted_at" not in entry:
             return True
         now = now or datetime.now(UTC)
         return now >= reset_at(
