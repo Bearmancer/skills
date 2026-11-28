@@ -11,6 +11,7 @@ from pathlib import Path
 
 PAGE = Path(__file__).parents[1] / "assets" / "form.html"
 BUNDLED = re.compile(r"[,;/+&|]|\b(?:and|or|nor|plus|all|both|every|everything|either|each|rest|etc)\b", re.IGNORECASE)
+SHAPE = {"projects": ("name", "url"), "issues": ("id", "title", "url", "status"), "labels": ("name",), "documents": ("title", "url")}
 
 
 def run(*args, body=None):
@@ -46,11 +47,36 @@ def problems(form):
     return found
 
 
-def load(folder):
-    form = json.loads((folder / "questions.json").read_text(encoding="utf-8"))
-    if found := problems(form):
+def gaps(linear):
+    found = [f"linear.json: missing {key}" for key in ("team", "read") if blank(linear, key)]
+    for section, keys in SHAPE.items():
+        if not isinstance(linear.get(section), list):
+            found.append(f"linear.json: {section} is not a list")
+            continue
+        found += [f"linear.json: {section}[{n}] missing {key}" for n, row in enumerate(linear[section]) for key in keys if blank(row, key)]
+    if found:
+        return found
+    names = {project["name"] for project in linear["projects"]}
+    if not names:
+        found.append("linear.json: no projects")
+    return found + [f"linear.json: {i['id']} project {i.get('project')!r} not in projects" for i in linear["issues"] if i.get("project") not in names | {None}]
+
+
+def checked(path, check):
+    if not path.exists():
+        raise SystemExit(f"{path.name} missing in {path.parent}")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if found := check(data):
         raise SystemExit("\n".join(found))
-    return form
+    return data
+
+
+def load(folder):
+    return checked(folder / "questions.json", problems)
+
+
+def taxonomy(folder):
+    return checked(folder / "linear.json", gaps)
 
 
 def where(folder):
@@ -98,6 +124,7 @@ def clean(form, sent):
 
 def prepare(folder):
     form = load(folder)
+    taxonomy(folder)
     record = folder / "gist-id.txt"
     if not record.exists():
         body = {"description": form["title"], "public": False, "files": {"answers.json": {"content": "{}"}}}
@@ -121,7 +148,7 @@ def read(folder):
 
 
 def serve(folder, port):
-    form, gist = load(folder), gist_id(folder)
+    form, linear, gist = load(folder), taxonomy(folder), gist_id(folder)
     host = json.loads(run("tailscale", "status", "--json"))["Self"]["DNSName"].rstrip(".")
     origins = {f"127.0.0.1:{port}": f"http://127.0.0.1:{port}", f"{host}:{port}": f"https://{host}:{port}"}
 
@@ -148,7 +175,7 @@ def serve(folder, port):
             elif self.path == "/form.json":
                 def page():
                     answers, version = saved(gist)
-                    return {"key": gist, "form": form, "saved": current(form, answers), "version": version, "sigs": sigs(form)}
+                    return {"key": gist, "form": form, "linear": linear, "saved": current(form, answers), "version": version, "sigs": sigs(form)}
 
                 self.answer(page)
             else:

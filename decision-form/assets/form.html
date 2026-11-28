@@ -8,7 +8,7 @@
 :root[data-theme=light]{color-scheme:light}
 :root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0 auto;max-width:46rem;padding:1rem 1rem 9rem;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif;overflow-wrap:anywhere}
+body{margin:0 auto;max-width:60rem;padding:1rem 1rem 9rem;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif;overflow-wrap:anywhere}
 header{display:flex;gap:1rem;align-items:center;justify-content:space-between}
 section{border:2px solid var(--line);border-radius:10px;padding:1rem;margin:0 0 1rem}
 section.done{border-color:var(--accent)}
@@ -25,9 +25,35 @@ footer{position:fixed;inset:auto 0 0;display:flex;flex-wrap:wrap;gap:.75rem;alig
 button{padding:.5rem 1rem;font:inherit;border:1px solid var(--accent);border-radius:6px;background:var(--bg);color:var(--accent);cursor:pointer}
 #send{background:var(--accent);color:var(--on)}
 button:disabled{opacity:.5;cursor:default}
+nav{position:sticky;top:0;z-index:1;display:flex;flex-wrap:wrap;gap:.35rem;padding:.5rem 0;background:var(--bg);border-bottom:1px solid var(--line);margin-bottom:1rem}
+nav button{flex:none;padding:.25rem .65rem;font-size:.9rem}
+@media(max-width:40rem){nav{flex-wrap:nowrap;overflow-x:auto}}
+nav button[aria-selected=true]{background:var(--accent);color:var(--on)}
+section{scroll-margin-top:6rem}
+a{color:var(--accent)}
+ul.tree,ul.tree ul{list-style:none;margin:0;padding:0}
+ul.tree{margin-bottom:1.25rem}
+ul.tree ul{margin-left:.6rem}
+ul.tree ul>li{position:relative;padding-left:1.1rem;border-left:2px solid var(--line)}
+ul.tree ul>li:last-child{border-left-color:transparent}
+ul.tree ul>li::before{content:"";position:absolute;left:-2px;top:0;width:.85rem;height:1.05rem;border-left:2px solid var(--line);border-bottom:2px solid var(--line)}
+.node{display:inline-flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:.25rem 0;padding:.25rem .55rem;border:1px solid var(--line);border-radius:8px;font-size:.9rem;text-align:left}
+.node.root{background:var(--tint);font-weight:700}
+.chip{padding:0 .45rem;border:1px solid var(--line);border-radius:99px;color:var(--dim);font-size:.75rem}
+.dot{flex:none;width:.65rem;height:.65rem;border-radius:50%;background:var(--s)}
+[data-s=triage]{--s:#a855f7}
+[data-s=backlog]{--s:#9ca3af}
+[data-s=unstarted]{--s:#3b82f6}
+[data-s=started]{--s:#f59e0b}
+[data-s=completed]{--s:#22c55e}
+[data-s=canceled]{--s:#ef4444}
+.node[data-s=canceled]{opacity:.55;text-decoration:line-through}
+.bar{display:flex;width:8rem;height:.55rem;overflow:hidden;border-radius:99px;background:var(--tint)}
+.bar i{background:var(--s)}
 </style>
 <header><h1 id="title">Decisions</h1><button id="theme" type="button"></button></header>
 <p>No box pre-ticked. Tick any number. Skip any. Note alone counts.</p>
+<nav role="tablist"></nav>
 <main></main>
 <footer><button id="send" type="button" disabled>Submit</button><button id="next" type="button">Next open</button><span id="count"></span><span id="status" role="status">Loading...</span></footer>
 <script>
@@ -52,9 +78,99 @@ let ids = [];
 const entry = id => state[id] ||= { ticked: [], note: '' };
 const answered = id => Boolean(state[id]?.ticked.length || state[id]?.note.trim());
 
+const panes = () => [...document.querySelectorAll('.pane')];
+const tabs = () => [...document.querySelectorAll('nav button')];
+
 function refresh() {
   $('count').textContent = `${ids.filter(answered).length} of ${ids.length} answered`;
   ids.forEach(id => $(`q-${id}`).classList.toggle('done', answered(id)));
+  panes().forEach((pane, index) => {
+    const all = pane.querySelectorAll('section').length;
+    tabs()[index].textContent = pane.dataset.tab + (all ? ` ${pane.querySelectorAll('section.done').length}/${all}` : '');
+  });
+}
+
+function show(name) {
+  const at = Math.max(0, panes().findIndex(pane => pane.dataset.tab === name));
+  panes().forEach((pane, index) => { pane.hidden = index !== at; tabs()[index].ariaSelected = index === at; });
+  history.replaceState(null, '', `#${encodeURIComponent(panes()[at].dataset.tab)}`);
+  const bar = document.querySelector('nav');
+  bar.scrollLeft = tabs()[at].offsetLeft - bar.offsetLeft - 8;
+}
+
+function addTab(name) {
+  const pane = el('div', { className: 'pane', role: 'tabpanel' });
+  pane.dataset.tab = name;
+  document.querySelector('main').append(pane);
+  document.querySelector('nav').append(el('button', { type: 'button', role: 'tab', onclick: () => { show(name); scrollTo(0, 0); } }));
+  return pane;
+}
+
+const link = (text, href) => el('a', { href, textContent: text, target: '_blank', rel: 'noopener' });
+const chip = text => el('span', { className: 'chip', textContent: text });
+const tree = (...items) => el('ul', { className: 'tree' }, ...items);
+const branch = (head, items = []) => el('li', {}, head, ...(items.length ? [el('ul', {}, ...items)] : []));
+const node = (...kids) => el('span', { className: 'node' }, ...kids);
+const hub = text => el('span', { className: 'node root', textContent: text });
+const grouped = (rows, key) => Map.groupBy(rows, row => row[key] || '');
+const closed = ['completed', 'canceled'];
+
+function dot(status) {
+  const mark = el('span', { className: 'dot', title: status });
+  mark.dataset.s = status;
+  return mark;
+}
+
+function bar(issues) {
+  return el('span', { className: 'bar' }, ...[...grouped(issues, 'status')].map(([status, rows]) => {
+    const part = el('i', { title: `${rows.length} ${status}` });
+    part.dataset.s = status;
+    part.style.flex = rows.length;
+    return part;
+  }));
+}
+
+const counts = issues => `${issues.filter(i => !closed.includes(i.status)).length} open of ${issues.length}`;
+
+function issueTree(issues) {
+  const here = new Set(issues.map(i => i.id));
+  const draw = issue => {
+    const head = node(dot(issue.status), link(issue.id, issue.url), el('span', { textContent: issue.title }),
+      ...(issue.labels || []).map(chip), ...(issue.parent && !here.has(issue.parent) ? [chip(`sub-issue of ${issue.parent}`)] : []));
+    head.dataset.s = issue.status;
+    return branch(head, issues.filter(child => child.parent === issue.id).map(draw));
+  };
+  return issues.filter(i => !here.has(i.parent)).map(draw);
+}
+
+function drawProject(pane, project, issues) {
+  pane.append(el('h2', {}, link(project.name, project.url)),
+    tree(branch(hub(`${project.name}: ${counts(issues)}`), [...grouped(issues, 'milestone')].map(([milestone, rows]) =>
+      branch(node(el('b', { textContent: milestone || 'No milestone' }), chip(counts(rows)), bar(rows)), issueTree(rows))))));
+}
+
+function drawOverview(pane, linear) {
+  const legend = [...grouped(linear.issues, 'status')].map(([status, rows]) => el('span', { className: 'chip' }, dot(status), ` ${status} ${rows.length}`));
+  pane.append(el('p', {}, `Linear read ${linear.read}. `, ...legend),
+    tree(branch(hub(`Team ${linear.team}: ${counts(linear.issues)}`), linear.projects.map(project => {
+      const issues = linear.issues.filter(i => i.project === project.name);
+      const head = el('button', { type: 'button', className: 'node', onclick: () => show(project.name) },
+        el('b', { textContent: project.name }), chip(counts(issues)), bar(issues));
+      return branch(head);
+    }))));
+  const loose = linear.issues.filter(i => !i.project);
+  if (loose.length) pane.append(tree(branch(hub('No project'), issueTree(loose))));
+}
+
+function drawLabels(pane, linear) {
+  const used = name => linear.issues.filter(i => i.labels?.includes(name)).length;
+  pane.append(tree(branch(hub(`Labels: ${linear.labels.length}`), [...grouped(linear.labels, 'group')].map(([group, rows]) =>
+    branch(node(el('b', { textContent: group || 'No group' })), rows.map(l => branch(node(l.name, chip(`${used(l.name)} issues`)))))))));
+}
+
+function drawDocuments(pane, linear) {
+  pane.append(tree(branch(hub(`Documents: ${linear.documents.length}`), [...grouped(linear.documents, 'project')].map(([project, rows]) =>
+    branch(node(el('b', { textContent: project || `Team ${linear.team}` })), rows.map(d => branch(node(link(d.title, d.url)))))))));
 }
 
 function changed() {
@@ -83,7 +199,7 @@ function tickBox(id, option) {
 async function load() {
   const reply = await fetch('form.json');
   if (!reply.ok) throw new Error(`${reply.status} ${await reply.text()}`);
-  const { key, form, saved, ...meta } = await reply.json();
+  const { key, form, linear, saved, ...meta } = await reply.json();
   ({ version, sigs } = meta);
   draftKey = `decision-form-${key}`;
   const stash = stored(draftKey);
@@ -93,18 +209,28 @@ async function load() {
   state = Object.fromEntries(Object.entries(draft?.state || saved).filter(([id]) => known.has(id) && (!draft || draft.sigs[id] === sigs[id]))
     .map(([id, a]) => [id, { ticked: a.ticked.filter(label => known.get(id).includes(label)), note: a.note }]));
   document.title = $('title').textContent = form.title;
-  const main = document.querySelector('main');
+  const overview = addTab('Overview');
+  drawOverview(overview, linear);
+  const homes = new Map(linear.projects.map(project => {
+    const pane = addTab(project.name);
+    drawProject(pane, project, linear.issues.filter(i => i.project === project.name));
+    return [project.name, pane];
+  }));
+  drawLabels(addTab('Labels'), linear);
+  drawDocuments(addTab('Documents'), linear);
   let group = '';
   form.questions.forEach((q, index) => {
-    if (q.group && q.group !== group) main.append(el('h2', { textContent: group = q.group }));
-    main.append(el('section', { id: `q-${q.id}` },
+    const home = homes.get(q.group);
+    if (!home && q.group && q.group !== group) overview.append(el('h2', { textContent: group = q.group }));
+    (home || overview).append(el('section', { id: `q-${q.id}` },
       el('h3', { textContent: `${index + 1}. ${q.title}` }),
       el('p', { className: 'ask', textContent: q.text }),
       el('p', { className: 'why', textContent: q.explain }),
       ...q.options.map(option => tickBox(q.id, option)),
       noteBox(q.id, 'Note (optional)')));
   });
-  main.append(el('h2', { textContent: 'Anything else' }), noteBox('else', 'Anything else'));
+  document.querySelector('main').append(el('h2', { textContent: 'Anything else' }), noteBox('else', 'Anything else'));
+  show(decodeURIComponent(location.hash.slice(1)));
   refresh();
   $('send').disabled = false;
   say(draft ? 'Unsent draft restored' : stash ? 'Old draft dropped: newer answers were saved' : Object.keys(saved).length ? 'Showing your saved answers' : '');
@@ -130,8 +256,14 @@ $('send').onclick = async () => {
 };
 
 $('next').onclick = () => {
-  const open = ids.filter(id => !answered(id)).map(id => $(`q-${id}`));
-  (open.find(card => card.getBoundingClientRect().top > 80) || open[0])?.scrollIntoView({ behavior: 'smooth' });
+  const open = [...document.querySelectorAll('section:not(.done)')];
+  const here = panes().findIndex(pane => !pane.hidden);
+  const at = card => panes().indexOf(card.parentElement);
+  const card = open.find(c => at(c) > here || (at(c) === here && c.getBoundingClientRect().top > 110)) || open[0];
+  if (!card) return;
+  const behavior = at(card) === here ? 'smooth' : 'instant';
+  show(card.parentElement.dataset.tab);
+  card.scrollIntoView({ behavior });
 };
 
 load().catch(error => say(`Load failed: ${error.message}`));
