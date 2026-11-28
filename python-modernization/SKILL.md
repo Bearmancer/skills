@@ -5,9 +5,9 @@ description: Use whenever writing, reviewing, refactoring, running or explaining
 
 # Modern Python, enforced
 
-Model knowledge predates 3.12; this skill overrides it. It extends the Python rule in `~/.agents/AGENTS.md` ("Code and guards") with stricter bans of its own, such as typing and `uv run python`. The python-guard plugin enforces only part of this, so follow the skill even where a command is let through.
+This skill extends the Python rule in `~/.agents/AGENTS.md` ("Code and guards") with stricter bans of its own, such as typing and `uv run python`. The python-guard plugin enforces only part of this, so follow the skill even where a command is let through.
 
-**CPython 3.13 only.** 3.14+ features do not exist here, and a version switch (`--python`, `py -V:`) is never written. Why 3.13: `onnxruntime`, which `faster-whisper` needs, ships no Windows cp315 wheel, and 3.13 runs everything else.
+**CPython 3.13 only.** 3.14+ is installed on this box (3.15.2, 3.16.0a2) and never used; a version switch (`--python`, `py -V:`) is never written, and no `.python-version` is added, since a nearer one overrides the 3.13 default. Why 3.13: `faster-whisper` needs `onnxruntime`, and its latest PyPI release (1.32.0) lists no Windows cp315 wheel.
 
 **Rules:** no typing; one run command; pathlib with explicit `encoding="utf-8"`, never bare `open()`; no packaging files; fewest lines - builtins and comprehensions over Python loops, `join` over `+=`, `functools.cache` for pure repeated calls, the right container, stdlib before any dependency, no abstraction nobody calls.
 
@@ -21,25 +21,25 @@ Model knowledge predates 3.12; this skill overrides it. It extends the Python ru
 
 Test suites get a `.py` entry point (`uv run tests/test_stt.py` behind `unittest.main()`); a tool that exists only as `python -m <tool>` gets `uv tool install`. Never `uvx`/`uv tool run`.
 
-`uv pip` installs into the shared interpreter: importable by every script, no packaging files. `uv tool` builds a private env per tool with one `.exe` in `~\.local\bin`, requires `pyproject.toml`/`setup.py`, and drops packages with no entry point. **A script of your own never goes through `uv tool`.**
+`uv tool install` gives each tool a private environment; each console or script entry point becomes an executable in `~\.local\bin` (paper-search-mcp installs two: `paper-search` and `paper-search-mcp`). A package with no such entry point installs no command. **A script of your own never goes through `uv tool`.**
 
 ## Banned
 
 | Forbidden | Why | Instead |
 | --- | --- | --- |
-| `# /// script` PEP 723 header | sealed env hides every `uv pip` package: a headered script failed `import six` while its headerless neighbor worked | bare `uv run file.py`; deps as a docstring `uv pip install` line |
-| `uv run --with <pkg>` | re-resolves an env every run | `uv pip install <pkg>` once |
+| `# /// script` PEP 723 header | uv builds that script's environment from the header's dependencies (uv scripts docs), one cache entry per script (uv storage docs); packages a run already used are reused, not downloaded again (uv cache docs) | bare `uv run file.py`; deps as a docstring `uv pip install` line |
+| `uv run --with <pkg>` | per-invocation dependencies (uv scripts docs), not the shared interpreter | `uv pip install <pkg>` once |
 | any `uv run` flag (`--no-project`, `--script`, `--isolated`, `--quiet`, `--python`, ...) | flags work around a project or env that must not exist | `uv run file.py`; version comes from `.python-version` |
 | `uv run python ...` in every form (`-c`, `-m`, REPL, file) | no interpreter appears on a command line on this host | `probe.py` + `uv run probe.py`; `.py` entry points |
-| `pyproject.toml`, `uv.lock`, `uv add`, `uv sync`, `uv lock`, `uv init` | a pyproject turns `uv run` into ".venv creation" and hides the shared libraries | a `.py` file plus a docstring install line |
+| `pyproject.toml`, `uv.lock`, `uv add`, `uv sync`, `uv lock`, `uv init` | a pyproject makes `uv run` create a `.venv` (uv storage docs) and install the project first (uv scripts docs) | a `.py` file plus a docstring install line |
 | `uv venv`, `virtualenv`, `.venv`, `venv/` | a second library set to sync by hand | `uv pip install` into the shared interpreter |
-| `uvx <pkg>`, `uv tool run <pkg>` | a third way to reach a tool; hides which env it lives in | `uv tool install <pkg>`, bare command |
-| `pip`, `pipx`, `python`, `python3`, `py` | resolves to a python.org install `uv run` never sees | the `uv ...` forms above |
+| `uvx <pkg>`, `uv tool run <pkg>` | a temporary environment per call (uv tools docs) | `uv tool install <pkg>`, bare command |
+| `pip`, `pipx`, `python`, `python3`, `py` | resolve to interpreters `uv run` does not use; `python` first resolves to `WindowsApps\python.exe` | the `uv ...` forms above |
 | typing: annotations, `import typing`, `from __future__ import annotations`, TypedDict, Protocol, `@dataclass`, `typing.NamedTuple`, PEP 695 `type X =`/`def f[T]`, `cast`, `@overload`, `Final`, `ClassVar`, `Self`, `@override`, `assert_type`, mypy/pyright/pyre | Python here is dynamic and brief; annotations cost maintenance and buy nothing | plain code; runtime checks (`isinstance`, guards, `assert`); `collections.namedtuple`, plain class, or dict; strip checker configs when modernizing |
 
 The guard also rejects `.py` writes and edits that call bare `open()`, add a PEP 723 header, or use `os.path`, `os.listdir`, `os.walk`, `os.mkdir`, `os.makedirs`, `os.remove`, `os.unlink` or `shutil` in a file that does not import `pathlib`.
 
-Environment trouble - `uv pip` finds no interpreter, `externally-managed-environment`, an installed package will not import, a bloated uv cache: read `references/host.md`.
+Environment trouble - `uv pip` finds no interpreter, `externally-managed-environment`, an installed package will not import, the uv cache is large, the Python version is not the expected one, or an upgrade ran: read `references/host.md`.
 
 ## Catalog (everything here runs on 3.13)
 
@@ -81,7 +81,7 @@ For a hot loop, profile first, then use `ctypes`/`cffi`. 3.13 free-threading and
 
 ## Script shape
 
-A script is a `.py` file whose docstring names what a fresh machine needs, then the run line. No shebang: `#!/usr/bin/env python3` resolves through PATH, which is not how this host runs scripts.
+A script is a `.py` file whose docstring names what a fresh machine needs, then the run line. No shebang: this host runs scripts with `uv run`.
 
 ```python
 """Needs: uv pip install requests
