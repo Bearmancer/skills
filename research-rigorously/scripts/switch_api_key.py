@@ -272,6 +272,21 @@ def usage_text(service, key, get=default_get):
             + (f" ({pct}%)" if pct is not None else "")
             + (f", period ends {period}" if period else "")
         )
+    if service == "firecrawl":
+        # https://docs.firecrawl.dev/api-reference/endpoint/credit-usage
+        code, body = get(
+            "https://api.firecrawl.dev/v2/team/credit-usage",
+            {"Authorization": f"Bearer {key}"},
+        )
+        if code != 200:
+            return f"HTTP {code}"
+        data = _json(body).get("data") or {}
+        remaining, plan = data.get("remainingCredits"), data.get("planCredits")
+        if remaining is None:
+            return "usage reported"
+        return f"{remaining} credits left" + (
+            f" of {plan} plan" if plan is not None else ""
+        )
     return "n/a (no usage API)"
 
 

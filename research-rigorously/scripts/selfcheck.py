@@ -1925,6 +1925,43 @@ def _():
     assert "no documented usage endpoint" in switch_api_key.usage_text("tinyfish", "k", get)
 
 
+@check("keys.firecrawl", "new")
+def _():
+    reg = registry.load()
+    srv = reg["servers"]["firecrawl"]
+    assert srv["pool"] == "firecrawl" and srv["keyed"] and srv["wired"]
+    assert srv["key"]["env"] == "FIRECRAWL_API_KEY"
+    assert "acct" in re.compile(srv["key"]["pattern"]).groupindex
+    surfs = registry.surfaces(reg)
+    assert list(surfs["firecrawl.search"].routes)[0] == "mcp"
+    assert surfs["firecrawl.search"].routes["mcp"][0] == "firecrawl_search"
+    assert surfs["firecrawl.fetch"].routes["mcp"][0] == "firecrawl_scrape"
+    assert surfs["firecrawl.map"].routes["mcp"][0] == "firecrawl_map"
+    assert "firecrawl.fetch" in reg["fetch_ladder"]
+
+    def get(url, headers, timeout=15.0):
+        assert "credit-usage" in url
+        return 200, json.dumps({"data": {"remainingCredits": 940, "planCredits": 1000}}).encode()
+
+    text = switch_api_key.usage_text("firecrawl", "fcsecretvalue123", get)
+    assert "940 credits left" in text and "1000 plan" in text, text
+    assert "fcsecretvalue123" not in text
+
+    with tempfile.TemporaryDirectory() as tmp:
+        (Path(tmp) / "Firecrawl.env").write_text("FIRECRAWL_API_KEY=fcsecretvalue123\n", encoding="utf-8")
+        dotenv = switch_api_key.get_dotenv_map(Path(tmp))
+        pool = switch_api_key.get_pool(dotenv, "firecrawl")
+        assert pool and "fcsecretvalue123" in pool.values(), pool
+
+
+@check("keys.firecrawl-errors", "new")
+def _():
+    reg = registry.load()
+    assert registry.classify_error(reg, "firecrawl", status=402, code="402") == "out_of_credit"
+    assert registry.classify_error(reg, "firecrawl", status=401, code="401") == "bad_key"
+    assert registry.classify_error(reg, "firecrawl", status=429, code="429") == "rate_limit"
+
+
 @check("keys.only-service-env-files", "new")
 def _():
     with tempfile.TemporaryDirectory() as tmp:
