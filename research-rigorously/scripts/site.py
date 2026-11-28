@@ -83,7 +83,7 @@ def _chapters(topic_dir):
 
 
 KINDS = ("narrative", "explainer")
-INDEX_EXTRAS = re.compile(r'<nav class="index-extras">.*?</nav>', re.S)
+INDEX_EXTRAS = re.compile(r'<nav class="index-extras">.*?</nav>', re.DOTALL)
 
 
 SINGLE_MODES = ("rules", "answer", "recommend")

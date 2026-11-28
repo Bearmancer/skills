@@ -3,7 +3,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from .. import agents, domains, driver, ledger, log_attempt, registry, urlaudit
-from ..fetch import FetchResult, MEDIA_SUFFIXES, TEXT_SUFFIXES
+from ..fetch import MEDIA_SUFFIXES, TEXT_SUFFIXES, FetchResult
 from ..workspace import normalize_url, source_kinds, tier_for
 
 INPUT_SUFFIXES = (".pdf", *TEXT_SUFFIXES, *MEDIA_SUFFIXES)

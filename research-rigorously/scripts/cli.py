@@ -35,10 +35,9 @@ import os
 import re
 import shlex
 import shutil
-import sys
 import subprocess
+import sys
 from pathlib import Path
-
 
 DEFAULT_SITE_URL = "https://bearmancer.github.io"
 DEFAULT_STATE_ROOT = Path.home() / ".rigor"
@@ -312,7 +311,7 @@ def run_main(
         ctx = build_context(
             main_root, args.topic, services(main_root, registry.load(), cfg), cfg
         )
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - CLI entry point: any failure is exit 1
         print(f"error: {exc}")
         return 1
     run_dir = ctx.topic_dir

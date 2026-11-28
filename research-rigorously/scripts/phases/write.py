@@ -9,7 +9,7 @@ from ..workspace import normalize_url
 
 PUBLISHABLE = ("true", "interpretive", "untrue")
 SINGLE_PAGE_MODES = ("rules", "answer", "recommend")
-COMPOSING = re.compile(r"\b(composed|wrote|written|composer)\b", re.I)
+COMPOSING = re.compile(r"\b(composed|wrote|written|composer)\b", re.IGNORECASE)
 LAYOUTS_MD = Path(__file__).resolve().parent.parent.parent / "references" / "layouts.md"
 
 
@@ -206,8 +206,7 @@ def normalize_draft(data):
         "sentences": body,
         "errata": errata,
     }
-    for s in [answer, *body, *errata]:
-        n += 1
+    for n, s in enumerate([answer, *body, *errata], 1):
         s["id"] = f"s{n}"
     return out
 

@@ -52,7 +52,7 @@ def _term_links(text, terms):
         r"(?<!\w)("
         + "|".join(re.escape(t) for t in sorted(terms, key=len, reverse=True))
         + r")(?!\w)",
-        re.I,
+        re.IGNORECASE,
     )
     out, pos, seen = [], 0, set()
     for m in pattern.finditer(text):

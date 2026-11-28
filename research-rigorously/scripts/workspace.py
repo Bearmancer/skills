@@ -2,7 +2,7 @@ import hashlib
 import re
 import threading
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import urldefrag, urlparse
 
@@ -113,7 +113,7 @@ def apply_budget(cfg, overrides):
 
 
 def now_stamp(clock=None):
-    return (clock() if clock else datetime.now(timezone.utc)).strftime(
+    return (clock() if clock else datetime.now(UTC)).strftime(
         "%Y-%m-%dT%H:%M:%SZ"
     )
 

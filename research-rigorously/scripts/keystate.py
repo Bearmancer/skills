@@ -3,7 +3,7 @@ import hashlib
 import json
 import sys
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 if sys.platform == "win32":
     import msvcrt
@@ -19,11 +19,11 @@ def fingerprint(key):
 
 
 def _parse(ts):
-    return datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    return datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC)
 
 
 def _stamp(dt):
-    return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return dt.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def reset_at(exhausted_at, reset):
@@ -125,7 +125,7 @@ class KeyState:
             self.data = self._read()
 
     def mark_exhausted(self, pool, fp, now=None, reset="unknown"):
-        stamp = _stamp(now or datetime.now(timezone.utc))
+        stamp = _stamp(now or datetime.now(UTC))
 
         def mark(d):
             d["keys"].setdefault(pool, {})[fp] = {"exhausted_at": stamp, "reset": reset}
@@ -136,7 +136,7 @@ class KeyState:
         entry = self.data["keys"].get(pool, {}).get(fp)
         if entry is None:
             return True
-        now = now or datetime.now(timezone.utc)
+        now = now or datetime.now(UTC)
         return now >= reset_at(
             _parse(entry["exhausted_at"]), entry.get("reset", "unknown")
         )

@@ -6,9 +6,9 @@ import yaml
 from . import registry
 
 ROLES_MD = registry.ROOT / "references" / "roles.md"
-_FENCE = re.compile(r"```(?:ya?ml)?\s*\n(.*?)```", re.S)
-_STEP = re.compile(r"^## step: (?P<key>[\w-]+)\s*$", re.M)
-_CHECKING = re.compile(r"^Checking roles:\s*(?P<roles>.+?)\s*$", re.M)
+_FENCE = re.compile(r"```(?:ya?ml)?\s*\n(.*?)```", re.DOTALL)
+_STEP = re.compile(r"^## step: (?P<key>[\w-]+)\s*$", re.MULTILINE)
+_CHECKING = re.compile(r"^Checking roles:\s*(?P<roles>.+?)\s*$", re.MULTILINE)
 _UNANSWERABLE = re.compile(r"^\s*UNANSWERABLE:\s*(?P<reason>.*)$")
 
 
@@ -62,7 +62,7 @@ def _reader_profile():
     m = re.search(
         r"^## Reader profile\s*\n(.*?)(?=^## )",
         ROLES_MD.read_text(encoding="utf-8"),
-        re.S | re.M,
+        re.DOTALL | re.MULTILINE,
     )
     return m[1].split(":", 1)[1].strip() if m else ""
 

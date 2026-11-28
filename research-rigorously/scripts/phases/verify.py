@@ -237,7 +237,7 @@ def _independent(ctx, claim, pairs, n):
         t2 = [(ev, src) for ev, src in pairs if src["tier"] == "T2"]
         if len({src["publisher"].strip().lower() for _, src in t2}) >= 2:
             t2_allowed = {ev["source"] for ev, _ in t2}
-            data = _ask_independence(
+            _ask_independence(
                 ctx,
                 claim,
                 t2,
@@ -245,9 +245,7 @@ def _independent(ctx, claim, pairs, n):
                 n,
                 sorted(ev["source"] for ev, _ in t2),
             )
-            if data is not None and _conflicts(_relations(ctx, t2_allowed)):
-                _log_independence(ctx, claim, "T2 pair chained; T1 row still decides")
-            elif data is None and _conflicts(_relations(ctx, t2_allowed)):
+            if _conflicts(_relations(ctx, t2_allowed)):
                 _log_independence(ctx, claim, "T2 pair chained; T1 row still decides")
         if conflicts:
             _log_independence(ctx, claim, "ignored; T1 row decides")
@@ -538,7 +536,7 @@ def verify(ctx, d):
         fatal = []
         results, _size = driver.run_wave(
             {cid: cid for cid in todo},
-            lambda cid: _guarded_round(ctx, cid, fatal),
+            lambda cid, fatal=fatal: _guarded_round(ctx, cid, fatal),
             timeout=ctx.cfg.wave_timeout,
         )
         for exc in fatal:

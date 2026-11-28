@@ -1,4 +1,5 @@
 import hashlib
+import http.client
 import json
 import re
 import shutil
@@ -30,7 +31,7 @@ def default_live_fetch(url):
             return r.status, r.read()
     except urllib.error.HTTPError as exc:
         return exc.code, b""
-    except Exception:
+    except (OSError, ValueError, http.client.HTTPException):
         return 0, b""
 
 
@@ -340,7 +341,7 @@ def recheck_url(ctx, url):
     if ctx.fetcher is not None:
         try:
             result = ctx.fetcher.read_url(url, ctx, allow_mcp=False)
-        except Exception as exc:  # a vendor failure is a failed route, not a crash
+        except Exception as exc:  # noqa: BLE001 - a vendor failure is a failed route, not a crash
             result = None
             routes.append({"route": "ladder-nonmcp", "status": "error", "code": str(exc)[:120]})
         if result is not None:

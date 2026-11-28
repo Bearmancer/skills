@@ -4,40 +4,40 @@ import sys
 
 VERIFY_WORDS = re.compile(
     r"\b(fact[- ]?check|debunk|verify (these|this|the) (claims?|statements?)|check (these|this|the) claims?|are these (claims )?(true|correct))\b",
-    re.I,
+    re.IGNORECASE,
 )
 RULES_WORDS = re.compile(
     r"\b(rulebook|rule ?book|how (do|to) (i|you|we) play|how to play|rules (for|of) \w|board ?game|boardgame|bgg|boardgamegeek|errata|player count)",
-    re.I,
+    re.IGNORECASE,
 )
 RULES_FILE = re.compile(
-    r"[\w./\\-]*(rule|regel|anleitung|manual)[\w./\\ -]*\.pdf", re.I
+    r"[\w./\\-]*(rule|regel|anleitung|manual)[\w./\\ -]*\.pdf", re.IGNORECASE
 )
 LEARN_WORDS = re.compile(
     r"\b(teach me|help me understand|go through|chapter by chapter|course (on|about)|notes on|treatise|walk me through)\b",
-    re.I,
+    re.IGNORECASE,
 )
 ANSWER_WORDS = re.compile(
     r"\b(is (it|this|that) (really )?true|how true is (it|this|that)|true or false|did .{3,} (really|actually) happen)\b|\b(did|does|was|were) .{3,} really\b",
-    re.I,
+    re.IGNORECASE,
 )
 QUESTION_START = re.compile(
     r"^\s*(why|what|when|where|who|which|how|did|does|do|was|were|is|are|has|have|can|could|will|would|should)\b",
-    re.I,
+    re.IGNORECASE,
 )
 CLASSICAL_PLURALS = re.compile(
     r"\b(symphon(?:ies)|concert(?:os|i)|overtures|tone poems|string quartets|suites)\b",
-    re.I,
+    re.IGNORECASE,
 )
 CLASSICAL_WORD = re.compile(
     r"\b(symphon\w*|concert(?:o|os|i)|overtures?|tone poems?|quartets?|suites?|sonatas?|operas?|requiems?|cantatas?|orchestral|classical|composers?|beethoven|mozart|bach|brahms|tchaikovsky|shostakovich)\b",
-    re.I,
+    re.IGNORECASE,
 )
 CLASSICAL_CUES = re.compile(
     r"(bored of (beethoven|mozart|bach|brahms|tchaikovsky|the canon)|new (concerto|overture|symphony))",
-    re.I,
+    re.IGNORECASE,
 )
-CLASSICAL_HINTS = re.compile(r"(deep cuts?|haven'?t heard)", re.I)
+CLASSICAL_HINTS = re.compile(r"(deep cuts?|haven'?t heard)", re.IGNORECASE)
 LIST_LINE = re.compile(r"^\s*(?:[-*•]|\d{1,3}[.)])\s+\S")
 
 

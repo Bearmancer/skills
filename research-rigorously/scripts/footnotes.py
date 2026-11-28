@@ -58,8 +58,8 @@ class Notes:
 
 
 REFERENCE_ATTRS = ("href", "src", "srcset", "action", "data")
-EXTERNAL_REF = re.compile(r"^\s*(https?:)?//", re.I)
-URL_TEXT = re.compile(r"https?://|(?<![:\w/])//[a-z0-9-]+\.[a-z0-9.-]+", re.I)
+EXTERNAL_REF = re.compile(r"^\s*(https?:)?//", re.IGNORECASE)
+URL_TEXT = re.compile(r"https?://|(?<![:\w/])//[a-z0-9-]+\.[a-z0-9.-]+", re.IGNORECASE)
 
 
 class _Scan(HTMLParser):

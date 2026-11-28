@@ -8,6 +8,7 @@ returns the page; BGG answers 403 to bots, so its links need that second surface
 """
 
 import argparse
+import http.client
 import re
 import sys
 import time
@@ -20,13 +21,13 @@ from urllib.parse import quote, urlparse
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36"
 URL_RE = re.compile(r"https?://[^\s<>()\[\]\"'`|]+")
 SOFT_404 = re.compile(
-    rb"page not found|404 not found|doesn.t exist|no longer available", re.I
+    rb"page not found|404 not found|doesn.t exist|no longer available", re.IGNORECASE
 )
 PLACEHOLDER = re.compile(
     r"…|\.\.\.|XXXX|<|\{|/example\b|example\.(com|org)|://mcp\.|/mcp(\?|$)|localhost|127\.0\.0\.1"
 )
 JS_SHELL = re.compile(
-    rb"enable javascript|requires javascript|<noscript>|id=\"(root|app|__next)\"", re.I
+    rb"enable javascript|requires javascript|<noscript>|id=\"(root|app|__next)\"", re.IGNORECASE
 )
 BLOCKED_CODES = (401, 403, 429, 503)
 MAX_BODY = 300_000
@@ -59,7 +60,7 @@ def default_fetch(url, timeout=20.0, sleep=time.sleep):
                 return Fetched(r.status, r.geturl(), r.read(MAX_BODY))
         except urllib.error.HTTPError as exc:
             return Fetched(exc.code, url)
-        except Exception as exc:
+        except (OSError, ValueError, http.client.HTTPException) as exc:
             if i == attempts - 1:
                 return Fetched(0, url, error=type(exc).__name__)
             sleep(RETRY_WAITS[i])
@@ -78,7 +79,7 @@ def classify(url, got):
     if SOFT_404.search(got.body[:20_000]):
         return UrlResult(url, got.code, "BROKEN(soft-404)", got.final)
     text = re.sub(
-        rb"<script.*?</script>|<style.*?</style>|<[^>]+>", b" ", got.body, flags=re.S
+        rb"<script.*?</script>|<style.*?</style>|<[^>]+>", b" ", got.body, flags=re.DOTALL
     )
     if JS_SHELL.search(got.body) and len(text.split()) < 150:
         return UrlResult(url, got.code, "JS?", got.final)

@@ -128,7 +128,7 @@ def _aspects(ctx, d, wave):
     if (
         d.state.mode == "rules"
         and wave == 1
-        and not any(re.search(r"strateg", a, re.I) for a in out)
+        and not any(re.search(r"strateg", a, re.IGNORECASE) for a in out)
     ):
         out = out[: max(n - 1, 0)] + [RULES_STRATEGY]
     return out
@@ -191,7 +191,7 @@ def discover(ctx, d):
         exhausted = []
         results, _size = driver.run_wave(
             {name: name for name in tasks},
-            lambda name, w=wave: _task(ctx, d, w, name, *tasks[name], exhausted),
+            lambda name, w=wave, tasks=tasks, exhausted=exhausted: _task(ctx, d, w, name, *tasks[name], exhausted),
             timeout=ctx.cfg.wave_timeout,
         )
         common.raise_exhausted(exhausted)

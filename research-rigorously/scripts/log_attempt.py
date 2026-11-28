@@ -8,7 +8,7 @@ import argparse
 import hashlib
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from . import registry
@@ -57,7 +57,7 @@ def build_record(
         raise AttemptError(f"unknown error_class {error_class}")
     if status == "ok" and error_class:
         raise AttemptError("ok attempt cannot carry an error_class")
-    stamp = (now or datetime.now(timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    stamp = (now or datetime.now(UTC)).strftime("%Y-%m-%dT%H:%M:%SZ")
     return {
         "claim": claim,
         "round": round_no,

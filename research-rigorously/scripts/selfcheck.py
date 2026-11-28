@@ -10,7 +10,6 @@ import ast
 import atexit
 import contextlib
 import copy
-import hashlib
 import io
 import json
 import re
@@ -21,10 +20,10 @@ import sys
 import tempfile
 import threading
 import time
-import traceback
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from types import SimpleNamespace
+from typing import ClassVar
 
 import yaml
 
@@ -315,7 +314,7 @@ AGENT_CLIS = {
     "kilocode", "aider", "cursor-agent", "goose", "crush", "qwen", "amp",
     "droid", "copilot", "omo",
 }
-_HEAD = re.compile(r"^([\w.-]+?)(?:\.exe|\.cmd|\.ps1)?(?:\s|$)", re.I)
+_HEAD = re.compile(r"^([\w.-]+?)(?:\.exe|\.cmd|\.ps1)?(?:\s|$)", re.IGNORECASE)
 
 
 def _agent_head(text):
@@ -336,9 +335,12 @@ def agent_cli_uses(source, name="<src>"):
             arg = node.args[0] if node.args else None
             if not (isinstance(arg, ast.Constant) and isinstance(arg.value, str)):
                 continue
-            if called == "which" and _agent_head(arg.value):
-                found.append(f"{name}:{node.lineno}")
-            elif called in {"run", "Popen", "call", "check_call", "check_output", "system", "_cmd", "run_cmd"} and re.match(r"^\S+\s", arg.value) and _agent_head(arg.value):
+            head = _agent_head(arg.value)
+            if head and (
+                called == "which"
+                or called in {"run", "Popen", "call", "check_call", "check_output", "system", "_cmd", "run_cmd"}
+                and re.match(r"^\S+\s", arg.value)
+            ):
                 found.append(f"{name}:{node.lineno}")
     return found
 
@@ -380,7 +382,7 @@ def _():
         tmp = Path(tmp)
         runner = driver.HandRunner(tmp, checking=("verifier",))
         assert raises(driver.NeedsAgent, lambda: runner.run("verifier", "check these rows", step="gate.b1"))
-        ask = sorted(tmp.glob("*.ask.md"))[0]
+        ask = min(tmp.glob("*.ask.md"))
         head = ask.read_text(encoding="utf-8")
         assert "role: verifier" in head and "fresh subagent: yes" in head and "check these rows" in head
         reply = Path(re.search(r"reply file: (.+)", head)[1].strip())
@@ -388,7 +390,7 @@ def _():
         assert runner.run("verifier", "check these rows", step="gate.b1") == "verdicts: []\n"
         assert raises(driver.NeedsAgent, lambda: runner.run("verifier", "changed rows", step="gate.b1"))
         assert raises(driver.NeedsAgent, lambda: runner.run("author", "write it", step="draft.ch1"))
-        author_ask = sorted(tmp.glob("draft.ch1-*.ask.md"))[0]
+        author_ask = min(tmp.glob("draft.ch1-*.ask.md"))
         assert "fresh subagent: no" in author_ask.read_text(encoding="utf-8")
 
 
@@ -468,7 +470,7 @@ def _():
         asks = {}
         for url in ("https://a.test/1", "https://b.test/2"):
             assert raises(driver.NeedsAgent, lambda u=url: fetcher._agent("tavily.extract", surf, u, ctx, False))
-            asks[url] = sorted((tmp / "agent").glob("*.ask.md"))[-1].read_text(encoding="utf-8")
+            asks[url] = max((tmp / "agent").glob("*.ask.md")).read_text(encoding="utf-8")
         head = asks["https://a.test/1"]
         dest = Path(re.search(r"save the page text to: (.+)", head)[1].strip())
         dest.write_text("page one text", encoding="utf-8")
@@ -494,7 +496,7 @@ def _():
         verify.round_attempts = lambda c, cid, n: [{"paradigm": "keyword"}]
         try:
             assert raises(driver.NeedsAgent, lambda: verify._do_round(ctx, claim["id"], []))
-            ask = sorted((tmp / "agent").glob("*.ask.md"))[0]
+            ask = min((tmp / "agent").glob("*.ask.md"))
             ask.with_name(ask.name.replace(".ask.", ".reply.")).write_text("sources: []\nattempts: []\n", encoding="utf-8")
             assert raises(driver.NeedsAgent, lambda: verify._do_round(ctx, claim["id"], []))
             names = sorted(Path(a).name.split("-")[0] for a in _last_asks(tmp / "agent"))
@@ -580,7 +582,6 @@ def _():
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         clone, _remote = setup_clone(tmp)
-        layout = workspace.Layout(tmp / "state", "topic-a")
         before = git(clone, "rev-parse", "main")
 
         def fake_fetch(url):
@@ -636,7 +637,7 @@ def _():
 def _():
     def runner_for(stays_wrong):
         def answer(role, step, prompt):
-            ids = re.findall(r"^- (c\d+) \[", prompt, re.M)
+            ids = re.findall(r"^- (c\d+) \[", prompt, re.MULTILINE)
             if ".recheck" in step:
                 v = "disagree" if stays_wrong else "agree"
                 return "```yaml\nverdicts:\n" + "".join(f"  - {{claim: {i}, verdict: {v}}}\n" for i in ids) + "```"
@@ -1000,8 +1001,8 @@ def _():
         media.parent.mkdir(parents=True, exist_ok=True)
         media.write_bytes(b"x")
         assert raises(driver.NeedsAgent, lambda: fetch.LadderFetcher().read_media_file(media, ctx, "https://x.test/a.mp3"))
-        ask = sorted(ctx.layout.run.glob("*.ask.md"))[0]
-        attached = re.findall(r"^- (.+\.mp3)$", ask.read_text(encoding="utf-8"), re.M)
+        ask = min(ctx.layout.run.glob("*.ask.md"))
+        attached = re.findall(r"^- (.+\.mp3)$", ask.read_text(encoding="utf-8"), re.MULTILINE)
         assert attached, ask.read_text(encoding="utf-8")[:300]
         for value in attached:
             path = Path(value).resolve()
@@ -1077,7 +1078,7 @@ def _():
         data = json.loads(path.read_text(encoding="utf-8"))
         entry = data["keys"]["exa"]["fp1"]
         assert entry["reset"] == "unknown", entry
-        stamp = datetime.strptime(entry["exhausted_at"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+        stamp = datetime.strptime(entry["exhausted_at"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC)
         from .keystate import reset_at
 
         assert reset_at(stamp, "unknown") - stamp == timedelta(hours=24)
@@ -1180,7 +1181,7 @@ def _():
         tmp = Path(tmp)
         runner = driver.HandRunner(tmp)
         assert raises(driver.NeedsAgent, lambda: runner.run("verifier", "same prompt", step="discover.w1.a1.s66.k1"))
-        ask = sorted(tmp.glob("*.ask.md"))[0]
+        ask = min(tmp.glob("*.ask.md"))
         reply = Path(re.search(r"reply file: (.+)", ask.read_text(encoding="utf-8"))[1].strip())
         reply.write_text("verdicts: []\n", encoding="utf-8")
         assert runner.run("verifier", "same prompt", step="discover.w1.a8.s66.k1") == "verdicts: []\n"
@@ -1193,7 +1194,7 @@ def _():
         tmp = Path(tmp)
         runner = driver.HandRunner(tmp)
         assert raises(driver.NeedsAgent, lambda: runner.run("verifier", "same prompt", step="discover.w1.a1.s66.k1"))
-        first = sorted(tmp.glob("*.ask.md"))[0]
+        first = min(tmp.glob("*.ask.md"))
         try:
             runner.run("verifier", "same prompt", step="discover.w1.a8.s66.k1")
         except driver.NeedsAgent as exc:
@@ -1227,7 +1228,7 @@ def _():
         surf = registry.surfaces(registry.load())["tavily.extract"]
         fetcher = fetch.LadderFetcher(min_chars=200)
         assert raises(driver.NeedsAgent, lambda: fetcher._agent("tavily.extract", surf, "https://x.test/a", ctx, False))
-        ask = sorted((tmp / "agent").glob("*.ask.md"))[0].read_text(encoding="utf-8")
+        ask = min((tmp / "agent").glob("*.ask.md")).read_text(encoding="utf-8")
         dest = Path(re.search(r"save the page text to: (.+)", ask)[1].strip())
         dest.write_text("x" * 120, encoding="utf-8")
         reply = Path(re.search(r"reply file: (.+)", ask)[1].strip())
@@ -1244,7 +1245,7 @@ def _():
         surf = registry.surfaces(registry.load())["tavily.extract"]
         fetcher = fetch.LadderFetcher()
         assert raises(driver.NeedsAgent, lambda: fetcher._agent("tavily.extract", surf, "https://x.test/a", ctx, False))
-        ask = sorted((tmp / "agent").glob("*.ask.md"))[0].read_text(encoding="utf-8")
+        ask = min((tmp / "agent").glob("*.ask.md")).read_text(encoding="utf-8")
         reply = Path(re.search(r"reply file: (.+)", ask)[1].strip())
         reply.write_text("ok: false\nerror: { status: 403, code: \"blocked\" }\n", encoding="utf-8")
         got = fetcher._agent("tavily.extract", surf, "https://x.test/a", ctx, False)
@@ -1338,7 +1339,7 @@ def _():
         seen = {}
 
         def answer(role, step, prompt):
-            ids = re.findall(r"^- (c\d+) \[", prompt, re.M)
+            ids = re.findall(r"^- (c\d+) \[", prompt, re.MULTILINE)
             seen["ids"] = ids
             return "```yaml\nverdicts:\n" + "".join(f"  - {{claim: {i}, verdict: agree}}\n" for i in ids) + "```"
 
@@ -1360,9 +1361,9 @@ def _():
     ]
 
     class L:
-        claims = [claim]
-        sources_doc = {"schema": 1, "sources": []}
-        claims_doc = {"schema": 1, "claims": [claim]}
+        claims: ClassVar[list] = [claim]
+        sources_doc: ClassVar[dict] = {"schema": 1, "sources": []}
+        claims_doc: ClassVar[dict] = {"schema": 1, "claims": [claim]}
 
         def sources_by_id(self):
             return {}
@@ -1504,7 +1505,7 @@ def _publish_state():
     ctx, d = make_ctx(base, clone)
     ctx.publisher = __import__("scripts.publish", fromlist=["GitPublisher"]).GitPublisher(clone, state_root=base / "state")
     stamp = "2026-11-26T09:08:07Z"
-    ctx.clock = lambda: datetime(2026, 11, 26, 9, 8, 7, tzinfo=timezone.utc)
+    ctx.clock = lambda: datetime(2026, 11, 26, 9, 8, 7, tzinfo=UTC)
 
     def stage(rel, body, meta=None):
         path = ctx.site_root / rel
@@ -1594,7 +1595,7 @@ def _():
         ]
 
         class L:
-            sources_doc = {"schema": 1, "sources": sources}
+            sources_doc: ClassVar[dict] = {"schema": 1, "sources": sources}
             lock = __import__("threading").RLock()
 
             def sources_by_id(self):
@@ -1633,7 +1634,7 @@ def _():
 def _():
     reg = registry.load()
     surf = registry.surfaces(reg)["tavily.extract"]
-    assert list(surf.routes)[0] == "mcp"
+    assert next(iter(surf.routes)) == "mcp"
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         prompt = {}
@@ -1933,7 +1934,7 @@ def _():
     assert srv["key"]["env"] == "FIRECRAWL_API_KEY"
     assert "acct" in re.compile(srv["key"]["pattern"]).groupindex
     surfs = registry.surfaces(reg)
-    assert list(surfs["firecrawl.search"].routes)[0] == "mcp"
+    assert next(iter(surfs["firecrawl.search"].routes)) == "mcp"
     assert surfs["firecrawl.search"].routes["mcp"][0] == "firecrawl_search"
     assert surfs["firecrawl.fetch"].routes["mcp"][0] == "firecrawl_scrape"
     assert surfs["firecrawl.map"].routes["mcp"][0] == "firecrawl_map"
@@ -2005,7 +2006,7 @@ def main(argv=None):
     for name, source, fn in selected:
         try:
             fn()
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - a failed check is reported, not raised
             failed += 1
             reason = " ".join(str(exc).split())
             print(f"FAIL {name}: {reason[:300]}")

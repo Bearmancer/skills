@@ -2,7 +2,7 @@ import re
 import subprocess
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from . import registry
 from .driver import PoolExhausted
@@ -18,7 +18,7 @@ ROTATE_CLASSES = ("out_of_credit", "bad_key")
 
 
 def _utcnow():
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def _no_evidence(status, code):

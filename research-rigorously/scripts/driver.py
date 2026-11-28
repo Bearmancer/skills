@@ -4,7 +4,7 @@ import hashlib
 import inspect
 import re
 import traceback
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import yaml
@@ -133,7 +133,7 @@ class RunState:
 
 
 def now():
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def new_run_id(clock=now):
@@ -222,7 +222,7 @@ class Driver:
             except GateFailed as exc:
                 self._fail(phase, f"gate {exc.gate} failed", exc.problems)
                 break
-            except Exception as exc:
+            except Exception as exc:  # noqa: BLE001 - any phase error is recorded as a failure
                 self._fail(
                     phase,
                     f"{type(exc).__name__}: {exc}",
@@ -273,8 +273,8 @@ class Driver:
                         step = line.split(":", 1)[1].strip()
                     elif line.startswith("fresh subagent:"):
                         fresh = "yes" in line
-            except Exception:
-                pass
+            except (OSError, ValueError):
+                continue
             if not fresh:
                 continue
             grouped.setdefault(role, []).append((step, a, p))
@@ -460,7 +460,7 @@ def run_wave(
                         )
                     else:
                         queue.append(key)
-                except Exception as exc:
+                except Exception as exc:  # noqa: BLE001 - any task error is retried or recorded
                     if tries[key] <= retries:
                         queue.append(key)
                     else:

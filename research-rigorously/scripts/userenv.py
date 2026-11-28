@@ -33,8 +33,8 @@ def broadcast_change():
         ctypes.windll.user32.SendMessageTimeoutW(
             0xFFFF, 0x1A, 0, "Environment", 2, 1000, ctypes.byref(result)
         )
-    except Exception:
-        pass
+    except (AttributeError, OSError):
+        return
 
 
 def get_active_value(name):

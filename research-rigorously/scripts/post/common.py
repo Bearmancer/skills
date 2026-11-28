@@ -25,7 +25,7 @@ def _vendors():
 VENDORS = _vendors()
 
 PATH_OK = re.compile(r"^/[A-Za-z0-9._~%!$'()*+,;=:@/-]*$")
-ENCODED_DOT = re.compile(r"%2e", re.I)
+ENCODED_DOT = re.compile(r"%2e", re.IGNORECASE)
 CODE_HEADERS = ("x-brd-error-code", "x-brd-err-code")
 MESSAGE_HEADERS = ("x-brd-error", "x-brd-err-msg")
 

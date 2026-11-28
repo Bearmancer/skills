@@ -8,16 +8,16 @@ from . import registry
 DOMAINS_DIR = registry.ROOT / "references" / "domains"
 CLASSICAL_WORDS = re.compile(
     r"\b(classical|symphon\w*|concert(?:o|os|i)|overtures?|tone poems?|string quartets?|(?-i:composers?)|orchestras?|orchestral|opera(?!\s+(?:browser|gx|mini)))\b",
-    re.I,
+    re.IGNORECASE,
 )
 POPULAR_WORDS = re.compile(
     r"\b(rock|pop|jazz|electronic|hip[- ]hop|albums?|bands?|discography|singles?)\b",
-    re.I,
+    re.IGNORECASE,
 )
 NO_ALIAS = {"vaughan williams"}
 FULL_GIVEN = {"bach": ("johann", "sebastian")}
 NAME_TOKEN = re.compile(r"[A-Z][a-z]+|(?:[A-Z]\.)+")
-ERA_WORDS = re.compile(r"(?<!neo-)(?<!neo )\b(baroque|medieval)\b", re.I)
+ERA_WORDS = re.compile(r"(?<!neo-)(?<!neo )\b(baroque|medieval)\b", re.IGNORECASE)
 
 
 def domain_for(mode, prompt):
@@ -136,7 +136,7 @@ def banned_composer(text, prompt):
     for alias, given in _composer_aliases():
         if re.search(rf"\ballow\s+{re.escape(alias.split()[-1])}\b", ask):
             continue
-        for m in re.finditer(rf"\b{re.escape(alias)}\b", hay, re.I):
+        for m in re.finditer(rf"\b{re.escape(alias)}\b", hay, re.IGNORECASE):
             if given is None or not _namesake(hay, m.start(), given):
                 return alias
     return None

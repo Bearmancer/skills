@@ -1,5 +1,6 @@
 
 import argparse
+import http.client
 import json
 import os
 import re
@@ -37,8 +38,7 @@ class DotEnv(dict):
 
 
 def _parse_assignment(line):
-    if line.startswith("export "):
-        line = line[len("export ") :]
+    line = line.removeprefix("export ")
     idx = line.find("=")
     if idx < 1:
         return None
@@ -171,7 +171,7 @@ def default_get(url, headers, timeout=15.0):
             return r.status, r.read()
     except urllib.error.HTTPError as exc:
         return exc.code, b""
-    except Exception:
+    except (OSError, ValueError, http.client.HTTPException):
         return 0, b""
 
 
@@ -437,7 +437,7 @@ def main(argv=None, get=default_get):
                 f"{args.service}: {from_desc} -> {target_acct}({target_fp}). "
                 f"User env var {env_var} updated; CLIs and POST scripts read it on their next start."
             )
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - CLI entry point: any failure is exit 1
         print(str(exc), file=sys.stderr)
         sys.exit(1)
 

@@ -1,4 +1,5 @@
 import hashlib
+import http.client
 import json
 import re
 import shutil
@@ -9,6 +10,7 @@ import urllib.request
 from collections import namedtuple
 from html.parser import HTMLParser
 from pathlib import Path
+from typing import ClassVar
 from urllib.parse import quote, urlparse
 
 from . import agents, keys, log_attempt, registry
@@ -66,12 +68,12 @@ def default_http_get(url, timeout=30.0):
             )
     except urllib.error.HTTPError as exc:
         return HttpResponse(exc.code)
-    except Exception as exc:
+    except (OSError, ValueError, http.client.HTTPException) as exc:
         return HttpResponse(0, error=type(exc).__name__)
 
 
 class _Text(HTMLParser):
-    BLOCK = {
+    BLOCK: ClassVar[set[str]] = {
         "p",
         "div",
         "br",
@@ -91,7 +93,7 @@ class _Text(HTMLParser):
         "dd",
         "dt",
     }
-    SKIP = {"script", "style", "noscript", "svg", "head"}
+    SKIP: ClassVar[set[str]] = {"script", "style", "noscript", "svg", "head"}
 
     def __init__(self):
         super().__init__(convert_charrefs=True)
