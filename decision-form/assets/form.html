@@ -203,7 +203,7 @@ async function load() {
   ({ version, sigs } = meta);
   draftKey = `decision-form-${key}`;
   const stash = stored(draftKey);
-  const draft = stash?.base === version ? stash : null;
+  const draft = stash && !('sigs' in stash) ? { sigs, state: stash } : stash?.base === version ? stash : null;
   ids = form.questions.map(q => q.id);
   const known = new Map(form.questions.map(q => [q.id, q.options.map(o => o.label)]).concat([['else', []]]));
   state = Object.fromEntries(Object.entries(draft?.state || saved).filter(([id]) => known.has(id) && (!draft || draft.sigs[id] === sigs[id]))
