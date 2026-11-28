@@ -1764,6 +1764,26 @@ def _():
         assert claim["reply_flags"]
 
 
+@check("independence.unlinked-source-counts", "new")
+def _():
+    with tempfile.TemporaryDirectory() as tmp:
+        ctx = tmp_ledger_ctx(Path(tmp))
+        claim = add_claim_with(
+            ctx,
+            "Claim with a cited chain and one separate source",
+            [("T2", "Origin", "supports"), ("T2", "Echo", "supports"), ("T2", "Desk", "supports")],
+        )
+        sources = ctx.ledger.sources_by_id()
+        pairs = [(ev, sources[ev["source"]]) for ev in claim["evidence"]]
+        first, second, third = [ev["source"] for ev, _ in pairs]
+        ctx.runner = ScriptedRunner(
+            lambda *a: f"```yaml\nindependent: true\nrationale: \"separate\"\nrelations:\n  - {{ from: {second}, to: {first}, kind: cites }}\n```"
+        )
+        assert verify._independent(ctx, claim, pairs, 1) is True
+        ctx.ledger.sources_doc["relations"].append({"from": third, "to": first, "kind": "relays"})
+        assert verify._independent(ctx, claim, pairs, 2) is False
+
+
 @check("rounds.one-owner", "new")
 def _():
     reg = registry.load()

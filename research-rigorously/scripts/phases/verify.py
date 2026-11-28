@@ -146,6 +146,19 @@ def _why(relations):
     return "; ".join(f"{rel['from']} {rel['kind']} {rel['to']}" for rel in relations)
 
 
+def _separate(pairs, relations):
+    chain = {ev["source"]: ev["source"] for ev, _ in pairs}
+    for rel in _conflicts(relations):
+        old, new = chain[rel["from"]], chain[rel["to"]]
+        chain = {k: new if v == old else v for k, v in chain.items()}
+    keys = [
+        (chain[ev["source"]], src["publisher"].strip().lower())
+        for ev, src in pairs
+        if src["tier"] in CREDIBLE
+    ]
+    return any(a[0] != b[0] and a[1] != b[1] for a in keys for b in keys)
+
+
 def _log_independence(ctx, claim, reason):
     with ctx.ledger.lock:
         claim.setdefault("reply_flags", []).append(
@@ -245,10 +258,10 @@ def _independent(ctx, claim, pairs, n):
             _log_independence(ctx, claim, _why(conflicts))
         return False
     if ledger.meets_bar(pairs):
-        if conflicts:
-            _log_independence(ctx, claim, _why(conflicts))
-            return False
-        return True
+        if _separate(pairs, conflicts):
+            return True
+        _log_independence(ctx, claim, _why(conflicts))
+        return False
     signature = sorted(ev["source"] for ev, _ in credible)
     data = _ask_independence(ctx, claim, credible, allowed, n, signature)
     if data is None:
@@ -256,10 +269,8 @@ def _independent(ctx, claim, pairs, n):
             _log_independence(ctx, claim, _why(conflicts))
         return False
     rationale = " ".join(str(data.get("rationale") or "").split())
-    # A recorded relation, from earlier or this reply, settles the pair as one
-    # chain whatever the reply says (ADR 0019).
     late = _conflicts(_relations(ctx, allowed))
-    if late:
+    if not _separate(pairs, late):
         _log_independence(ctx, claim, _why(late))
         return False
     if data["independent"] is True and rationale:

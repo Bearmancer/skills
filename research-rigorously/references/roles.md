@@ -90,7 +90,7 @@ verdicts:
 
 ## step: independence
 
-Role verifier. Input: a claim, its supporting T1/T2 evidence from distinct publishers, and every relation already recorded among those sources. Are the sources independent: different publisher, neither citing the other, no shared wire copy? Check the recorded relations first: a recorded cites, relays, reprints or same-wire relation between two of the sources means not independent. Always give `rationale`, whatever the verdict, and list every relation you find among the given sources in `relations` (`from`, `to`, `kind`: cites, relays, reprints, same-wire, same-author, same-publisher). Use an empty list when you find none.
+Role verifier. Input: a claim, its supporting T1/T2 evidence from distinct publishers, and every relation already recorded among those sources. Are at least two of the sources independent: different publisher, neither citing the other, no shared wire copy? Check the recorded relations first: sources linked by a recorded cites, relays, reprints, same-wire or same-author relation form one chain. Answer true when two publishers sit in different chains, false when every source belongs to one chain. Always give `rationale`, whatever the verdict, and list every relation you find among the given sources in `relations` (`from`, `to`, `kind`: cites, relays, reprints, same-wire, same-author, same-publisher). Use an empty list when you find none.
 
 ```yaml
 independent: false
