@@ -66,7 +66,7 @@ Environment trouble - `uv pip` finds no interpreter, `externally-managed-environ
 | manual `open()`/`close()`; nested `with` joined by backslashes | `with Path(p).open(encoding="utf-8") as f:`; `with (a, b):` |
 | `toml`/`tomli` for reading | `tomllib.loads(Path(p).read_text(encoding="utf-8"))` (stdlib, read-only) |
 | `asyncio.gather` for fan-out; `wait_for` | `async with asyncio.TaskGroup() as tg:`; `async with asyncio.timeout(s):` |
-| `pytz` | `zoneinfo.ZoneInfo("Region/City")` |
+| `pytz` | `zoneinfo.ZoneInfo("Region/City")`; on Windows install `tzdata` first (`uv pip install tzdata`): without it ZoneInfo raised ZoneInfoNotFoundError on this host |
 | `datetime.utcnow()`, `datetime.utcfromtimestamp()` (deprecated 3.12) | `datetime.now(timezone.utc)`, `datetime.fromtimestamp(ts, timezone.utc)` |
 | `imp` (removed 3.12) | `importlib` |
 | `asyncore`, `asynchat` (removed 3.12) | `asyncio` |
