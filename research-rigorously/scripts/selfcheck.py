@@ -1080,6 +1080,30 @@ def _():
         assert data["keys"]["exa"]["fp1"]["reset"] == "monthly", data
 
 
+@check("keys.mark-without-stamp-is-available", "new")
+def _():
+    from .keystate import KeyState
+
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "keystate.json"
+        path.write_text(json.dumps({"keys": {"exa": {"fp1": {"reset": "unknown"}}}}), encoding="utf-8")
+        assert KeyState(path).is_available("exa", "fp1")
+
+
+@check("keys.guard-pools-survives-mark-without-stamp", "new")
+def _():
+    from types import SimpleNamespace
+
+    from .phases import common
+
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "keystate.json"
+        reg = registry.load()
+        marks = {fp: {"reset": "unknown"} for fp in ("fp1", "fp2", "fp3")}
+        path.write_text(json.dumps({"keys": {pool: marks for pool in registry.pools(reg)}}), encoding="utf-8")
+        common.guard_pools(SimpleNamespace(reg=reg, keys=FakeKM(reg, path)))
+
+
 @check("keys.signature-normalised", "new")
 def _():
     from . import keys
